@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\MusicHub.Common\MusicHub.Common.csproj" />
     <ProjectReference Include="..\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
   </ItemGroup>
   

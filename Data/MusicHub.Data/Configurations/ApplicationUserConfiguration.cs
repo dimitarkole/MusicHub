@@ -3,31 +3,30 @@
     using MusicHub.Data.Models;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using static MusicHub.Common.ModelConstants;
 
-    public class ApplicationUserConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    public class ApplicationUserConfiguration : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> appUser)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
-            appUser
-                .HasMany(e => e.Claims)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
+            builder.Property(e => e.FirstName)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMaxLength(UserConstants.NameMaxlength)
+                .IsUnicode(false);
 
-            appUser
-                .HasMany(e => e.Logins)
-                .WithOne()
-                .HasForeignKey(e => e.UserId)
+            builder.Property(e => e.ImageUrl)
+                .IsUnicode(false);
+
+            builder.Property(e => e.LastName)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMaxLength(UserConstants.NameMaxlength)
+                .IsUnicode(false);
 
-            appUser
+            builder
                 .HasMany(e => e.Roles)
-                .WithOne()
+                .WithOne(u => u.User)
                 .HasForeignKey(e => e.UserId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .IsRequired();
         }
     }
 }

@@ -8,7 +8,6 @@
     using MusicHub.Data.Models;
     using MusicHub.Data.Repositories;
     using MusicHub.Data.Seeding;
-    using MusicHub.Services.Data;
     using MusicHub.Services.Mapping;
     using MusicHub.Services.Messaging;
     using MusicHub.Web.ViewModels;
@@ -21,6 +20,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.AspNetCore.Identity;
 
     public class Startup
     {
@@ -34,11 +34,21 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(
-                options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
-
-            services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
-                .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseSqlServer(
+                  this.configuration.GetConnectionString("DefaultConnection")))
+              .AddIdentity<User, Role>(options =>
+              {
+                    //Remove password rules if we are in development environment
+                    options.Password.RequireDigit = false;
+                  options.Password.RequiredLength = 6;
+                  options.Password.RequireLowercase = false;
+                  options.Password.RequireNonAlphanumeric = false;
+                  options.Password.RequireUppercase = false;
+                  options.Password.RequiredUniqueChars = 0;
+              })
+          .AddDefaultTokenProviders()
+          .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<CookiePolicyOptions>(
                 options =>
@@ -64,7 +74,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

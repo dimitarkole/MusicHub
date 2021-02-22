@@ -15,9 +15,9 @@
 
     public static class UserManagerExtensions
     {
-        public static async Task<string> Authenticate(this UserManager<ApplicationUser> userManager, string username, string password, JwtSettings settings)
+        public static async Task<string> Authenticate(this UserManager<User> userManager, string username, string password, JwtSettings settings)
         {
-            ApplicationUser user = await userManager.FindByNameAsync(username);
+            User user = await userManager.FindByNameAsync(username);
             IEnumerable<string> roles = await userManager.GetRolesAsync(user);
             if (user == null)
             {
