@@ -1,79 +1,76 @@
 ﻿namespace MusicHub.Web
 {
+    using System.IO;
     using System.Reflection;
-
-    using MusicHub.Data;
-    using MusicHub.Data.Common;
-    using MusicHub.Data.Common.Repositories;
-    using MusicHub.Data.Models;
-    using MusicHub.Data.Repositories;
-    using MusicHub.Data.Seeding;
-    using MusicHub.Services.Mapping;
-    using MusicHub.Services.Messaging;
-    using MusicHub.Web.ViewModels;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.SpaServices.AngularCli;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.FileProviders;
     using Microsoft.Extensions.Hosting;
-    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.ApplicationInsights;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Web.Infrastucture.Configurations;
+    using MusicHub.Web.Infrastucture.Extensions;
+    using MusicHub.Web.Infrastucture.Filters;
+    using MusicHub.Web.ViewModels;
 
     public class Startup
     {
-        private readonly IConfiguration configuration;
-
         public Startup(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            this.Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; protected set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-              options.UseSqlServer(
-                  this.configuration.GetConnectionString("DefaultConnection")))
-              .AddIdentity<User, Role>(options =>
-              {
-                    //Remove password rules if we are in development environment
-                    options.Password.RequireDigit = false;
-                  options.Password.RequiredLength = 6;
-                  options.Password.RequireLowercase = false;
-                  options.Password.RequireNonAlphanumeric = false;
-                  options.Password.RequireUppercase = false;
-                  options.Password.RequiredUniqueChars = 0;
-              })
-          .AddDefaultTokenProviders()
-          .AddEntityFrameworkStores<ApplicationDbContext>();
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
-            services.Configure<CookiePolicyOptions>(
-                options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
+            services.AddLogging(options =>
+            {
+                // hook the Console Log Provider
+                options.AddConsole();
+                options.SetMinimumLevel(LogLevel.Trace);
 
-            services.AddControllersWithViews(
-                options =>
-                    {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    }).AddRazorRuntimeCompilation();
-            services.AddRazorPages();
-            services.AddDatabaseDeveloperPageExceptionFilter();
+                // hook the Application Insights Provider
+                options.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
 
-            services.AddSingleton(this.configuration);
+                // pass the InstrumentationKey provided under the appsettings
+                options.AddApplicationInsights(this.Configuration["ApplicationInsights:InstrumentationKey"]);
+            });
 
-            // Data repositories
-            services.AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>));
-            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
-            services.AddScoped<IDbQueryRunner, DbQueryRunner>();
+            services
+                .AddDatabase(this.Configuration)
+                .AddIdentity()
+                .AddJwtAuthentication(services.GetAppSettings(this.Configuration), this.Configuration)
+                .AddApplicationServices()
+                .ConfigureAzureBlobStorage()
+                .AddApplicationSettings(this.Configuration)
+                .AddCors(options => options.AddPolicy("AllowWebApp", builder => builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:4200", "http://localhost:5000", "https://localhost:4200", "https://localhost:5000")))
+                .AddSwagger()
+                .AddControllers();
 
-            // Application services
-            services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ValidateModelStateActionFilter>();
+                options.Filters.Add<ExceptionFilter>();
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,41 +78,51 @@
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
-            // Seed data on application startup
-            using (var serviceScope = app.ApplicationServices.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            }
+            // Uncomment the line below if you want to seed data in your database
+            // app.SeedData();
 
+            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
+                app.UseDatabaseErrorPage();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
+                RequestPath = new PathString("/ClientApp/src/assets/resources"),
+            });
 
-            app.UseRouting();
+            app
+                .UseSwagger()
+                .UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SongMe API V1");
+                })
+                .UseRouting()
+                .UseCors("AllowWebApp")
+                .UseCors(options => options
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:4200"))
+                .UseAuthentication()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                })
+                .ApplyMigrations();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
 
-            app.UseEndpoints(
-                endpoints =>
-                    {
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapRazorPages();
-                    });
-        }
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
+        }   
     }
 }

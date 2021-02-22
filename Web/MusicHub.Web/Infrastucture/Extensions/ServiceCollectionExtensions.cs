@@ -23,6 +23,9 @@
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.OpenApi.Models;
     using MusicHub.Common.Settings;
+    using MusicHub.Data;
+    using MusicHub.Services.Data;
+    using MusicHub.Services.Data.Interfaces;
 
     public static class ServiceCollectionExtensions
     {
@@ -33,11 +36,11 @@
                 options.UseSqlServer(
                     configuration.GetDefaultConnectionString()));
 
-       /* public static IServiceCollection AddIdentity(this IServiceCollection services)
+        public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
-            services
-                .AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentity<User, Role>(options =>
                 {
+                    //Remove password rules if we are in development environment
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
                     options.Password.RequireLowercase = false;
@@ -47,8 +50,9 @@
                 })
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             return services;
-        }*/
+        }
 
         public static IServiceCollection AddJwtAuthentication(
             this IServiceCollection services,
@@ -96,8 +100,9 @@
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
+                .AddTransient<IProfileService, ProfileService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
-                //.AddTransient<IAzureStorageService, AzureStorageService>()
+        //.AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
            => services.AddSwaggerGen(c =>
