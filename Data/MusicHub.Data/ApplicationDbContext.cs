@@ -6,13 +6,13 @@
     using System.Threading;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
     using MusicHub.Data.Common.Models;
     using MusicHub.Data.Models;
 
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore;
-
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
             typeof(ApplicationDbContext).GetMethod(
@@ -24,7 +24,41 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+
+        public DbSet<RolePermission> RolePermissions { get; set; }
+
+        public DbSet<UserSetting> UserSettings { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Music> Musics { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<CommentReaction> CommentReactions { get; set; }
+
+        public DbSet<Subscription> Subscriptions { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Playlist> Playlists { get; set; }
+
+        public DbSet<PlaylistMusic> PlaylistMusics { get; set; }
+
+        public DbSet<MusicReaction> MusicReactions { get; set; }
+
+        public DbSet<Follow> Follows { get; set; }
+
+        public DbSet<License> Licenses { get; set; }
+
+        public DbSet<MusicLicense> MusicLicenses { get; set; }
+
+        public DbSet<LicenseFile> LicenseFiles { get; set; }
+
+        public DbSet<VerificationCode> VerificationCodes { get; set; }
+
+        public DbSet<PlayedMusic> PlayedMusics { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
@@ -48,9 +82,11 @@
         protected override void OnModelCreating(ModelBuilder builder)
         {
             // Needed for Identity models configuration
+            builder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
             base.OnModelCreating(builder);
 
             this.ConfigureUserIdentityRelations(builder);
+            this.ConfigureApplicationEntitiesRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
 
@@ -70,8 +106,10 @@
                 .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
             foreach (var foreignKey in foreignKeys)
             {
-                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
             }
+
+            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
@@ -104,6 +142,10 @@
                     entity.ModifiedOn = DateTime.UtcNow;
                 }
             }
+        }
+
+        private void ConfigureApplicationEntitiesRelations(ModelBuilder modelBuilder)
+        {
         }
     }
 }

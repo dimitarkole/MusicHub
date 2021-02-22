@@ -33,10 +33,10 @@
                 options.UseSqlServer(
                     configuration.GetDefaultConnectionString()));
 
-        public static IServiceCollection AddIdentity(this IServiceCollection services)
+       /* public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
             services
-                .AddIdentity<ApplicationUser, IdentityRole>(options =>
+                .AddIdentity<User, IdentityRole>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
@@ -48,7 +48,7 @@
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             return services;
-        }
+        }*/
 
         public static IServiceCollection AddJwtAuthentication(
             this IServiceCollection services,
