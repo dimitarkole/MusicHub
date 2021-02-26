@@ -100,8 +100,8 @@
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
-                .AddTransient<IProfileService, ProfileService>()
-                .AddTransient<IEmailSender, SendGridEmailSender>();
+                .AddTransient<IProfileService, ProfileService>();
+                //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
