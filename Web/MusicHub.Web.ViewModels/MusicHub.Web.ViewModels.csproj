@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CategoryModels\" />
+  </ItemGroup>
+
 </Project>
