@@ -5,24 +5,15 @@
     using MusicHub.Web.ViewModels;
 
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using MusicHub.Data.Models;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 
-    public class HomeController : BaseController
+    public class HomeController : ApiController
     {
-        public IActionResult Index()
+        public HomeController(UserManager<User> userManager, SignInManager<User> signInManager, ILogger<LogoutModel> logger) : base(userManager, signInManager, logger)
         {
-            return this.View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return this.View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return this.View(
-                new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }
     }
 }

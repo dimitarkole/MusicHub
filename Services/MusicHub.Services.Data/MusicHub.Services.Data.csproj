@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -21,6 +21,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
+    <ProjectReference Include="..\..\Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
   </ItemGroup>
 

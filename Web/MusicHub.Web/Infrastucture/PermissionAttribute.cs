@@ -10,12 +10,14 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MusicHub.Web.Infrastucture.Extensions;
+using MusicHub.Data.Models.Enums;
+using MusicHub.Services.Data.Interfaces;
 
 namespace MusicHub.Web.Infrastucture
 {
-    public class PermissionAttribute // : AuthorizeAttribute, IAuthorizationFilter
+    public class PermissionAttribute  : AuthorizeAttribute, IAuthorizationFilter
     {
-        /*private readonly PermissionType permissionType;
+        private readonly PermissionType permissionType;
 
         public PermissionAttribute(PermissionType permissionType)
         {
@@ -31,13 +33,11 @@ namespace MusicHub.Web.Infrastucture
                 string id = user.GetUserId();
                 IProfileService userService = context.HttpContext.RequestServices.GetRequiredService<IProfileService>();
 
-                /*if (!userService.HasPermissions(id, this.permissionType))
+                if (!userService.HasPermissions(id, this.permissionType))
                 {
                     context.Result = new ForbidResult();
-                }*/
-            
-        
-        /*}
-        }*/
+                }
+        }
+        }
     }
 }
