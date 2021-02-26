@@ -100,6 +100,9 @@
                 .AddScoped(typeof(IDeletableEntityRepository<>), typeof(EfDeletableEntityRepository<>))
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
+                .AddTransient<ICategoryService, CategoryService>()
+                .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
+                .AddTransient<INotificationsService, INotificationsService>()
                 .AddTransient<IProfileService, ProfileService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()

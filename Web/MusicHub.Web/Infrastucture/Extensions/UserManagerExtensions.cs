@@ -12,6 +12,10 @@
     using MusicHub.Web.Infrastucture.Configurations;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
+    using MusicHub.Web.ViewModels.Users;
+    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Common.Settings;
+    using static MusicHub.Common.ModelConstants;
 
     public static class UserManagerExtensions
     {
@@ -56,6 +60,82 @@
             var token = tokenHandler.CreateToken(tokenDiscriptor);
             string securityToken = tokenHandler.WriteToken(token);
             return securityToken;
+        }
+
+
+
+
+
+        public static async Task<LoggedUserModel> Authenticate(
+            this UserManager<User> userManager,
+            IActiveDirectoryService activeDirectoryService,
+            string username,
+            string password,
+            AppSettings settings)
+        {
+            User user = await userManager.FindByNameAsync(username);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            if (!await ValidateCredentials(userManager, activeDirectoryService, username, password, user))
+            {
+                return null;
+            }
+
+            IEnumerable<string> roles = await userManager.GetRolesAsync(user);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            byte[] key = Encoding.ASCII.GetBytes(settings.Key);
+
+            var subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Email, user.Email)
+            });
+
+            foreach (string role in roles)
+            {
+                subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
+            var tokenDiscriptor = new SecurityTokenDescriptor
+            {
+                //Issuer = settings.SiteUrl,
+                //Audience = settings.SiteUrl,
+                Subject = subject,
+                Expires = DateTime.UtcNow.AddDays(AuthtneticationConstants.TokenExpirationTimeInDays),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            SecurityToken token = tokenHandler.CreateToken(tokenDiscriptor);
+            string securityToken = tokenHandler.WriteToken(token);
+
+            return new LoggedUserModel
+            {
+                Token = securityToken,
+                Username = user.UserName,
+                UserId = user.Id,
+                Roles = roles.ToList()
+            };
+        }
+
+        private static async Task<bool> ValidateCredentials(UserManager<User> userManager, IActiveDirectoryService activeDirectoryService, string username, string password, User user)
+        {
+            bool validCredentials;
+
+            if (!user.IsAd)
+            {
+                validCredentials = await userManager.CheckPasswordAsync(user, password);
+            }
+            else
+            {
+                validCredentials = activeDirectoryService.ValidateCredentials(username, password);
+            }
+
+            return validCredentials;
         }
     }
 }
