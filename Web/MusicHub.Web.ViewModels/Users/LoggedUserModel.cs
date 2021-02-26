@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CaseManager.Models.Users
+namespace MusicHub.Web.ViewModels.Users
 {
     public class LoggedUserModel
     {

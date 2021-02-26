@@ -74,5 +74,6 @@ namespace MusicHub.Data.Models
         public ICollection<Follow> Followeds { get; set; }
 
         public ICollection<VerificationCode> VerificationCodes { get; set; }
+        public bool IsAd { get; set; }
     }
 }

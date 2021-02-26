@@ -13,6 +13,11 @@ namespace MusicHub.Common
             public const int NameMaxLength = 1;
         }
 
+        public static class AuthtneticationConstants
+        {
+            public const int TokenExpirationTimeInDays = 3;
+        }
+
         public static class UserConstants
         {
             public const int NameMaxlength = 60;
