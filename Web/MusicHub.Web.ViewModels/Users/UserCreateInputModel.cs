@@ -8,7 +8,6 @@ namespace MusicHub.Web.ViewModels.Users
     public class UserCreateInputModel : UserInputModel, IHaveCustomMappings
     {
         public string Password { get; set; }
-        public bool IsAd { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

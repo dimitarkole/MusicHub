@@ -18,10 +18,12 @@ using System.Linq;
 using MusicHub.Services.Mapping;
 using System.Threading.Tasks;
 using static MusicHub.Common.ModelConstants;
+using Microsoft.Extensions.Options;
+using MusicHub.Web.Infrastucture.Configurations;
+using static MusicHub.Common.GlobalConstants;
 
 namespace MusicHub.Web.Controllers
 {
-    [Authorize]
     public class UsersController : ApiController
     {
         private readonly IProfileService profileService;
@@ -45,20 +47,25 @@ namespace MusicHub.Web.Controllers
             this.appSettings = appSettings;
         }
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpGet]
         public ActionResult All() => Ok(profileService.All<UserViewModel>());
 
+        [Authorize]
         [HttpGet(nameof(List))]
         public ActionResult List() => Ok(profileService.All<UserBriefInfoViewModel>());
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpGet("{id}")]
         public IActionResult Get(string id) => Ok(profileService.GetById<UserEditInputModel>(id));
 
+        [Authorize]
         [HttpGet(nameof(MyProfile))]
         public IActionResult MyProfile() => Ok(profileService.GetById<UserDetailsViewModel>(User.GetUserId()));
 
+        [Authorize]
         [HttpPost(nameof(UploadProfileImage))]
         public async Task<IActionResult> UploadProfileImage(UserProfilePictueInputModel model)
         {
@@ -67,24 +74,27 @@ namespace MusicHub.Web.Controllers
             return Ok();
         }
 
+        [Authorize]
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public async Task<ActionResult> Login(ViewModels.Users.LoginModel model)
+        public async Task<ActionResult> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
-            LoggedUserModel loggedUser = await userManager.Authenticate(activeDirectoryService, model.Username, model.Password, appSettings);
+            var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
 
-            if (loggedUser == null)
+            if (jwtToken == null)
             {
-                return BadRequest(new string[] { "Username or password are incorrect." });
+                return this.BadRequest("Username or password is incorrect.");
             }
 
-            return Ok(loggedUser);
+            return new JsonResult(jwtToken);
         }
 
+        [Authorize]
         [AllowAnonymous]
         [HttpGet(nameof(ValidateToken))]
         public IActionResult ValidateToken() => Ok(User.Identity.IsAuthenticated);
 
+        [Authorize]
         [AllowAnonymous]
         [HttpGet(nameof(HasPermission))]
         public IActionResult HasPermission(PermissionType permissionType)
@@ -97,7 +107,7 @@ namespace MusicHub.Web.Controllers
             return Ok(profileService.HasPermissions(User.GetUserId(), permissionType));
         }
 
-
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(ChangePassword))]
         public async Task<ActionResult> ChangePassword([FromBody] PasswordChangeInputModel model)
@@ -108,16 +118,12 @@ namespace MusicHub.Web.Controllers
             return result.ToActionResult();
         }
 
-        [Permission(PermissionType.UserAdministration)]
         [HttpPost]
         public async Task<ActionResult> Create(UserCreateInputModel model)
         {
-            if (!model.IsAd)
+            if (string.IsNullOrEmpty(model.Password) || model.Password.Length < UserConstants.PasswordMinLength)
             {
-                if (string.IsNullOrEmpty(model.Password) || model.Password.Length < UserConstants.PasswordMinLength)
-                {
-                    ModelState.AddModelError(nameof(UserCreateInputModel.Password), $"Password must be at least {UserConstants.PasswordMinLength} symbols.");
-                }
+                ModelState.AddModelError(nameof(UserCreateInputModel.Password), $"Password must be at least {UserConstants.PasswordMinLength} symbols.");
             }
 
             ValidateUser(model);
@@ -126,17 +132,12 @@ namespace MusicHub.Web.Controllers
                 return BadRequest(ModelState.Errors());
             }
 
-            if (model.IsAd)
-            {
-                model.Password = Guid.NewGuid().ToString();
-            }
-
             User user = model.To<User>();
             IdentityResult result = await userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                await userManager.AddToRolesAsync(user, model.Roles);
+                await userManager.AddToRoleAsync(user, Roles.User);
                 await profileService.AddDefaultSettings(user.Id);
                 return Ok();
             }
@@ -146,6 +147,7 @@ namespace MusicHub.Web.Controllers
             }
         }
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpPut("{id}")]
         public async Task<ActionResult> Edit(UserEditInputModel model, string id)
@@ -163,6 +165,7 @@ namespace MusicHub.Web.Controllers
             return Ok();
         }
 
+        [Authorize]
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpPatch(nameof(ChangePermissions))]
         public async Task<ActionResult> ChangePermissions(ChangePermissionsInputModel model)
@@ -173,6 +176,7 @@ namespace MusicHub.Web.Controllers
             return result.ToActionResult();
         }
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteUser(string id)
@@ -181,6 +185,7 @@ namespace MusicHub.Web.Controllers
             return Ok();
         }
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(RenewUser))]
         public async Task<ActionResult> RenewUser([FromBody] string id)
@@ -189,19 +194,22 @@ namespace MusicHub.Web.Controllers
             return Ok();
         }
 
+        [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
         [HttpPost(nameof(FindUsers))]
         public ActionResult FindUsers([FromBody] FindUserInputModel model) => Ok(profileService.Search(model.SearchQuery));
 
+        [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
         [HttpPost(nameof(AdvancedSearch))]
         public ActionResult AdvancedSearch([FromBody] UserFilter model) => Ok(profileService.Search(model));
 
+        [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
         [HttpGet(nameof(GetFullNames))]
         public ActionResult GetFullNames() => Ok(profileService.All<UserFullNameViewModel>());
 
-
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpGet("[action]/{id}")]
         public ActionResult GetUserName(string id) => Ok(profileService.GetById<UserFullNameViewModel>(id));
@@ -231,6 +239,7 @@ namespace MusicHub.Web.Controllers
             return Ok();
         }
 
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(Settings))]
         public ActionResult Settings()
@@ -240,6 +249,7 @@ namespace MusicHub.Web.Controllers
             return Ok(userSettings);
         }
 
+        [Authorize]
         private void ValidateUser(UserInputModel model, string id = null)
         {
             if (string.IsNullOrEmpty(model.Username))
@@ -258,6 +268,7 @@ namespace MusicHub.Web.Controllers
             }
         }
 
+        [Authorize]
         private async Task ClearUserRoles(User user)
         {
             IList<string> roles = await userManager.GetRolesAsync(user);

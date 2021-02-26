@@ -14,7 +14,7 @@
         [Display(Name = "Data analisator")]
         DataAnalisator = 3,
         [Display(Name = "Use - add/edit/view licenses/musics/playlists/comments")]
-        EditMatterInfo = 4,
+        User = 4,
         ManageUserPermissions = 5,
         FindAndReplaceUsers = 6,
     }

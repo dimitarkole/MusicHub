@@ -62,10 +62,6 @@
             return securityToken;
         }
 
-
-
-
-
         public static async Task<LoggedUserModel> Authenticate(
             this UserManager<User> userManager,
             IActiveDirectoryService activeDirectoryService,

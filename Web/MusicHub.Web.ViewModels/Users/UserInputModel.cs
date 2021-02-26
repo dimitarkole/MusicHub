@@ -18,8 +18,5 @@ namespace MusicHub.Web.ViewModels.Users
         public string LastName { get; set; }
 
         public DateTime? BarDate { get; set; }
-
-        [Required]
-        public string[] Roles { get; set; }
     }
 }

@@ -102,7 +102,7 @@
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
-                .AddTransient<INotificationsService, INotificationsService>()
+                .AddTransient<INotificationsService, NotificationsService>()
                 .AddTransient<IProfileService, ProfileService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
