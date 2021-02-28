@@ -105,6 +105,7 @@
                 .AddTransient<INotificationsService, NotificationsService>()
                 .AddTransient<IProfileService, ProfileService>()
                 .AddTransient<IMusicService, MusicService>()
+                .AddTransient<IFollowService, FollowService>()
                 .AddTransient<IPaginationService, PaginationService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
