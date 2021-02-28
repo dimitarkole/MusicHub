@@ -103,7 +103,9 @@
                 .AddTransient<ICategoryService, CategoryService>()
                 .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
                 .AddTransient<INotificationsService, NotificationsService>()
-                .AddTransient<IProfileService, ProfileService>();
+                .AddTransient<IProfileService, ProfileService>()
+                .AddTransient<IMusicService, MusicService>()
+                .AddTransient<IPaginationService, PaginationService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
 

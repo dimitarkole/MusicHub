@@ -9,8 +9,16 @@ namespace MusicHub.Common
 
         public static class CategotyConstants
         {
-            public const int NameMinLength = 60;
-            public const int NameMaxLength = 1;
+            public const int NameMinLength = 1;
+            public const int NameMaxLength = 60;
+        }
+
+        public static class MusicConstants
+        {
+            public const int NameMinLength = 1;
+            public const int NameMaxLength = 60;
+            public const int DescriptionMinLength = 1;
+            public const int DescriptionMaxLength = 1000;
         }
 
         public static class AuthtneticationConstants

@@ -15,7 +15,7 @@ using MusicHub.Services.Data.Interfaces;
 
 namespace MusicHub.Web.Infrastucture
 {
-    public class PermissionAttribute  : AuthorizeAttribute, IAuthorizationFilter
+    public class PermissionAttribute : AuthorizeAttribute, IAuthorizationFilter
     {
         private readonly PermissionType permissionType;
 

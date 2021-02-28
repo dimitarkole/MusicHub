@@ -292,6 +292,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("MusicLicenseType")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -630,9 +633,6 @@ namespace MusicHub.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<bool>("IsAd")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -702,14 +702,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("RoleId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -1028,15 +1023,11 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.Role", null)
-                        .WithMany()
+                    b.HasOne("MusicHub.Data.Models.Role", "Role")
+                        .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("MusicHub.Data.Models.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId1");
 
                     b.HasOne("MusicHub.Data.Models.User", "User")
                         .WithMany("Roles")
