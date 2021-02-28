@@ -38,6 +38,8 @@
 
         public virtual User User { get; set; }
 
+        public MusicLicenseType MusicLicenseType { get; set; }
+
         public VisibleStatus VisibleStatus { get; set; }
 
         public DateTime CreatedOn { get; set; }

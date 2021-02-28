@@ -17,5 +17,15 @@
             public const string AdministratorAndSuperAdministratorRoles = "Admin, SuperAdmin";
             public const string DataAnalisator = "DataAnalisator";
         }
+
+        public static class PaginationData
+        {
+            public const int MusicsPerPage = 12;
+            public const int SongsViewHistoryPerPage = 12;
+            public const int PlaylistsPerPage = 12;
+            public const int PlaylistsSongsPerPage = 12;
+            public const int LikedSongsPerPage = 12;
+            public const int LicensesPerPage = 12;
+        }
     }
 }

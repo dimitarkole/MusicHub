@@ -46,6 +46,7 @@ namespace MusicHub.Web.Controllers
         /// <para>Name - category name.</para>
         /// <returns>Status201Created.</returns>
         [HttpPost]
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
 
         public async Task<IActionResult> Post(CategoryCreateInputModel model)
@@ -66,6 +67,7 @@ namespace MusicHub.Web.Controllers
         /// <param name="id">The id of the category.</param>
         /// <returns>Ok.</returns>
         [HttpPut("{id}")]
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         public async Task<IActionResult> Put(string id, CategoryEditModel model)
         {
@@ -82,6 +84,7 @@ namespace MusicHub.Web.Controllers
         /// <param name="id">The id of the category.</param>
         /// <returns>Ok.</returns>
         [HttpDelete("{id}")]
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         public async Task<IActionResult> Delete(string id)
         {

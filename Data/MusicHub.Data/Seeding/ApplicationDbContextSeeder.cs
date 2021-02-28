@@ -25,10 +25,10 @@
 
             var seeders = new List<ISeeder>
                           {
+                              new PermissionsSeeder(),
                               new RolesSeeder(),
                               new AdminSeeder(),
                               new UserSeeder(),
-                              new PermissionsSeeder(),
                           };
 
             foreach (var seeder in seeders)

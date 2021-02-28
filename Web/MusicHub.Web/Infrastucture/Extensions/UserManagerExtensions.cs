@@ -119,19 +119,6 @@
         }
 
         private static async Task<bool> ValidateCredentials(UserManager<User> userManager, IActiveDirectoryService activeDirectoryService, string username, string password, User user)
-        {
-            bool validCredentials;
-
-            if (!user.IsAd)
-            {
-                validCredentials = await userManager.CheckPasswordAsync(user, password);
-            }
-            else
-            {
-                validCredentials = activeDirectoryService.ValidateCredentials(username, password);
-            }
-
-            return validCredentials;
-        }
+            => activeDirectoryService.ValidateCredentials(username, password);
     }
 }

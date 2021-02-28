@@ -1,6 +1,7 @@
 ﻿namespace MusicHub.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading;
@@ -9,16 +10,12 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.ChangeTracking;
     using MusicHub.Data.Common.Models;
     using MusicHub.Data.Models;
 
     public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
-        private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
-            typeof(ApplicationDbContext).GetMethod(
-                nameof(SetIsDeletedQueryFilter),
-                BindingFlags.NonPublic | BindingFlags.Static);
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -62,6 +59,14 @@
 
         public DbSet<PlayedMusic> PlayedMusics { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -73,66 +78,21 @@
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
             this.SaveChangesAsync(true, cancellationToken);
 
-        public override Task<int> SaveChangesAsync(
-            bool acceptAllChangesOnSuccess,
-            CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             this.ApplyAuditInfoRules();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            // Needed for Identity models configuration
-            builder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
-            base.OnModelCreating(builder);
-
-            this.ConfigureUserIdentityRelations(builder);
-            this.ConfigureApplicationEntitiesRelations(builder);
-
-            EntityIndexesConfiguration.Configure(builder);
-
-            var entityTypes = builder.Model.GetEntityTypes().ToList();
-
-            // Set global query filter for not deleted entities only
-            var deletableEntityTypes = entityTypes
-                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
-            foreach (var deletableEntityType in deletableEntityTypes)
-            {
-                var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
-                method.Invoke(null, new object[] { builder });
-            }
-
-            // Disable cascade delete
-            var foreignKeys = entityTypes
-                .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
-            foreach (var foreignKey in foreignKeys)
-            {
-                foreignKey.DeleteBehavior = DeleteBehavior.Cascade;
-            }
-
-            builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-        }
-
-        private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
-            where T : class, IDeletableEntity
-        {
-            builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
-        }
-
-        // Applies configurations
-        private void ConfigureUserIdentityRelations(ModelBuilder builder)
-             => builder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-
         private void ApplyAuditInfoRules()
         {
-            var changedEntries = this.ChangeTracker
+            IEnumerable<EntityEntry> changedEntries = ChangeTracker
                 .Entries()
                 .Where(e =>
                     e.Entity is IAuditInfo &&
                     (e.State == EntityState.Added || e.State == EntityState.Modified));
 
-            foreach (var entry in changedEntries)
+            foreach (EntityEntry entry in changedEntries)
             {
                 var entity = (IAuditInfo)entry.Entity;
                 if (entry.State == EntityState.Added && entity.CreatedOn == default)
@@ -144,10 +104,6 @@
                     entity.ModifiedOn = DateTime.UtcNow;
                 }
             }
-        }
-
-        private void ConfigureApplicationEntitiesRelations(ModelBuilder modelBuilder)
-        {
         }
     }
 }
