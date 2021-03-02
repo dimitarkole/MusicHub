@@ -104,6 +104,7 @@
                 .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
                 .AddTransient<INotificationsService, NotificationsService>()
                 .AddTransient<IProfileService, ProfileService>()
+                .AddTransient<ICommentService, CommentService>()
                 .AddTransient<IMusicService, MusicService>()
                 .AddTransient<IFollowService, FollowService>()
                 .AddTransient<IPaginationService, PaginationService>();

@@ -22,6 +22,7 @@
         {
             public const int MusicsPerPage = 12;
             public const int SongsViewHistoryPerPage = 12;
+            public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;
             public const int PlaylistsSongsPerPage = 12;
             public const int LikedSongsPerPage = 12;

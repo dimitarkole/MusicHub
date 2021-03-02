@@ -97,7 +97,7 @@ namespace MusicHub.Web.Controllers
 
             if (!this.musicService.IsOwned(id, userId))
             {
-                return this.StatusCode(StatusCodes.Status406NotAcceptable);
+                return this.Forbid();
             }
 
             await this.musicService.Update(id, model);
@@ -112,6 +112,12 @@ namespace MusicHub.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            var userId = this.userManager.GetUserId(this.User);
+            if (!this.musicService.IsOwned(id, userId))
+            {
+                return this.Forbid();
+            }
+
             await this.musicService.Delete(id);
             return this.Ok();
         }
