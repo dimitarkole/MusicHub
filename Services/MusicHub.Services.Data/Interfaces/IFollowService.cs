@@ -22,5 +22,6 @@ namespace MusicHub.Services.Data.Interfaces
         bool IsFollowed(string followedUserId, string userId);
 
         T GetFollow<T>(string followedUserId, string userId);
+        bool IsOwned(string id, string userId);
     }
 }

@@ -71,6 +71,12 @@ namespace MusicHub.Services.Data
                     f.FollowedId == followedUserId
                     && f.FollowerId == userId);
 
+        public bool IsOwned(string id, string userId)
+           => this.context.Follows
+                .Any(f =>
+                    f.Id == id
+                    && f.FollowerId == userId);
+
         private IQueryable<Follow> FilteringFollowed(FollowFilterInputModel filter, IQueryable<Follow> follows)
         {
             if (!string.IsNullOrEmpty(filter.FirstName))

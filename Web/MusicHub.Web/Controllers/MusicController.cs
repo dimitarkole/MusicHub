@@ -89,12 +89,12 @@ namespace MusicHub.Web.Controllers
         [Permission(PermissionType.User)]
         public async Task<IActionResult> Put(string id, MusicEditModel model)
         {
-            var userId = this.userManager.GetUserId(this.User);
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest();
             }
 
+            var userId = this.userManager.GetUserId(this.User);
             if (!this.musicService.IsOwned(id, userId))
             {
                 return this.Forbid();

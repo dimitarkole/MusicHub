@@ -87,6 +87,12 @@ namespace MusicHub.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
+            var userId = this.userManager.GetUserId(this.User);
+            if (!this.followService.IsOwned(id, userId))
+            {
+                return this.Forbid();
+            }
+
             await this.followService.Delete(id);
             return this.Ok();
         }
