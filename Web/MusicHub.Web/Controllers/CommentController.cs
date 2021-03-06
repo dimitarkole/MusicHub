@@ -33,7 +33,7 @@
         }
 
         /// <summary>Get comment.</summary>
-        /// <param name="id">The id of song.</param>
+        /// <param name="id">The id of comment.</param>
         /// <param name="page">The page of comments.</param>
         /// <returns>Ok(CommentsAllViewModel<CommentViewModel>).</returns>
         [HttpGet("{id}/{page}")]
@@ -50,7 +50,7 @@
 
         /// <summary>Create comment.</summary>
         /// <param name="model">CommentCreatreInputModel.
-        /// <para>SongId - Id of comment of comment.</para>
+        /// <para>ComentId - Id of comment of comment.</para>
         /// <para>Text - text of comment.</para>
         /// </param>
         /// <returns>Ok.</returns>

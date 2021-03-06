@@ -170,12 +170,12 @@
 		top: auto;
 		bottom: 0px;
 	}
-	.songs_container
+	.Musics_container
 	{
 		width: 100%;
 		margin-top: 90px;
 	}
-	.songs_title
+	.Musics_title
 	{
 		margin-top: 0;
 	}
@@ -349,7 +349,7 @@
 		font-size: 30px;
 	}
 	.artist_name h1,
-	.songs_title h1
+	.Musics_title h1
 	{
 		font-size: 36px;
 	}

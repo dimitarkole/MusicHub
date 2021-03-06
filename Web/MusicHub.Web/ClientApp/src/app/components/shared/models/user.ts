@@ -1,4 +1,4 @@
-﻿export default interface User {
+export default interface User {
   id: string,
   username: string,
   userName: string,
@@ -14,6 +14,6 @@
   avater: string,
   imageUrl: string,
   phone: string,
-  songsCount: number,
+  MusicsCount: number,
   playlistsCount: number,
 }
