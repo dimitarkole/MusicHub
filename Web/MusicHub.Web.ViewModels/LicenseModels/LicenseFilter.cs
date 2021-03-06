@@ -5,6 +5,7 @@
     using System.Text;
 
     using MusicHub.Common;
+    using MusicHub.Data.Models.Enums;
 
     public class LicenseFilter
     {

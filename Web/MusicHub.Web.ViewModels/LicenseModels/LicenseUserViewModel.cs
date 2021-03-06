@@ -7,7 +7,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
-    public class LicenseUserViewModel : IMapFrom<ApplicationUser>
+    public class LicenseUserViewModel : IMapFrom<User>
     {
         public string Id { get; set; }
 

@@ -5,6 +5,7 @@
 
     using MusicHub.Common;
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
 
     public class LicenceViewModel : IMapFrom<License>
