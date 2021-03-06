@@ -29,7 +29,7 @@
 
         /// <summary>Get music.</summary>
         /// <param name="page">The page of music.</param>
-        /// <returns>Ok(SongsAllViewModel<SongViewModel>).</returns>
+        /// <returns>Ok(MusicsAllViewModel<SongViewModel>).</returns>
         [HttpGet(nameof(Get) + "/{page}")]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Get(int page)
           => this.Ok(this.musicService.All<MusicViewModel>(page, PaginationData.MusicsPerPage));
@@ -43,7 +43,7 @@
         /// <para>CategoryId - id of category of music.</para>
         /// <para>OrderMethod - order method.</para>
         /// </param>
-        /// <returns>Ok(SongsAllViewModel<SongViewModel>).</returns>
+        /// <returns>Ok(MusicsAllViewModel<SongViewModel>).</returns>
         [HttpPost]
         [Route(nameof(Filter) + "/{page}")]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter filter)
@@ -59,8 +59,8 @@
         /// <summary>Get sugesst musics by music id.</summary>
         /// <param name="id">Id of music.</param>
         /// <returns>Ok(SongPlayModel).</returns>
-        [HttpGet(nameof(SuggestSongs) + "/{id}")]
-        public ActionResult<MusicViewModel> SuggestSongs(string id)
+        [HttpGet(nameof(SuggestMusics) + "/{id}")]
+        public ActionResult<MusicViewModel> SuggestMusics(string id)
             => this.Ok(this.musicService.SuggestMusics<MusicViewModel>(id));
     }
 }

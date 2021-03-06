@@ -119,7 +119,7 @@ namespace MusicHub.Services.Data
 
             licenses = this.FilteringLicenses(filter, licenses);
 
-            licenses = this.OrederSearchSongs(filter.OrderMethod, licenses);
+            licenses = this.OrederSearchMusics(filter.OrderMethod, licenses);
             return new LicenseAllViewModel<T>()
             {
                 Licenses = licenses
@@ -172,7 +172,7 @@ namespace MusicHub.Services.Data
             return licenses;
         }
 
-        private IQueryable<License> OrederSearchSongs(OrderMethod orderMethod, IQueryable<License> licenses)
+        private IQueryable<License> OrederSearchMusics(OrderMethod orderMethod, IQueryable<License> licenses)
         {
             if (orderMethod == OrderMethod.CreatedOnAsc)
             {

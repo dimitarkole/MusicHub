@@ -21,11 +21,11 @@
         public static class PaginationData
         {
             public const int MusicsPerPage = 12;
-            public const int SongsViewHistoryPerPage = 12;
+            public const int MusicsViewHistoryPerPage = 12;
             public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;
-            public const int PlaylistsSongsPerPage = 12;
-            public const int LikedSongsPerPage = 12;
+            public const int PlaylistsMusicsPerPage = 12;
+            public const int LikedMusicsPerPage = 12;
             public const int LicensesPerPage = 12;
         }
     }

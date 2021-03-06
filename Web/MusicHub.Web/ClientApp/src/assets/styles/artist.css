@@ -1,4 +1,4 @@
-﻿@charset "utf-8";
+@charset "utf-8";
 /* CSS Document */
 
 /******************************
@@ -12,7 +12,7 @@
 5. Home
 6. Search
 7. Artist
-8. Songs
+8. Musics
 9. Newsletter
 10. Video
 11. Footer
@@ -871,26 +871,26 @@ section
 }
 
 /*********************************
-8. Songs
+8. Musics
 *********************************/
 
-.songs
+.Musics
 {
 	background: #ffffff;
 	padding-top: 119px;
 	padding-bottom: 119px;
 }
-.songs_title
+.Musics_title
 {
 	margin-top: 32px;
 }
-.songs_title h1
+.Musics_title h1
 {
 	font-size: 48px;
 	font-weight: 400;
 	color: #2a2a2a;
 }
-.songs_text
+.Musics_text
 {
 	margin-top: 13px;
 }
@@ -907,7 +907,7 @@ section
 {
 	margin-right: 11px;
 }
-.songs_container
+.Musics_container
 {
 	width: calc(100% + 31px);
 }
