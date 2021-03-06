@@ -109,6 +109,7 @@
                 .AddTransient<IFollowService, FollowService>()
                 .AddTransient<IPaginationService, PaginationService>()
                 .AddTransient<ICommentReactionService, CommentReactionService>()
+                .AddTransient<ILicenseMusicService, LicenseMusicService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
