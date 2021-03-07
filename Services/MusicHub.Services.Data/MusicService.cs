@@ -10,6 +10,7 @@
     using MusicHub.Common.Extensions;
     using MusicHub.Data;
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.MusicModels;
@@ -30,6 +31,7 @@
         public MusicsAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var musics = this.context.Musics
+                    .Where(m => m.VisibleStatus == VisibleStatus.Public)
                     .To<T>();
             return new MusicsAllViewModel<T>()
             {
@@ -76,9 +78,14 @@
         public MusicsAllViewModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics;
+
             if (!string.IsNullOrEmpty(userId))
             {
                 musics = musics.Where(s => s.UserId == userId);
+            }
+            else
+            {
+                musics = musics.Where(m => m.VisibleStatus == VisibleStatus.Public);
             }
 
             musics = this.FilteringMusics(filter, musics);
@@ -111,7 +118,7 @@
         {
             var music = this.context.Musics.Find(musicId);
             var suggestMusics = this.context.Musics
-                .Where(s => s.Id != musicId)
+                .Where(s => s.Id != musicId && s.VisibleStatus == VisibleStatus.Public)
                 .OrderByDescending(s => s.CategoryId == music.CategoryId)
                 .ThenByDescending(s => s.CreatedOn)
                 .ThenByDescending(s => s.PlayedMusics.Count)

@@ -137,7 +137,7 @@ namespace MusicHub.Services.Data
                 .To<T>()
                 .FirstOrDefault();
 
-        public bool IsOwn(string licenseId, string userId)
+        public bool IsOwned(string licenseId, string userId)
             => this.context.Licenses
                 .Any(s =>
                     s.Id == licenseId

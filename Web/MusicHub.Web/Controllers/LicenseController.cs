@@ -115,7 +115,7 @@ namespace MusicHub.Web.Controllers
                 return this.BadRequest();
             }
 
-            if (this.licenseService.IsOwn(id, userId))
+            if (this.licenseService.IsOwned(id, userId))
             {
                 return this.StatusCode(StatusCodes.Status406NotAcceptable);
             }
@@ -151,7 +151,7 @@ namespace MusicHub.Web.Controllers
         [Permission(PermissionType.User)]
         public async Task<IActionResult> Delete(string id)
         {
-            if (!this.licenseService.IsOwn(id, this.userManager.GetUserId(this.User)))
+            if (!this.licenseService.IsOwned(id, this.userManager.GetUserId(this.User)))
             {
                 return this.Forbid();
             }
