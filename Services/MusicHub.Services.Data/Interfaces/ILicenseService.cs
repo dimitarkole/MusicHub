@@ -28,7 +28,7 @@
 
         Task Delete(string id);
 
-        bool IsOwn(string licenseId, string userId);
+        bool IsOwned(string licenseId, string userId);
 
         Task CreateFile(LicenseFileCreateInputModel model, string userId);
 
