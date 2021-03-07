@@ -1,0 +1,98 @@
+﻿<div class="row">
+  <div class="col-xl-3">
+  </div>
+  <div class="col-xl-6 ">
+    <div class="wrap-login100">
+      <form (ngSubmit)="signUp()" [formGroup]="signUpForm" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+        <a class="form-title-left" routerLink="/login">
+          Sign In
+        </a>
+        <a class="form-title-rigth  form-title-active" routerLink="/signup">
+          Sign Up
+        </a>
+
+        <div class="Wrong-Credentials alert alert-danger" *ngIf="wrongCredentials">This username is used!</div>
+        <div class="Wrong-Credentials alert alert-success" *ngIf="successfulCredentials">Successful registration!</div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your first name">
+              <input class="input100" type="text" name="firstName" placeholder="First name" formControlName="firstName">
+              <div class="form-label text-danger text-right" *ngIf="firstName.touched && firstName.hasError('required')">
+                The first name is required!
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your last Name">
+              <input class="input100" type="text" name="lastName" placeholder="Last name" formControlName="lastName">
+              <div class="form-label text-danger text-right" *ngIf="lastName.touched && lastName.hasError('required')">
+                The last name is required!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
+          <input class="input100" type="text" name="username" placeholder="Username" formControlName="username">
+          <div class="form-label text-danger text-right" *ngIf="username.touched && username.hasError('required')">
+            The username is required!
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter email">
+          <input class="input100" type="text" name="Rmail" placeholder="Email" formControlName="email">
+          <div class="form-label text-danger text-right" *ngIf="email.touched && email.hasError('required')">
+            The email is required!
+          </div>
+          <div class="form-label text-danger text-right" *ngIf="email.touched && email.hasError('email')">
+            Enter currect email address!
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter password">
+          <input class="input100" type="password" name="password" placeholder="Password" formControlName="password">
+          <div class="form-label text-danger text-right" *ngIf="password.touched && password.hasError('required')">
+            The password is required!
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please confirm password">
+          <input class="input100" type="password" name="confirmPassword" placeholder="Confirm password" formControlName="confirmPassword">
+          <div class="form-label text-danger text-right" *ngIf="confirmPassword.touched && confirmPassword.hasError('required')">
+            The confirm password is required!
+          </div>
+          <div *ngIf="confirmPassword.touched && confirmPassword.invalid" class="alert alert-danger">
+            <div *ngIf="confirmPassword.errors.required">Password is required.</div>
+            <div *ngIf="confirmPassword.errors.confirmedValidator">Password and Confirm Password must be match.</div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your birthday">
+          <input class="input100" type="date" name="birthday" placeholder="Birthday" formControlName="birthday" [max]="maxDate|date ">
+          <div class="form-label text-danger text-right" *ngIf="birthday.touched && birthday.hasError('required')">
+            The birthday is required!
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your birthday">
+          <input type="checkbox" name="termsConditions" required="" aria-invalid="true" (change) ="checkPrivacy($event)" >
+          <span class="LinkContainer-sc-1t58wcv-0 iqOoUm">
+            I agree to the
+            <a routerLink="/legal/user-agreement/">MusicHub terms &amp; conditions</a>
+            and <a routerLink="/legal/privacy-policy/">Privacy Policy</a>.
+          </span>
+          <div class="form-label text-danger text-right" *ngIf="privacy.hasError('required')">
+            Accept the terms and conditions to continue.
+          </div>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <button class="login100-form-btn" [disabled]="signUpForm.invalid">
+            Sign up
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+﻿namespace MusicHub.Web.ViewModels.PlaylistModels
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Web.ViewModels.MusicModels;
+
+    public class PlaylistMusicViewModel : IMapFrom<PlaylistMusic>
+    {
+        public virtual string Id { get; set; }
+
+        public MusicViewModel Song { get; set; }
+    }
+}
