@@ -40,6 +40,8 @@ namespace MusicHub.Common
         public static class VerificationCodeConstants
         {
             public const int EndTimeInHours = 2;
+            public const string RandomCodeCharacters = "abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            public const int RandomCodeLength = 5;
         }
     }
 }

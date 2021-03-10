@@ -9,13 +9,14 @@
     using MusicHub.Services.Mapping;
 
     using static MusicHub.Common.GlobalConstants;
+    using static MusicHub.Common.ModelConstants;
 
     public class VerificationCodeCreateInputModel : IMapTo<VerificationCode>
     {
         public VerificationCodeCreateInputModel()
         {
             Random random = new Random();
-            this.Code = new string(Enumerable.Repeat(VerificationCodeSpecification.RandomCodeCharacters, VerificationCodeSpecification.RandomCodeLength)
+            this.Code = new string(Enumerable.Repeat(VerificationCodeConstants.RandomCodeCharacters, VerificationCodeConstants.RandomCodeLength)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
