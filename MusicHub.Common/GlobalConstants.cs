@@ -2,6 +2,7 @@
 {
     public static class GlobalConstants
     {
+        public const string OctetStreamMimeType = "application/octet-stream";
         public const string SystemName = "MusicHub";
 
         public const string AdministratorRoleName = "Administrator";
