@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Web.Tests", "Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Web.ViewModels", "Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj", "{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicHub.Tests.TestData", "MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj", "{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicHub.Tests.TestData", "Tests\MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj", "{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

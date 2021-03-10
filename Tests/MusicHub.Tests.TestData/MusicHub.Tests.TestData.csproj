@@ -9,4 +9,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
+  </ItemGroup>
 </Project>
