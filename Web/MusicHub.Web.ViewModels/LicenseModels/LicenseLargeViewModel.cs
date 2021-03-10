@@ -20,7 +20,7 @@
 
         public List<LicenceFileViewModel> LicenseFiles { get; set; }
 
-        public int SongLicensesCount { get; set; }
+        public int MusicLicensesCount { get; set; }
 
         public int LicenseFilesCount { get; set; }
 

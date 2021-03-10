@@ -71,14 +71,14 @@
                         && s.Music.Name.Contains(filter.Name));
             }
 
-            var songViewHistoriesT = playedMusic.To<T>();
+            var playedMusicT = playedMusic.To<T>();
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = songViewHistoriesT
+                PlayedMusic = playedMusicT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
-                NumberOfPages = this.GetPlayedMusicPagesCount(songViewHistoriesT.Count(), entitesPerPage),
+                NumberOfPages = this.GetPlayedMusicPagesCount(playedMusicT.Count(), entitesPerPage),
             };
         }
 

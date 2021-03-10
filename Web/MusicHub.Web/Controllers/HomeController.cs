@@ -33,7 +33,7 @@
 
         /// <summary>Get music.</summary>
         /// <param name="page">The page of music.</param>
-        /// <returns>Ok(MusicsAllViewModel<SongViewModel>).</returns>
+        /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpGet(nameof(Get) + "/{page}")]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Get(int page)
           => this.Ok(this.musicService.All<MusicViewModel>(page, PaginationData.MusicsPerPage));
@@ -41,13 +41,13 @@
         /// <summary>Filter music.</summary>
         /// <param name="page">The page of music.</param>
         /// <param name="filter">Filter data.
-        /// <para>Name - name of song.</para>
+        /// <para>Name - name of Music.</para>
         /// <para>Username - name of user who created music.</para>
         /// <para>UserId - id of user who created music.</para>
         /// <para>CategoryId - id of category of music.</para>
         /// <para>OrderMethod - order method.</para>
         /// </param>
-        /// <returns>Ok(MusicsAllViewModel<SongViewModel>).</returns>
+        /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpPost]
         [Route(nameof(Filter) + "/{page}")]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter filter)
@@ -55,14 +55,14 @@
 
         /// <summary>Get music by id.</summary>
         /// <param name="id">Id of music.</param>
-        /// <returns>Ok(SongPlayModel).</returns>
+        /// <returns>Ok(MusicPlayModel).</returns>
         [HttpGet("{id}")]
         public ActionResult<MusicDetailModel> Get(string id)
             => this.Ok(this.musicService.GetById<MusicDetailModel>(id));
 
         /// <summary>Get sugesst musics by music id.</summary>
         /// <param name="id">Id of music.</param>
-        /// <returns>Ok(SongPlayModel).</returns>
+        /// <returns>Ok(MusicPlayModel).</returns>
         [HttpGet(nameof(SuggestMusics) + "/{id}")]
         public ActionResult<MusicViewModel> SuggestMusics(string id)
             => this.Ok(this.musicService.SuggestMusics<MusicViewModel>(id));

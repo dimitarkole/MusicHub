@@ -15,7 +15,7 @@ namespace MusicHub.Services.Data.Interfaces
 
         PlaylistsAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId);
 
-        IList<T> GetOwnedForAddingSong<T>(string musicId, string userId);
+        IList<T> GetOwnedForAddingMusic<T>(string musicId, string userId);
 
         Task Create(PlaylistCreateInputModel model, string userId);
 

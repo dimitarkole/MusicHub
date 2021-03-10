@@ -98,7 +98,7 @@
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SongMe API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicMe API V1");
                 })
                 .UseRouting()
                 .UseCors("AllowWebApp")
