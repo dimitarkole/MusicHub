@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
     <ProjectReference Include="..\..\Services\MusicHub.Services.Data\MusicHub.Services.Data.csproj" />
+    <ProjectReference Include="..\MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj" />
   </ItemGroup>
 
 </Project>
