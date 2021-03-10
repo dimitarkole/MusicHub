@@ -115,7 +115,7 @@
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
-        //.AddTransient<IAzureStorageService, AzureStorageService>()
+                //.AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
            => services.AddSwaggerGen(c =>
