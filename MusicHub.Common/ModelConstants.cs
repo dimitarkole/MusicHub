@@ -36,5 +36,10 @@ namespace MusicHub.Common
         {
             public const int ContentMaxLength = 1000;
         }
+
+        public static class VerificationCodeConstants
+        {
+            public const int EndTimeInHours = 2;
+        }
     }
 }
