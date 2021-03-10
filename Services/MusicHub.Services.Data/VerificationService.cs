@@ -18,7 +18,7 @@
     {
         private readonly ApplicationDbContext context;
 
-        public VerificationService(ApplicationDbContext context)
+        public VerificationCodeService(ApplicationDbContext context)
         {
             this.context = context;
         }
