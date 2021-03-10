@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Common
+﻿namespace MusicHub.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public static class ModelConstants
     {
 
