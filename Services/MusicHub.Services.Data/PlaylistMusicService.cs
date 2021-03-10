@@ -46,8 +46,8 @@
 
         public async Task Create(PlaylistMusicCreateInputModel model)
         {
-            var playlistSong = model.To<PlaylistMusic>();
-            await this.context.PlaylistMusics.AddAsync(playlistSong);
+            var playlistMusic = model.To<PlaylistMusic>();
+            await this.context.PlaylistMusics.AddAsync(playlistMusic);
             await this.context.SaveChangesAsync();
         }
 

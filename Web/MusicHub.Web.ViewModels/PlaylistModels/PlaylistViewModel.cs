@@ -13,7 +13,7 @@
 
         public string Name { get; set; }
 
-        public int PlaylistSongsCount { get; set; }
+        public int PlaylistMusicsCount { get; set; }
 
         public DateTime CreatedOn { get; set; }
     }

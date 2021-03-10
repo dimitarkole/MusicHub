@@ -113,6 +113,7 @@
                 .AddTransient<IPlaylistMusicService, PlaylistMusicService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
+                .AddTransient<IMusicReactionService, MusicReactionService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()
@@ -120,7 +121,7 @@
         public static IServiceCollection AddSwagger(this IServiceCollection services)
            => services.AddSwaggerGen(c =>
            {
-               c.SwaggerDoc("v1", new OpenApiInfo { Title = "Song Me API", Version = "v1" });
+               c.SwaggerDoc("v1", new OpenApiInfo { Title = "Music Me API", Version = "v1" });
                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                {
                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 

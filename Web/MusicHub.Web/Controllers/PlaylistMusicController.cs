@@ -1,21 +1,23 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MusicHub.Common;
-using MusicHub.Data.Models;
-using MusicHub.Services.Data.Interfaces;
-using MusicHub.Web.ViewModels.PlaylistModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static MusicHub.Common.GlobalConstants;
-
-namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using MusicHub.Common;
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Web.ViewModels.PlaylistModels;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class PlaylistMusicController : ApiController
     {
         private readonly IPlaylistService playlistService;
@@ -33,10 +35,10 @@ namespace MusicHub.Web.Controllers
             this.playlistMusicService = playlistMusicService;
         }
 
-        /// <summary>Add song to playlist in data.</summary>
+        /// <summary>Add Music to playlist in data.</summary>
         /// <param name="model">Input data.</param>
         /// <para>PlaylistId - playlist id.</para>
-        /// <para>SongId - song id.</para>
+        /// <para>MusicId - Music id.</para>
         /// <returns>Status201Created.</returns>
         [HttpPost(nameof(Create))]
         [Authorize]
@@ -53,14 +55,14 @@ namespace MusicHub.Web.Controllers
 
         /// <summary>Get own playlists.</summary>
         /// <param name="id">Id - playlist id.</param>
-        /// <param name="page">The page of playlist song.</param>
-        /// <returns>Ok(PlaylistSongsAllViewModel<PlaylistSongViewModel>).</returns>
+        /// <param name="page">The page of playlist Music.</param>
+        /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
         [HttpGet(nameof(Get) + "/{id}/{page}")]
         public ActionResult<PlaylistMusicsAllViewModel<PlaylistMusicViewModel>> Get(string id, int page)
             => this.Ok(this.playlistMusicService.All<PlaylistMusicViewModel>(page, PaginationData.PlaylistsMusicsPerPage, id));
 
-        /// <summary>Delete playlist song in data.</summary>
-        /// <param name="id">Id- Id of playlist song.</param>
+        /// <summary>Delete playlist Music in data.</summary>
+        /// <param name="id">Id- Id of playlist Music.</param>
         /// <returns>Ok.</returns>
         [Authorize]
         [HttpDelete(nameof(Delete) + "/{id}")]

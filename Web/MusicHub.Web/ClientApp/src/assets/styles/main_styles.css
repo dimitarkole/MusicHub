@@ -10,7 +10,7 @@
 3. Header
 4. Menu
 5. Home
-6. Song
+6. Music
 7. Tours
 8. App
 9. Featured
@@ -1130,13 +1130,13 @@ section {
 }
 
 /*********************************
-6. Song
+6. Music
 *********************************/
 
-.song {
+.Music {
 }
 
-.song_content {
+.Music_content {
   padding-top: 84px;
   padding-bottom: 80px;
 }
@@ -1163,7 +1163,7 @@ section {
   flex: 0 0 auto;
 }
 
-.song_image {
+.Music_image {
   width: 100%;
   border: solid 2px #ffffff;
 }
@@ -1251,7 +1251,7 @@ section {
   /* content: url(../images/stop.png);*/
 }
 
-.song_info {
+.Music_info {
   position: absolute;
   top: 0;
   left: 0;
@@ -1641,7 +1641,7 @@ section {
   font-size: 16px;
 }
 
-.featured_song_info {
+.featured_Music_info {
   position: absolute;
   left: 45px;
   bottom: 0;
@@ -1655,7 +1655,7 @@ section {
   font-size: 16px;
 }
 
-.song_image {
+.Music_image {
   width: 100%;
   height: 210px;
 }
