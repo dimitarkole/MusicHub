@@ -12,13 +12,13 @@
     {
         public string Name { get; set; }
 
-        public string ImageFilePath { get; set; }
+        public string ImageUrl { get; set; }
 
         public string CategoryId { get; set; }
 
         public string Description { get; set; }
 
-        public string AudioFilePath { get; set; }
+        public string AudioUrl { get; set; }
 
         public MusicLicenseType MusicLicenseType { get; set; }
 

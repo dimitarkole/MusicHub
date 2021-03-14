@@ -23,8 +23,8 @@
         public async Task CreateMusic_WithValidData_ShouldWorkCorrect()
         {
             var musicService = await this.CreateMusicService(new List<Music>());
-            var model = MusicTestData.CreateModel;
-            var userId = MusicTestData.CreateUserId;
+            var model = MusicTestsData.CreateModel;
+            var userId = MusicTestsData.CreateUserId;
 
             await musicService.Create(model, userId);
 
@@ -39,11 +39,29 @@
         }
 
         [Fact]
+        public async Task UpdateMusic_WithValidData_ShouldWorkCorrect()
+        {
+            var musicService = await this.CreateMusicService(MusicTestsData.GetMusics);
+            var model = MusicTestsData.UpdateModel;
+            var musicId = MusicTestsData.UpdateMusicId;
+
+            await musicService.Update(musicId, model);
+
+            Assert.True(this.context.Musics.Any(m => m.Name == model.Name
+                && m.Description == model.Description
+                && m.CategoryId == model.CategoryId
+                && m.ImageUrl == model.ImageUrl
+                && m.VisibleStatus == model.VisibleStatus
+                && m.MusicLicenseType == model.MusicLicenseType
+                && m.AudioUrl == model.AudioUrl));
+        }
+
+        [Fact]
         public async Task DeleteMusic_WithValidData_ShouldWorkCorrect()
         {
-            var getMusic = MusicTestData.GetMusics;
+            var getMusic = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusic);
-            var musicId = MusicTestData.DeleteMusicId;
+            var musicId = MusicTestsData.DeleteMusicId;
 
             await musicService.Delete(musicId);
 
@@ -53,10 +71,10 @@
         [Fact]
         public async Task IsOwnedMusic_WithValidData_ShouldeReturnTrue()
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var musicId = MusicTestData.IsOwnedTrueMusicId;
-            var userId = MusicTestData.IsOwedMusicTrueUserId;
+            var musicId = MusicTestsData.IsOwnedTrueMusicId;
+            var userId = MusicTestsData.IsOwedMusicTrueUserId;
 
             Assert.True(musicService.IsOwned(musicId, userId));
         }
@@ -64,10 +82,10 @@
         [Fact]
         public async Task IsOwnedMusic_WithValidData_ShouldeReturnFalse()
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var musicId = MusicTestData.IsOwnedFalseMusicId;
-            var userId = MusicTestData.IsOwnedMusicFalseUserId;
+            var musicId = MusicTestsData.IsOwnedFalseMusicId;
+            var userId = MusicTestsData.IsOwnedMusicFalseUserId;
             var r = musicService.IsOwned(musicId, userId);
             Assert.False(r);
         }
@@ -78,7 +96,7 @@
         [InlineData(3)]
         public async Task GetAllMusic_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             var expextedResult = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public)
@@ -102,12 +120,12 @@
         [InlineData(3)]
         public async Task GetFilterMusic_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModel;
+            var filter = MusicTestsData.FilterModel;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
@@ -127,12 +145,12 @@
         [InlineData(3)]
         public async Task GetFilterMusicWithCategory_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModelWithCategory;
+            var filter = MusicTestsData.FilterModelWithCategory;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
@@ -152,13 +170,13 @@
         [InlineData(3)]
         public async Task GetFilterOwnedMusic_WithValidData_ShouldeReturnMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var userId = MusicTestData.FilterUserId;
+            var userId = MusicTestsData.FilterUserId;
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.UserId == userId);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModel;
+            var filter = MusicTestsData.FilterModel;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter, userId);
 
@@ -178,13 +196,13 @@
         [InlineData(3)]
         public async Task GetFilterOwnedMusicWithCategory_WithValidData_ShouldeReturnMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var userId = MusicTestData.FilterUserId;
+            var userId = MusicTestsData.FilterUserId;
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.UserId == userId);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModelWithCategory;
+            var filter = MusicTestsData.FilterModelWithCategory;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter, userId);
 
@@ -204,12 +222,12 @@
         [InlineData(3)]
         public async Task GetFilterMusicWithUserId_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModelWhitUserId;
+            var filter = MusicTestsData.FilterModelWhitUserId;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
@@ -229,12 +247,12 @@
         [InlineData(3)]
         public async Task GetFilterModelWhitUserIdAndCategoryId_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
-            var filter = MusicTestData.FilterModelWhitUserIdAndCategoryId;
+            var filter = MusicTestsData.FilterModelWhitUserIdAndCategoryId;
 
             var result = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
@@ -254,9 +272,9 @@
         [InlineData(3)]
         public async Task GetOwnedMusic_WithValidData_ShouldeReturnOwnedMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var userId = MusicTestData.GetOwnedUserId;
+            var userId = MusicTestsData.GetOwnedUserId;
             var expextedResult = this.context.Musics
                     .Where(m => m.UserId == userId)
                     .OrderByDescending(m => m.CreatedOn)
@@ -274,9 +292,9 @@
         [Fact]
         public async Task DeleteSong_WithValidData_ShouldWorkCorrect()
         {
-            var getMuisics = MusicTestData.GetMusics;
+            var getMuisics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMuisics);
-            var musicId = MusicTestData.DeleteMusicId;
+            var musicId = MusicTestsData.DeleteMusicId;
 
             await musicService.Delete(musicId);
 
@@ -286,9 +304,9 @@
         [Fact]
         public async Task GetById_WithValidData_ShouldWorkCorrect()
         {
-            var getMuisics = MusicTestData.GetMusics;
+            var getMuisics = MusicTestsData.GetMusics;
             var songService = await this.CreateMusicService(getMuisics);
-            var musicId = MusicTestData.GetById;
+            var musicId = MusicTestsData.GetById;
 
             var result = songService.GetById<MusicViewModel>(musicId);
 
@@ -310,9 +328,9 @@
         [InlineData(3)]
         public async Task SuggestMusics_WithValidData_ShouldeReturnPublicMusics(int page)
         {
-            var getMusics = MusicTestData.GetMusics;
+            var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            var music = MusicTestData.SuggestMusic;
+            var music = MusicTestsData.SuggestMusic;
             var expextedResult = this.context.Musics
                     .Where(s => s.Id != music.Id && s.VisibleStatus == VisibleStatus.Public)
                     .OrderByDescending(s => s.CategoryId == music.CategoryId)
@@ -409,8 +427,8 @@
 
         private async Task<MusicService> CreateMusicService(List<Music> musics)
         {
-            var users = MusicTestData.Users;
-            var categories = MusicTestData.Categories;
+            var users = MusicTestsData.Users;
+            var categories = MusicTestsData.Categories;
             await this.context.Users.AddRangeAsync(users);
             await this.context.Categories.AddRangeAsync(categories);
             await this.context.Musics.AddRangeAsync(musics);

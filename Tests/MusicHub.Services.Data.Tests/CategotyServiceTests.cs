@@ -12,7 +12,7 @@
     using MusicHub.Web.ViewModels.CategoryModels;
     using Xunit;
 
-    public class CategotyServiceTest : BaseTestClass
+    public class CategotyServiceTests : BaseTestClass
     {
         [Fact]
         public async Task CreateCategory_WithValidData_ShouldWorkCorrect()
