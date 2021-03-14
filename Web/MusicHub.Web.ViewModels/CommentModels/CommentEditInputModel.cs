@@ -6,7 +6,5 @@
     public class CommentEditInputModel : IMapTo<Comment>
     {
         public string Text { get; set; }
-
-        public string ParentCommentId { get; set; }
     }
 }

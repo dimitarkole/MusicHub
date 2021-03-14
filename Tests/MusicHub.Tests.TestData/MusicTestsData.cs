@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace MusicHub.Tests.TestData
 {
-    public static class MusicTestData
+    public static class MusicTestsData
     {
         public static MusicCreateInputModel CreateModel => new MusicCreateInputModel()
         {
@@ -20,6 +20,19 @@ namespace MusicHub.Tests.TestData
             VisibleStatus = VisibleStatus.Public,
             Description = "this is test description",
         };
+
+        public static MusicEditModel UpdateModel => new MusicEditModel()
+        {
+            Name = "music name edit",
+            CategoryId = Categories[1].Id,
+            ImageUrl = "image path edit.jpg",
+            AudioUrl = "audio path edit.mp3",
+            MusicLicenseType = MusicLicenseType.CCBY,
+            VisibleStatus = VisibleStatus.Hidden,
+            Description = "this is test description edit",
+        };
+
+        public static string UpdateMusicId => GetMusics[0].Id;
 
         public static string CreateUserId => Users[0].Id;
 
@@ -35,13 +48,15 @@ namespace MusicHub.Tests.TestData
 
         public static string IsOwedMusicTrueUserId => GetMusics[0].UserId;
 
-        public static string GetById => GetMusics[0].Id;
+        public static string IsOwnedFalseMusicId => GetMusics[0].Id;
 
         public static string IsOwnedMusicFalseUserId => Users
             .Where(u => u.Id != GetMusics.Where(s => s.Id == IsOwnedFalseMusicId)
                 .FirstOrDefault().UserId)
             .FirstOrDefault()
             .Id;
+
+        public static string GetById => GetMusics[0].Id;
 
         public static MusicFilter FilterModelWithCategory => new MusicFilter
         {
@@ -81,8 +96,6 @@ namespace MusicHub.Tests.TestData
         };
 
         public static string FilterUserId => GetMusics[0].Id;
-
-        public static string IsOwnedFalseMusicId => GetMusics[0].Id;
 
         public static Music SuggestMusic => GetMusics[0];
 
