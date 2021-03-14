@@ -11,7 +11,7 @@ namespace MusicHub.Services.Data.Interfaces
     {
         MusicsAllViewModel<T> All<T>(int page, int entitesPerPage);
 
-        IEnumerable<T> SuggestMusics<T>(string musicId);
+        MusicsAllViewModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId);
 
         MusicsAllViewModel<T> AllOwn<T>(int page, int entitesPerPage, string userId);
 

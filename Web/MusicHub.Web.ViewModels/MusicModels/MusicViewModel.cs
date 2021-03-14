@@ -1,6 +1,7 @@
 ﻿using MusicHub.Data.Models;
 using MusicHub.Data.Models.Enums;
 using MusicHub.Services.Mapping;
+using MusicHub.Web.ViewModels.CategoryModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,13 +16,13 @@ namespace MusicHub.Web.ViewModels.MusicModels
 
         public string UserUserName { get; set; }
 
-        public string ImageFilePath { get; set; }
+        public string ImageUrl { get; set; }
 
-        public string AudioFilePath { get; set; }
+        public string AudioUrl { get; set; }
 
-        public virtual string CategoryId { get; set; }
+        public string Description { get; set; }
 
-        public virtual string CategoryName { get; set; }
+        public virtual CategoryViewModel Category { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
