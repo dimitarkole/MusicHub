@@ -21,10 +21,6 @@
 
         public string Name { get; set; }
 
-        public virtual Category Category { get; set; }
-
-        public virtual string CategoryId { get; set; }
-
         public string UserId { get; set; }
 
         public virtual User User { get; set; }
@@ -32,6 +28,8 @@
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public virtual ICollection<PlaylistMusic> PlaylistMusics { get; set; }
 

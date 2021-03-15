@@ -15,6 +15,10 @@
 
         public int PlaylistMusicsCount { get; set; }
 
+        public string ImageUrl { get; set; }
+
+        public PlaylistUserViewModel User { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }

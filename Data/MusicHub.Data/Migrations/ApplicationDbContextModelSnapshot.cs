@@ -475,11 +475,11 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -494,8 +494,6 @@ namespace MusicHub.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -972,15 +970,9 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Playlist", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("MusicHub.Data.Models.User", "User")
                         .WithMany("Playlists")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
