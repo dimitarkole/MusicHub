@@ -93,7 +93,6 @@
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public async Task GetAllMusic_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;

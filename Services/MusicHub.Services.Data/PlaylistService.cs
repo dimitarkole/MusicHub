@@ -61,7 +61,7 @@
             };
         }
 
-        public PlaylistsAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId)
+        public PlaylistsAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId = null)
         {
             var playlists = this.context.Playlists
                .Where(p => p.PlaylistMusics.Count > 0);
@@ -115,8 +115,7 @@
         }
 
         public T GetById<T>(string id) => this.context.Playlists
-            .Where(p => p.Id == id
-                 && p.PlaylistMusics.Count > 0)
+            .Where(p => p.Id == id)
             .To<T>()
             .FirstOrDefault();
 
