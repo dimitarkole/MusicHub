@@ -8,10 +8,12 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.MusicModels;
 
-    public class LikedMusicsViewModel : IMapFrom<MusicReaction>
+    public class LikedMusicViewModel : IMapFrom<MusicReaction>
     {
         public virtual string Id { get; set; }
 
         public MusicViewModel Music { get; set; }
+     
+        public DateTime CreatedOn { get; set; }
     }
 }
