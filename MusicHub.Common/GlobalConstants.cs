@@ -22,7 +22,7 @@
         public static class PaginationData
         {
             public const int MusicsPerPage = 12;
-            public const int MusicsViewHistoryPerPage = 12;
+            public const int PlayedMusicsPerPage = 12;
             public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;
             public const int PlaylistsMusicsPerPage = 12;

@@ -58,7 +58,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public PlayedMusicAllViewModel<T> Search<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId)
+        public PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId)
         {
 
             IQueryable<PlayedMusic> playedMusic = this.context.PlayedMusics
@@ -81,6 +81,9 @@
                 NumberOfPages = this.GetPlayedMusicPagesCount(playedMusicT.Count(), entitesPerPage),
             };
         }
+
+        public bool IsOwned(string id, string userId)
+            => this.context.PlayedMusics.Any(pm => pm.Id == id && pm.UserId == userId);
 
         private int GetPlayedMusicPagesCount(int entityCount, int entitesPerPage)
             => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
