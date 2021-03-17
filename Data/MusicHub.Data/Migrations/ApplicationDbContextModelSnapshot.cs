@@ -517,6 +517,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("PlaylistId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("MusicId");
