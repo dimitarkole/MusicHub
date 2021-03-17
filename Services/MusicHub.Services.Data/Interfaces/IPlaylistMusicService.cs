@@ -16,5 +16,7 @@
         PlaylistMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string id);
 
         Task Delete(string id);
+
+        Task Update(PlaylistMusicEditInputModel model, string id);
     }
 }

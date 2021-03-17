@@ -31,7 +31,7 @@
 
             var playlistMusics = this.context.PlaylistMusics
               .Where(p => p.PlaylistId == id)
-              .OrderByDescending(p => p.CreatedOn)
+              .OrderByDescending(p => p.Position)
               .To<T>();
 
             return new PlaylistMusicsAllViewModel<T>()
@@ -47,6 +47,9 @@
         public async Task Create(PlaylistMusicCreateInputModel model)
         {
             var playlistMusic = model.To<PlaylistMusic>();
+            var musicsInPlaylist = this.context.PlaylistMusics
+              .Where(pm => pm.PlaylistId == model.PlaylistId);
+            playlistMusic.Position = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position);
             await this.context.PlaylistMusics.AddAsync(playlistMusic);
             await this.context.SaveChangesAsync();
         }
@@ -55,6 +58,37 @@
         {
             var removePlaylistMusic = this.context.PlaylistMusics.Find(id);
             this.context.PlaylistMusics.Remove(removePlaylistMusic);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task Update(PlaylistMusicEditInputModel model, string id)
+        {
+            var playlistMusic = this.context.PlaylistMusics.Find(id);
+            var playlistId = playlistMusic.PlaylistId;
+            var oldPosition = playlistMusic.Position;
+            var playlistMusicsToUpdatePosition = this.context.PlaylistMusics
+                .Where(pm => pm.PlaylistId == playlistId);
+
+            if(oldPosition >= model.Position)
+            {
+                playlistMusicsToUpdatePosition = playlistMusicsToUpdatePosition
+                    .Where(pm => pm.Position > model.Position && pm.Position <= oldPosition);
+                foreach (var playlistMusicToUpdatePosition in playlistMusicsToUpdatePosition)
+                {
+                    playlistMusicToUpdatePosition.Position++;
+                }
+            }
+            else
+            {
+                playlistMusicsToUpdatePosition = playlistMusicsToUpdatePosition
+                    .Where(pm => pm.Position > oldPosition && pm.Position <= model.Position);
+                foreach (var playlistMusicToUpdatePosition in playlistMusicsToUpdatePosition)
+                {
+                    playlistMusicToUpdatePosition.Position--;
+                }
+            }
+
+            playlistMusic.Position = model.Position;
             await this.context.SaveChangesAsync();
         }
 
