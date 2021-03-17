@@ -12,10 +12,12 @@
     {
         PlayedMusicAllViewModel<T> All<T>(int page, int entitesPerPage, string userId);
 
-        PlayedMusicAllViewModel<T> Search<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId);
+        PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId);
 
         Task Create(PlayedMusicCreateInputModel model, string userId);
 
         Task Delete(string id);
+
+        bool IsOwned(string id, string userId);
     }
 }
