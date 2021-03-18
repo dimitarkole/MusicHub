@@ -289,18 +289,6 @@
         }
 
         [Fact]
-        public async Task DeleteSong_WithValidData_ShouldWorkCorrect()
-        {
-            var getMuisics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMuisics);
-            var musicId = MusicTestsData.DeleteMusicId;
-
-            await musicService.Delete(musicId);
-
-            Assert.False(this.context.Musics.Any(c => c.Id == musicId));
-        }
-
-        [Fact]
         public async Task GetById_WithValidData_ShouldWorkCorrect()
         {
             var getMuisics = MusicTestsData.GetMusics;

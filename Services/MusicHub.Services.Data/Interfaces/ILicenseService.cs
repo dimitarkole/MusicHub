@@ -12,9 +12,11 @@
     {
         LicenseAllViewModel<T> All<T>(int page, int entitesPerPage);
 
-        LicenseAllViewModel<T> AllOwn<T>(int page, int entitesPerPage, string userId);
+        ICollection<T> AllFiles<T>(string licenseId);
 
-        ICollection<T> AllOwnApproved<T>(string userId);
+        LicenseAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId);
+
+        ICollection<T> AllOwnedApproved<T>(string userId);
 
         LicenseAllViewModel<T> Filter<T>(int page, int entitesPerPage, LicenseFilter filter, string userId = null);
 
@@ -30,7 +32,7 @@
 
         bool IsOwned(string licenseId, string userId);
 
-        Task CreateFile(LicenseFileCreateInputModel model, string userId);
+        Task CreateFile(LicenseFileCreateInputModel model);
 
         Task DeleteFile(string id);
     }

@@ -18,11 +18,11 @@
 
         public LicenseUserViewModel User { get; set; }
 
-        public List<LicenceFileViewModel> LicenseFiles { get; set; }
+        // public List<LicenceFileViewModel> LicenseFiles { get; set; }
 
-        public int MusicLicensesCount { get; set; }
+        /*public int MusicLicensesCount { get; set; }
 
-        public int LicenseFilesCount { get; set; }
+        public int LicenseFilesCount { get; set; } */
 
         public DateTime CreatedOn { get; set; }
     }
