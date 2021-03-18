@@ -215,8 +215,12 @@ namespace MusicHub.Web.Controllers
         public ActionResult GetUserName(string id) => Ok(profileService.GetById<UserFullNameViewModel>(id));
 
         [Authorize]
-        [HttpGet(nameof(Notifications))]
-        public ActionResult Notifications() => Ok(notificationsService.GetUserNotifications<NotificationViewModel>(User.GetUserId()));
+        [HttpGet(nameof(Notifications) + "/{page}")]
+        public ActionResult Notifications(int page)
+        {
+            var entitesPerPage = PaginationData.NotificationPerPage;
+            return this.Ok(this.notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage,  User.GetUserId()));
+        }
 
         [Authorize]
         [HttpPost("[action]/{notificationId}")]
