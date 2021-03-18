@@ -13,7 +13,7 @@ namespace MusicHub.Services.Data.Interfaces
 
         Task AddRange(IEnumerable<NotificationInputModel> models);
 
-        IEnumerable<T> GetUserNotifications<T>(string userId);
+        NotificationAllViewModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId);
 
         Task MarkAsSeen(string id);
 
