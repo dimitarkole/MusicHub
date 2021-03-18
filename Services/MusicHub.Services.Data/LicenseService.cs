@@ -44,11 +44,13 @@ namespace MusicHub.Services.Data
             };
         }
 
-        public LicenseAllViewModel<T> AllOwn<T>(int page, int entitesPerPage, string userId)
+        public LicenseAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
         {
             var licenses = this.context.Licenses
                 .Where(l => l.UserId == userId)
-                .OrderByDescending(l => l.CreatedOn)
+                .OrderByDescending(l => l.Status == LicenseStatus.WaitToBeView)
+                .ThenByDescending(l => l.CreatedOn)
+                .ThenByDescending(l => l.Name)
                 .To<T>();
 
             return new LicenseAllViewModel<T>()
@@ -61,7 +63,7 @@ namespace MusicHub.Services.Data
             };
         }
 
-        public ICollection<T> AllOwnApproved<T>(string userId)
+        public ICollection<T> AllOwnedApproved<T>(string userId)
             => this.context.Licenses
                 .Where(l => l.UserId == userId
                     && l.Status == LicenseStatus.Approve)
@@ -88,7 +90,7 @@ namespace MusicHub.Services.Data
             return license.Id;
         }
 
-        public async Task CreateFile(LicenseFileCreateInputModel model, string userId)
+        public async Task CreateFile(LicenseFileCreateInputModel model)
         {
             var licenseFile = model.To<LicenseFile>();
             await this.context.LicenseFiles.AddAsync(licenseFile);
@@ -142,6 +144,13 @@ namespace MusicHub.Services.Data
                 .Any(s =>
                     s.Id == licenseId
                     && s.UserId == userId);
+
+        public ICollection<T> AllFiles<T>(string licenseId)
+            => this.context.LicenseFiles
+                .Where(lf => lf.LicensеId == licenseId)
+                .OrderBy(lf => lf.CreatedOn)
+                .To<T>()
+                .ToList();
 
         public async Task Update(string id, LicenseEditInputModel model)
         {

@@ -5,10 +5,13 @@
     using System.Text;
 
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
 
     public class LicenseCreateInputModel : IMapTo<License>
     {
         public string Name { get; set; }
+
+        public LicenseStatus Status { get; set; }
     }
 }

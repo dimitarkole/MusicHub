@@ -102,6 +102,37 @@ namespace MusicHub.Services.Data.Tests
             this.ChecLikedMusicAllViewModelsIsEqual(page, countPages, expectedResult, result);
         }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task FilterWithCategory_WithValidData_ShouldeReturnLikedMusics(int page)
+        {
+            var musicReactions = MusicReactionTestsData.MusicReactions();
+            var musicReactionService = await this.CreateMusicReactionService(musicReactions);
+            var userId = musicReactions[0].UserId;
+
+            var allLikedMusicByUser = this.context.MusicReactions
+                .Where(s => s.UserId == userId
+                && s.Reaction == Reaction.Like);
+
+            var filter = MusicReactionTestsData.FilterWithCategory;
+            allLikedMusicByUser = FilteringMusics(filter, allLikedMusicByUser);
+            allLikedMusicByUser = OrederSearchMusics(filter.OrderMethod, allLikedMusicByUser);
+
+            var allLikedMusicByUserList = allLikedMusicByUser.ToList();
+
+            var entitesPerPage = PaginationData.LikedMusicsPerPage;
+            var countPages = this.GetMusicReactionsPagesCount(allLikedMusicByUser.Count(), entitesPerPage);
+
+            var expectedResult = allLikedMusicByUser.GetPage(page, entitesPerPage)
+                .To<LikedMusicViewModel>()
+                .ToList();
+
+            var result = musicReactionService.Filter<LikedMusicViewModel>(page, entitesPerPage, userId, filter);
+
+            this.ChecLikedMusicAllViewModelsIsEqual(page, countPages, expectedResult, result);
+        }
+
         [Fact]
         public async Task IsOwnedMusicReaction_WithValidData_ShouldeReturnTrue()
         {
