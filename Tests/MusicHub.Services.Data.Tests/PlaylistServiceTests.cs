@@ -219,7 +219,7 @@
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var userId = PlaylistTestsData.AllOwnedUserId;
             var musicId = PlaylistTestsData.GetOwnedForAddingMusicMusicId;
-            var expextedResults = this.context.Playlists
+            var expectedResults = this.context.Playlists
                     .Where(p => p.UserId == userId
                          && p.PlaylistMusics.Any(ps => ps.MusicId == musicId) == false)
                     .OrderByDescending(ps => ps.Name)
@@ -228,25 +228,25 @@
 
             var results = playlistService.GetOwnedForAddingMusic<PlaylistViewModel>(musicId, userId);
 
-            Assert.Equal(results.Count, expextedResults.Count);
-            for (int i = 0; i < expextedResults.Count(); i++)
+            Assert.Equal(results.Count, expectedResults.Count);
+            for (int i = 0; i < expectedResults.Count(); i++)
             {
-                var expextedResult = expextedResults[i];
+                var expextedResult = expectedResults[i];
                 var resultPlaylist = results[i];
                 Assert.True(CheckPlaylistcViewModelIsEqual(expextedResult, resultPlaylist));
             }
         }
 
-        private static void CheckPlaylistViewModelsIsEqual(int page, List<PlaylistViewModel> expextedResults, PlaylistsAllViewModel<PlaylistViewModel> result, int countPages)
+        private static void CheckPlaylistViewModelsIsEqual(int page, List<PlaylistViewModel> expectedResults, PlaylistsAllViewModel<PlaylistViewModel> result, int countPages)
         {
             Assert.Equal(result.CurrentPage, page);
             Assert.Equal(result.NumberOfPages, countPages);
             var resultPlaylists = result.Playlists.ToList();
-            Assert.Equal(resultPlaylists.Count, expextedResults.Count);
+            Assert.Equal(resultPlaylists.Count, expectedResults.Count);
 
-            for (int i = 0; i < expextedResults.Count(); i++)
+            for (int i = 0; i < expectedResults.Count(); i++)
             {
-                var expextedResult = expextedResults[i];
+                var expextedResult = expectedResults[i];
                 var resultPlaylist = resultPlaylists[i];
                 Assert.True(CheckPlaylistcViewModelIsEqual(expextedResult, resultPlaylist));
             }

@@ -49,12 +49,12 @@ namespace MusicHub.Web.Controllers
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
-        [HttpGet]
-        public ActionResult All() => Ok(profileService.All<UserViewModel>());
+        [HttpGet("/{page}")]
+        public ActionResult All(int page) => Ok(profileService.All<UserViewModel>(page, PaginationData.UsersPerPage));
 
         [Authorize]
-        [HttpGet(nameof(List))]
-        public ActionResult List() => Ok(profileService.All<UserBriefInfoViewModel>());
+        [HttpGet(nameof(List) + "/{page}")]
+        public ActionResult List(int page) => Ok(profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
@@ -197,17 +197,17 @@ namespace MusicHub.Web.Controllers
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
         [HttpPost(nameof(FindUsers))]
-        public ActionResult FindUsers([FromBody] FindUserInputModel model) => Ok(profileService.Search(model.SearchQuery));
+        public ActionResult FindUsers(int page, [FromBody] FindUserInputModel model) => Ok(profileService.Search(page, PaginationData.UsersPerPage, model.SearchQuery));
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
-        [HttpPost(nameof(AdvancedSearch))]
-        public ActionResult AdvancedSearch([FromBody] UserFilter model) => Ok(profileService.Search(model));
+        [HttpPost(nameof(AdvancedSearch) + "/{page}")]
+        public ActionResult AdvancedSearch(int page, [FromBody] UserFilter model) => Ok(profileService.Search(page, PaginationData.UsersPerPage, model));
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
-        [HttpGet(nameof(GetFullNames))]
-        public ActionResult GetFullNames() => Ok(profileService.All<UserFullNameViewModel>());
+        [HttpGet(nameof(GetFullNames) + "/{page}")]
+        public ActionResult GetFullNames(int page) => Ok(profileService.All<UserFullNameViewModel>(page, PaginationData.UsersPerPage));
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
@@ -256,14 +256,14 @@ namespace MusicHub.Web.Controllers
         [Authorize]
         private void ValidateUser(UserInputModel model, string id = null)
         {
-            if (string.IsNullOrEmpty(model.Username))
+            if (string.IsNullOrEmpty(model.UserName))
             {
-                ModelState.AddModelError(nameof(UserInputModel.Username), "Username is required!");
+                ModelState.AddModelError(nameof(UserInputModel.UserName), "Username is required!");
 
             }
-            else if (profileService.UserExistsByUsername(model.Username, id))
+            else if (profileService.UserExistsByUsername(model.UserName, id))
             {
-                ModelState.AddModelError(nameof(UserInputModel.Username), "User with the same 'Username' already exists.");
+                ModelState.AddModelError(nameof(UserInputModel.UserName), "User with the same 'Username' already exists.");
             }
 
             if (profileService.UserExistsByEmail(model.Email, id))
