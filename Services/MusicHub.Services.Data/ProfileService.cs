@@ -15,14 +15,20 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels;
     using MusicHub.Web.ViewModels.Users;
+    using MusicHub.Common.Extensions;
+    using MusicHub.Services.Mapping;
 
     public class ProfileService : IProfileService
     {
         private readonly ApplicationDbContext context;
+        private readonly PaginationService paginationService;
 
-        public ProfileService(ApplicationDbContext context)
+        public ProfileService(
+            ApplicationDbContext context,
+            PaginationService paginationService)
         {
             this.context = context;
+            this.paginationService = paginationService;
         }
 
         public bool UserExistsByUsername(string username, string id = null) =>
@@ -42,7 +48,21 @@
 
         public Task Renew(string id) => UpdateIsDeleted(id, false);
 
-        public IEnumerable<T> All<T>() => context.Users.Where(u => !u.IsDeleted).To<T>().ToList();
+        public UserAllViewModel<T> All<T>(int page, int entitesPerPage)
+        {
+            var users = this.context.Users.Where(u => !u.IsDeleted)
+                .OrderBy(u => u.UserName)
+                .To<T>();
+
+            return new UserAllViewModel<T>()
+            {
+                Users = users
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+            };
+        }
 
         public T GetById<T>(string id) =>
             context.Users
@@ -50,19 +70,26 @@
             .To<T>()
             .FirstOrDefault();
 
-        public IEnumerable<UserViewModel> Search(string searchQuery)
+        public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery)
         {
-            var users = context.Users
+            var users = this.context.Users
                 .Where(u => !u.IsDeleted)
                 .Where(u => u.FirstName.Contains(searchQuery) ||
                             u.LastName.Contains(searchQuery))
-                .To<UserViewModel>()
-                .ToList();
+                .OrderBy(u => u.UserName)
+                .To<UserViewModel>();
 
-            return users;
+            return new UserAllViewModel<UserViewModel>()
+            {
+                Users = users
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+            };
         }
 
-        public IEnumerable<UserViewModel> Search(UserFilter model)
+        public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, UserFilter model)
         {
             IQueryable<User> users = this.context.Users.Where(u => !u.IsDeleted);
 
@@ -75,7 +102,16 @@
                 users = users.Where(u => u.FirstName.Contains(model.FirstName));
             }
 
-            return users.To<UserViewModel>().ToList();
+            return new UserAllViewModel<UserViewModel>()
+            {
+                Users = users
+                    .OrderBy(u => u.UserName)
+                    .To<UserViewModel>()
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+            };
         }
 
         public bool HasPermissions(string id, PermissionType permissionType)
@@ -158,5 +194,13 @@
             context.Users.Update(user);
             await context.SaveChangesAsync();
         }
+
+        ICollection<string> IProfileService.GetFullNames(IEnumerable<string> userIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        private int GetLicensesPagesCount(int entityCount, int entitesPerPage)
+             => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
     }
 }

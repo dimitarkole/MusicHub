@@ -30,6 +30,7 @@
             public const int LikedMusicsPerPage = 12;
             public const int LicensesPerPage = 12;
             public const int SuggestMusicPerPage = 10;
+            public const int UsersPerPage = 10;
         }
     }
 }
