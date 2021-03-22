@@ -14,15 +14,15 @@
     {
         public void Configure(EntityTypeBuilder<Follow> appFollow)
         {
-            appFollow.HasKey(e => new { e.FollowedId, e.FollowerId });
+            appFollow.HasKey(e => new { e.FollowingId, e.FollowerId });
 
-            appFollow.HasOne(e => e.Followed)
+            appFollow.HasOne(e => e.Following)
                 .WithMany(u => u.Followers)
-                .HasForeignKey(e => e.FollowedId)
+                .HasForeignKey(e => e.FollowingId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             appFollow.HasOne(e => e.Follower)
-                .WithMany(u => u.Followeds)
+                .WithMany(u => u.Followings)
                 .HasForeignKey(e => e.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

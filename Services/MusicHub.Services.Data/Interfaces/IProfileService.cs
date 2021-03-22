@@ -17,7 +17,7 @@
 
         bool UserExistsByUsername(string username, string id = null);
 
-        ICollection<string> GetFullNames(IEnumerable<string> userIds);
+        IEnumerable<string> GetFullNames(IEnumerable<string> userIds);
 
         Task Delete(string id);
 
