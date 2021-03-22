@@ -195,11 +195,6 @@
             await context.SaveChangesAsync();
         }
 
-        ICollection<string> IProfileService.GetFullNames(IEnumerable<string> userIds)
-        {
-            throw new NotImplementedException();
-        }
-
         private int GetLicensesPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
     }

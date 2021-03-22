@@ -144,9 +144,12 @@
             User user = this.context.Users.Find(userId);
             user.IsDeleted = true;
             var model = UserTestsData.UpdateModelWithRoles;
+            var lastRoles = this.context.UserRoles
+                .Where(ur => ur.UserId == userId)
+                .Select(ur => ur.Role.Name)
+                .ToList();
 
             await profileService.Update(userId, model);
-
             Assert.True(this.context.Users.Any(u => u.Id == userId
                 && u.UserName == model.UserName
                 && u.FirstName == model.FirstName
@@ -157,7 +160,10 @@
                 .Where(ur => ur.UserId == userId)
                 .Select(r => r.Role.Name)
                 .ToArray();
-            this.IsRolesEquals(model.Roles, updatedRoles);
+            var expectedResult = model.Roles.ToList();
+            expectedResult.AddRange(lastRoles);
+
+            this.IsRolesEquals(expectedResult.ToArray(), updatedRoles);
         }
 
         [Theory]

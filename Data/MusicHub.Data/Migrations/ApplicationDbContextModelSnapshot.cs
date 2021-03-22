@@ -202,7 +202,7 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Follow", b =>
                 {
-                    b.Property<string>("FollowedId")
+                    b.Property<string>("FollowingId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FollowerId")
@@ -211,7 +211,7 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("FollowedId", "FollowerId");
+                    b.HasKey("FollowingId", "FollowerId");
 
                     b.HasIndex("FollowerId");
 
@@ -844,21 +844,21 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Follow", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.User", "Followed")
-                        .WithMany("Followers")
-                        .HasForeignKey("FollowedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("MusicHub.Data.Models.User", "Follower")
-                        .WithMany("Followeds")
+                        .WithMany("Followings")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Followed");
+                    b.HasOne("MusicHub.Data.Models.User", "Following")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Follower");
+
+                    b.Navigation("Following");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.License", b =>
@@ -1108,9 +1108,9 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("Comments");
 
-                    b.Navigation("Followeds");
-
                     b.Navigation("Followers");
+
+                    b.Navigation("Followings");
 
                     b.Navigation("Licenses");
 

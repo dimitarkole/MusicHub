@@ -11,6 +11,6 @@
     public class FollowCreateInputModel : IMapTo<Follow>
     {
         [Required]
-        public virtual string FollowedId { get; set; }
+        public virtual string FollowerId { get; set; }
     }
 }

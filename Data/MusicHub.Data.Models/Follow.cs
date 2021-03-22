@@ -13,9 +13,9 @@
 
         public string Id { get; set; }
 
-        public string FollowedId { get; set; }
+        public string FollowingId { get; set; }
 
-        public User Followed { get; set; }
+        public User Following { get; set; }
 
         public string FollowerId { get; set; }
 

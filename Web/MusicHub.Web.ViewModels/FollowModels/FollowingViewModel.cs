@@ -7,10 +7,10 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
-    public class FollowedViewModel : IMapFrom<Follow>
+    public class FollowingViewModel : IMapFrom<Follow>
     {
         public string Id { get; set; }
 
-        public FollowUserViewModel Followed { get; set; }
+        public FollowUserViewModel Following { get; set; }
     }
 }

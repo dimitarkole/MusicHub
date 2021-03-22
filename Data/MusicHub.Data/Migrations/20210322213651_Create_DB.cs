@@ -3,13 +3,42 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MusicHub.Data.Migrations
 {
-    public partial class CreateDB : Migration
+    public partial class Create_DB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Notification_AspNetUsers_UserId",
+                table: "Notification");
+
+            migrationBuilder.DropIndex(
+                name: "IX_AspNetUserRoles_RoleId1",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Notification",
+                table: "Notification");
+
             migrationBuilder.DropColumn(
                 name: "DeletedOn",
                 table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "RoleId1",
+                table: "AspNetUserRoles");
+
+            migrationBuilder.RenameTable(
+                name: "Notification",
+                newName: "Notifications");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Notification_UserId",
+                table: "Notifications",
+                newName: "IX_Notifications_UserId");
 
             migrationBuilder.AddColumn<string>(
                 name: "UserId1",
@@ -22,6 +51,11 @@ namespace MusicHub.Data.Migrations
                 table: "AspNetUserClaims",
                 type: "nvarchar(450)",
                 nullable: true);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Notifications",
+                table: "Notifications",
+                column: "Id");
 
             migrationBuilder.CreateTable(
                 name: "Categories",
@@ -41,22 +75,22 @@ namespace MusicHub.Data.Migrations
                 name: "Follows",
                 columns: table => new
                 {
-                    FollowedId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FollowingId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Id = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Follows", x => new { x.FollowedId, x.FollowerId });
+                    table.PrimaryKey("PK_Follows", x => new { x.FollowingId, x.FollowerId });
                     table.ForeignKey(
-                        name: "FK_Follows_AspNetUsers_FollowedId",
-                        column: x => x.FollowedId,
+                        name: "FK_Follows_AspNetUsers_FollowerId",
+                        column: x => x.FollowerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Follows_AspNetUsers_FollowerId",
-                        column: x => x.FollowerId,
+                        name: "FK_Follows_AspNetUsers_FollowingId",
+                        column: x => x.FollowingId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -78,6 +112,29 @@ namespace MusicHub.Data.Migrations
                     table.PrimaryKey("PK_Licenses", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Licenses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Playlists",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VisibleStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Playlists", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Playlists_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -154,6 +211,7 @@ namespace MusicHub.Data.Migrations
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AudioUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    MusicLicenseType = table.Column<int>(type: "int", nullable: false),
                     VisibleStatus = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
@@ -173,35 +231,6 @@ namespace MusicHub.Data.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Playlists",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CategoryId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    VisibleStatus = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Playlists", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Playlists_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Playlists_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -339,7 +368,7 @@ namespace MusicHub.Data.Migrations
                         column: x => x.MusicId,
                         principalTable: "Musics",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -376,6 +405,7 @@ namespace MusicHub.Data.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MusicId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PlaylistId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Position = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -535,11 +565,6 @@ namespace MusicHub.Data.Migrations
                 column: "PlaylistId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Playlists_CategoryId",
-                table: "Playlists",
-                column: "CategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Playlists_UserId",
                 table: "Playlists",
                 column: "UserId");
@@ -569,6 +594,14 @@ namespace MusicHub.Data.Migrations
                 principalTable: "AspNetUsers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Notifications_AspNetUsers_UserId",
+                table: "Notifications",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -580,6 +613,10 @@ namespace MusicHub.Data.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_AspNetUserLogins_AspNetUsers_UserId1",
                 table: "AspNetUserLogins");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_Notifications_AspNetUsers_UserId",
+                table: "Notifications");
 
             migrationBuilder.DropTable(
                 name: "CommentReactions");
@@ -637,6 +674,10 @@ namespace MusicHub.Data.Migrations
                 name: "IX_AspNetUserClaims_UserId1",
                 table: "AspNetUserClaims");
 
+            migrationBuilder.DropPrimaryKey(
+                name: "PK_Notifications",
+                table: "Notifications");
+
             migrationBuilder.DropColumn(
                 name: "UserId1",
                 table: "AspNetUserLogins");
@@ -645,11 +686,52 @@ namespace MusicHub.Data.Migrations
                 name: "UserId1",
                 table: "AspNetUserClaims");
 
+            migrationBuilder.RenameTable(
+                name: "Notifications",
+                newName: "Notification");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Notifications_UserId",
+                table: "Notification",
+                newName: "IX_Notification_UserId");
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "DeletedOn",
                 table: "AspNetUsers",
                 type: "datetime2",
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "RoleId1",
+                table: "AspNetUserRoles",
+                type: "nvarchar(450)",
+                nullable: true);
+
+            migrationBuilder.AddPrimaryKey(
+                name: "PK_Notification",
+                table: "Notification",
+                column: "Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId1",
+                table: "AspNetUserRoles",
+                column: "RoleId1");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
+                table: "AspNetUserRoles",
+                column: "RoleId1",
+                principalTable: "AspNetRoles",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Notification_AspNetUsers_UserId",
+                table: "Notification",
+                column: "UserId",
+                principalTable: "AspNetUsers",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
     }
 }
