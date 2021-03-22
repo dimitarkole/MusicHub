@@ -40,6 +40,13 @@ namespace MusicHub.Web.Controllers
         public ActionResult<LicenseAllViewModel<LicenseLargeViewModel>> Get(int page)
             => this.Ok(this.licenseService.All<LicenseLargeViewModel>(page, PaginationData.LicensesPerPage));
 
+        /// <summary>Get all licenes.</summary>
+        /// <param name="page">The page of license.</param>
+        /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
+        [HttpGet(nameof(GetFiles) + "/{licenseId}")]
+        public ActionResult<LicenseAllViewModel<LicenceFileViewModel>> GetFiles(string licenseId)
+            => this.Ok(this.licenseService.AllFiles<LicenceFileViewModel>(licenseId));
+
         /// <summary>Get own licenses.</summary>
         /// <param name="page">The page of licenses.</param>
         /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
