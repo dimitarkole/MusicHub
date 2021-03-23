@@ -17,10 +17,10 @@
     public class FollowService : IFollowService
     {
         private readonly ApplicationDbContext context;
-        private readonly PaginationService paginationService;
+        private readonly IPaginationService paginationService;
 
         public FollowService(ApplicationDbContext context,
-            PaginationService paginationService)
+            IPaginationService paginationService)
         {
             this.context = context;
             this.paginationService = paginationService;
