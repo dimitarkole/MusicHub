@@ -21,11 +21,11 @@
     public class ProfileService : IProfileService
     {
         private readonly ApplicationDbContext context;
-        private readonly PaginationService paginationService;
+        private readonly IPaginationService paginationService;
 
         public ProfileService(
             ApplicationDbContext context,
-            PaginationService paginationService)
+            IPaginationService paginationService)
         {
             this.context = context;
             this.paginationService = paginationService;
