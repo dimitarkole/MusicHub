@@ -40,6 +40,13 @@ namespace MusicHub.Web.Controllers
         public ActionResult<LicenseAllViewModel<LicenseLargeViewModel>> Get(int page)
             => this.Ok(this.licenseService.All<LicenseLargeViewModel>(page, PaginationData.LicensesPerPage));
 
+        /// <summary>Get all licenes.</summary>
+        /// <param name="page">The page of license.</param>
+        /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
+        [HttpGet(nameof(GetFiles) + "/{licenseId}")]
+        public ActionResult<LicenseAllViewModel<LicenceFileViewModel>> GetFiles(string licenseId)
+            => this.Ok(this.licenseService.AllFiles<LicenceFileViewModel>(licenseId));
+
         /// <summary>Get own licenses.</summary>
         /// <param name="page">The page of licenses.</param>
         /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
@@ -47,7 +54,7 @@ namespace MusicHub.Web.Controllers
         [Authorize]
         [Permission(PermissionType.User)]
         public ActionResult<LicenseAllViewModel<LicenceViewModel>> GetOwn(int page)
-            => this.Ok(this.licenseService.AllOwn<LicenceViewModel>(page, PaginationData.LicensesPerPage, this.userManager.GetUserId(this.User)));
+            => this.Ok(this.licenseService.AllOwned<LicenceViewModel>(page, PaginationData.LicensesPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own licenses.</summary>
         /// <returns>Ok(LicenseAllViewModel. <LicenceSmallViewModel>).</returns>
@@ -55,7 +62,7 @@ namespace MusicHub.Web.Controllers
         [Authorize]
         [Permission(PermissionType.User)]
         public ActionResult<LicenseAllViewModel<LicenceSmallViewModel>> GetOwnApproved()
-            => this.Ok(this.licenseService.AllOwnApproved<LicenceSmallViewModel>(this.userManager.GetUserId(this.User)));
+            => this.Ok(this.licenseService.AllOwnedApproved<LicenceSmallViewModel>(this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own licenses.</summary>
         /// <param name="page">The page of licenses.</param>
@@ -173,8 +180,7 @@ namespace MusicHub.Web.Controllers
                 return this.BadRequest();
             }
 
-            var userId = this.userManager.GetUserId(this.User);
-            await this.licenseService.CreateFile(model, userId);
+            await this.licenseService.CreateFile(model);
             return this.StatusCode(StatusCodes.Status201Created);
         }
 

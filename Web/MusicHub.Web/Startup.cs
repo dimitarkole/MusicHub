@@ -79,7 +79,7 @@
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
             // Uncomment the line below if you want to seed data in your database
-             app.SeedData();
+            // app.SeedData();
 
             app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
@@ -88,17 +88,17 @@
             }
 
             app.UseStaticFiles();
-           /* app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
-                RequestPath = new PathString("/ClientApp/src/assets/resources"),
-            });*/
+            /* app.UseStaticFiles(new StaticFileOptions()
+             {
+                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
+                 RequestPath = new PathString("/ClientApp/src/assets/resources"),
+             });*/
 
             app
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SongMe API V1");
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicMe API V1");
                 })
                 .UseRouting()
                 .UseCors("AllowWebApp")
@@ -123,6 +123,6 @@
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-        }   
+        }
     }
 }

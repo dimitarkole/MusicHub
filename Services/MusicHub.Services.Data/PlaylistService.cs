@@ -61,7 +61,7 @@
             };
         }
 
-        public PlaylistsAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId)
+        public PlaylistsAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId = null)
         {
             var playlists = this.context.Playlists
                .Where(p => p.PlaylistMusics.Count > 0);
@@ -115,8 +115,7 @@
         }
 
         public T GetById<T>(string id) => this.context.Playlists
-            .Where(p => p.Id == id
-                 && p.PlaylistMusics.Count > 0)
+            .Where(p => p.Id == id)
             .To<T>()
             .FirstOrDefault();
 
@@ -125,7 +124,7 @@
                .Any(p => p.Id == id
                     && p.UserId == userId);
 
-        public IList<T> GetOwnedForAddingSong<T>(string musicId, string userId)
+        public IList<T> GetOwnedForAddingMusic<T>(string musicId, string userId)
          => this.context.Playlists
             .Where(p => p.UserId == userId
                  && p.PlaylistMusics.Any(ps => ps.MusicId == musicId) == false)

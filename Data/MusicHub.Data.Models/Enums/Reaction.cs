@@ -13,7 +13,5 @@ namespace MusicHub.Data.Models.Enums
         Like = 1,
         [Display(Name = "Users dislike")]
         Dislike = 2,
-
-        Default = 0,
     }
 }

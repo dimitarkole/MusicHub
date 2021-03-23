@@ -30,17 +30,21 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Comment, CommentViewModel>()
+           configuration.CreateMap<Comment, CommentViewModel>()
               .ForMember(
                   m => m.LikesCount,
                   y => y.MapFrom(
                       s => s.CommentReactions.Where(
                           r => r.Reaction == Reaction.Like)
+                      .Count() == 0 ? 0 : s.CommentReactions.Where(
+                          r => r.Reaction == Reaction.Like)
                       .Count()))
-            .ForMember(
+             .ForMember(
                 m => m.DislikesCount,
                 y => y.MapFrom(
                     s => s.CommentReactions.Where(
+                        r => r.Reaction == Reaction.Dislike)
+                    .Count() == 0 ? 0 : s.CommentReactions.Where(
                         r => r.Reaction == Reaction.Dislike)
                     .Count()));
         }

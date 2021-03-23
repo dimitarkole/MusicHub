@@ -202,7 +202,7 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Follow", b =>
                 {
-                    b.Property<string>("FollowedId")
+                    b.Property<string>("FollowingId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FollowerId")
@@ -211,7 +211,7 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("FollowedId", "FollowerId");
+                    b.HasKey("FollowingId", "FollowerId");
 
                     b.HasIndex("FollowerId");
 
@@ -475,11 +475,11 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
@@ -494,8 +494,6 @@ namespace MusicHub.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -518,6 +516,9 @@ namespace MusicHub.Data.Migrations
 
                     b.Property<string>("PlaylistId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -843,21 +844,21 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Follow", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.User", "Followed")
-                        .WithMany("Followers")
-                        .HasForeignKey("FollowedId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("MusicHub.Data.Models.User", "Follower")
-                        .WithMany("Followeds")
+                        .WithMany("Followings")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Followed");
+                    b.HasOne("MusicHub.Data.Models.User", "Following")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Follower");
+
+                    b.Navigation("Following");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.License", b =>
@@ -972,15 +973,9 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Playlist", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
                     b.HasOne("MusicHub.Data.Models.User", "User")
                         .WithMany("Playlists")
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -1113,9 +1108,9 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("Comments");
 
-                    b.Navigation("Followeds");
-
                     b.Navigation("Followers");
+
+                    b.Navigation("Followings");
 
                     b.Navigation("Licenses");
 

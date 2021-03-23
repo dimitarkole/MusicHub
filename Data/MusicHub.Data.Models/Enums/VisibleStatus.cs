@@ -13,7 +13,5 @@
         Hidden = 1,
         [Display(Name = "Only creater could view entity")]
         OnlyMe = 2,
-
-        Default = 0,
     }
 }

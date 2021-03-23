@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Common
+﻿namespace MusicHub.Common
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public static class ModelConstants
     {
 
@@ -35,6 +35,13 @@ namespace MusicHub.Common
         public static class NotificationConstants
         {
             public const int ContentMaxLength = 1000;
+        }
+
+        public static class VerificationCodeConstants
+        {
+            public const int EndTimeInHours = 2;
+            public const string RandomCodeCharacters = "abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            public const int RandomCodeLength = 5;
         }
     }
 }

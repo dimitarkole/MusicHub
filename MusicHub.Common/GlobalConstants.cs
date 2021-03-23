@@ -2,6 +2,7 @@
 {
     public static class GlobalConstants
     {
+        public const string OctetStreamMimeType = "application/octet-stream";
         public const string SystemName = "MusicHub";
 
         public const string AdministratorRoleName = "Administrator";
@@ -21,12 +22,17 @@
         public static class PaginationData
         {
             public const int MusicsPerPage = 12;
-            public const int MusicsViewHistoryPerPage = 12;
+            public const int PlayedMusicsPerPage = 12;
+            public const int NotificationPerPage = 10;
             public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;
             public const int PlaylistsMusicsPerPage = 12;
             public const int LikedMusicsPerPage = 12;
             public const int LicensesPerPage = 12;
+            public const int SuggestMusicPerPage = 10;
+            public const int UsersPerPage = 10;
+            public const int FollowingsPerPage = 10;
+            public const int FollowersPerPage = 10;
         }
     }
 }

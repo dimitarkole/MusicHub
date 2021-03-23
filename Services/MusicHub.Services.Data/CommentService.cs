@@ -30,6 +30,7 @@
         {
             var comments = this.context.Comments
                 .Where(c => c.MusicId == musicId)
+                .OrderByDescending(c => c.CreatedOn)
                 .To<T>();
             return new CommentsAllViewModel<T>()
             {

@@ -9,19 +9,22 @@ namespace MusicHub.Services.Data.Interfaces
 {
     public interface IFollowService
     {
-        IEnumerable<T> AllFollowers<T>(string userId);
+        FollowersAllViewModel<T> AllFollowers<T>(int page, int entitesPerPage, string userId);
 
-        IEnumerable<T> AllFollowed<T>(string userId);
+        FollowingsAllViewModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId);
 
-        IEnumerable<T> Filter<T>(FollowFilterInputModel filter, string userId);
+        FollowersAllViewModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
+
+        FollowingsAllViewModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
 
         Task Create(FollowCreateInputModel model, string userId);
 
         Task Delete(string id);
 
-        bool IsFollowed(string followedUserId, string userId);
+        bool IsFollowing(string followingUserId, string userId);
 
-        T GetFollow<T>(string followedUserId, string userId);
+        T GetFollow<T>(string followingUserId, string userId);
+
         bool IsOwned(string id, string userId);
     }
 }

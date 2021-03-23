@@ -13,7 +13,11 @@
 
         public string Name { get; set; }
 
-        public int PlaylistSongsCount { get; set; }
+        public int PlaylistMusicsCount { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public PlaylistUserViewModel User { get; set; }
 
         public DateTime CreatedOn { get; set; }
     }

@@ -32,6 +32,9 @@
         {
             var musics = this.context.Musics
                     .Where(m => m.VisibleStatus == VisibleStatus.Public)
+                    .OrderByDescending(m => m.CreatedOn)
+                    .ThenBy(m => m.MusicReactions.Count(r => r.Reaction == Reaction.Like))
+                    .ThenBy(m => m.Name)
                     .To<T>();
             return new MusicsAllViewModel<T>()
             {
@@ -81,7 +84,7 @@
 
             if (!string.IsNullOrEmpty(userId))
             {
-                musics = musics.Where(s => s.UserId == userId);
+                musics = musics.Where(m => m.UserId == userId);
             }
             else
             {
@@ -114,19 +117,24 @@
                     s.Id == musicId
                     && s.UserId == userId);
 
-        public IEnumerable<T> SuggestMusics<T>(string musicId)
+        public MusicsAllViewModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId)
         {
             var music = this.context.Musics.Find(musicId);
             var suggestMusics = this.context.Musics
                 .Where(s => s.Id != musicId && s.VisibleStatus == VisibleStatus.Public)
                 .OrderByDescending(s => s.CategoryId == music.CategoryId)
                 .ThenByDescending(s => s.CreatedOn)
-                .ThenByDescending(s => s.PlayedMusics.Count)
-                .Take(10)
-                .To<T>()
-                .ToList();
+                .ThenByDescending(s => s.PlayedMusics.Count);
 
-            return suggestMusics;
+            return new MusicsAllViewModel<T>()
+            {
+                Musics = suggestMusics
+                       .To<T>()
+                       .GetPage(page, entitesPerPage)
+                       .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicsPagesCount(suggestMusics.Count(), entitesPerPage),
+            };
         }
 
         public async Task Update(string id, MusicEditModel model)

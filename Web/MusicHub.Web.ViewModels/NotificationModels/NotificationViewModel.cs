@@ -8,7 +8,7 @@ namespace MusicHub.Web.ViewModels.NotificationModels
 {
     public class NotificationViewModel : IMapFrom<Notification>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string Content { get; set; }
 
