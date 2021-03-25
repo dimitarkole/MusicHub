@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { Router, Data } from '@angular/router';
-import { ConfirmedValidator } from '../../common/confirmed.validator';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ConfirmedValidator, dateValidator } from '../../common/confirmed.validator';
 import User from '../../components/shared/models/user';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.css']
 })
-
-export class SignupComponent implements OnInit {
+export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
   wrongCredentials: boolean = false;
   successfulCredentials: boolean = false;
@@ -31,10 +30,10 @@ export class SignupComponent implements OnInit {
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
       confirmPassword: [null, [Validators.required]],
-      birthday: [null, [Validators.required]],
+      birthday: [null, [Validators.required]],// dateValidator()]],
       privacy: [false, [Validators.required, Validators.requiredTrue]],
     }, {
-        validator: ConfirmedValidator('password', 'confirmPassword')
+      validator: ConfirmedValidator('password', 'confirmPassword')
     });
   }
 
@@ -48,6 +47,7 @@ export class SignupComponent implements OnInit {
   }
 
   signUp() {
+    alert("Here");  
     let newUser: User = this.signUpForm.value;
     this.authService.create(newUser)
       .subscribe(_ => {
@@ -59,22 +59,22 @@ export class SignupComponent implements OnInit {
             this.authService.initializeAuthenticationState();
             this.router.navigate(['/']);
           },
-          err => {
-            this.wrongCredentials = true;
-            setTimeout(function () { this.wrongCredentials = false }, 2000);
-          });
+            err => {
+              this.wrongCredentials = true;
+              setTimeout(function () { this.wrongCredentials = false }, 2000);
+            });
       },
-      err => {
-        this.wrongCredentials = true;
-        setTimeout(function () { this.wrongCredentials = false }, 2000);
-      });
+        err => {
+          this.wrongCredentials = true;
+          setTimeout(function () { this.wrongCredentials = false }, 2000);
+        });
   }
 
   get password(): AbstractControl {
     return this.signUpForm.get('password');
   }
 
-  get email(): AbstractControl{
+  get email(): AbstractControl {
     return this.signUpForm.get('email');
   }
 
@@ -94,8 +94,8 @@ export class SignupComponent implements OnInit {
     return this.signUpForm.get('confirmPassword');
   }
 
-  get birthday(): AbstractControl{
-    return this.signUpForm.get('birthday'); 
+  get birthday(): AbstractControl {
+    return this.signUpForm.get('birthday');
   }
 
   get privacy(): AbstractControl {

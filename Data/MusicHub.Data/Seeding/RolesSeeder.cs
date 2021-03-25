@@ -20,11 +20,12 @@
             var permissions = dbContext.Permissions.ToList();
             RoleManager<Role> roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
 
-            await this.SeedRoleAsync(roleManager, Roles.User, permissions);
             await this.SeedRoleAsync(roleManager, Roles.Administrator, permissions);
-            await this.SeedRoleAsync(roleManager, Roles.AdministratorAndSuperAdministratorRoles, permissions);
+
+            //await this.SeedRoleAsync(roleManager, Roles.AdministratorAndSuperAdministratorRoles, permissions);
             await this.SeedRoleAsync(roleManager, Roles.DataAnalisator, permissions);
             await this.SeedRoleAsync(roleManager, Roles.SuperAdministrator, permissions);
+            await this.SeedRoleAsync(roleManager, Roles.User, permissions);
         }
 
         private async Task SeedRoleAsync(RoleManager<Role> roleManager, string roleName, List<Permission> permissions)
