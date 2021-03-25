@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { globalConstants } from 'src/app/common/global-constants';
 import { HttpClient } from '@angular/common/http';
@@ -10,7 +10,7 @@ import User from '../../components/shared/models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private route: string = 'Identity';
+  private route: string = 'Users';
   private isLoggedInPath = this.route + '/ValidateToken';
 
   constructor(
@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   create(user: User) {
-    return this.http.post(`${this.route}/Create`, user);
+    return this.http.post(`${this.route}`, user);
   }
 
   login(username: string, password: string) {

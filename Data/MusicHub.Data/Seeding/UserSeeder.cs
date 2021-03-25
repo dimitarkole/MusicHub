@@ -26,7 +26,7 @@ namespace MusicHub.Data.Seeding
         public List<UserObj> Users = new List<UserObj>()
         {
             new UserObj() { Username = "rootuser1", Email = "rootuser1@abv.bg", Password = "rootpass", Role = Roles.SuperAdministrator },
-            new UserObj() { Username = "rootuser2", Email = "rootuser2@abv.bg", Password = "rootpass", Role = Roles.AdministratorAndSuperAdministratorRoles },
+            new UserObj() { Username = "rootuser2", Email = "rootuser2@abv.bg", Password = "rootpass", Role = Roles.Artist },
             new UserObj() { Username = "pesho", Email = "pesho@abv.bg", Password = "rootpass", Role = Roles.DataAnalisator },
             new UserObj() { Username = "rootuser", Email = "rootuser@abv.bg", Password = "rootpass", Role = Roles.User },
             new UserObj() { Username = "gosho", Email = "gosho@abv.bg", Password = "rootpass", Role = Roles.User },

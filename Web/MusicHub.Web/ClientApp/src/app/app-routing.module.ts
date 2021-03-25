@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './auth/login/login.component';
 import { UserResolver } from './core/resolvers/user.resolver';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
+  { path: 'signup', component: SignUpComponent },
 ];
 
 @NgModule({
