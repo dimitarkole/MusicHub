@@ -19,11 +19,11 @@ namespace MusicHub.Tests.TestData
 
         public static string HasPermissionTrueUserId => Users[0].Id;
 
-        public static PermissionType HasPermissionTruePermitionType => PermissionType.ManageLicense;
+        public static PermissionType HasPermissionTruePermitionType => PermissionType.User;
 
         public static string HasPermissionFalseUserId => Users[1].Id;
 
-        public static PermissionType HasPermissionFalsePermitionType => PermissionType.ManageLicense;
+        public static PermissionType HasPermissionFalsePermitionType => PermissionType.CategoryAdministrator;
 
         public static string UserId => Users[0].Id;
 

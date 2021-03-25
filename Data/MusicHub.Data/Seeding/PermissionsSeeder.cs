@@ -24,7 +24,7 @@ namespace MusicHub.Data.Seeding
                     await dbContext.Permissions.AddAsync(new Permission
                     {
                         Type = type,
-                        Description = description
+                        Description = description,
                     });
                 }
             }
