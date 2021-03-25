@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    const { username, password } = this.loginForm.value;
+    const {username, password } = this.loginForm.value;
 
     this.authService.login(username, password)
       .subscribe((token: string) => {

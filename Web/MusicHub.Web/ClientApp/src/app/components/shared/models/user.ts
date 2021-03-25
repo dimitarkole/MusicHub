@@ -17,3 +17,11 @@ export default interface User {
   MusicsCount: number,
   playlistsCount: number,
 }
+
+export default interface LoginResponse {
+  userId: string,
+  username: string,
+  initials: string,
+  roles: string[],
+  token: string
+}
