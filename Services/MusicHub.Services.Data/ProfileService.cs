@@ -17,6 +17,8 @@
     using MusicHub.Web.ViewModels.Users;
     using MusicHub.Common.Extensions;
     using MusicHub.Services.Mapping;
+    using MusicHub.Services;
+    using MusicHub.Services.Interfaces;
 
     public class ProfileService : IProfileService
     {

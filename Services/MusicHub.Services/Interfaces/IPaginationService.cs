@@ -1,4 +1,4 @@
-﻿namespace MusicHub.Services.Data.Interfaces
+﻿namespace MusicHub.Services.Interfaces
 {
     using System;
     using System.Collections.Generic;

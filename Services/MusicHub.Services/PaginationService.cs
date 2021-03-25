@@ -1,4 +1,4 @@
-﻿namespace MusicHub.Services.Data
+﻿namespace MusicHub.Services
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
 
     public class PaginationService : IPaginationService
     {

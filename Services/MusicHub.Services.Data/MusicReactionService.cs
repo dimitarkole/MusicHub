@@ -12,6 +12,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.MusicModels;
     using MusicHub.Web.ViewModels.MusicReactionModels;

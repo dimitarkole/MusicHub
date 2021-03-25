@@ -12,6 +12,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.MusicModels;
 
@@ -21,7 +22,7 @@
         private readonly IPaginationService paginationService;
 
         public MusicService(
-            ApplicationDbContext context,   
+            ApplicationDbContext context,
             IPaginationService paginationService)
         {
             this.context = context;
