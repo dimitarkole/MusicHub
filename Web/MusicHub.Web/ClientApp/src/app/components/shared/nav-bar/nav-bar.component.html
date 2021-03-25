@@ -96,8 +96,6 @@
                       </a>
                     </div>
 
-                   
-
                     <!-- logout -->
                     <div class="dropdown-item">
                       <a (click)="logout()" class="row text-dark">
@@ -116,8 +114,8 @@
           <div class="log_reg d-flex flex-row align-items-center justify-content-start" *ngIf="!isAuth">
             <nav class="main_nav">
               <ul class="d-flex flex-row align-items-start justify-content-start row">
-                <li><a routerLink="/login">Login</a></li>
-                <li><a routerLink="/signup">Register</a></li>
+                <li><a routerLink="/signin">Sign In</a></li>
+                <li><a routerLink="/signup">Sign Up</a></li>
               </ul>
             </nav>
           </div>

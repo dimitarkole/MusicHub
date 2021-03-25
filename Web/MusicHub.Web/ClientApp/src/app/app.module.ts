@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
     NavBarComponent,
     FooterComponent,
     SignUpComponent,
+    SignInComponent,
   ],
   entryComponents: [
   ],
