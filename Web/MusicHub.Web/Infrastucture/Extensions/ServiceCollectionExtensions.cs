@@ -26,6 +26,7 @@
     using MusicHub.Data;
     using MusicHub.Services.Data;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
 
     public static class ServiceCollectionExtensions
     {

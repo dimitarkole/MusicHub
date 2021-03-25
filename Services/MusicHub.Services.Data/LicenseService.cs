@@ -11,6 +11,7 @@ using MusicHub.Services.Mapping;
 using MusicHub.Common.Extensions;
 using System.Threading.Tasks;
 using MusicHub.Data.Models;
+using MusicHub.Services.Interfaces;
 
 namespace MusicHub.Services.Data
 {

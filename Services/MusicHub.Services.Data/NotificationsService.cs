@@ -12,6 +12,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.NotificationModels;
     using MusicHub.Common.Extensions;
+    using MusicHub.Services.Interfaces;
 
     public class NotificationsService : INotificationsService
     {
