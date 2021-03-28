@@ -1,6 +1,6 @@
-﻿import { Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
-import { NavBarComponent } from './components/shared/nav-bar/nav-bar.component'
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
