@@ -12,8 +12,6 @@ import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { BaseUrlInterceptor } from './core/interceptors/base-url.interceptor';
-import { NavBarComponent } from './components/shared/nav-bar/nav-bar.component';
-import { FooterComponent } from './components/shared/footer/footer.component';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -23,6 +21,12 @@ import { MatListModule } from '@angular/material/list';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { CategoryCreateComponent } from './categories/components/category-create/category-create.component';
+import { CategoriesListComponent } from './categories/components/categories-list/categories-list.component';
+import { CategoryEditComponent } from './categories/components/category-edit/category-edit.component';
+import { CategoryDeleteComponent } from './categories/components/category-delete/category-delete.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +36,15 @@ import { SignInComponent } from './auth/sign-in/sign-in.component';
     FooterComponent,
     SignUpComponent,
     SignInComponent,
+    CategoryCreateComponent,
+    CategoriesListComponent,
+    CategoryEditComponent,
+    CategoryDeleteComponent,
   ],
   entryComponents: [
+    CategoryDeleteComponent,
+    CategoryEditComponent,
+    CategoryCreateComponent,
   ],
   imports: [
     MatSidenavModule,

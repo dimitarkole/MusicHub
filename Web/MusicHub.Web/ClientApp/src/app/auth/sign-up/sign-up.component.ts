@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ConfirmedValidator, dateValidator } from '../../common/confirmed.validator';
-import User from '../../components/shared/models/user';
 import { AuthService } from '../../core/services/auth.service';
+import User from '../../shared/models/user';
 
 @Component({
   selector: 'app-sign-up',

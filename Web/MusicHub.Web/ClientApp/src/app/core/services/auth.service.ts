@@ -4,17 +4,17 @@ import { globalConstants } from 'src/app/common/global-constants';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import * as jwtDecode from "jwt-decode";
-import User from '../../components/shared/models/user';
-import LoginResponse from '../../components/shared/models/user';
-import UserInitials from '../../components/shared/models/userInitials';
-import UserInfo from '../../components/shared/models/userInfo';
-import { Role } from '../../components/shared/models/role';
-import { Permission } from '../../components/shared/models/permission';
-import { PermissionType } from '../../components/shared/models/permissionType';
-import { UserFilter } from '../../components/shared/models/filterModels';
-import { ActiveDirectoryUser } from '../../components/shared/models/activeDirectoryUser';
-import UserClassification from '../../components/shared/models/userClassification';
-import UserFullName from '../../components/shared/models/userFullName';
+import UserInitials from '../../shared/models/userInitials';
+import { UserFilter } from '../../shared/models/filterModels';
+import UserInfo from '../../shared/models/userInfo';
+import { Role } from '../../shared/models/role';
+import { Permission } from '../../shared/models/permission';
+import User from '../../shared/models/user';
+import UserClassification from '../../shared/models/userClassification';
+import UserFullName from '../../shared/models/userFullName';
+import { ActiveDirectoryUser } from '../../shared/models/activeDirectoryUser';
+import { PermissionType } from '../../shared/models/permissionType';
+import LoginResponse from '../../shared/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class AuthService {
 	private getUsersClassificationsPath = 'Users/Classifications';
 	private getFullNames = 'Users/GetFullNames';
 	private rolesPath = 'Roles';
-	private permissionsPath = 'Permissions';
+  private permissionsPath = 'Users/HasPermission';
 	private initialsPath = 'Users/GetInitials';
 	private calendarEventPath = 'Events';
 	private getItemTypesPath = 'Events/ItemTypes';
@@ -55,6 +55,7 @@ export class AuthService {
 	private userFiltersPath = 'Filters/Users';
   public isAuth = false;
   public isAdmin = false;
+  public permitions: PermissionType[];
   public username: string;
   public role: string;
   isAuthChanged = new Subject<boolean>();
@@ -85,8 +86,6 @@ export class AuthService {
 
     this.isAuthChanged.next(true);
   }
-
-
 
   getToken(): string {
     return localStorage.getItem(globalConstants.jwtTokenKey);
