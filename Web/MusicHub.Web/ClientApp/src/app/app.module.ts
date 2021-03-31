@@ -23,10 +23,6 @@ import { SignUpComponent } from './auth/sign-up/sign-up.component';
 import { SignInComponent } from './auth/sign-in/sign-in.component';
 import { NavBarComponent } from './shared/nav-bar/nav-bar.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { CategoryCreateComponent } from './categories/components/category-create/category-create.component';
-import { CategoriesListComponent } from './categories/components/categories-list/categories-list.component';
-import { CategoryEditComponent } from './categories/components/category-edit/category-edit.component';
-import { CategoryDeleteComponent } from './categories/components/category-delete/category-delete.component';
 
 @NgModule({
   declarations: [
@@ -36,15 +32,8 @@ import { CategoryDeleteComponent } from './categories/components/category-delete
     FooterComponent,
     SignUpComponent,
     SignInComponent,
-    CategoryCreateComponent,
-    CategoriesListComponent,
-    CategoryEditComponent,
-    CategoryDeleteComponent,
   ],
   entryComponents: [
-    CategoryDeleteComponent,
-    CategoryEditComponent,
-    CategoryCreateComponent,
   ],
   imports: [
     MatSidenavModule,
@@ -63,7 +52,7 @@ import { CategoryDeleteComponent } from './categories/components/category-delete
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-  //  { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

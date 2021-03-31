@@ -42,21 +42,21 @@
 
         public IEnumerable<PermissionViewModel> GetUserPermissions(string userId)
         {
-            var userRoles = this.context.Users.Where(u => u.Id == userId)
-                .FirstOrDefault()
-                .Roles;
+            var userRoles = this.context.UserRoles
+                .Where(ur => ur.UserId == userId);
 
-            var permitions = this.context.RolePermissions
-                .Where(rp => userRoles.Any(r => r.RoleId == rp.RoleId))
-                .Select(rp => new PermissionViewModel
-                {
-                    Description = rp.Permission.Description,
-                    Id = rp.Permission.Id,
-                    Type = rp.Permission.Type.ToString(),
-                })
-                .ToList();
+            List<PermissionViewModel> rolePermissions = this.context.RolePermissions
+                 .Include(rp => rp.Role)
+                 .Where(rp => userRoles.Any(ur => ur.RoleId == rp.RoleId))
+                 .Select(rp => new PermissionViewModel
+                 {
+                     Description = rp.Permission.Description,
+                     Id = rp.Permission.Id,
+                     Type = rp.Permission.Type.ToString(),
+                 })
+                 .ToList();
 
-            return permitions;
+            return rolePermissions;
         }
     }
 }

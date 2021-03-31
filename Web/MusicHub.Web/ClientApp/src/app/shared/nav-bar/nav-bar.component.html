@@ -69,11 +69,11 @@
                     </div>
 
                     <!-- user items -->
-                    <div class="dropdown-item" >
-                      <a routerLink="/Music/create" class="row text-dark">
+                    <div class="dropdown-item" *ngIf="hasPermition('CategoryAdministrator')">
+                      <a routerLink="/categories" class="row text-dark">
                         <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
                         <div class="col-md-9">
-                          CategoryAdmin = {{hasPermition("CategoryAdministrator")}}
+                          Categories
                         </div>
                       </a>
                     </div>

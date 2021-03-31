@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   {
-    path: 'category', loadChildren: './categories/categories.module#CategoriesModule'
+    path: 'categories', loadChildren: './categories/categories.module#CategoriesModule'
   }
 ];
 

@@ -30,26 +30,32 @@
             ILogger<LogoutModel> logger)
             : base(userManager, signInManager, logger)
         {
+            this.permissionsService = permissionsService;
         }
 
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpGet]
-        public ActionResult All() => this.Ok(this.permissionsService.All<PermissionViewModel>());
+        public ActionResult All()
+            => this.Ok(this.permissionsService.All<PermissionViewModel>());
 
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpGet(nameof(GetSuperAdminPermissions))]
-        public ActionResult GetSuperAdminPermissions() => this.Ok(this.permissionsService.GetPermissions(Roles.SuperAdministrator));
+        public ActionResult GetSuperAdminPermissions() 
+            => this.Ok(this.permissionsService.GetPermissions(Roles.SuperAdministrator));
 
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpGet(nameof(GetAdminPermissions))]
-        public ActionResult GetAdminPermissions() => this.Ok(this.permissionsService.GetPermissions(Roles.Administrator));
+        public ActionResult GetAdminPermissions() 
+            => this.Ok(this.permissionsService.GetPermissions(Roles.Administrator));
 
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpGet(nameof(GetUserPermissions))]
-        public ActionResult GetUserPermissions() => this.Ok(this.permissionsService.GetPermissions(Roles.User));
+        public ActionResult GetUserPermissions()
+            => this.Ok(this.permissionsService.GetPermissions(Roles.User));
 
         [Authorize]
-        [HttpGet(nameof(GetMyPermissions))]
-        public ActionResult GetMyPermissions() => this.Ok(this.permissionsService.GetUserPermissions(this.User.GetUserId()));
+        [HttpGet(nameof(GetOwnPermissions))]
+        public ActionResult GetOwnPermissions()
+            => this.Ok(this.permissionsService.GetUserPermissions(this.userManager.GetUserId(this.User)));
     }
 }

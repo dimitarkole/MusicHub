@@ -102,6 +102,7 @@
                 .AddScoped(typeof(IRepository<>), typeof(EfRepository<>))
                 .AddScoped<IDbQueryRunner, DbQueryRunner>()
                 .AddTransient<ICategoryService, CategoryService>()
+                .AddTransient<IPlaylistService, PlaylistService>()
                 .AddTransient<IActiveDirectoryService, ActiveDirectoryService>()
                 .AddTransient<INotificationsService, NotificationsService>()
                 .AddTransient<IProfileService, ProfileService>()
@@ -115,6 +116,7 @@
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
                 .AddTransient<IMusicReactionService, MusicReactionService>()
+                .AddTransient<IPermissionsService, PermissionsService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()

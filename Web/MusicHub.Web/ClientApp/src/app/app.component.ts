@@ -7,6 +7,7 @@ import { NavBarComponent } from './shared/nav-bar/nav-bar.component'
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+	isLoggedIn: boolean;
   constructor(private authService: AuthService){
     this.authService.initializeAuthenticationState();
   }
