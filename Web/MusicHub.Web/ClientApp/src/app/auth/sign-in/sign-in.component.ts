@@ -27,7 +27,7 @@ export class SignInComponent implements OnInit {
   }
 
   login() {
-    const {username, password } = this.loginForm.value;
+    const { username, password } = this.loginForm.value;
 
     this.authService.login(username, password)
       .subscribe((token: string) => {
@@ -37,9 +37,9 @@ export class SignInComponent implements OnInit {
         this.authService.initializeAuthenticationState();
         this.router.navigate(['/']);
       },
-        err => {
-          this.wrongCredentials = true;
-          setTimeout(function () { this.wrongCredentials = false }, 2000);
+      err => {
+        this.wrongCredentials = true;
+        setTimeout(function () { this.wrongCredentials = false }, 2000);
       });
   }
 

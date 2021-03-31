@@ -46,6 +46,7 @@ export class AuthService {
 	private getFullNames = 'Users/GetFullNames';
 	private rolesPath = 'Roles';
   private permissionsPath = 'Users/HasPermission';
+  private getPermissionsPath = 'Permissions/GetOwnPermissions';
 	private initialsPath = 'Users/GetInitials';
 	private calendarEventPath = 'Events';
 	private getItemTypesPath = 'Events/ItemTypes';
@@ -55,7 +56,6 @@ export class AuthService {
 	private userFiltersPath = 'Filters/Users';
   public isAuth = false;
   public isAdmin = false;
-  public permitions: PermissionType[];
   public username: string;
   public role: string;
   isAuthChanged = new Subject<boolean>();
@@ -183,7 +183,7 @@ export class AuthService {
 	}
 
 	getPermissions(): Observable<Array<Permission>> {
-		return this.http.get<Array<Permission>>(this.permissionsPath)
+    return this.http.get<Array<Permission>>(this.getPermissionsPath)
 	}
 
 	editContact(data, id) {

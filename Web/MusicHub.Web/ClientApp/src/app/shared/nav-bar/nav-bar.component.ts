@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { Router } from '@angular/router';
 import { Permission } from '../models/permission';
@@ -16,6 +16,7 @@ export class NavBarComponent implements OnInit {
   isAdmin: boolean = false;
   role: string = "";
   username: string = "";
+  token: string = "";
 
   constructor(
     private router: Router,
@@ -25,22 +26,20 @@ export class NavBarComponent implements OnInit {
     this.isAuth = authService.isAuth;
     this.role = authService.role;
     this.username = authService.username;
+    this.token = authService.getToken();
     this.authService.isAuthChanged.subscribe(() => {
       this.isAuth = this.authService.isAuth;
       this.isAdmin = this.authService.isAdmin;
       this.role = this.authService.role;
       this.username = authService.username;
     });
-
-
   }
-    ngOnInit(): void {
-      this.authService.getPermissions().subscribe(data => {
-        console.log("data");
-        console.log(data);
-        this.permitions = data;
-      });
-    }
+
+  ngOnInit(): void {
+    this.authService.getPermissions().subscribe(data => {
+      this.permitions = data;
+    });
+  }
 
   toggleSidenav() {
     this.sidenavToggle.emit();
@@ -54,9 +53,6 @@ export class NavBarComponent implements OnInit {
   }
 
   hasPermition(type: string): boolean {
-    console.log(this.permitions);
-    console.log(type);
-
     return this.permitions.some(p => p.type == type);
   }
 }
