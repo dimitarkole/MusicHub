@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, Inject, inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../../core/services/auth.service';
+import { ModalComponent } from 'ngb-modal';
 import Category from '../../models/category';
 import { CategoryService } from '../../services/category.service';
 
@@ -11,45 +10,22 @@ import { CategoryService } from '../../services/category.service';
   templateUrl: './category-delete.component.html',
   styleUrls: ['./category-delete.component.css']
 })
-export class CategoryDeleteComponent implements OnInit {
-  category: Category;
-  nameMinLength = 2;
-  nameMaxLength = 30;
-  categoryForm: FormGroup
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    public modal: NgbActiveModal,
-    private router: Router,
-    private authService: AuthService) {
+export class CategoryDeleteComponent {
+  constructor(public dialogRef: MatDialogRef<ModalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private categoryService: CategoryService) {
   }
 
-  ngOnInit() {
-    this.categoryForm = this.formBuilder.group({
-      name: [
-        this.category.name,
-        [
-          Validators.required,
-          Validators.minLength(this.nameMinLength),
-          Validators.maxLength(this.nameMaxLength)
-        ]
-      ],
-      id: this.category.id
-    })
+  // If the user clicks the cancel button a.k.a. the go back button, then\
+  // just close the modal
+  closeModal() {
+    this.dialogRef.close();
   }
 
-  OnSubmit() {
-    let category: Category = this.categoryForm.value;
-
-    this.categoryService.edit(category)
-      .subscribe(_ => {
-        this.modal.close(); //It closes successfully
-      })
+  deleteCategory() {
+    this.categoryService.delete(this.data).subscribe(_ => {
+      this.dialogRef.close();
+    });
   }
-
-  get name(): AbstractControl {
-    return this.categoryForm.get('name');
-  }
-
 }

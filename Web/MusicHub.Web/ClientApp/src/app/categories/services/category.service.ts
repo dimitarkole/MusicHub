@@ -18,7 +18,7 @@ export class CategoryService {
     return this.http.post(this.route, category);
   }
 
-  getById(id: number) {
+  getById(id: string) {
     return this.http.get<Category>(`${this.route}/${id}`);
   }
 
@@ -26,7 +26,7 @@ export class CategoryService {
     return this.http.put(`${this.route}/${category.id}`, category);
   }
 
-  delete(id: number) {
+  delete(id: string) {
     return this.http.delete(`${this.route}/${id}`);
   }
 }

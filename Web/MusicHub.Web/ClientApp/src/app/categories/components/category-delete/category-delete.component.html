@@ -1,13 +1,25 @@
-<div class="modal-header">
-  <h4 class="modal-title" id="modal-title">Delete category</h4>
-  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
-<div class="modal-body">
-  <p>Do you want to delete this category?</p>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">No</button>
-  <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Yes</button>
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Delete category</h3>
+    <hr />
+  </header>
+  <form (ngSubmit)="OnSubmit()" [formGroup]="categoryForm">
+    <section id="modal-body">
+      <p>Do you want to delete this category?</p>
+    </section>
+    <footer id="modal-footer">
+      <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-2">
+          <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+        </div>
+
+        <div class="col-md-2">
+          <button mat-raised-button id="modal-cancel-button" (click)="deleteCategory()" [mat-dialog-close]="true">Yes</button>
+        </div>
+      </div>
+    </footer>
+  </form>
 </div>

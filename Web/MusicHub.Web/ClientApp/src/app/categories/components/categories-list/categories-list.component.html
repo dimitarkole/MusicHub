@@ -1,3 +1,13 @@
+<div class="row">
+  <div class="col-md-11">
+    <h2>All categories</h2>
+  </div>
+  <div class="col-md-1">
+    <button class="btn" (click)="openCreate()">
+      <span class="glyphicon glyphicon-plus"></span>
+    </button>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
     <tr class="row">
@@ -11,10 +21,10 @@
       <td scope="row" class="col-md-1">{{ i + 1 }}</td>
       <td class="col-md-9">{{ category.name }}</td>
       <td class="col-md-2 table-operation-coll">
-        <button class="btn text-white" (click)="openDelete(category.id)">
+        <button class="btn" (click)="openDelete(category.id)">
           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
         </button>
-        <button class="btn text-white" (click)="openEdit(category)">
+        <button class="btn" (click)="openEdit(category)">
           <span class="glyphicon glyphicon-pencil"></span>
         </button>
       </td>
@@ -22,9 +32,9 @@
   </tbody>
 </table>
 
-<!--
+
 <div class="d-flex justify-content-center">
   <ngb-pagination class="text-center" [collectionSize]="allCategories.length" (pageChange)="getCategoriesPerPage($event)" [(page)]="page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true">
   </ngb-pagination>
-</div>-->
+</div>
 <br />
