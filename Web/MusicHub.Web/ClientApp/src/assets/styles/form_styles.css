@@ -1,4 +1,4 @@
-﻿mat-form-field {
+mat-form-field {
   width: 300px;
 }
 
@@ -388,6 +388,26 @@ form-title {
 
 /*------------------------------------------------------------------
 [ Button ]*/
+form-btn {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #2457d7, #3b125d);
+  border-radius: 25px;
+  font-family: Ubuntu-Bold;
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  -webkit-transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  transition: all 0.4s;
+}
+
 .container-login100-form-btn {
   width: 100%;
   display: -webkit-box;
@@ -397,6 +417,18 @@ form-title {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.form-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  background: linear-gradient(to right, #2457d7, #3b125d);
+  border-radius: 25px;
+  font-family: Ubuntu-Bold;
+  font-size: 18px;
+  line-height: 1.2;
 }
 
 .login100-form-btn {

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from 'ngb-modal';
 import { AuthService } from '../../../core/services/auth.service';
 import Category from '../../models/category';
 import { CategoryService } from '../../services/category.service';
@@ -12,30 +14,28 @@ import { CategoryService } from '../../services/category.service';
   styleUrls: ['./category-edit.component.css']
 })
 export class CategoryEditComponent implements OnInit {
-  category: Category;
   nameMinLength = 2;
   nameMaxLength = 30;
   categoryForm: FormGroup
 
   constructor(
     private formBuilder: FormBuilder,
-    private categoryService: CategoryService,
-    public modal: NgbActiveModal,
-    private router: Router,
-    private authService: AuthService) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ModalComponent>,
+    private categoryService: CategoryService) {
   }
 
   ngOnInit() {
     this.categoryForm = this.formBuilder.group({
       name: [
-        this.category.name,
+        this.data.name,
         [
           Validators.required,
           Validators.minLength(this.nameMinLength),
           Validators.maxLength(this.nameMaxLength)
         ]
       ],
-      id: this.category.id
+      id: this.data.id
     })
   }
 
@@ -44,7 +44,7 @@ export class CategoryEditComponent implements OnInit {
 
     this.categoryService.edit(category)
       .subscribe(_ => {
-        this.modal.close(); //It closes successfully
+        this.dialogRef.close(); //It closes successfully
       })
   }
 

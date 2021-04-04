@@ -36,9 +36,11 @@ export class NavBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.getPermissions().subscribe(data => {
-      this.permitions = data;
-    });
+    if (this.isAuth) {
+      this.authService.getPermissions().subscribe(data => {
+        this.permitions = data;
+      });
+    }
   }
 
   toggleSidenav() {
