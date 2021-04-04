@@ -9,7 +9,7 @@
 
     public class LicenseFileCreateInputModel : IMapTo<LicenseFile>
     {
-        public string Path { get; set; }
+        public string FileUrl { get; set; }
 
         public string LicensеId { get; set; }
     }

@@ -50,14 +50,14 @@
         public IActionResult IsOwned(string id)
              => this.Ok(this.playlistService.IsOwned(id, this.userManager.GetUserId(this.User)));
 
-        /// <summary>Get own playlists where song is not added.</summary>
-        /// <param name="id">Id - song id</param>
+        /// <summary>Get own playlists where Music is not added.</summary>
+        /// <param name="id">Id - Music id</param>
         /// <returns>Ok(IEnumerable<PlaylistViewModel>).</returns>
-        [HttpGet(nameof(GetOwnForAddingSong) + "/{id}")]
+        [HttpGet(nameof(GetOwnForAddingMusic) + "/{id}")]
         [Authorize]
         [Permission(PermissionType.User)]
-        public ActionResult<IEnumerable<PlaylistViewModel>> GetOwnForAddingSong(string id)
-           => this.Ok(this.playlistService.GetOwnedForAddingSong<PlaylistViewModel>(id, this.userManager.GetUserId(this.User)));
+        public ActionResult<IEnumerable<PlaylistViewModel>> GetOwnForAddingMusic(string id)
+           => this.Ok(this.playlistService.GetOwnedForAddingMusic<PlaylistViewModel>(id, this.userManager.GetUserId(this.User)));
 
         /// <summary>Add playlist in data.</summary>
         /// <param name="model">Input data.</param>

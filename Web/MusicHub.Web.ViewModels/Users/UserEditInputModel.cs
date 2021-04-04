@@ -9,7 +9,6 @@ namespace MusicHub.Web.ViewModels.Users
     {
         public string Id { get; set; }
 
-
         public string[] Roles { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)

@@ -23,7 +23,7 @@ namespace MusicHub.Data.Models
             this.Comments = new HashSet<Comment>();
             this.MusicReactions = new HashSet<MusicReaction>();
             this.PlayedMusics = new HashSet<PlayedMusic>();
-            this.Followeds = new HashSet<Follow>();
+            this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
             this.VerificationCodes = new HashSet<VerificationCode>();
             this.Licenses = new HashSet<License>();
@@ -71,7 +71,7 @@ namespace MusicHub.Data.Models
 
         public ICollection<Follow> Followers { get; set; }
 
-        public ICollection<Follow> Followeds { get; set; }
+        public ICollection<Follow> Followings { get; set; }
 
         public ICollection<VerificationCode> VerificationCodes { get; set; }
     }

@@ -8,6 +8,11 @@
 
     public class Notification : AuditableEntity<string>
     {
+        public Notification()
+        {
+            this.Id = Guid.NewGuid().ToString();
+        }
+
         public bool Seen { get; set; }
 
         public string Content { get; set; }

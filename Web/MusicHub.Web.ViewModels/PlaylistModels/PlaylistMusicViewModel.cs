@@ -12,6 +12,6 @@
     {
         public virtual string Id { get; set; }
 
-        public MusicViewModel Song { get; set; }
+        public MusicViewModel Music { get; set; }
     }
 }
