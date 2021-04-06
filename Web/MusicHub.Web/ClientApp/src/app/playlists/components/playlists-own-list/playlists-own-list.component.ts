@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { globalConstants } from '../../../common/global-constants';
-import { OrderMethod } from '../../../shared/models/orderMethod';
+import { CreateOrderMethod, OrderMethod } from '../../../shared/models/orderMethod';
 import Playlist from '../../models/playlist';
 import { PlaylistPagination } from '../../models/playlistPagination';
 import { PlaylistService } from '../../services/playlist.service';
@@ -115,24 +115,7 @@ export class PlaylistsOwnListComponent implements OnInit {
 
   private createFilterModel() {
     let playlist: Playlist = this.searchForm.value;
-    switch (this.orderMethod.value) {
-      case "CreatedOnDesc": {
-        playlist.orderMethod = OrderMethod.CreatedOnDesc;
-        break;
-      }
-      case "NameAsc": {
-        playlist.orderMethod = OrderMethod.NameAsc;
-        break;
-      }
-      case "NameDesc": {
-        playlist.orderMethod = OrderMethod.NameDesc;
-        break;
-      }
-      default: {
-        playlist.orderMethod = OrderMethod.CreatedOnAsc;
-        break;
-      }
-    }
+    playlist.orderMethod = CreateOrderMethod(this.orderMethod.value);
 
     return playlist;
   }
