@@ -1,10 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule, NgbDropdownModule, NgbModalModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from '@angular/material/sidenav';
+//import { ChartsModule } from 'ng2-charts';
+//import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
+//import { EffectsModule } from '@ngrx/effects';
+//import { StoreModule } from '@ngrx/store';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +16,7 @@ import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { BaseUrlInterceptor } from './core/interceptors/base-url.interceptor';
+//import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -28,6 +33,12 @@ import { CategoryDeleteComponent } from './categories/components/category-delete
 import { CategoryEditComponent } from './categories/components/category-edit/category-edit.component';
 import { CategoriesListComponent } from './categories/components/categories-list/categories-list.component';
 import { MatDialogModule } from '@angular/material';
+import { PlaylistDeleteComponent } from './playlists/components/playlist-delete/playlist-delete.component';
+import { PlaylistCreateComponent } from './playlists/components/playlist-create/playlist-create.component';
+import { PlaylistEditComponent } from './playlists/components/playlist-edit/playlist-edit.component';
+import { PlaylistsOwnListComponent } from './playlists/components/playlists-own-list/playlists-own-list.component';
+import { PlaylistsListComponent } from './playlists/components/playlists-list/playlists-list.component';
+import { PlaylistsListTemplateComponent } from './playlists/components/playlists-list-template/playlists-list-template.component';
 
 @NgModule({
   declarations: [
@@ -41,11 +52,20 @@ import { MatDialogModule } from '@angular/material';
     CategoriesListComponent,
     CategoryDeleteComponent,
     CategoryEditComponent,
+    PlaylistsListTemplateComponent,
+    PlaylistsListComponent,
+    PlaylistsOwnListComponent,
+    PlaylistDeleteComponent,
+    PlaylistCreateComponent,
+    PlaylistEditComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
     CategoryDeleteComponent,
     CategoryEditComponent,
+    PlaylistDeleteComponent,
+    PlaylistCreateComponent,
+    PlaylistEditComponent
   ],
   imports: [
     MatSidenavModule,
@@ -60,7 +80,28 @@ import { MatDialogModule } from '@angular/material';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+ /*   ChartsModule,
+    ClipboardModule,
+    /*StoreModule.forRoot({}, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),*/
+    // SharedModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },

@@ -36,17 +36,17 @@
         /// <summary>Get own playlists.</summary>
         /// <param name="page">The page of playlists.</param>
         /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
-        [HttpGet(nameof(GetOwned) + "/{page}")]
+        [HttpGet(nameof(GetOwn) + "/{page}")]
         [Authorize]
-        [Permission(PermissionType.User)]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> GetOwned(int page)
+       // [Permission(PermissionType.PlaylistCreator)]
+        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> GetOwn(int page)
            => this.Ok(this.playlistService.AllOwned<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Is own playlist.</summary>
         /// <returns>true/false.</returns>
         [HttpGet(nameof(IsOwned) + "/{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.PlaylistCreator)]
         public IActionResult IsOwned(string id)
              => this.Ok(this.playlistService.IsOwned(id, this.userManager.GetUserId(this.User)));
 
@@ -55,7 +55,7 @@
         /// <returns>Ok(IEnumerable<PlaylistViewModel>).</returns>
         [HttpGet(nameof(GetOwnForAddingMusic) + "/{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.PlaylistCreator)]
         public ActionResult<IEnumerable<PlaylistViewModel>> GetOwnForAddingMusic(string id)
            => this.Ok(this.playlistService.GetOwnedForAddingMusic<PlaylistViewModel>(id, this.userManager.GetUserId(this.User)));
 
@@ -65,7 +65,7 @@
         /// <returns>Status201Created.</returns>
         [HttpPost]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.PlaylistCreator)]
         public async Task<IActionResult> Post(PlaylistCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -86,7 +86,7 @@
         /// <returns>Ok.</returns>
         [HttpPut("{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.PlaylistCreator)]
         public async Task<IActionResult> Put(string id, PlaylistEditInputModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -109,7 +109,7 @@
         /// <returns>Ok.</returns>
         [HttpDelete("{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.PlaylistCreator)]
         public async Task<IActionResult> Delete(string id)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -131,10 +131,10 @@
         /// <para>CategoryId - id of category of playlist.</para>
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
-        [HttpPost(nameof(FilterOwned) + "/{page}")]
+        [HttpPost(nameof(FilterOwn) + "/{page}")]
         [Authorize]
-        [Permission(PermissionType.User)]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> FilterOwned(int page, PlaylistFilterInputModel filter)
+        [Permission(PermissionType.PlaylistCreator)]
+        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> FilterOwn(int page, PlaylistFilterInputModel filter)
             => this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, filter, this.userManager.GetUserId(this.User)));
     }
 }
