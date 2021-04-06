@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from 'ngb-modal';
 import { modelConstants } from '../../../common/model-constants';
-import { VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
 import Playlist from '../../models/playlist';
 import { PlaylistService } from '../../services/playlist.service';
 
@@ -61,15 +61,7 @@ export class PlaylistEditComponent implements OnInit {
 
   OnSubmit() {
     let playlist: Playlist = this.playlistForm.value;
-    if (playlist.visibleStatus == 0) {
-      playlist.visibleStatus = VisibleStatus.Public;
-    }
-    else if (playlist.visibleStatus == 1) {
-      playlist.visibleStatus = VisibleStatus.Hidden;
-    }
-    else {
-      playlist.visibleStatus = VisibleStatus.OnlyMe;
-    }
+    playlist.visibleStatus = CreateVisibleStatus(playlist.visibleStatus);
 
     this.playlistService.edit(playlist)
       .subscribe(_ => {

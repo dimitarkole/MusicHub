@@ -1,3 +1,5 @@
+import { ReturnStatement } from "@angular/compiler";
+
 export enum VisibleStatus {
   Public = 0,
   Hidden = 1,
@@ -11,3 +13,14 @@ export const VisibleStatusMapping: Record<VisibleStatus, string> = {
   [VisibleStatus.Hidden]: "Hidden",
   [VisibleStatus.OnlyMe]: "Only me",
 };
+
+export function CreateVisibleStatus(visibleStatus: number) {
+  if (visibleStatus == 0) {
+    return VisibleStatus.Public;
+  }
+  else if (visibleStatus == 1) {
+    return VisibleStatus.Hidden;
+  }
+
+  return  VisibleStatus.OnlyMe;
+}
