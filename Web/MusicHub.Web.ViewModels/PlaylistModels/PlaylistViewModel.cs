@@ -5,6 +5,7 @@
     using System.Text;
     using AutoMapper;
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
 
     public class PlaylistViewModel : IMapFrom<Playlist>
@@ -20,5 +21,7 @@
         public PlaylistUserViewModel User { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public VisibleStatus VisibleStatus { get; set; }
     }
 }

@@ -25,10 +25,13 @@ namespace MusicHub.Data.Seeding
 
         public List<UserObj> Users = new List<UserObj>()
         {
-            new UserObj() { Username = "rootuser1", Email = "rootuser1@abv.bg", Password = "rootpass", Role = Roles.SuperAdministrator },
-            new UserObj() { Username = "rootuser2", Email = "rootuser2@abv.bg", Password = "rootpass", Role = Roles.AdministratorAndSuperAdministratorRoles },
-            new UserObj() { Username = "pesho", Email = "pesho@abv.bg", Password = "rootpass", Role = Roles.DataAnalisator },
-            new UserObj() { Username = "rootuser", Email = "rootuser@abv.bg", Password = "rootpass", Role = Roles.User },
+            new UserObj() { Username = "rootadmin", Email = "rootadmin@abv.bg",  Password = "rootpass", Role = Roles.SuperAdministrator },
+            new UserObj() { Username = "rootadmin2", Email = "rootadmin2@abv.bg",  Password = "rootpass", Role = Roles.Administrator },
+            new UserObj() { Username = "rootadmin3", Email = "rootadmin2@abv.bg",  Password = "rootpass", Role = Roles.DataAnalisator },
+            new UserObj() { Username = "rootuser", Email = "rootuser1@abv.bg", Password = "rootpass", Role = Roles.Artist },
+            new UserObj() { Username = "rootuser1", Email = "rootuser1@abv.bg", Password = "rootpass", Role = Roles.TeamAdministrator },
+            new UserObj() { Username = "rootuser2", Email = "rootuser2@abv.bg", Password = "rootpass", Role = Roles.User },
+            new UserObj() { Username = "pesho", Email = "pesho@abv.bg", Password = "rootpass", Role = Roles.Artist },
             new UserObj() { Username = "gosho", Email = "gosho@abv.bg", Password = "rootpass", Role = Roles.User },
         };
 

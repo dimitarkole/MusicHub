@@ -19,11 +19,11 @@ namespace MusicHub.Tests.TestData
 
         public static string HasPermissionTrueUserId => Users[0].Id;
 
-        public static PermissionType HasPermissionTruePermitionType => PermissionType.ManageLicense;
+        public static PermissionType HasPermissionTruePermitionType => PermissionType.User;
 
         public static string HasPermissionFalseUserId => Users[1].Id;
 
-        public static PermissionType HasPermissionFalsePermitionType => PermissionType.ManageLicense;
+        public static PermissionType HasPermissionFalsePermitionType => PermissionType.CategoryAdministrator;
 
         public static string UserId => Users[0].Id;
 
@@ -81,7 +81,7 @@ namespace MusicHub.Tests.TestData
         {
             new UserRole(){RoleId = Roles.SuperAdministrator, UserId = Users[0].Id},
             new UserRole(){RoleId = Roles.User, UserId = Users[1].Id},
-            new UserRole(){RoleId = Roles.AdministratorAndSuperAdministratorRoles, UserId = Users[2].Id},
+            new UserRole(){RoleId = Roles.Artist, UserId = Users[2].Id},
             new UserRole(){RoleId = Roles.DataAnalisator, UserId = Users[3].Id},
             new UserRole(){RoleId = Roles.SuperAdministrator, UserId = Users[4].Id},
         };
@@ -130,7 +130,7 @@ namespace MusicHub.Tests.TestData
 
             roles.Add(GenRole(Roles.User, permissions));
             roles.Add(GenRole(Roles.Administrator, permissions));
-            roles.Add(GenRole(Roles.AdministratorAndSuperAdministratorRoles, permissions));
+            roles.Add(GenRole(Roles.Artist, permissions));
             roles.Add(GenRole(Roles.DataAnalisator, permissions));
             roles.Add(GenRole(Roles.SuperAdministrator, permissions));
 

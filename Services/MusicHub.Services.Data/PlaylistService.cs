@@ -14,6 +14,7 @@
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Services.Interfaces;
 
     public class PlaylistService : IPlaylistService
     {

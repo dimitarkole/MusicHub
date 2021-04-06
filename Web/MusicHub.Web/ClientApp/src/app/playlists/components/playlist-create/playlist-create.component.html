@@ -1,0 +1,55 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Create a playlist</h3>
+    <hr />
+  </header>
+  <form (ngSubmit)="OnSubmit()" [formGroup]="playlistForm">
+    <section id="modal-body">
+      <div class="form-group">
+        <label>Wallpaper</label>
+        <input class="form-control" formControlName="imageUrl" type="text" placeholder="Wallpaper">
+        <span class="text-danger" *ngIf="imageUrl.touched && imageUrl.hasError('required')">The wallpaper is required!</span>
+      </div>
+      <div class="form-group">
+        <label>Playlist name</label>
+        <input class="form-control" formControlName="name" type="text" placeholder="Playlist name">
+        <span class="text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+        <span class="text-danger" *ngIf="name.hasError('minlength')">
+          Playlist name must contain {{nameMinLength}} characters!
+        </span>
+        <span class="text-danger" *ngIf="name.hasError('maxlength')">
+          Playlist name must be at most {{nameMinLength}} characters!
+        </span>
+      </div>
+      <div class="row">
+        <!-- Text input-->
+        <div class="col-md-2 control-label">Visibility</div>
+        <div class="col-md-10">
+          <select class="form-control" formControlName="visibleStatus">
+            <option *ngFor="let visibleStatusVar of visibleStatus"
+                    [value]="visibleStatusVar">
+              {{visibleStatusMapping[visibleStatusVar]}}
+            </option>
+          </select>
+          <span class="text-danger" *ngIf="visibleStatusForm.hasError('requared')">
+            The visibility is requared!
+          </span>
+        </div>
+      </div>
+    </section>
+    <footer id="modal-footer">
+      <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-2">
+          <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+        </div>
+
+        <div class="col-md-2">
+          <button class="form-btn text-white" mat-raised-button [mat-dialog-close]="true" id="modal-action-button" type="submit" [disabled]="playlistForm.invalid">Save</button>
+        </div>
+      </div>
+    </footer>
+  </form>
+</div>

@@ -7,15 +7,29 @@
 
     public enum PermissionType
     {
-        [Display(Name = "User administration - add, edit, deactivate users")]
+        [Display(Name = "User administration - manage users")]
         UserAdministration = 1,
-        [Display(Name = "Manager license - active/deactive music licenses")]
-        ManageLicense = 2,
-        [Display(Name = "Data analisator")]
-        DataAnalisator = 3,
-        [Display(Name = "Use - add/edit/view licenses/musics/playlists/comments")]
-        User = 4,
-        ManageUserPermissions = 5,
-        FindAndReplaceUsers = 6,
+        [Display(Name = "User administration - manage users")]
+        ManageUserPermissions = 2,
+        [Display(Name = "User FindAndReplaceUsers - manage users")]
+        FindAndReplaceUsers = 3,
+        [Display(Name = "Category administrator - create, edit and delet ecategory")]
+        CategoryAdministrator = 4,
+        [Display(Name = "License manager - appprove/reject music licenses")]
+        LicenseManager = 5,
+        [Display(Name = "Data analisator - view system data")]
+        DataAnalisator = 6,
+        [Display(Name = "Team manager - view team data")]
+        TeamManager = 7,
+        [Display(Name = "Music creator - create, edit and delete music")]
+        MusicCreator = 8,
+        [Display(Name = "License creator - create, edit and delete license")]
+        LicenseCreator = 9,
+        [Display(Name = "Playlist creator - create, edit and delete playlist and add/remove music from playlist")]
+        PlaylistCreator = 10,
+        [Display(Name = "Comment creator - create, edit and delete comment")]
+        CommentCreator = 11,
+        [Display(Name = "User - play musics and playlists")]
+        User = 12,
     }
 }

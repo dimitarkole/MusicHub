@@ -4,6 +4,10 @@ export const modelConstants = {
     nameMaxLength: 100,
     imageFileMaxCount:10,
   },
+  playlist: {
+    nameMinLength: 2,
+    nameMaxLength: 100,
+  },
   product: {
     nameMinLength: 2,
     nameMaxLength: 100,

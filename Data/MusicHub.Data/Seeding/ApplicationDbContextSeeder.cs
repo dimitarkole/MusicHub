@@ -27,8 +27,12 @@
                           {
                               new PermissionsSeeder(),
                               new RolesSeeder(),
-                              new AdminSeeder(),
                               new UserSeeder(),
+                              new CategoriesSeeder(),
+                              new MusicsSeeder(),
+                              new PlaylistsSeeder(),
+                              new PlaylistMusicsSeeder(),
+                              new CommentSeeder(),
                           };
 
             foreach (var seeder in seeders)

@@ -14,9 +14,10 @@
         {
             public const string SuperAdministrator = "SuperAdmin";
             public const string Administrator = "Admin";
-            public const string User = "User";
-            public const string AdministratorAndSuperAdministratorRoles = "Admin, SuperAdmin";
             public const string DataAnalisator = "DataAnalisator";
+            public const string TeamAdministrator = "TeamAdmin";
+            public const string Artist = "Artist";
+            public const string User = "User";
         }
 
         public static class PaginationData
