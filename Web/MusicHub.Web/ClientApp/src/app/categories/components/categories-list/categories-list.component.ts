@@ -24,9 +24,7 @@ export class CategoriesListComponent {
   categories: Category[] = [];
   allCategories: Category[] = [];
 
-  constructor(private modalService: NgbModal,
-    private categoryService: CategoryService,
-    private router: Router,
+  constructor(private categoryService: CategoryService,
     public matDialog: MatDialog,
     private authService: AuthService) {
     this.itemsPerPage = globalConstants.pagination.itemsPerPage;

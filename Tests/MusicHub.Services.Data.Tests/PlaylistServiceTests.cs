@@ -260,7 +260,8 @@
                && expectedPlaylist.User.UserName == resultPlaylist.User.UserName
                && expectedPlaylist.User.Id == resultPlaylist.User.Id
                && expectedPlaylist.User.ImageUrl == resultPlaylist.User.ImageUrl
-               && expectedPlaylist.CreatedOn == resultPlaylist.CreatedOn;
+               && expectedPlaylist.CreatedOn == resultPlaylist.CreatedOn
+               && expectedPlaylist.VisibleStatus == resultPlaylist.VisibleStatus;
 
         private int GetPlaylistPagesCount(int entityCount, int entitesPerPage)
         {

@@ -55,6 +55,6 @@ export class NavBarComponent implements OnInit {
   }
 
   hasPermition(type: string): boolean {
-    return this.permitions.some(p => p.type == type);
+    return this.permitions == null? false : this.permitions.some(p => p.type == type);
   }
 }

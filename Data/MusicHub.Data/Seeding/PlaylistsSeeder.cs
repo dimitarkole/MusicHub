@@ -21,7 +21,7 @@
                 .FirstOrDefault()
                 .Id;
             var users = dbContext.Users
-                  .Where(u => u.Roles.Any(r => r.RoleId == userRoleId))
+                  .Where(u => u.Roles.Any(r => r.Role.Permissions.Any(p => p.Permission.Type == PermissionType.PlaylistCreator)))
                   .ToArray();
             foreach (var playlist in playlists)
             {
@@ -56,7 +56,7 @@
                     new Playlist()
                     {
                         Name = "Home musics",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     },
                     new Playlist()
                     {
@@ -66,12 +66,12 @@
                     new Playlist()
                     {
                         Name = "Happy minutes",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     },
                     new Playlist()
                     {
                         Name = "Soft music",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     },
                     new Playlist()
                     {
@@ -84,7 +84,7 @@
                     }, new Playlist()
                     {
                         Name = "R&B",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     }, new Playlist()
                     {
                         Name = "Jazz",
@@ -92,11 +92,11 @@
                     }, new Playlist()
                     {
                         Name = "Hip hop",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     }, new Playlist()
                     {
                         Name = "Love minutes",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        VisibleStatus = VisibleStatus.Public,
                     },
                 };
     }

@@ -22,7 +22,7 @@
           <nav class="main_nav">
             <ul class="d-flex flex-row align-items-center justify-content-start">
               <li><a routerLink="/">Musics</a></li>
-              <li><a routerLink="/home/playlists">Playlists</a></li>
+              <li><a routerLink="/playlists">Playlists</a></li>
             </ul>
           </nav>
 
@@ -48,24 +48,6 @@
                         <small>Wellcom,</small>
                         {{username}}
                       </a>
-
-                    </div>
-                    <div class="dropdown-item" *ngIf="isAdmin">
-                      <a routerLink="/category/create" class="row ">
-                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_addCategory.png') no-repeat;"></i>
-                        <div class="col-md-10 text-dark">
-                          Add categories
-                        </div>
-                      </a>
-                    </div>
-
-                    <div class="dropdown-item" *ngIf="isAdmin">
-                      <a routerLink="/category" class="row ">
-                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_allCategory.png') no-repeat;"></i>
-                        <div class="col-md-10 text-dark">
-                          All categories
-                        </div>
-                      </a>
                     </div>
 
                     <!-- user items -->
@@ -79,29 +61,11 @@
                     </div>
 
                     <!-- user items -->
-                    <div class="dropdown-item" *ngIf="role==='User'">
-                      <a routerLink="/Music/create" class="row text-dark">
+                    <div class="dropdown-item" *ngIf="hasPermition('PlaylistCreator')">
+                      <a routerLink="/playlists/own" class="row text-dark">
                         <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
                         <div class="col-md-9">
-                          Add music
-                        </div>
-                      </a>
-                    </div>
-
-                    <div class="dropdown-item" *ngIf="role==='User'">
-                      <a routerLink="/Music/own" class="row text-dark">
-                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_ownMusics.png') no-repeat;"></i>
-                        <div class="col-md-9">
-                          My musics
-                        </div>
-                      </a>
-                    </div>
-
-                    <div class="dropdown-item" *ngIf="role==='User'">
-                      <a routerLink="/playlist/own" class="row text-dark">
-                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_ownMusics.png') no-repeat;"></i>
-                        <div class="col-md-9">
-                          My Playlist
+                          My playlists
                         </div>
                       </a>
                     </div>
