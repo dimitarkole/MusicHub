@@ -16,6 +16,9 @@
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Common.Settings;
     using static MusicHub.Common.ModelConstants;
+    using MusicHub.Services.Data;
+    using MusicHub.Web.ViewModels.PermissionModels;
+    using MusicHub.Data;
 
     public static class UserManagerExtensions
     {
@@ -33,7 +36,6 @@
             {
                 return null;
             }
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(settings.Secret);
 
@@ -41,7 +43,6 @@
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-
                     new Claim(ClaimTypes.Email, user.Email),
                 });
 

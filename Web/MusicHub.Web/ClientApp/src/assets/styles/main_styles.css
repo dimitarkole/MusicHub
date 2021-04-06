@@ -10,7 +10,7 @@
 3. Header
 4. Menu
 5. Home
-6. Music
+6. Song
 7. Tours
 8. App
 9. Featured
@@ -1130,13 +1130,13 @@ section {
 }
 
 /*********************************
-6. Music
+6. Song
 *********************************/
 
-.Music {
+.song {
 }
 
-.Music_content {
+.song_content {
   padding-top: 84px;
   padding-bottom: 80px;
 }
@@ -1163,7 +1163,7 @@ section {
   flex: 0 0 auto;
 }
 
-.Music_image {
+.song_image {
   width: 100%;
   border: solid 2px #ffffff;
 }
@@ -1231,7 +1231,7 @@ section {
   left: calc(50% + 3px);
   width: 20px;
   height: 23px;
-  /* content: url(../images/play.png);*/
+  content: url(../images/play.png);
 }
 
 .jp-state-playing .jp-play {
@@ -1240,7 +1240,7 @@ section {
 }
 
   .jp-state-playing .jp-play::after {
-    /*content: url(../images/pause.png);*/
+    content: url(../images/pause.png);
     left: 50%;
   }
 
@@ -1248,10 +1248,10 @@ section {
   top: calc(50% - 2px);
   width: 14px;
   height: 13px;
-  /* content: url(../images/stop.png);*/
+  content: url(../images/stop.png);
 }
 
-.Music_info {
+.song_info {
   position: absolute;
   top: 0;
   left: 0;
@@ -1360,11 +1360,11 @@ section {
     left: 0;
     width: 100%;
     height: 100%;
-    /* content: url(../images/mute_off.png);*/
+    content: url(../images/mute_off.png);
   }
 
 .jp-state-muted .jp-mute::after {
-  /* content: url(../images/mute_on.png);*/
+  content: url(../images/mute_on.png);
 }
 
 .jp-volume-bar {
@@ -1641,7 +1641,7 @@ section {
   font-size: 16px;
 }
 
-.featured_Music_info {
+.featured_song_info {
   position: absolute;
   left: 45px;
   bottom: 0;
@@ -1655,7 +1655,7 @@ section {
   font-size: 16px;
 }
 
-.Music_image {
+.song_image {
   width: 100%;
   height: 210px;
 }
@@ -1715,7 +1715,7 @@ section {
     transform: translate(-50%, -50%);
     width: 20px;
     height: 23px;
-    /*  content: url(../images/play.png);*/
+    content: url(../images/play.png);
   }
 
   .album_play_button.is-playing::after {
@@ -1723,8 +1723,7 @@ section {
     top: calc(50% - 1px);
     width: 14px;
     height: 13px;
-    /*content: url(../images/stop.png);
-    */
+    content: url(../images/stop.png);
   }
 
 /*********************************
@@ -1895,8 +1894,7 @@ section {
 
 .footer {
   display: block;
-  position: absolute;
-  bottom: 0px;
+  position: relative;
 }
 
 .footer_content {

@@ -13,6 +13,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.FollowModels;
     using MusicHub.Common.Extensions;
+    using MusicHub.Services.Interfaces;
 
     public class FollowService : IFollowService
     {

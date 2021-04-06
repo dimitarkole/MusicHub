@@ -73,10 +73,11 @@
             return this.Ok();
         }
 
-        [Authorize]
-        [AllowAnonymous]
+        // <summary>Login user.</summary>
+        /// <param name="model">Login information.</param>
+        /// <returns>Token</returns>
         [HttpPost(nameof(Login))]
-        public async Task<ActionResult> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
+        public async Task<ActionResult<ApplicationUser>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
             var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
 

@@ -12,6 +12,7 @@
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PlayedMusicModels;
+    using MusicHub.Services.Interfaces;
 
     public class PlayedMusicService : IPlayedMusicService
     {

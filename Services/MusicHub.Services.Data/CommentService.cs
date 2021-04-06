@@ -12,6 +12,7 @@
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.CommentModels;
+    using MusicHub.Services.Interfaces;
 
     public class CommentService : ICommentService
     {
