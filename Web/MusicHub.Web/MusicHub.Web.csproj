@@ -81,6 +81,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\musics\components\" />
+    <Folder Include="ClientApp\src\app\musics\services\" />
     <Folder Include="ClientApp\src\app\playlists\components\" />
   </ItemGroup>
 

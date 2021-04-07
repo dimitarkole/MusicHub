@@ -70,6 +70,24 @@
                       </a>
                     </div>
 
+                    <div class="dropdown-item" *ngIf="hasPermition('MusicCreator')">
+                      <a routerLink="/musics/create" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          Add music
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="dropdown-item" *ngIf="hasPermition('MusicCreator')">
+                      <a routerLink="/musics/own" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          My musics
+                        </div>
+                      </a>
+                    </div>
+
                     <!-- logout -->
                     <div class="dropdown-item">
                       <a (click)="logout()" class="row text-dark">

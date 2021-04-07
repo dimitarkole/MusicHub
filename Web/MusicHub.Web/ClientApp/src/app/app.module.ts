@@ -39,6 +39,11 @@ import { PlaylistEditComponent } from './playlists/components/playlist-edit/play
 import { PlaylistsOwnListComponent } from './playlists/components/playlists-own-list/playlists-own-list.component';
 import { PlaylistsListComponent } from './playlists/components/playlists-list/playlists-list.component';
 import { PlaylistsListTemplateComponent } from './playlists/components/playlists-list-template/playlists-list-template.component';
+import { MusicsListTemplateComponent } from './musics/components/musics-list-template/musics-list-template.component';
+import { MusicsOwnListComponent } from './musics/components/musics-own-list/musics-own-list.component';
+import { MusicCreateComponent } from './musics/components/music-create/music-create.component';
+import { MusicEditComponent } from './musics/components/music-edit/music-edit.component';
+import { MusicDeleteComponent } from './musics/components/music-delete/music-delete.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +62,12 @@ import { PlaylistsListTemplateComponent } from './playlists/components/playlists
     PlaylistsOwnListComponent,
     PlaylistDeleteComponent,
     PlaylistCreateComponent,
-    PlaylistEditComponent
+    PlaylistEditComponent,
+    MusicsListTemplateComponent,
+    MusicsOwnListComponent,
+    MusicCreateComponent,
+    MusicEditComponent,
+    MusicDeleteComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
