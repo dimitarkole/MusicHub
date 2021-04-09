@@ -35,5 +35,12 @@
             public const int FollowingsPerPage = 10;
             public const int FollowersPerPage = 10;
         }
+
+        public static class MegaStorageData
+        {
+            public static string Email { get; set; }
+
+            public static string Password { get; set; }
+        }
     }
 }
