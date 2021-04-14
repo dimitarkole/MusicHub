@@ -1,21 +1,21 @@
-﻿using CG.Web.MegaApiClient;
-using Microsoft.AspNetCore.Http;
-using MusicHub.Common;
-using MusicHub.Services.Interfaces;
-using MusicHub.Web.ViewModels.FileModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicHub.Services
+﻿namespace MusicHub.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using CG.Web.MegaApiClient;
+    using Microsoft.AspNetCore.Http;
+    using MusicHub.Common;
+    using MusicHub.Services.Interfaces;
+    using MusicHub.Web.ViewModels.FileModels;
+
     public class MegaStorageService : IMegaStorageService
     {
         private readonly MegaApiClient client;
-
 
         public MegaStorageService()
         {
@@ -32,11 +32,9 @@ namespace MusicHub.Services
             await this.client.DeleteAsync(node);
         }
 
-        public async Task<Stream> Download(string filePath, Stream stream)
+        public async Task<Stream> Download(FileDowloadInputModel model, Stream stream)
         {
-            this.client.LoginAnonymous();
-
-            Uri fileLink = new Uri(filePath);
+            Uri fileLink = new Uri(model.FileUrl);
             var nodes = await this.client.GetNodesFromLinkAsync(fileLink);
             var node = nodes.FirstOrDefault();
 

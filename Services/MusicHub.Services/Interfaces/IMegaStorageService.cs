@@ -14,7 +14,7 @@ namespace MusicHub.Services.Interfaces
 
         Task<FileDto> Upload(IFormFile file);
 
-        Task<Stream> Download(string filePath, Stream stream);
+        Task<Stream> Download(FileDowloadInputModel model, Stream stream);
 
         Task Delete(string filePath);
     }

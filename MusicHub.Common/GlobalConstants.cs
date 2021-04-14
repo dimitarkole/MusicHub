@@ -38,9 +38,9 @@
 
         public static class MegaStorageData
         {
-            public static string Email { get; set; }
+            public const string Email = "office.musichub@gmail.com";
 
-            public static string Password { get; set; }
+            public const string Password = "Noskad5AKo!@";
         }
     }
 }
