@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MusicHub.Data.Models;
-using MusicHub.Services.Interfaces;
-using MusicHub.Web.ViewModels.FileModels;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using static MusicHub.Common.GlobalConstants;
-
-namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Interfaces;
+    using MusicHub.Web.ViewModels.FileModels;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class MegaStorageController : ApiController
     {
         private readonly IMegaStorageService megaStorageService;
@@ -28,30 +31,27 @@ namespace MusicHub.Web.Controllers
             this.megaStorageService = megaStorageService;
         }
 
-        [HttpPost("Documents")]
-        public async Task<IActionResult> CreateDocument([FromForm] FileInputModel model)
+        [HttpPost]
+        public async Task<ActionResult<string>> CreateDocument([FromForm] FileInputModel model)
         {
             FileDto file = await this.megaStorageService.Upload(model.File);
-            return this.Ok(file.Path);
+            return this.StatusCode(StatusCodes.Status201Created, new { filePath = file.Path });
         }
 
-        [HttpGet("Documents")]
-        public async Task<IActionResult> DownloadDocument()
+        [HttpPost("Download")]
+        public async Task<IActionResult> Download(FileDowloadInputModel model)
         {
-            var file = new FileDto();
-            file.Name = "108216145_687935912055062_1408512723886677269_n2.jpg";
-
             using (var stream = new MemoryStream())
             {
-                await this.megaStorageService.Download(file.Path, stream);
-                return this.File(stream.ToArray(), OctetStreamMimeType, file.Name);
+                await this.megaStorageService.Download(model, stream);
+                return this.File(stream.ToArray(), OctetStreamMimeType, model.FileUrl);
             }
         }
 
-        [HttpDelete("Documents/{filePath}")]
-        public async Task<IActionResult> DeleteDocument(string filePath)
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteDocument(FileDowloadInputModel model)
         {
-            await this.megaStorageService.Delete(filePath);
+            await this.megaStorageService.Delete(model.FileUrl);
             return this.Ok();
         }
     }
