@@ -1,19 +1,21 @@
-﻿using MusicHub.Data.Models;
-using MusicHub.Tests.TestData;
-using MusicHub.Web.ViewModels.MusicModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using static MusicHub.Common.GlobalConstants;
-using MusicHub.Services.Mapping;
-using MusicHub.Common.Extensions;
-using MusicHub.Web.ViewModels.PlaylistModels;
-
-namespace MusicHub.Services.Data.Tests
+﻿namespace MusicHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using MusicHub.Common.Extensions;
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Tests.TestData;
+    using MusicHub.Web.ViewModels.MusicModels;
+    using MusicHub.Web.ViewModels.PlaylistModels;
+    using Xunit;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class PlaylistMusicServiceTests : BaseTestClass
     {
         [Fact]

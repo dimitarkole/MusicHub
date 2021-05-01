@@ -5,11 +5,11 @@ import { VisibleStatus } from "../../shared/models/visibleStatus";
 export default interface Playlist {
   id: string,
   name: string,
-  playlistSongsCount: number,
+  playlistMusicsCount: number,
   user: User,
   userId: string,
   playlistId: string,
-  songId: string,
+  musicId: string,
   imageUrl: string,
   orderMethod: OrderMethod,
   visibleStatus: VisibleStatus

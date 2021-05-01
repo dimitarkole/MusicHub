@@ -1,10 +1,16 @@
 export const globalConstants = {
   jwtTokenKey: "token",
-  defaultImage: "MusicDefaultImage.jpg",
-  MusicAudioPath: "Music\\аudio",
   licensePath: "licenses",
-  MusicImagePath: "Music\\images",
-  pagination:{
+  music: {
+    imageFolderPath: "../../../../assets/resources/musics/",
+    defauldImage: "musicDefaultImage.jpg",
+    audioFolderPath: "music\\аudio\\",
+  },
+  playlist: {
+    imageFolderPath: "../../../assets/resources/playlists/",
+    defauldImage: "playlistDefaultImage.jpg",
+  },
+  pagination: {
     defaultPage: 1,
     itemsPerPage: 12,
     updateProcent: 0.75,
