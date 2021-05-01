@@ -44,7 +44,9 @@
                   </div>
                 </div>
                 <div class="featured_song_image">
-                  <img src="{{'../../../../assets/resources/song/images/' + music.imageFilePath}}" alt="logo" class="song_image">
+                  <!-- <img src="{{'../../../../assets/resources/song/images/' + music.imageUrl}}" alt="logo" class="song_image" *ngIf="music.imageUrl">
+  -->
+                  <img src="{{defauleMusicImagePath}}" alt="logo" class="song_image" /><!-- *ngIf="music.imageUrl==''">-->
                 </div>
                 <div class="album_play_button" aria-hidden="true" routerLink="/home/play/{{music.id}}">
                 </div>

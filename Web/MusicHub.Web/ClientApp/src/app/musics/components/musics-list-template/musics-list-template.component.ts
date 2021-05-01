@@ -17,9 +17,10 @@ import { MusicDeleteComponent } from '../music-delete/music-delete.component';
 export class MusicsListTemplateComponent implements OnInit {
   @Input() musics: Music[] = [];
   @Input() type: string;
- // @Input() type: string;
-  musicAudioPath: string = globalConstants.MusicAudioPath;
-  musicImagePath: string = globalConstants.MusicImagePath;
+  // @Input() type: string;
+  musicAudioPath: string = globalConstants.music.audioFolderPath;
+  musicFolderPath: string = globalConstants.music.imageFolderPath;
+  defauleMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
   deleteForm: FormGroup;
 
   constructor(private modalService: NgbModal,
