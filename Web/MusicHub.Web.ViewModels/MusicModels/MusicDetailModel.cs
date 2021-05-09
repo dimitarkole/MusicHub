@@ -18,9 +18,9 @@
 
         public string Name { get; set; }
 
-        public string ImageFilePath { get; set; }
+        public string ImageUrl { get; set; }
 
-        public string AudioFilePath { get; set; }
+        public string AudioUrl { get; set; }
 
         public virtual string CategoryId { get; set; }
 

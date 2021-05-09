@@ -2,9 +2,9 @@ export const globalConstants = {
   jwtTokenKey: "token",
   licensePath: "licenses",
   music: {
-    imageFolderPath: "../../../../assets/resources/musics/",
-    defauldImage: "musicDefaultImage.jpg",
-    audioFolderPath: "music\\аudio\\",
+    imageFolderPath: "../../../../assets/resources/musics/images/",
+    defauldImage: "MusicDefaultImage.jpg",
+    audioFolderPath: "../../../../assets/resources/musics/аudio/",
   },
   playlist: {
     imageFolderPath: "../../../assets/resources/playlists/",
