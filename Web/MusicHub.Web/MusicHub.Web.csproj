@@ -89,6 +89,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\comments\components\" />
+    <Folder Include="ClientApp\src\app\comments\services\" />
+    <Folder Include="ClientApp\src\app\follow\components\" />
+    <Folder Include="ClientApp\src\app\follow\models\" />
+    <Folder Include="ClientApp\src\app\follow\services\" />
     <Folder Include="ClientApp\src\app\musics\components\" />
     <Folder Include="ClientApp\src\app\musics\services\" />
     <Folder Include="ClientApp\src\app\playlists\components\" />

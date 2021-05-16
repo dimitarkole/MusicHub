@@ -15,6 +15,8 @@ import { MusicsOwnListComponent } from './musics/components/musics-own-list/musi
 import { MusicCreateComponent } from './musics/components/music-create/music-create.component';
 import { MusicEditComponent } from './musics/components/music-edit/music-edit.component';
 import { MusicResolver } from './core/resolvers/music.resolver';
+import { MusicDetailsComponent } from './musics/components/music-details/music-details.component';
+import { MusicPlayComponent } from './musics/components/music-play/music-play.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -42,6 +44,14 @@ const routes: Routes = [
         },
         canActivate: [AuthorizeGuard],
         data: withPermission(PermissionType.MusicCreator)
+      },
+      {
+        path: 'play/:id',
+        component: MusicPlayComponent,
+        resolve:
+        {
+          music: MusicResolver
+        },
       },
     ]
   },

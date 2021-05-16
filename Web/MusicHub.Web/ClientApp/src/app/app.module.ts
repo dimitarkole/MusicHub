@@ -44,6 +44,14 @@ import { MusicsOwnListComponent } from './musics/components/musics-own-list/musi
 import { MusicCreateComponent } from './musics/components/music-create/music-create.component';
 import { MusicEditComponent } from './musics/components/music-edit/music-edit.component';
 import { MusicDeleteComponent } from './musics/components/music-delete/music-delete.component';
+import { MusicSuggestionsListComponent } from './musics/components/music-suggestions-list/music-suggestions-list.component';
+import { MusicDetailsComponent } from './musics/components/music-details/music-details.component';
+import { MusicPlayComponent } from './musics/components/music-play/music-play.component';
+import { CommentReactionComponent } from './comments/components/comment-reaction/comment-reaction.component';
+import { CommentDetailsComponent } from './comments/components/comment-details/comment-details.component';
+import { CommentDeleteComponent } from './comments/components/comment-delete/comment-delete.component';
+import { CommentListComponent } from './comments/components/comment-list/comment-list.component';
+import { CommentCreateComponent } from './comments/components/comment-create/comment-create.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +75,15 @@ import { MusicDeleteComponent } from './musics/components/music-delete/music-del
     MusicsOwnListComponent,
     MusicCreateComponent,
     MusicEditComponent,
-    MusicDeleteComponent
+    MusicDeleteComponent,
+    MusicDetailsComponent,
+    MusicSuggestionsListComponent,
+    MusicPlayComponent,
+    CommentCreateComponent,
+    CommentListComponent,
+    CommentDeleteComponent,
+    CommentDetailsComponent,
+    CommentReactionComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -75,7 +91,8 @@ import { MusicDeleteComponent } from './musics/components/music-delete/music-del
     CategoryEditComponent,
     PlaylistDeleteComponent,
     PlaylistCreateComponent,
-    PlaylistEditComponent
+    PlaylistEditComponent,
+    CommentDeleteComponent,
   ],
   imports: [
     MatSidenavModule,
