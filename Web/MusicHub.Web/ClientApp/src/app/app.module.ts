@@ -52,6 +52,7 @@ import { CommentDetailsComponent } from './comments/components/comment-details/c
 import { CommentDeleteComponent } from './comments/components/comment-delete/comment-delete.component';
 import { CommentListComponent } from './comments/components/comment-list/comment-list.component';
 import { CommentCreateComponent } from './comments/components/comment-create/comment-create.component';
+import { MusicReactionComponent } from './musics/components/music-reaction/music-reaction.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { CommentCreateComponent } from './comments/components/comment-create/com
     MusicDeleteComponent,
     MusicDetailsComponent,
     MusicSuggestionsListComponent,
+    MusicReactionComponent,
     MusicPlayComponent,
     CommentCreateComponent,
     CommentListComponent,
