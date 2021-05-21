@@ -27,6 +27,7 @@ import { MusicDeleteComponent } from './components/music-delete/music-delete.com
 import { MusicDetailsComponent } from './components/music-details/music-details.component';
 import { MusicSuggestionsListComponent } from './components/music-suggestions-list/music-suggestions-list.component';
 import { MusicPlayComponent } from './components/music-play/music-play.component';
+import { MusicReactionComponent } from './components/music-reaction/music-reaction.component';
 
 const routes: Routes = [
 ];
@@ -40,7 +41,8 @@ const routes: Routes = [
     MusicDeleteComponent,
     MusicDetailsComponent,
     MusicSuggestionsListComponent,
-    MusicPlayComponent
+    MusicPlayComponent,
+    MusicReactionComponent
   ],
   entryComponents: [
   ],

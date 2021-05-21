@@ -113,7 +113,7 @@
 
         public bool IsOwned(string id, string userId)
             => this.context.MusicReactions
-                .Any(s => s.Id == id 
+                .Any(s => s.Id == id
                     && s.UserId == userId);
 
         private static IQueryable<MusicReaction> FilteringMusics(MusicFilter filter, IQueryable<MusicReaction> musicReactions)

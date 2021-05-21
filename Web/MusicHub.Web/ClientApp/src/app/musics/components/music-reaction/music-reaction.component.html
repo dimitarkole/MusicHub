@@ -1,0 +1,22 @@
+<div *ngIf="!isAuth">
+  <a routerLink="/login" class="btn glyphicon glyphicon-thumbs-up" aria-hidden="true"></a>
+  <span>{{music.countLikes}}</span>
+  <a routerLink="/login" class="btn glyphicon glyphicon-thumbs-down" aria-hidden="true"></a>
+  <span>{{music.countDislikes}}</span>
+</div>
+
+<div *ngIf="isAuth">
+  <button class="btn glyphicon glyphicon-thumbs-up" *ngIf="reaction.reaction==0" aria-hidden="true" (click)="likeMusic()"></button>
+  <button class="btn fa fa-size fa-thumbs-up reacted" *ngIf="reaction.reaction==1" aria-hidden="true" (click)="unReactionMusic(reaction.id,'like')"></button>
+  <button class="btn glyphicon glyphicon-thumbs-up" *ngIf="reaction.reaction==2" aria-hidden="true" (click)="unDislikeMusic(reaction.id)"></button>
+
+  <span>{{music.countLikes}}</span>
+
+  <button class="btn glyphicon glyphicon-thumbs-down" *ngIf="reaction.reaction==0" aria-hidden="true" (click)="dislikeMusic()"></button>
+  <button class="btn fa fa-size fa-thumbs-down reacted" *ngIf="reaction.reaction==2" aria-hidden="true" (click)="unReactionMusic(reaction.id, 'dislike')"></button>
+  <button class="btn glyphicon glyphicon-thumbs-down" *ngIf="reaction.reaction==1" aria-hidden="true" (click)="unLikeMusic(reaction.id)"></button>
+
+  <span>{{music.countDislikes}}</span>
+  <br />
+</div>
+<br />
