@@ -14,9 +14,9 @@
     using MusicHub.Data.Models;
     using MusicHub.Web.ViewModels.FileModels;
 
-    public class LocalFileController : ApiController
+    public class LocalStorageController : ApiController
     {
-        public LocalFileController(
+        public LocalStorageController(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<LogoutModel> logger)
