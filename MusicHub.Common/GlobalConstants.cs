@@ -39,8 +39,14 @@
         public static class MegaStorageData
         {
             public const string Email = "office.musichub@gmail.com";
-
             public const string Password = "Noskad5AKo!@";
+        }
+
+        public static class CreateFile
+        {
+            public const string RandomNameCharacters = "abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+            public const int RandomNameLength = 5;
         }
     }
 }
