@@ -6,10 +6,32 @@ import FileInfo from '../../shared/models/fileInfo';
   providedIn: 'root'
 })
 export class MegaStorageFileService {
-  private route: string = 'MegaStorage';
+  private route: string = 'LocalStorage';
+  //private route: string = 'MegaStorage';
 
   constructor(private http: HttpClient) { }
 
+  create(file: File, path: string) {
+    const formData: FormData = new FormData();
+    formData.append("file", file, file.name);
+    formData.append("path", path);
+    return this.http.post<string>(`${this.route}`, formData);
+  }
+
+  createList(files: File[], path: string) {
+    const formData: FormData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      formData.append(i + "", files[i])
+    }
+    formData.append("path", path);
+
+    return this.http.post<string[]>(`${this.route}/CreateList`, formData);
+  }
+
+  deleteFile(fileInfo: FileInfo) {
+    return this.http.post(`${this.route}/Delete`, fileInfo);
+  }
+/*
   create(file: File, path: string) {
     const formData: FormData = new FormData();
     formData.append("file", file, file.name);
@@ -23,5 +45,5 @@ export class MegaStorageFileService {
 
   deleteFile(fileInfo: FileInfo) {
     return this.http.post(`${this.route}/Delete`, fileInfo);
-  }
+  }*/
 }
