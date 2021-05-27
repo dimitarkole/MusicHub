@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import Category from '../../../categories/models/category';
 import { CategoryService } from '../../../categories/services/category.service';
+import { globalConstants } from '../../../common/global-constants';
 import { AuthService } from '../../../core/services/auth.service';
+import { MegaStorageFileService } from '../../../core/services/mega-storage-file.service';
 import { CreateMusicLicenseType, MusicLicenseType, MusicLicenseTypeMapping } from '../../../shared/models/musicLicenseType';
 import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
 import { Music } from '../../models/music';
@@ -31,8 +33,8 @@ export class MusicCreateComponent implements OnInit {
   visibleStatusMapping = VisibleStatusMapping;
   visibleStatus = Object.keys(VisibleStatus)
     .filter(k => !isNaN(Number(k)));;
-  defaultImage: string = "songDefaultImage.jpg";
-  imageUrlDefault: string = "/assets/resources/song/images/" + this.defaultImage;
+  musicFolderPath: string = globalConstants.music.imageFolderPath;
+  defauleMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
   mp3Url: string = "";
 
   imageFileToUpload: File = null;
@@ -49,7 +51,7 @@ export class MusicCreateComponent implements OnInit {
     // private licenseService: LicenseService,
     //private musicLicenseService: MusicLicenseServiceService,
     private musicService: MusicService,
-    //private fileService: FileService,
+    private fileService: MegaStorageFileService,
     private authService: AuthService) {
     if (authService.isAuth == false) {
       this.router.navigate(['']);
@@ -63,6 +65,7 @@ export class MusicCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.defauleMusicImagePath);
     this.musicForm = this.formBuilder.group({
       name: [
         null,
@@ -88,7 +91,7 @@ export class MusicCreateComponent implements OnInit {
         ]
       ],
       imageUrl: [
-        this.defaultImage,
+        this.defauleMusicImagePath,
       ],
       audioUrl: [
         null,
@@ -117,7 +120,7 @@ export class MusicCreateComponent implements OnInit {
     //Show image preview
     var reader = new FileReader();
     reader.onload = (event: any) => {
-      this.imageUrlDefault = event.target.result;
+      this.defauleMusicImagePath = event.target.result;
       this.imageUrl.setValue(event.target.result);
     }
     reader.readAsDataURL(this.imageFileToUpload);
@@ -136,8 +139,8 @@ export class MusicCreateComponent implements OnInit {
   }
 
   useDefaultPicture() {
-    this.imageUrlDefault = "../../../../../assets/resources/song/images/" + this.defaultImage;
-    this.imageUrl.setValue(this.defaultImage);
+    this.defauleMusicImagePath = this.musicFolderPath + globalConstants.music.defauldImage;
+    this.imageUrl.setValue(this.defauleMusicImagePath);
   }
 
   addLicense(licenseId: string) {
@@ -151,21 +154,21 @@ export class MusicCreateComponent implements OnInit {
   }
 
   submit() {
-  /*  this.fileService.create(this.audioFileToUpload, globalConstants.songAudioPath)
-      .subscribe(data => {*/
-    this.audioUrl.setValue("simpleAudio");//data["fileName"]);
-    this.imageUrl.setValue(this.defaultImage);
-        /*if (this.imageFileToUpload != null) {
-          /*this.fileService.create(this.imageFileToUpload, globalConstants.songImagePath)
+    this.fileService.create(this.audioFileToUpload, globalConstants.music.audioFolderPath)
+      .subscribe(data => {
+        this.audioUrl.setValue(data["fileName"]);
+        this.imageUrl.setValue(this.defauleMusicImagePath);
+        if (this.imageFileToUpload != null) {
+          this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPathToUpload)
             .subscribe(data => {
-              this.imageFilePath.setValue(data["fileName"]);
-              this.createSong();
-            });
+              this.imageUrl.setValue(data["fileName"]);
+              this.createMusic();
+                });
+            }
+        else {
+          this.createMusic();
         }
-        else {*/
-    this.createMusic();
-       // }
-     // });
+   });
   }
 
   get name(): AbstractControl {
