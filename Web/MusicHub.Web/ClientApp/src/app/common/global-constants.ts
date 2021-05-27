@@ -4,7 +4,9 @@ export const globalConstants = {
   music: {
     imageFolderPath: "../../../../assets/resources/musics/images/",
     defauldImage: "MusicDefaultImage.jpg",
-    audioFolderPath: "../../../../assets/resources/musics/аudio/",
+    imageFolderPathToUpload: "musics/images/",
+    audioFolderPathUpload: "/assets/resources/musics/audio/",
+    audioFolderPath: "musics/аudio/",
   },
   playlist: {
     imageFolderPath: "../../../assets/resources/playlists/",
