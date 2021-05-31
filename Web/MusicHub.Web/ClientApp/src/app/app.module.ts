@@ -39,6 +39,27 @@ import { PlaylistEditComponent } from './playlists/components/playlist-edit/play
 import { PlaylistsOwnListComponent } from './playlists/components/playlists-own-list/playlists-own-list.component';
 import { PlaylistsListComponent } from './playlists/components/playlists-list/playlists-list.component';
 import { PlaylistsListTemplateComponent } from './playlists/components/playlists-list-template/playlists-list-template.component';
+import { MusicsListTemplateComponent } from './musics/components/musics-list-template/musics-list-template.component';
+import { MusicsOwnListComponent } from './musics/components/musics-own-list/musics-own-list.component';
+import { MusicCreateComponent } from './musics/components/music-create/music-create.component';
+import { MusicEditComponent } from './musics/components/music-edit/music-edit.component';
+import { MusicDeleteComponent } from './musics/components/music-delete/music-delete.component';
+import { MusicSuggestionsListComponent } from './musics/components/music-suggestions-list/music-suggestions-list.component';
+import { MusicDetailsComponent } from './musics/components/music-details/music-details.component';
+import { MusicPlayComponent } from './musics/components/music-play/music-play.component';
+import { CommentReactionComponent } from './comments/components/comment-reaction/comment-reaction.component';
+import { CommentDetailsComponent } from './comments/components/comment-details/comment-details.component';
+import { CommentDeleteComponent } from './comments/components/comment-delete/comment-delete.component';
+import { CommentListComponent } from './comments/components/comment-list/comment-list.component';
+import { CommentCreateComponent } from './comments/components/comment-create/comment-create.component';
+import { MusicReactionComponent } from './musics/components/music-reaction/music-reaction.component';
+import { LicenseCreateComponent } from './licenses/components/license-create/license-create.component';
+import { LicenseListTemplateComponent } from './licenses/components/license-list-template/license-list-template.component';
+import { LicenseListComponent } from './licenses/components/license-list/license-list.component';
+import { LicenseOwnListComponent } from './licenses/components/license-own-list/license-own-list.component';
+import { LicenseEditComponent } from './licenses/components/license-edit/license-edit.component';
+import { LicenseDeleteComponent } from './licenses/components/license-delete/license-delete.component';
+import { LicenseRequestComponent } from './licenses/components/license-request/license-request.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +78,29 @@ import { PlaylistsListTemplateComponent } from './playlists/components/playlists
     PlaylistsOwnListComponent,
     PlaylistDeleteComponent,
     PlaylistCreateComponent,
-    PlaylistEditComponent
+    PlaylistEditComponent,
+    MusicsListTemplateComponent,
+    MusicsOwnListComponent,
+    MusicCreateComponent,
+    MusicEditComponent,
+    MusicDeleteComponent,
+    MusicDetailsComponent,
+    MusicSuggestionsListComponent,
+    MusicReactionComponent,
+    MusicPlayComponent,
+    CommentCreateComponent,
+    CommentListComponent,
+    CommentDeleteComponent,
+    CommentDetailsComponent,
+    CommentReactionComponent,
+    LicenseCreateComponent,
+    LicenseListTemplateComponent,
+    LicenseListComponent,
+    LicenseOwnListComponent,
+    LicenseEditComponent,
+    LicenseDeleteComponent,
+    LicenseDeleteComponent,
+    LicenseRequestComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -65,7 +108,9 @@ import { PlaylistsListTemplateComponent } from './playlists/components/playlists
     CategoryEditComponent,
     PlaylistDeleteComponent,
     PlaylistCreateComponent,
-    PlaylistEditComponent
+    PlaylistEditComponent,
+    CommentDeleteComponent,
+    LicenseDeleteComponent,
   ],
   imports: [
     MatSidenavModule,

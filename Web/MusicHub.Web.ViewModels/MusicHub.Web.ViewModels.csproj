@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="CategoryModels\" />
-    <Folder Include="FileModels\" />
     <Folder Include="VerificationCodeModels\" />
   </ItemGroup>
 

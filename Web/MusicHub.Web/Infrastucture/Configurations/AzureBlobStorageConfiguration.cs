@@ -15,7 +15,7 @@
     {
         public static IServiceCollection ConfigureAzureBlobStorage(this IServiceCollection services)
         {
-            //AzureBlobSettings azureBlobSettings = services.BuildServiceProvider().GetService<AzureBlobSettings>();
+            // AzureBlobSettings azureBlobSettings = services.BuildServiceProvider().GetService<AzureBlobSettings>();
 
             //If someone try to start the application but have no azure storage account, just will skip adding azure storage related services to the DI container
             /*if (azureBlobSettings == null || string.IsNullOrEmpty(azureBlobSettings.StorageConnectionString))

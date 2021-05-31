@@ -1,0 +1,48 @@
+<div class="player-stage">
+  <img src="{{musicImageFolder + music.imageUrl}}" class="img" alt="" />
+  <audio controls class="play-song" id="player">
+  </audio>
+</div>
+<br />
+<div class="row">
+  <div class="col-md-12">
+    <h3>{{music.name}}</h3>
+    <small>Category: {{music.categoryName}}</small>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-7">
+    <p>{{music.createdOn | date : 'MMMM d, yyyy'}}</p>
+  </div>
+
+  <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddToSong()" *ngIf="isAuth">
+    + Add to
+  </button>
+  <app-music-reaction [music]="music" class="col-md-3 main-music-information"></app-music-reaction>
+</div>
+<hr />
+
+<div class="row">
+  <div class="col-md-2">
+    <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar" alt="" />
+  </div>
+
+  <div class="col-md-9">
+    <div class="row">
+      <h3 class="col-md-7">
+        <a routerLink="{{'/profile/view/' + music.user?.id}}" class="row ">
+          <br />
+          {{music.user.userName}}
+        </a>
+      </h3>
+      <!--  <app-followed-create class="col-md-5" [userId]="music.user?.id"></app-followed-create>-->
+    </div>
+    <br>
+    <p>
+      {{music.description}}
+    </p>
+  </div>
+</div>
+<hr />
+<app-comment-list [musicId]="music.id" class="col-md-12"></app-comment-list>

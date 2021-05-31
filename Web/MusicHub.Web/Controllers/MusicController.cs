@@ -1,22 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MusicHub.Data.Models;
-using MusicHub.Data.Models.Enums;
-using MusicHub.Services.Data.Interfaces;
-using MusicHub.Web.Infrastucture;
-using MusicHub.Web.ViewModels.MusicModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static MusicHub.Common.GlobalConstants;
-
-namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
+    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.ViewModels.MusicModels;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class MusicController : ApiController
     {
         private readonly IMusicService musicService;
@@ -35,6 +37,7 @@ namespace MusicHub.Web.Controllers
         /// <param name="page">The page of Musics.</param>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpGet(nameof(GetOwn) + "/{page}")]
+        [Permission(PermissionType.MusicCreator)]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> GetOwn(int page)
             => this.Ok(this.musicService.AllOwn<MusicViewModel>(page, PaginationData.MusicsPerPage, this.userManager.GetUserId(this.User)));
 
@@ -48,6 +51,7 @@ namespace MusicHub.Web.Controllers
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpPost(nameof(Filter) + "/{page}")]
+        [Permission(PermissionType.MusicCreator)]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter model)
           => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, model, this.userManager.GetUserId(this.User)));
 
@@ -61,8 +65,8 @@ namespace MusicHub.Web.Controllers
         /// <returns>Status201Created.</returns>
         [HttpPost]
         [Authorize]
-        [Permission(PermissionType.User)]
-        [DisableRequestSizeLimit]
+        [Permission(PermissionType.MusicCreator)]
+        //[DisableRequestSizeLimit]
         public async Task<IActionResult> Post(MusicCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -86,7 +90,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok().</returns>
         [Authorize]
         [HttpPut("{id}")]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.MusicCreator)]
         public async Task<IActionResult> Put(string id, MusicEditModel model)
         {
             if (!this.ModelState.IsValid)
@@ -108,7 +112,7 @@ namespace MusicHub.Web.Controllers
         /// <param name="id">Id - Id of Music.</param>
         /// <returns>Ok.</returns>
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.MusicCreator)]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

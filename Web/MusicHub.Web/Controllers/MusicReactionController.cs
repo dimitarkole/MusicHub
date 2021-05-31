@@ -64,7 +64,7 @@
                 return this.BadRequest();
             }
 
-            if (this.musicReactionService.IsOwned(id, this.userManager.GetUserId(this.User)))
+            if (!this.musicReactionService.IsOwned(id, this.userManager.GetUserId(this.User)))
             {
                 return this.Forbid();
             }
@@ -76,7 +76,7 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            if (this.musicReactionService.IsOwned(id, this.userManager.GetUserId(this.User)))
+            if (!this.musicReactionService.IsOwned(id, this.userManager.GetUserId(this.User)))
             {
                 return this.Forbid();
             }

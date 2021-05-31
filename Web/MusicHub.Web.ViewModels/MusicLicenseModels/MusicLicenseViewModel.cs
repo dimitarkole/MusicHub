@@ -9,7 +9,7 @@
     using MusicHub.Web.ViewModels.LicenseModels;
     using MusicHub.Web.ViewModels.MusicModels;
 
-    public class MusicLicenseViewModel : IMapTo<MusicLicense>
+    public class MusicLicenseViewModel : IMapFrom<MusicLicense>
     {
         public virtual string Id { get; set; }
 
