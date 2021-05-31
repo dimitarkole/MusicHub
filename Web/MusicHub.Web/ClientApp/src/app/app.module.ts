@@ -53,6 +53,13 @@ import { CommentDeleteComponent } from './comments/components/comment-delete/com
 import { CommentListComponent } from './comments/components/comment-list/comment-list.component';
 import { CommentCreateComponent } from './comments/components/comment-create/comment-create.component';
 import { MusicReactionComponent } from './musics/components/music-reaction/music-reaction.component';
+import { LicenseCreateComponent } from './licenses/components/license-create/license-create.component';
+import { LicenseListTemplateComponent } from './licenses/components/license-list-template/license-list-template.component';
+import { LicenseListComponent } from './licenses/components/license-list/license-list.component';
+import { LicenseOwnListComponent } from './licenses/components/license-own-list/license-own-list.component';
+import { LicenseEditComponent } from './licenses/components/license-edit/license-edit.component';
+import { LicenseDeleteComponent } from './licenses/components/license-delete/license-delete.component';
+import { LicenseRequestComponent } from './licenses/components/license-request/license-request.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +92,15 @@ import { MusicReactionComponent } from './musics/components/music-reaction/music
     CommentListComponent,
     CommentDeleteComponent,
     CommentDetailsComponent,
-    CommentReactionComponent
+    CommentReactionComponent,
+    LicenseCreateComponent,
+    LicenseListTemplateComponent,
+    LicenseListComponent,
+    LicenseOwnListComponent,
+    LicenseEditComponent,
+    LicenseDeleteComponent,
+    LicenseDeleteComponent,
+    LicenseRequestComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -95,6 +110,7 @@ import { MusicReactionComponent } from './musics/components/music-reaction/music
     PlaylistCreateComponent,
     PlaylistEditComponent,
     CommentDeleteComponent,
+    LicenseDeleteComponent,
   ],
   imports: [
     MatSidenavModule,
