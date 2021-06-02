@@ -60,6 +60,10 @@ import { LicenseOwnListComponent } from './licenses/components/license-own-list/
 import { LicenseEditComponent } from './licenses/components/license-edit/license-edit.component';
 import { LicenseDeleteComponent } from './licenses/components/license-delete/license-delete.component';
 import { LicenseRequestComponent } from './licenses/components/license-request/license-request.component';
+import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
+import { ProfileChangePasswordComponent } from './profiles/components/profile-change-password/profile-change-password.component';
+import { ProfileEditComponent } from './profiles/components/profile-edit/profile-edit.component';
+import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +104,11 @@ import { LicenseRequestComponent } from './licenses/components/license-request/l
     LicenseEditComponent,
     LicenseDeleteComponent,
     LicenseDeleteComponent,
-    LicenseRequestComponent
+    LicenseRequestComponent,
+    ProfileOwnComponent,
+    ProfileChangePasswordComponent,
+    ProfileEditComponent,
+    ProfileUserComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -111,6 +119,8 @@ import { LicenseRequestComponent } from './licenses/components/license-request/l
     PlaylistEditComponent,
     CommentDeleteComponent,
     LicenseDeleteComponent,
+    ProfileEditComponent,
+    ProfileChangePasswordComponent,
   ],
   imports: [
     MatSidenavModule,
