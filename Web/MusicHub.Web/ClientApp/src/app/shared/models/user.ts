@@ -14,7 +14,7 @@ export default interface User {
   avater: string,
   imageUrl: string,
   phone: string,
-  MusicsCount: number,
+  musicsCount: number,
   playlistsCount: number,
 }
 
