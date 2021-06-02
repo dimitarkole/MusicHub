@@ -27,6 +27,8 @@
     using MusicHub.Services.Data;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Interfaces;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Logging.ApplicationInsights;
 
     public static class ServiceCollectionExtensions
     {
@@ -36,6 +38,22 @@
             => services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     configuration.GetDefaultConnectionString()));
+
+        public static IServiceCollection AddLogging(
+            this IServiceCollection services,
+            IConfiguration configuration)
+            => services.AddLogging(options =>
+                {
+                    // hook the Console Log Provider
+                    options.AddConsole();
+                    options.SetMinimumLevel(LogLevel.Trace);
+
+                    // hook the Application Insights Provider
+                    options.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
+
+                    // pass the InstrumentationKey provided under the appsettings
+                    options.AddApplicationInsights(configuration["ApplicationInsights:InstrumentationKey"]);
+                });
 
         public static IServiceCollection AddIdentity(this IServiceCollection services)
         {
