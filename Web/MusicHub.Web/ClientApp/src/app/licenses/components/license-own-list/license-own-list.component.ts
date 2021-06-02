@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { globalConstants } from '../../../common/global-constants';
@@ -8,6 +9,7 @@ import { CreateOrderMethod } from '../../../shared/models/orderMethod';
 import License from '../../models/license';
 import { LicensePagination } from '../../models/licensePagination';
 import { LicenseService } from '../../services/license.service';
+import { LicenseDeleteComponent } from '../license-delete/license-delete.component';
 
 @Component({
   selector: 'app-license-own-list',
@@ -19,8 +21,7 @@ export class LicenseOwnListComponent implements OnInit {
   isFilter: boolean = false;
   searchForm: FormGroup;
   constructor(private licenseService: LicenseService,
-    private modalService: NgbModal,
-    private router: Router,
+    public matDialog: MatDialog,
     private formBuilder: FormBuilder,
     private authService: AuthService) { }
 
@@ -104,5 +105,18 @@ export class LicenseOwnListComponent implements OnInit {
     let license: License = this.searchForm.value;
     license.orderMethod = CreateOrderMethod(this.orderMethod.value);
     return license;
+  }
+
+  openDelete(licenseId: string) {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    dialogConfig.data = licenseId;
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(LicenseDeleteComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
   }
 }
