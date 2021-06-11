@@ -64,6 +64,9 @@ import { ProfileOwnComponent } from './profiles/components/profile-own/profile-o
 import { ProfileChangePasswordComponent } from './profiles/components/profile-change-password/profile-change-password.component';
 import { ProfileEditComponent } from './profiles/components/profile-edit/profile-edit.component';
 import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
+import { FollowCreateComponent } from './follow/components/follow-create/follow-create.component';
+import { FollowersListComponent } from './follow/components/followers-list/followers-list.component';
+import { FollowingListComponent } from './follow/components/following-list/following-list.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +111,10 @@ import { ProfileUserComponent } from './profiles/components/profile-user/profile
     ProfileOwnComponent,
     ProfileChangePasswordComponent,
     ProfileEditComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    FollowCreateComponent,
+    FollowersListComponent,
+    FollowingListComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -121,6 +127,8 @@ import { ProfileUserComponent } from './profiles/components/profile-user/profile
     LicenseDeleteComponent,
     ProfileEditComponent,
     ProfileChangePasswordComponent,
+    FollowersListComponent,
+    FollowingListComponent,
   ],
   imports: [
     MatSidenavModule,
