@@ -19,13 +19,18 @@ import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { AppComponent } from '../app.component';
 import { MatDialogModule } from '@angular/material';
+import { FollowCreateComponent } from './components/follow-create/follow-create.component';
+import { FollowersListComponent } from './components/followers-list/followers-list.component';
+import { FollowingListComponent } from './components/following-list/following-list.component';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
-  ],
+  FollowCreateComponent,
+  FollowersListComponent,
+  FollowingListComponent],
   entryComponents: [
   ],
 

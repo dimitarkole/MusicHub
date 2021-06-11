@@ -4,6 +4,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../core/services/auth.service';
+import { FollowersListComponent } from '../../../follow/components/followers-list/followers-list.component';
+import { FollowingListComponent } from '../../../follow/components/following-list/following-list.component';
 import User from '../../../shared/models/user';
 import { ProfileService } from '../../services/profile.service';
 import { ProfileChangePasswordComponent } from '../profile-change-password/profile-change-password.component';
@@ -26,6 +28,7 @@ export class ProfileOwnComponent implements OnInit {
     private authService: AuthService) {
     this.profileService.MyProfile().subscribe(data => {
       this.user = data;
+      console.log(data);
       this.userId = data.id;
     })
   }
@@ -40,19 +43,31 @@ export class ProfileOwnComponent implements OnInit {
   ngOnInit() {
   }
 
-  /*openFollowing() {
-    let modal = this.modalService.open(FollowingListComponent);
-    modal.componentInstance.userId = this.userId;
-    modal.result.then(_ => {
-    })
+  openFollowing() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.data = this.userId;
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(FollowingListComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
   }
 
   openFollowers() {
-    let modal = this.modalService.open(FollowersListComponent);
-    modal.componentInstance.userId = this.userId;
-    modal.result.then(_ => {
-    })
-  }*/
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.data = this.userId;
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(FollowersListComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
+  }
 
   openEdit() {
     const dialogConfig = new MatDialogConfig();

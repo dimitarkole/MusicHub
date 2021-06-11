@@ -1,0 +1,37 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Followers ({{followPagination.followings.length}})</h3>
+    <hr />
+  </header>
+  <section id="modal-body">
+    <div class="modal-body">
+      <div class="col-md-5">
+        <div class="row follow-aria">
+          <div class="col-md-12 follow-scroll">
+            <div class="row" *ngFor="let follower of followPagination.followings; index as j">
+              <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="logo" class="col-md-2">
+              <a routerLink="{{'/profile/view/' + follower.following.id}}" class="col-md-5 " (click)="modal.dismiss('Cross click')">
+                {{follower.following.userName?.substring(0, 30)}} <br />
+              </a>
+              <app-follow-create class="col-md-5" [userId]="follower.following.id"></app-follow-create>
+              <div class="col-md-12">
+                <hr />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer id="modal-footer">
+    <div class="row">
+      <div class="col-md-8">
+
+      </div>
+      <div class="col-md-2">
+        <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+      </div>
+    </div>
+  </footer>
+</div>
+
