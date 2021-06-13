@@ -10,10 +10,18 @@
 
     public interface IPermissionsService
     {
-        IEnumerable<T> All<T>();
-
         IEnumerable<PermissionViewModel> GetPermissions(string roleName);
 
         IEnumerable<PermissionViewModel> GetUserPermissions(string userId);
+
+        PermissionsAllViewModel<T> All<T>(int page, int entitesPerPage);
+
+        Task<int> Create(PermissionCreateInputModel model);
+
+        T GetById<T>(int id);
+
+        Task Update(int id, PermissionEditInputModel model);
+
+        Task Delete(int id);
     }
 }
