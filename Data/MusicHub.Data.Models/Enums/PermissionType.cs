@@ -9,7 +9,7 @@
     {
         [Display(Name = "User administration - manage users")]
         UserAdministration = 1,
-        [Display(Name = "User administration - manage users")]
+        [Display(Name = "Manager permission and role - manage role and permission")]
         ManageUserPermissions = 2,
         [Display(Name = "User FindAndReplaceUsers - manage users")]
         FindAndReplaceUsers = 3,
