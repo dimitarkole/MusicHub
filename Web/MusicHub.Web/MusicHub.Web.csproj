@@ -36,11 +36,19 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\assets\files\**" />
+    <Compile Remove="ClientApp\src\assets\resources\song\**" />
     <Compile Remove="client\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\assets\files\**" />
+    <Content Remove="ClientApp\src\assets\resources\song\**" />
     <Content Remove="client\**" />
+    <EmbeddedResource Remove="ClientApp\src\assets\files\**" />
+    <EmbeddedResource Remove="ClientApp\src\assets\resources\song\**" />
     <EmbeddedResource Remove="client\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\assets\files\**" />
+    <None Remove="ClientApp\src\assets\resources\song\**" />
     <None Remove="client\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
@@ -81,7 +89,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\comments\components\" />
+    <Folder Include="ClientApp\src\app\comments\services\" />
+    <Folder Include="ClientApp\src\app\follow\components\" />
+    <Folder Include="ClientApp\src\app\follow\models\" />
+    <Folder Include="ClientApp\src\app\follow\services\" />
+    <Folder Include="ClientApp\src\app\musics\components\" />
+    <Folder Include="ClientApp\src\app\musics\services\" />
     <Folder Include="ClientApp\src\app\playlists\components\" />
+    <Folder Include="ClientApp\src\assets\js\" />
+    <Folder Include="ClientApp\src\assets\plugins\easing\" />
+    <Folder Include="ClientApp\src\assets\plugins\font-awesome-4.7.0\css\" />
+    <Folder Include="ClientApp\src\assets\plugins\font-awesome-4.7.0\fonts\" />
+    <Folder Include="ClientApp\src\assets\plugins\font-awesome-4.7.0\less\" />
+    <Folder Include="ClientApp\src\assets\plugins\font-awesome-4.7.0\scss\" />
+    <Folder Include="ClientApp\src\assets\plugins\jPlayer\skin\css\" />
+    <Folder Include="ClientApp\src\assets\plugins\jPlayer\skin\image\" />
+    <Folder Include="ClientApp\src\assets\plugins\jPlayer\skin\mustache\" />
+    <Folder Include="ClientApp\src\assets\plugins\jquery-circle-progress-1.2.2\" />
+    <Folder Include="ClientApp\src\assets\plugins\OwlCarousel2-2.3.4\" />
+    <Folder Include="ClientApp\src\assets\plugins\video-js\" />
+    <Folder Include="ClientApp\src\assets\resources\users\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -117,6 +117,7 @@
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
                 .AddTransient<IMusicReactionService, MusicReactionService>()
                 .AddTransient<IPermissionsService, PermissionsService>()
+                .AddTransient<IMegaStorageService, MegaStorageService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()

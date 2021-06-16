@@ -55,6 +55,7 @@
                 .AddDatabase(this.Configuration)
                 .AddIdentity()
                 .AddJwtAuthentication(services.GetAppSettings(this.Configuration), this.Configuration)
+                .ConfigureМегаStorage()
                 .AddApplicationServices()
                 .ConfigureAzureBlobStorage()
                 .AddApplicationSettings(this.Configuration)
@@ -88,11 +89,11 @@
             }
 
             app.UseStaticFiles();
-            /* app.UseStaticFiles(new StaticFileOptions()
-             {
-                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
-                 RequestPath = new PathString("/ClientApp/src/assets/resources"),
-             });*/
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
+                RequestPath = new PathString("/ClientApp/src/assets/resources"),
+            });
 
             app
                 .UseSwagger()

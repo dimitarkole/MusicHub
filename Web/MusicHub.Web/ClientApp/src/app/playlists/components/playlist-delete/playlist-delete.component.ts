@@ -20,7 +20,7 @@ export class PlaylistDeleteComponent {
     this.dialogRef.close();
   }
 
-  deleteCategory() {
+  deletePlaylist() {
     this.playlistService.delete(this.data).subscribe(_ => {
       this.dialogRef.close();
     });

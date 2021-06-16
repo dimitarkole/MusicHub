@@ -1,22 +1,24 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using MusicHub.Data.Models;
-using MusicHub.Data.Models.Enums;
-using MusicHub.Services.Data.Interfaces;
-using MusicHub.Web.Infrastucture;
-using MusicHub.Web.ViewModels.LicenseModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using static MusicHub.Common.GlobalConstants;
-
-namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Logging;
+    using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
+    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.ViewModels.LicenseModels;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class LicenseController : ApiController
     {
         private readonly ILicenseService licenseService;
@@ -52,7 +54,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
         [HttpGet(nameof(GetOwn) + "/{page}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public ActionResult<LicenseAllViewModel<LicenceViewModel>> GetOwn(int page)
             => this.Ok(this.licenseService.AllOwned<LicenceViewModel>(page, PaginationData.LicensesPerPage, this.userManager.GetUserId(this.User)));
 
@@ -60,7 +62,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok(LicenseAllViewModel. <LicenceSmallViewModel>).</returns>
         [HttpGet(nameof(GetOwnApproved))]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public ActionResult<LicenseAllViewModel<LicenceSmallViewModel>> GetOwnApproved()
             => this.Ok(this.licenseService.AllOwnedApproved<LicenceSmallViewModel>(this.userManager.GetUserId(this.User)));
 
@@ -78,7 +80,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok(LicenseAllViewModel.<LicenceSmallViewModel>).</returns>
         [HttpPost(nameof(FilterOwn) + "/{page}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public ActionResult<LicenseAllViewModel<LicenceSmallViewModel>> FilterOwn(int page, LicenseFilter licenseFilter)
             => this.Ok(this.licenseService.Filter<LicenceSmallViewModel>(page, PaginationData.LicensesPerPage, licenseFilter, this.userManager.GetUserId(this.User)));
 
@@ -94,7 +96,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Status201Created.</returns>
         [HttpPost(nameof(Post))]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public async Task<IActionResult> Post(LicenseCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -113,7 +115,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok().</returns>
         [HttpPut(nameof(Put) + "/{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public async Task<IActionResult> Put(string id, LicenseEditInputModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
@@ -122,7 +124,7 @@ namespace MusicHub.Web.Controllers
                 return this.BadRequest();
             }
 
-            if (this.licenseService.IsOwned(id, userId))
+            if (!this.licenseService.IsOwned(id, userId))
             {
                 return this.StatusCode(StatusCodes.Status406NotAcceptable);
             }
@@ -155,7 +157,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok.</returns>
         [HttpDelete("{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public async Task<IActionResult> Delete(string id)
         {
             if (!this.licenseService.IsOwned(id, this.userManager.GetUserId(this.User)))
@@ -172,7 +174,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Status201Created.</returns>
         [HttpPost(nameof(PostFiles))]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public async Task<IActionResult> PostFiles(LicenseFileCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -189,7 +191,7 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok.</returns>
         [HttpDelete(nameof(DeleteFile) + "/{id}")]
         [Authorize]
-        [Permission(PermissionType.User)]
+        [Permission(PermissionType.LicenseCreator)]
         public async Task<IActionResult> DeleteFile(string id)
         {
             await this.licenseService.DeleteFile(id);
