@@ -66,6 +66,7 @@
                 return permissions
                     .Where(p => p.Type != PermissionType.UserAdministration &&
                         p.Type != PermissionType.LicenseCreator &&
+                        p.Type != PermissionType.ManageUserPermissions
                         p.Type != PermissionType.CategoryAdministrator)
                    .ToList();
             }
