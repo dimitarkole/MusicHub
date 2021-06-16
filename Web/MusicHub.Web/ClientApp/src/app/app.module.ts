@@ -67,6 +67,7 @@ import { ProfileUserComponent } from './profiles/components/profile-user/profile
 import { FollowCreateComponent } from './follow/components/follow-create/follow-create.component';
 import { FollowersListComponent } from './follow/components/followers-list/followers-list.component';
 import { FollowingListComponent } from './follow/components/following-list/following-list.component';
+import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +116,7 @@ import { FollowingListComponent } from './follow/components/following-list/follo
     FollowCreateComponent,
     FollowersListComponent,
     FollowingListComponent,
+    RolesListComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,

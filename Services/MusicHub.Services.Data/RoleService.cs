@@ -32,8 +32,9 @@
         public RolesAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var roles = this.context.Roles
-                  .OrderByDescending(m => m.Name)
+                  .OrderBy(m => m.Name)
                   .To<T>();
+
             return new RolesAllViewModel<T>()
             {
                 Roles = roles
