@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { globalConstants } from '../../../common/global-constants';
@@ -7,6 +8,7 @@ import { CreateOrderMethod } from '../../../shared/models/orderMethod';
 import { Role } from '../../../shared/models/role';
 import { RolePagination } from '../../models/rolePagination';
 import { RoleService } from '../../services/role.service';
+import { RoleCreateComponent } from '../role-create/role-create.component';
 
 @Component({
   selector: 'app-roles-list',
@@ -18,7 +20,8 @@ export class RolesListComponent implements OnInit {
   isFilter: boolean = false;
   searchForm: FormGroup;
 
-  constructor(private roleService: RoleService,
+  constructor(public matDialog: MatDialog,
+    private roleService: RoleService,
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -51,6 +54,18 @@ export class RolesListComponent implements OnInit {
     }
   }
 
+  openCreate() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(RoleCreateComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+     // if (result == true) window.location.reload();
+    });
+  }
+
   submit() {
     let role: Role = this.createFilterModel();
     this.isFilter = true;
@@ -78,7 +93,6 @@ export class RolesListComponent implements OnInit {
         data.roles.forEach(role => {
           this.rolePagination.roles.push(role);
         });
-        console.log(data);
       });
     }
   }

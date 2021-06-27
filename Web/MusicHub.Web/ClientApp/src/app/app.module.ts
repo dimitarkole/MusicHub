@@ -68,6 +68,7 @@ import { FollowCreateComponent } from './follow/components/follow-create/follow-
 import { FollowersListComponent } from './follow/components/followers-list/followers-list.component';
 import { FollowingListComponent } from './follow/components/following-list/following-list.component';
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
+import { RoleCreateComponent } from './roles/components/role-create/role-create.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { RolesListComponent } from './roles/components/roles-list/roles-list.com
     FollowersListComponent,
     FollowingListComponent,
     RolesListComponent,
+    RoleCreateComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -131,6 +133,7 @@ import { RolesListComponent } from './roles/components/roles-list/roles-list.com
     ProfileChangePasswordComponent,
     FollowersListComponent,
     FollowingListComponent,
+    RoleCreateComponent,
   ],
   imports: [
     MatSidenavModule,

@@ -35,9 +35,9 @@
         }
 
         [Permission(PermissionType.ManageUserPermissions)]
-        [HttpGet(nameof(All) + "/{page}")]
-        public ActionResult All(int page)
-            => this.Ok(this.permissionsService.All<PermissionViewModel>(page, PaginationData.PermissionsPerPage));
+        [HttpGet(nameof(All))]
+        public ActionResult All()
+            => this.Ok(this.permissionsService.All<PermissionViewModel>());
 
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpPost]
