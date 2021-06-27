@@ -19,13 +19,15 @@ import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { AppComponent } from '../app.component';
 import { RolesListComponent } from './components/roles-list/roles-list.component';
+import { RoleCreateComponent } from './components/role-create/role-create.component';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
-    RolesListComponent
+    RolesListComponent,
+    RoleCreateComponent
   ],
   entryComponents: [
   ],

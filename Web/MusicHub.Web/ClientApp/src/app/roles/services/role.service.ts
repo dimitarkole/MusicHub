@@ -22,4 +22,8 @@ export class RoleService {
   filter(page: number, role: Role) {
     return this.http.post<RolePagination>(`${this.route}/Filter/${page}`, role);
   }
+
+  create(role: Role) {
+    return this.http.post(this.route, role);
+  }
 }

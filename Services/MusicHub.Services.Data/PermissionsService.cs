@@ -27,20 +27,10 @@
             this.paginationService = paginationService;
         }
 
-        public PermissionsAllViewModel<T> All<T>(int page, int entitesPerPage)
-        {
-            var permissions = this.context.Roles
-                 .OrderByDescending(m => m.Name)
-                 .To<T>();
-            return new PermissionsAllViewModel<T>()
-            {
-                Permissions = permissions
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetDataPagesCount(permissions.Count(), entitesPerPage),
-            };
-        }
+        public IEnumerable<T> All<T>()
+             => this.context.Permissions
+                 .To<T>()
+                 .ToList();
 
         public async Task<int> Create(PermissionCreateInputModel model)
         {

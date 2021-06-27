@@ -49,6 +49,13 @@
         {
             var role = model.To<Role>();
             await this.context.Roles.AddAsync(role);
+            foreach (var permissionId in model.PermissionIds)
+            {
+                var rolePemission = permissionId.To<RolePermission>();
+                rolePemission.RoleId = role.Id;
+                await this.context.RolePermissions.AddAsync(rolePemission);
+            }
+
             await this.context.SaveChangesAsync();
             return role.Id;
         }

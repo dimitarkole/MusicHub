@@ -14,7 +14,7 @@
 
         IEnumerable<PermissionViewModel> GetUserPermissions(string userId);
 
-        PermissionsAllViewModel<T> All<T>(int page, int entitesPerPage);
+        IEnumerable<T> All<T>();
 
         Task<int> Create(PermissionCreateInputModel model);
 
