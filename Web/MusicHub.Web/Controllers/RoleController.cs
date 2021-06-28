@@ -78,8 +78,8 @@
         public ActionResult<RolesAllViewModel<RoleViewModel>> Filter(int page, RoleFilter filter)
           => this.Ok(this.roleService.Filter<RoleViewModel>(page, PaginationData.RolesPerPage, filter));
 
-        [HttpGet("{id}/{page}")]
-        public ActionResult<RoleDetailsModel> Get(string id, int page)
-            => this.Ok(this.roleService.GetById(id, page, PaginationData.PermissionsPerPage));
+        [HttpGet("{id}")]
+        public ActionResult<RoleDetailsModel> Get(string id)
+            => this.Ok(this.roleService.GetById<RoleDetailsModel>(id));
     }
 }

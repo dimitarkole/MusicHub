@@ -15,7 +15,7 @@ namespace MusicHub.Services.Data.Interfaces
 
         Task<string> Create(RoleCreateInputModel model);
 
-        RoleDetailsModel GetById(string id, int page, int entitesPerPage);
+        T GetById<T>(string id);
 
         Task Update(string id, RoleEditInputModel model);
 
