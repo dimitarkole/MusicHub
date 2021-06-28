@@ -26,4 +26,8 @@ export class RoleService {
   create(role: Role) {
     return this.http.post(this.route, role);
   }
+
+  delete(id: string) {
+    return this.http.delete(`${this.route}/${id}`);
+  }
 }

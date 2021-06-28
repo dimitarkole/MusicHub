@@ -70,6 +70,7 @@ import { FollowingListComponent } from './follow/components/following-list/follo
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 import { RoleCreateComponent } from './roles/components/role-create/role-create.component';
 import { RolesDetailsComponent } from './roles/components/roles-details/roles-details.component';
+import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { RolesDetailsComponent } from './roles/components/roles-details/roles-de
     RolesListComponent,
     RolesDetailsComponent,
     RoleCreateComponent,
+    RoleDeleteComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -137,6 +139,7 @@ import { RolesDetailsComponent } from './roles/components/roles-details/roles-de
     FollowingListComponent,
     RoleCreateComponent,
     RolesDetailsComponent,
+    RoleDeleteComponent
   ],
   imports: [
     MatSidenavModule,
