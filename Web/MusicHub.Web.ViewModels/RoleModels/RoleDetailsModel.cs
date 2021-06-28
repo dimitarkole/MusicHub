@@ -8,17 +8,17 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PermissionModels;
+    using MusicHub.Web.ViewModels.RolePermissionModels;
 
     public class RoleDetailsModel : IMapFrom<Role>
     {
-        public string Id { get; set; }
-
         /// <summary>
         /// Gets or sets the name for this role.
         /// </summary>
         public string Name { get; set; }
 
-        [NotMapped]
-        public PermissionsAllViewModel<PermissionViewModel> PermissionsPagination { get; set; }
+        public int UsersCount { get; set; }
+
+        public ICollection<RolePermissionViewModel> Permissions { get; set; }
     }
 }

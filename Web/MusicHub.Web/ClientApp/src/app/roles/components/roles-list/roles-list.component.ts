@@ -9,6 +9,7 @@ import { Role } from '../../../shared/models/role';
 import { RolePagination } from '../../models/rolePagination';
 import { RoleService } from '../../services/role.service';
 import { RoleCreateComponent } from '../role-create/role-create.component';
+import { RolesDetailsComponent } from '../roles-details/roles-details.component';
 
 @Component({
   selector: 'app-roles-list',
@@ -52,6 +53,19 @@ export class RolesListComponent implements OnInit {
         this.getFilterRolesPerPage();
       }
     }
+  }
+
+  openDetails(role: Role) {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.data = role;
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(RolesDetailsComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      // if (result == true) window.location.reload();
+    });
   }
 
   openCreate() {

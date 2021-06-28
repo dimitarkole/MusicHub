@@ -83,32 +83,11 @@
             };
         }
 
-        public RoleDetailsModel GetById(string id, int page, int entitesPerPage)
-        {
-            var role = this.context.Roles
+        public T GetById<T>(string id)
+            => this.context.Roles
                 .Where(s => s.Id == id)
+                .To<T>()
                 .FirstOrDefault();
-            var allPermissions = this.context.Permissions
-                .Where(p => p.Roles.Any(rp => rp.RoleId == role.Id))
-                .To<PermissionViewModel>();
-
-            var permissionsPagination = new PermissionsAllViewModel<PermissionViewModel>()
-            {
-                Permissions = allPermissions
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetDataPagesCount(allPermissions.Count(), entitesPerPage),
-            };
-
-            var result = new RoleDetailsModel()
-            {
-                Id = role.Id,
-                Name = role.Name,
-                PermissionsPagination = permissionsPagination,
-            };
-            return result;
-        }
 
         public async Task Update(string id, RoleEditInputModel model)
         {

@@ -12,7 +12,7 @@ export class RoleService {
   constructor(private http: HttpClient) { }
 
   getById(id: string) {
-    return this.http.get<Role>(`${this.route}/GetById/${id}`);
+    return this.http.get<Role>(`${this.route}/${id}`);
   }
 
   all(page: number) {

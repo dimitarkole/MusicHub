@@ -65,7 +65,9 @@
   <tbody>
     <tr *ngFor="let role of rolePagination.roles; index as i" class="row">
       <td class="col-md-1">{{ i + 1 }}</td>
-      <td class="col-md-6"> {{role.name}}</td>
+      <td class="col-md-6" (click)="openDetails(role)">
+        {{role.name}}
+      </td>
       <td class="col-md-3"> {{role.permissionsCount}}</td>
       <td class="col-md-2 table-operation-coll">
         <!-- <a class="btn " routerLink="/license/request/{{license.id}}">

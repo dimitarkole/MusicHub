@@ -8,7 +8,7 @@
 
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
-    using MusicHub.Web.ViewModels.RolePermission;
+    using MusicHub.Web.ViewModels.RolePermissionModels;
 
     public class RoleCreateInputModel : IMapTo<Role>
     {
