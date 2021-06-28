@@ -17,5 +17,7 @@
         public string Name { get; set; }
 
         public int PermissionsCount { get; set; }
+
+        public int UsersCount { get; set; }
     }
 }

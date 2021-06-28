@@ -21,6 +21,7 @@ import { AppComponent } from '../app.component';
 import { RolesListComponent } from './components/roles-list/roles-list.component';
 import { RoleCreateComponent } from './components/role-create/role-create.component';
 import { RolesDetailsComponent } from './components/roles-details/roles-details.component';
+import { RoleDeleteComponent } from './components/role-delete/role-delete.component';
 
 const routes: Routes = [
 ];
@@ -29,7 +30,8 @@ const routes: Routes = [
   declarations: [
     RolesListComponent,
     RoleCreateComponent,
-    RolesDetailsComponent
+    RolesDetailsComponent,
+    RoleDeleteComponent
   ],
   entryComponents: [
   ],

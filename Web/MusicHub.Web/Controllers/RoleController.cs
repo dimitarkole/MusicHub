@@ -63,8 +63,6 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var userId = this.userManager.GetUserId(this.User);
-
             await this.roleService.Delete(id);
             return this.Ok();
         }
