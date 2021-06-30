@@ -23,6 +23,9 @@ import { LicenseResolver } from './core/resolvers/license.resolver';
 import { LicenseCreateComponent } from './licenses/components/license-create/license-create.component';
 import { LicenseDetailsComponent } from './licenses/components/license-details/license-details.component';
 import { LicenseOwnListComponent } from './licenses/components/license-own-list/license-own-list.component';
+import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
+import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
+import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -85,6 +88,29 @@ const routes: Routes = [
       },*/
     ]
   },
+  {
+    path: 'myProfile', children: [
+      { path: '', component: ProfileOwnComponent, canActivate: [AuthorizeGuard] },
+    ]
+  },
+  {
+    path: 'profile', children: [
+      {
+        path: 'view/:id',
+        component: ProfileUserComponent,
+        resolve:
+        {
+          user: UserResolver
+        }
+      },
+    ]
+  },
+  {
+    path: 'role', children: [
+      { path: '', component: RolesListComponent, canActivate: [AuthorizeGuard] },
+      { path: 'all', component: RolesListComponent, canActivate: [AuthorizeGuard] },
+    ]
+  }
 ];
 
 @NgModule({

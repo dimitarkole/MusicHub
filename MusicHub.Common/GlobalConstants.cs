@@ -23,6 +23,8 @@
         public static class PaginationData
         {
             public const int MusicsPerPage = 12;
+            public const int RolesPerPage = 10;
+            public const int PermissionsPerPage = 10;
             public const int PlayedMusicsPerPage = 12;
             public const int NotificationPerPage = 10;
             public const int CommentsPerPage = 12;

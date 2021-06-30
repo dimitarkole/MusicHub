@@ -113,18 +113,18 @@
             await this.context.SaveChangesAsync();
         }
 
-        public T GetFollow<T>(string followingUserId, string userId)
+        public T GetFollow<T>(string followerUserId, string followingId)
            => this.context.Follows
                     .Where(f =>
-                        f.FollowingId == followingUserId
-                        && f.FollowerId == userId)
+                        f.FollowerId == followerUserId
+                        && f.FollowingId == followingId)
                     .To<T>()
                     .FirstOrDefault();
 
-        public bool IsFollowing(string followerId, string userId)
+        public bool IsFollowing(string followingUserId, string followerUserId)
             => this.context.Follows
-                .Any(f => f.FollowerId == followerId
-                    && f.FollowingId == userId);
+                .Any(f => f.FollowerId == followerUserId
+                    && f.FollowingId == followingUserId);
 
         public bool IsOwned(string id, string userId)
            => this.context.Follows

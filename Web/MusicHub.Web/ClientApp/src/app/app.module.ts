@@ -60,6 +60,18 @@ import { LicenseOwnListComponent } from './licenses/components/license-own-list/
 import { LicenseEditComponent } from './licenses/components/license-edit/license-edit.component';
 import { LicenseDeleteComponent } from './licenses/components/license-delete/license-delete.component';
 import { LicenseRequestComponent } from './licenses/components/license-request/license-request.component';
+import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
+import { ProfileChangePasswordComponent } from './profiles/components/profile-change-password/profile-change-password.component';
+import { ProfileEditComponent } from './profiles/components/profile-edit/profile-edit.component';
+import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
+import { FollowCreateComponent } from './follow/components/follow-create/follow-create.component';
+import { FollowersListComponent } from './follow/components/followers-list/followers-list.component';
+import { FollowingListComponent } from './follow/components/following-list/following-list.component';
+import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
+import { RoleCreateComponent } from './roles/components/role-create/role-create.component';
+import { RolesDetailsComponent } from './roles/components/roles-details/roles-details.component';
+import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.component';
+import { RoleEditComponent } from './roles/components/role-edit/role-edit.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +112,19 @@ import { LicenseRequestComponent } from './licenses/components/license-request/l
     LicenseEditComponent,
     LicenseDeleteComponent,
     LicenseDeleteComponent,
-    LicenseRequestComponent
+    LicenseRequestComponent,
+    ProfileOwnComponent,
+    ProfileChangePasswordComponent,
+    ProfileEditComponent,
+    ProfileUserComponent,
+    FollowCreateComponent,
+    FollowersListComponent,
+    FollowingListComponent,
+    RolesListComponent,
+    RolesDetailsComponent,
+    RoleCreateComponent,
+    RoleDeleteComponent,
+    RoleEditComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -111,6 +135,14 @@ import { LicenseRequestComponent } from './licenses/components/license-request/l
     PlaylistEditComponent,
     CommentDeleteComponent,
     LicenseDeleteComponent,
+    ProfileEditComponent,
+    ProfileChangePasswordComponent,
+    FollowersListComponent,
+    FollowingListComponent,
+    RoleCreateComponent,
+    RolesDetailsComponent,
+    RoleDeleteComponent,
+    RoleEditComponent
   ],
   imports: [
     MatSidenavModule,
@@ -126,7 +158,6 @@ import { LicenseRequestComponent } from './licenses/components/license-request/l
     MatIconModule,
     MatListModule,
     MatDialogModule,
-
     BrowserModule,
     AppRoutingModule,
     FormsModule,

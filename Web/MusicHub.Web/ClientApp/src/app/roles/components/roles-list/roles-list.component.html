@@ -1,0 +1,85 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <div class="row form-group">
+      <div class="col-md-6">
+        <h2>
+          Search role:
+        </h2>
+      </div>
+      <div class="col-md-4">
+      
+      </div>
+      <div class="col-md-2">
+        <button class="btn" (click)="openCreate()">
+          <span class="glyphicon glyphicon-plus"></span>
+        </button>
+      </div>
+    </div>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="name" type="text" placeholder="Role name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'CreatedOnDesc'" default>Time: newly music first</option>
+              <option [value]="'CreatedOnAsc'">Time: oldly music first</option>
+              <option [value]="'NameAsc'">Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
+        <button [disabled]="searchForm.invalid" type="submit"
+                class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr class="row">
+      <th class="col-md-1">#</th>
+      <th class="col-md-5">Name</th>
+      <th class="col-md-2">Permissions count</th>
+      <th class="col-md-2">Users count</th>
+      <th class="col-md-2">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let role of rolePagination.roles; index as i" class="row">
+      <td class="col-md-1">{{ i + 1 }}</td>
+      <td class="col-md-5" (click)="openDetails(role)">
+        {{role.name}}
+      </td>
+      <td class="col-md-2"> {{role.permissionsCount}}</td>
+      <td class="col-md-2"> {{role.usersCount}}</td>
+      <td class="col-md-2 table-operation-coll">
+        <button class="btn" (click)="openDelete(role.id)">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        <button class="btn" (click)="openEdit(role.id)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />
