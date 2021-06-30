@@ -71,6 +71,7 @@ import { RolesListComponent } from './roles/components/roles-list/roles-list.com
 import { RoleCreateComponent } from './roles/components/role-create/role-create.component';
 import { RolesDetailsComponent } from './roles/components/roles-details/roles-details.component';
 import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.component';
+import { RoleEditComponent } from './roles/components/role-edit/role-edit.component';
 
 @NgModule({
   declarations: [
@@ -122,7 +123,8 @@ import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.
     RolesListComponent,
     RolesDetailsComponent,
     RoleCreateComponent,
-    RoleDeleteComponent
+    RoleDeleteComponent,
+    RoleEditComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -139,7 +141,8 @@ import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.
     FollowingListComponent,
     RoleCreateComponent,
     RolesDetailsComponent,
-    RoleDeleteComponent
+    RoleDeleteComponent,
+    RoleEditComponent
   ],
   imports: [
     MatSidenavModule,
@@ -155,7 +158,6 @@ import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.
     MatIconModule,
     MatListModule,
     MatDialogModule,
-
     BrowserModule,
     AppRoutingModule,
     FormsModule,

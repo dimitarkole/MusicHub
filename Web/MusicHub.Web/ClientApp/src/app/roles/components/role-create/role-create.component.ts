@@ -79,6 +79,7 @@ export class RoleCreateComponent implements OnInit {
 
   removePermission(permission: Permission) {
     this.selectedPermissions = this.selectedPermissions.filter(p => p.id != permission.id);
+    this.permissionIds.removeAt(this.permissionIds.value.findIndex(p => p.id === permission.id))
     this.permissions.push(permission);
     this.permissions = this.permissions.sort(p => p.id);
   }

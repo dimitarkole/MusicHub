@@ -27,6 +27,10 @@ export class RoleService {
     return this.http.post(this.route, role);
   }
 
+  edit(roleId: number, role: Role) {
+    return this.http.put(`${this.route}/${roleId}`, role);
+  }
+
   delete(id: string) {
     return this.http.delete(`${this.route}/${id}`);
   }

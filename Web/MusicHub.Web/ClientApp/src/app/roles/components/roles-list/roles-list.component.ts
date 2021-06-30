@@ -10,6 +10,7 @@ import { RolePagination } from '../../models/rolePagination';
 import { RoleService } from '../../services/role.service';
 import { RoleCreateComponent } from '../role-create/role-create.component';
 import { RoleDeleteComponent } from '../role-delete/role-delete.component';
+import { RoleEditComponent } from '../role-edit/role-edit.component';
 import { RolesDetailsComponent } from '../roles-details/roles-details.component';
 
 @Component({
@@ -90,6 +91,19 @@ export class RolesListComponent implements OnInit {
     const modalDialog = this.matDialog.open(RoleDeleteComponent, dialogConfig);
     modalDialog.afterClosed().subscribe(result => {
      if (result == true) window.location.reload();
+    });
+  }
+
+  openEdit(roleId: string) {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    dialogConfig.data = roleId;
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(RoleEditComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
     });
   }
 
