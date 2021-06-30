@@ -21,9 +21,9 @@ namespace MusicHub.Services.Data.Interfaces
 
         Task Delete(string id);
 
-        bool IsFollowing(string followingUserId, string userId);
+        bool IsFollowing(string followingUserId, string followerUserId);
 
-        T GetFollow<T>(string followingUserId, string userId);
+        T GetFollow<T>(string followerUserId, string followingId);
 
         bool IsOwned(string id, string userId);
     }

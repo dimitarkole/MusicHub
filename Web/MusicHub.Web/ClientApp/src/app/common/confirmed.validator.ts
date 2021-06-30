@@ -15,6 +15,16 @@ export function ConfirmedValidator(controlName: string, matchingControlName: str
   }
 }
 
+// using custom validation
+
+export const minLengthArray = (min: number) => {
+  return (c: AbstractControl): { [key: string]: any } => {
+    if (c.value.length >= min)
+      return null;
+
+    return { MinLengthArray: true };
+  }
+}
 export function dateValidator() {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const today = new Date().getTime();

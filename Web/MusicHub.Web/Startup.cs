@@ -38,20 +38,8 @@
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddLogging(options =>
-            {
-                // hook the Console Log Provider
-                options.AddConsole();
-                options.SetMinimumLevel(LogLevel.Trace);
-
-                // hook the Application Insights Provider
-                options.AddFilter<ApplicationInsightsLoggerProvider>("", LogLevel.Trace);
-
-                // pass the InstrumentationKey provided under the appsettings
-                options.AddApplicationInsights(this.Configuration["ApplicationInsights:InstrumentationKey"]);
-            });
-
             services
+                .AddLogging()
                 .AddDatabase(this.Configuration)
                 .AddIdentity()
                 .AddJwtAuthentication(services.GetAppSettings(this.Configuration), this.Configuration)
@@ -82,20 +70,18 @@
             // Uncomment the line below if you want to seed data in your database
             // app.SeedData();
 
-            app.UseDeveloperExceptionPage();
             if (env.IsDevelopment())
             {
                 app.UseDatabaseErrorPage();
             }
 
-            app.UseStaticFiles();
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
-                RequestPath = new PathString("/ClientApp/src/assets/resources"),
-            });
-
-            app
+            app.UseDeveloperExceptionPage()
+                .UseStaticFiles()
+                .UseStaticFiles(new StaticFileOptions()
+                {
+                    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"ClientApp/src/assets/resources")),
+                    RequestPath = new PathString("/ClientApp/src/assets/resources"),
+                })
                 .UseSwagger()
                 .UseSwaggerUI(c =>
                 {

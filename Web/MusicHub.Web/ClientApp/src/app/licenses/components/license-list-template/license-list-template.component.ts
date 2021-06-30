@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import License from '../../models/license';
@@ -18,8 +19,7 @@ export class LicenseListTemplateComponent implements OnInit {
   deleteForm: FormGroup;
   licenseStatus = LicenseStatus;
 
-  constructor(private modalService: NgbModal,
-    private licenseService: LicenseService,
+  constructor(public matDialog: MatDialog,
     private formBuilder: FormBuilder,
     private router: Router) { }
 
@@ -40,14 +40,16 @@ export class LicenseListTemplateComponent implements OnInit {
     this.router.navigate(['/license/edit', license.id]);
   }
 
-  openDelete(licenseId: string) {
-    let modal = this.modalService.open(LicenseDeleteComponent);
-    modal.result.then(value => {
-      this.licenseService.delete(licenseId).subscribe(_ => {
-        this.router.navigate(['/license/own']);
-      })
-    }).catch(err => {
-      console.log(err);
-    })
+  openDelete(licenseId: number) {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    dialogConfig.data = licenseId;
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(LicenseDeleteComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
   }
 }

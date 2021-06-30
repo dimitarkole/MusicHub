@@ -24,6 +24,10 @@
 
         public string[] Roles { get; set; }
 
+        public virtual int MusicsCount { get; set; }
+
+        public virtual int PlaylistsCount { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<User, UserDetailsViewModel>()
