@@ -15,6 +15,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PermissionModels;
     using MusicHub.Web.ViewModels.RoleModels;
+    using MusicHub.Web.ViewModels.RolePermissionModels;
 
     public class RoleService : IRoleService
     {
@@ -49,13 +50,7 @@
         {
             var role = model.To<Role>();
             await this.context.Roles.AddAsync(role);
-            foreach (var permissionId in model.PermissionIds)
-            {
-                var rolePemission = permissionId.To<RolePermission>();
-                rolePemission.RoleId = role.Id;
-                await this.context.RolePermissions.AddAsync(rolePemission);
-            }
-
+            await this.CreateRolePermission(model.PermissionIds, role.Id);
             await this.context.SaveChangesAsync();
             return role.Id;
         }
@@ -96,10 +91,26 @@
         public async Task Update(string id, RoleEditInputModel model)
         {
             Role role = this.context.Roles.Find(id);
-            model.To<Role>(role);
+            role.Name = model.Name;
 
+            var rolePermissions = this.context.RolePermissions
+                .Where(rp => rp.RoleId == id)
+                .ToList();
             this.context.Roles.Update(role);
+            this.context.RolePermissions.RemoveRange(rolePermissions);
             await this.context.SaveChangesAsync();
+            await this.CreateRolePermission(model.PermissionIds, role.Id);
+            await this.context.SaveChangesAsync();
+        }
+
+        private async Task CreateRolePermission(ICollection<RolePermissionCreateInputModel> permissionIds, string roleId)
+        {
+            foreach (var permissionId in permissionIds)
+            {
+                var rolePemission = permissionId.To<RolePermission>();
+                rolePemission.RoleId = roleId;
+                await this.context.RolePermissions.AddAsync(rolePemission);
+            }
         }
 
         private IQueryable<Role> FilteringData(RoleFilter filter, IQueryable<Role> roles)

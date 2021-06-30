@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Text;
 
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
+    using MusicHub.Web.ViewModels.RolePermissionModels;
 
     public class RoleEditInputModel : IMapTo<Role>
     {
@@ -14,6 +16,9 @@
         /// </summary>
         public string Name { get; set; }
 
-        public ICollection<string> PermissionIds { get; set; }
+        [NotMapped]
+        // [Required]
+        // [MinLength(1)]
+        public ICollection<RolePermissionCreateInputModel> PermissionIds { get; set; }
     }
 }
