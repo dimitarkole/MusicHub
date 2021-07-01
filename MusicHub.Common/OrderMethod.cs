@@ -15,5 +15,13 @@
         NameAsc = 2,
         [Display(Name = "Order by enity name desc")]
         NameDesc = 3,
+        [Display(Name = "Order by enity username asc")]
+        UserNameAsc = 4,
+        [Display(Name = "Order by enity username desc")]
+        UserNameDesc = 5,
+        [Display(Name = "Order by enity email asc")]
+        EmailAsc = 6,
+        [Display(Name = "Order by enity email desc")]
+        EmailDesc = 7,
     }
 }

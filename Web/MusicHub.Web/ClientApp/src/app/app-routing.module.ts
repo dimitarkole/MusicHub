@@ -26,24 +26,43 @@ import { LicenseOwnListComponent } from './licenses/components/license-own-list/
 import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
 import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
+import { UsersListComponent } from './users/components/users-list/users-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   {
-    path: 'categories', component: CategoriesListComponent
+    path: 'categories',
+    component: CategoriesListComponent,
+    canActivate: [PermissionsGuard],
+    data: withPermission(PermissionType.CategoryAdministrator)
   },
   {
     path: 'playlists', children: [
       { path: '', component: PlaylistsListComponent },
-      { path: 'own', component: PlaylistsOwnListComponent, canActivate: [PermissionsGuard], data: withPermission(PermissionType.PlaylistCreator) },
+      {
+        path: 'own',
+        component: PlaylistsOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.PlaylistCreator)
+      },
     ]
   },
   {
     path: 'musics', children: [
-      { path: 'own', component: MusicsOwnListComponent, canActivate: [PermissionsGuard], data: withPermission(PermissionType.MusicCreator) },
-      { path: 'create', component: MusicCreateComponent, canActivate: [PermissionsGuard], data: withPermission(PermissionType.MusicCreator) },
+      {
+        path: 'own',
+        component: MusicsOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.MusicCreator)
+      },
+      {
+        path: 'create',
+        component: MusicCreateComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.MusicCreator)
+      },
       {
         path: 'edit/:id',
         component: MusicEditComponent,
@@ -66,18 +85,38 @@ const routes: Routes = [
   },
   {
     path: 'license', canActivate: [AuthorizeGuard], children: [
-      { path: '', component: LicenseOwnListComponent },
+      {
+        path: '',
+        component: LicenseOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.LicenseCreator) },
       {
         path: 'request/:id',
         component: LicenseRequestComponent,
         resolve:
         {
           license: LicenseResolver
-        }
+        },
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.LicenseManager) 
       },
-      { path: 'own', component: LicenseOwnListComponent },
-      { path: 'all', component: LicenseListComponent },
-      { path: 'create', component: LicenseCreateComponent },
+      {
+        path: 'own',
+        component: LicenseOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.LicenseCreator)
+      },
+      {
+        path: 'all',
+        component: LicenseListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.LicenseManager)  },
+      {
+        path: 'create',
+        component: LicenseCreateComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.LicenseCreator)
+      },
       /*{
         path: 'view/:id',
         component: LicenseDetailsComponent,
@@ -107,8 +146,33 @@ const routes: Routes = [
   },
   {
     path: 'role', children: [
-      { path: '', component: RolesListComponent, canActivate: [AuthorizeGuard] },
-      { path: 'all', component: RolesListComponent, canActivate: [AuthorizeGuard] },
+      {
+        path: '',
+        component: RolesListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.ManageUserPermissions) },
+      {
+        path: 'all',
+        component: RolesListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.ManageUserPermissions)
+      },
+    ]
+  },
+  {
+    path: 'users', children: [
+      {
+        path: '',
+        component: UsersListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.UserAdministration)
+      },
+      {
+        path: 'all',
+        component: UsersListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.UserAdministration)
+      }
     ]
   }
 ];

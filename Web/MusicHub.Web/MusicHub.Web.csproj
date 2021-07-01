@@ -98,6 +98,7 @@
     <Folder Include="ClientApp\src\app\musics\services\" />
     <Folder Include="ClientApp\src\app\roles\" />
     <Folder Include="ClientApp\src\app\playlists\components\" />
+    <Folder Include="ClientApp\src\app\users\services\" />
     <Folder Include="ClientApp\src\assets\js\" />
     <Folder Include="ClientApp\src\assets\plugins\easing\" />
     <Folder Include="ClientApp\src\assets\plugins\font-awesome-4.7.0\css\" />

@@ -1,0 +1,31 @@
+<section class="container py-5">
+  <div class="row pt-3">
+    <!-- Author-->
+    <div class="col-lg-3 col-sm-6 mb-30 pb-2"  *ngFor="let user of users; index as i">
+      <div class="team-card-style-3 mx-auto">
+        <div class="team-thumb">
+          <img src="{{user.imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': user.imageUrl}}" alt="Author Picture" *ngIf="!user.imageUrl">
+        </div>
+        <h4 class="team-name">{{user.username?.substring(0, 25)}}</h4>
+        <div class="team-contact-link">{{user.firstName?.substring(0, 12)+ " " + user.lastName?.substring(0, 12)}}</div>
+        <div class="team-contact-link">{{user.email}}</div>
+        <div class="team-social-bar-wrap">
+          <div class="team-social-bar">
+            <a class="social-btn sb-style-1 sb-twitter" href="#">
+              <i class="fa fa-twitter"></i>
+            </a>
+            <a class="social-btn sb-style-1 sb-github" href="#">
+              <i class="fa fa-github"></i>
+            </a>
+            <a class="social-btn sb-style-1 sb-stackoverflow" href="#">
+              <i class="fa fa-linkedin"></i>
+            </a>
+            <a class="social-btn sb-style-1 sb-skype" href="#">
+              <i class="fa fa-skype"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -15,6 +15,7 @@ import UserFullName from '../../shared/models/userFullName';
 import { ActiveDirectoryUser } from '../../shared/models/activeDirectoryUser';
 import { PermissionType } from '../../shared/models/permissionType';
 import LoginResponse from '../../shared/models/user';
+import { UserPagination } from '../../users/models/userPagination';
 
 @Injectable({
   providedIn: 'root'
@@ -116,12 +117,12 @@ export class AuthService {
 		return this.http.get<UserInitials[]>(this.initialsPath)
 	}
 
-	advancedFilter(filter: UserFilter): Observable<any> {
-    return this.http.post(this.route + '/AdvancedSearch', filter);
+	advancedFilter(page: number, filter: UserFilter): Observable<any> {
+    return this.http.post(this.route + `/AdvancedSearch/${page}`, filter);
 	}
 
-	getUsersList(): Observable<UserInfo[]> {
-    return this.http.get<UserInfo[]>(this.route + '/List');
+  all(page: number): Observable<UserPagination> {
+    return this.http.get<UserPagination>(this.route + `/All/${page}`);
 	}
 
 	isInRole(role: string): boolean {
@@ -223,11 +224,10 @@ export class AuthService {
 	}
 
 	filterResult(filter) {
-		console.log(filter);
 		return this.http.post(this.filterPath, filter);
 	}
 
-	filter(filters) {
+	filter(page:number, filters) {
 		this.filteredUsers.emit(filters);
 	}
 

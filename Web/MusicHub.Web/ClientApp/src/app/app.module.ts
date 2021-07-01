@@ -72,6 +72,8 @@ import { RoleCreateComponent } from './roles/components/role-create/role-create.
 import { RolesDetailsComponent } from './roles/components/roles-details/roles-details.component';
 import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.component';
 import { RoleEditComponent } from './roles/components/role-edit/role-edit.component';
+import { UsersListComponent } from './users/components/users-list/users-list.component';
+import { UsersListTemplateComponent } from './users/components/users-list-template/users-list-template.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +126,9 @@ import { RoleEditComponent } from './roles/components/role-edit/role-edit.compon
     RolesDetailsComponent,
     RoleCreateComponent,
     RoleDeleteComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    UsersListComponent,
+    UsersListTemplateComponent
   ],
   entryComponents: [
     CategoryCreateComponent,

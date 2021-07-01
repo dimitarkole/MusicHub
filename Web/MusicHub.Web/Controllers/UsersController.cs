@@ -200,9 +200,9 @@
         public ActionResult FindUsers(int page, [FromBody] FindUserInputModel model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model.SearchQuery));
 
         [Authorize]
-        [Permission(PermissionType.FindAndReplaceUsers)]
+        //[Permission(PermissionType.FindAndReplaceUsers)]
         [HttpPost(nameof(AdvancedSearch) + "/{page}")]
-        public ActionResult AdvancedSearch(int page, [FromBody] UserFilter model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
+        public ActionResult AdvancedSearch(int page, UserFilter model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
@@ -272,6 +272,7 @@
         }
 
         [Authorize]
+        [Permission(PermissionType.UserAdministration)]
         private async Task ClearUserRoles(User user)
         {
             IList<string> roles = await this.userManager.GetRolesAsync(user);
