@@ -131,6 +131,15 @@
           </div>
         </a>
       </div>
+
+      <div class="dropdown-item" *ngIf="hasPermition('LicenseManager')">
+        <a mat-list-item routerLink='/license/all' class="row dropdown-item text-dark">
+          <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+          <div class="col-md-9">
+            All licenses
+          </div>
+        </a>
+      </div>
       <div class="dropdown-item" *ngIf="hasPermition('ManageUserPermissions')">
         <a mat-list-item routerLink='/role/all' class="row dropdown-item text-dark">
           <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
@@ -139,11 +148,11 @@
           </div>
         </a>
       </div>
-      <div class="dropdown-item" *ngIf="hasPermition('LicenseManager')">
-        <a mat-list-item routerLink='/license/all' class="row dropdown-item text-dark">
+      <div class="dropdown-item" *ngIf="hasPermition('ManageUserPermissions')">
+        <a mat-list-item routerLink='/users/all' class="row dropdown-item text-dark">
           <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
           <div class="col-md-9">
-            All licenses
+            All users
           </div>
         </a>
       </div>

@@ -19,6 +19,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Services;
     using MusicHub.Services.Interfaces;
+    using MusicHub.Common;
 
     public class ProfileService : IProfileService
     {
@@ -62,7 +63,7 @@
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
-                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
             };
         }
 
@@ -87,7 +88,7 @@
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
-                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
             };
         }
 
@@ -99,20 +100,32 @@
             {
                 users = users.Where(u => u.LastName.Contains(model.LastName));
             }
+
+            if (!string.IsNullOrEmpty(model.Email))
+            {
+                users = users.Where(u => u.Email.Contains(model.Email));
+            }
+
+            if (!string.IsNullOrEmpty(model.UserName))
+            {
+                users = users.Where(u => u.UserName.Contains(model.UserName));
+            }
+
             if (!string.IsNullOrEmpty(model.FirstName))
             {
                 users = users.Where(u => u.FirstName.Contains(model.FirstName));
             }
 
+            users = this.OrederSearch(model.OrderMethod, users);
+
             return new UserAllViewModel<UserViewModel>()
             {
                 Users = users
-                    .OrderBy(u => u.UserName)
                     .To<UserViewModel>()
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
-                NumberOfPages = this.GetLicensesPagesCount(users.Count(), entitesPerPage),
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
             };
         }
 
@@ -197,7 +210,37 @@
             await context.SaveChangesAsync();
         }
 
-        private int GetLicensesPagesCount(int entityCount, int entitesPerPage)
+        private IQueryable<User> OrederSearch(OrderMethod orderMethod, IQueryable<User> users)
+        {
+            if (orderMethod == OrderMethod.NameDesc)
+            {
+                users = users.OrderByDescending(s => s.UserName);
+            }
+            else if (orderMethod == OrderMethod.EmailAsc)
+            {
+                users = users.OrderBy(s => s.Email);
+            }
+            else if (orderMethod == OrderMethod.EmailDesc)
+            {
+                users = users.OrderByDescending(s => s.Email);
+            }
+            else if (orderMethod == OrderMethod.NameAsc)
+            {
+                users = users.OrderBy(s => s.FirstName + " " + s.LastName);
+            }
+            else if (orderMethod == OrderMethod.NameDesc)
+            {
+                users = users.OrderByDescending(s => s.FirstName + " " + s.LastName);
+            }
+            else
+            {
+                users = users.OrderBy(s => s.UserName);
+            }
+
+            return users;
+        }
+
+        private int GetDataPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
     }
 }

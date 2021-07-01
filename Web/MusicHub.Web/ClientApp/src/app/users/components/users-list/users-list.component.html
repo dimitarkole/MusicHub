@@ -1,0 +1,71 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <h2>
+      Search own musics:
+    </h2>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">Email</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="email" type="text" placeholder="email">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">User name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="userName" type="text" placeholder="User name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">First name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="firstName" type="text" placeholder="First name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">Last name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="lastName" type="text" placeholder="Last name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'UserNameAsc'" default>User name: A-Z</option>
+              <option [value]="'UserNameDesc'">User name: Z-A</option>
+              <option [value]="'EmailAsc'" default>Email: A-Z</option>
+              <option [value]="'EmailDesc'">Email: Z-A</option>
+              <option [value]="'NameAsc'" default>Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-2">
+        <button [disabled]="searchForm.invalid" type="submit"
+                class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-users-list-template [users]="userPagination.users">
+
+</app-users-list-template>
+
