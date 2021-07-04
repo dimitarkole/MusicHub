@@ -19,6 +19,10 @@ export class RoleService {
     return this.http.get<RolePagination>(`${this.route}/Get/${page}`);
   }
 
+  getAll() {
+    return this.http.get<Role[]>(`${this.route}/GetAll`);
+  }
+
   filter(page: number, role: Role) {
     return this.http.post<RolePagination>(`${this.route}/Filter/${page}`, role);
   }

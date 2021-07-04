@@ -6,7 +6,9 @@
         <div class="team-thumb">
           <img src="{{user.imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': user.imageUrl}}" alt="Author Picture" *ngIf="!user.imageUrl">
         </div>
-        <h4 class="team-name">{{user.username?.substring(0, 25)}}</h4>
+        <h4 class="team-name">
+          <a routerLink="{{'/users/details/' + user.id}}"> {{user.username?.substring(0, 25)}}</a>
+        </h4>
         <div class="team-contact-link">{{user.firstName?.substring(0, 12)+ " " + user.lastName?.substring(0, 12)}}</div>
         <div class="team-contact-link">{{user.email}}</div>
         <div class="team-social-bar-wrap">

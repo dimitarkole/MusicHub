@@ -154,6 +154,10 @@
             return user;
         }
 
+        public User GetUser(string id)
+            => this.context.Users
+                  .FirstOrDefault(u => u.Id == id);
+
         public async Task ToggleSetting(int settingId)
         {
             UserSetting setting = this.context.UserSettings.Find(settingId);
@@ -242,5 +246,6 @@
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
+
     }
 }

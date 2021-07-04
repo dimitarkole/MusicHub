@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MusicHub.Data.Models;
 using MusicHub.Services.Mapping;
+using System;
 using System.Linq;
 
 namespace MusicHub.Web.ViewModels.Users
@@ -10,6 +11,8 @@ namespace MusicHub.Web.ViewModels.Users
         public string Id { get; set; }
 
         public string[] Roles { get; set; }
+
+        public DateTime CreatedOn { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -33,6 +33,8 @@
 
         Task<User> Update(string id, UserEditInputModel model);
 
+        User GetUser(string id);
+
         Task ToggleSetting(int settingId);
 
         bool SettingEnabled(SettingType settingType, string userId);

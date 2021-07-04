@@ -7,6 +7,7 @@ import { PermissionsGuard } from '../core/guards/permissions.guard';
 import { withPermission } from '../core/guards/with-permission';
 import { PermissionType } from '../shared/models/permissionType';
 import { UsersListTemplateComponent } from './components/users-list-template/users-list-template.component';
+import { UserDetailsComponent } from './components/user-details/user-details.component';
 
 const routes: Routes = [
   { 
@@ -26,7 +27,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     UsersListComponent,
-    UsersListTemplateComponent
+    UsersListTemplateComponent,
+    UserDetailsComponent
   ],
   imports: [
     CommonModule,

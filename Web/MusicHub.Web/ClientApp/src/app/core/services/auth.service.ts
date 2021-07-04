@@ -45,7 +45,8 @@ export class AuthService {
 	private editContactPath = 'Contacts';
 	private getUsersClassificationsPath = 'Users/Classifications';
 	private getFullNames = 'Users/GetFullNames';
-	private rolesPath = 'Roles';
+  private rolesPath = 'Roles';
+  private changeRolesPath = 'Users/ChangeRoles';
   private permissionsPath = 'Users/HasPermission';
   private getPermissionsPath = 'Permissions/GetOwnPermissions';
 	private initialsPath = 'Users/GetInitials';
@@ -193,7 +194,11 @@ export class AuthService {
 
 	edit(id: string, data: any): Observable<any> {
 		return this.http.put(this.editUserPath + '/' + id, data);
-	}
+  }
+
+  changeRoles(id: string, data: any): Observable<any> {
+    return this.http.put(this.changeRolesPath + '/' + id, data);
+  }
 
 	getUsers() {
 		return this.http.get(this.getUsersPath);
