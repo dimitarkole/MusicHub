@@ -30,6 +30,12 @@
             this.paginationService = paginationService;
         }
 
+        public ICollection<T> All<T>()
+            => this.context.Roles
+                .OrderBy(r => r.Name)
+                .To<T>()
+                .ToList();
+
         public RolesAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var roles = this.context.Roles

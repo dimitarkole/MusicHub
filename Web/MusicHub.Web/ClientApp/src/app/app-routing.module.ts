@@ -27,6 +27,7 @@ import { ProfileOwnComponent } from './profiles/components/profile-own/profile-o
 import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 import { UsersListComponent } from './users/components/users-list/users-list.component';
+import { UserDetailsComponent } from './users/components/user-details/user-details.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -172,7 +173,17 @@ const routes: Routes = [
         component: UsersListComponent,
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.UserAdministration)
-      }
+      },
+      {
+        path: 'details/:id',
+        component: UserDetailsComponent,
+        resolve:
+        {
+          user: UserResolver
+        },
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.ManageUserPermissions)
+      },
     ]
   }
 ];

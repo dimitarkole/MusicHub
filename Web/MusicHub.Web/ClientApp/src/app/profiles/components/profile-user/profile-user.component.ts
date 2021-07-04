@@ -130,7 +130,6 @@ export class ProfileUserComponent implements OnInit {
         data.playlists.forEach(Music => {
           this.playlistPagination.playlists.push(Music);
         });
-        console.log(data);
       });
     }
   }

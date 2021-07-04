@@ -37,8 +37,6 @@ export class MusicPlayComponent implements OnInit {
       musicId: null,
     });
     this.music = this.route.snapshot.data.music;
-    console.log("Here");
-    console.log(this.music);
     this.musicId = this.music.id;
    
     if (this.isAuth) {

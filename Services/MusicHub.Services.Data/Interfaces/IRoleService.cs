@@ -9,6 +9,8 @@ namespace MusicHub.Services.Data.Interfaces
 {
     public interface IRoleService
     {
+        ICollection<T> All<T>();
+
         RolesAllViewModel<T> All<T>(int page, int entitesPerPage);
 
         RolesAllViewModel<T> Filter<T>(int page, int entitesPerPage, RoleFilter filter);

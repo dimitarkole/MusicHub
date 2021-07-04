@@ -166,6 +166,26 @@
         }
 
         [Authorize]
+        [Permission(PermissionType.UserAdministration)]
+        [HttpPut(nameof(ChangeRoles) + "/{id}")]
+        public async Task<ActionResult> ChangeRoles(UserChangeRolesInputModel model, string id)
+        {
+            // this.ValidateUser(model, id);
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            User user = this.profileService.GetUser(id);
+            await this.ClearUserRoles(user);
+            await this.userManager.AddToRolesAsync(user, model.RoleIds
+                .Select(r => r.RoleName)
+                .ToList());
+
+            return this.Ok();
+        }
+
+        [Authorize]
         [Permission(PermissionType.ManageUserPermissions)]
         [HttpPatch(nameof(ChangePermissions))]
         public async Task<ActionResult> ChangePermissions(ChangePermissionsInputModel model)
