@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\Data\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
+    <ProjectReference Include="..\..\MusicHub.Filtering\MusicHub.Filtering.csproj" />
     <ProjectReference Include="..\..\Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
     <ProjectReference Include="..\MusicHub.Services\MusicHub.Services.csproj" />

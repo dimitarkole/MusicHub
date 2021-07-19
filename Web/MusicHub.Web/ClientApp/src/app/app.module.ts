@@ -75,6 +75,8 @@ import { RoleEditComponent } from './roles/components/role-edit/role-edit.compon
 import { UsersListComponent } from './users/components/users-list/users-list.component';
 import { UsersListTemplateComponent } from './users/components/users-list-template/users-list-template.component';
 import { UserDetailsComponent } from './users/components/user-details/user-details.component';
+import { NoSearchResultsComponent } from './shared/no-search-results/no-search-results.component';
+import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.component';
 
 @NgModule({
   declarations: [
@@ -131,6 +133,8 @@ import { UserDetailsComponent } from './users/components/user-details/user-detai
     UsersListComponent,
     UsersListTemplateComponent,
     UserDetailsComponent,
+    NoSearchResultsComponent,
+    NoMoreResultComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,

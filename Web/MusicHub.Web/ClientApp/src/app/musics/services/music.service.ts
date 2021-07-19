@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { BooleanSearchEntity, BooleanSearchInput } from '../../shared/models/boolean-search';
 import { Music } from '../models/music';
 import { MusicPagination } from '../models/musicPagination';
 
@@ -15,6 +17,16 @@ export class MusicService {
   all(page: number) {
     return this.http.get<MusicPagination>(`${this.routeHomeController}/Get/${page}`);
   }
+
+  search<TModel>(page:number, query: BooleanSearchInput, booleanSearchEntity: BooleanSearchEntity): Observable<TModel> {
+
+    let entityName = BooleanSearchEntity[booleanSearchEntity];
+    let finalQuery = query.query.substring(query.query.indexOf(' ')).trim();
+    console.log(finalQuery);
+
+    return this.http.post<TModel>(this.routeHomeController + "/" + entityName, { query: finalQuery });
+  }
+
 
   allFilter(page: number, music: Music) {
     return this.http.post<MusicPagination>(`${this.routeHomeController}/Filter/${page}`, music);
