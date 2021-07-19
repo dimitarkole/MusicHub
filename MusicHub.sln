@@ -39,7 +39,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Web.Tests", "Tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Web.ViewModels", "Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj", "{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicHub.Tests.TestData", "Tests\MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj", "{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Tests.TestData", "Tests\MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj", "{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicHub.Filtering", "MusicHub.Filtering\MusicHub.Filtering.csproj", "{856B708D-7C16-4B6B-B856-603A1404EA81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +109,10 @@ Global
 		{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{856B708D-7C16-4B6B-B856-603A1404EA81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{856B708D-7C16-4B6B-B856-603A1404EA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{856B708D-7C16-4B6B-B856-603A1404EA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{856B708D-7C16-4B6B-B856-603A1404EA81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

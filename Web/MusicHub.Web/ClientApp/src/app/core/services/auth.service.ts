@@ -31,7 +31,6 @@ export class AuthService {
 	private getUsersPath = 'Users';
 	private getActiveDirectoryUsersPath = 'ActiveDirectory'
 	private editUserPath = 'Users';
-	private getContactsPath = 'Contacts';
 	private deletePath = 'Users/';
 	private filterPath = 'Users/AdvancedSearch';
 	private searchPath = 'SuperAdmin/FindUsers';
@@ -218,10 +217,6 @@ export class AuthService {
 
 	updateProfileImage(imageObj): Observable<any> {
 		return this.http.post(this.getUsersPath + '/UploadProfileImage', imageObj);
-	}
-
-	getContacts() {
-		return this.http.get(this.getContactsPath);
 	}
 
 	deleteUser(id) {

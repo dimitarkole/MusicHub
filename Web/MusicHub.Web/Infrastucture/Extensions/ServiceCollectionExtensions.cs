@@ -29,6 +29,7 @@
     using MusicHub.Services.Interfaces;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.ApplicationInsights;
+    using MusicHub.Filtering;
 
     public static class ServiceCollectionExtensions
     {
@@ -137,6 +138,8 @@
                 .AddTransient<IPermissionsService, PermissionsService>()
                 .AddTransient<IMegaStorageService, MegaStorageService>()
                 .AddTransient<IRoleService, RoleService>()
+                //.AddTransient<IQueryBuilder, QueryBuilder>()
+                .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>();
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()
