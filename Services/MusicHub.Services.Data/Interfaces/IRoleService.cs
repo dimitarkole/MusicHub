@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MusicHub.Web.ViewModels.RoleModels;
+using MusicHub.Web.ViewModels.RolePermissionModels;
 
 namespace MusicHub.Services.Data.Interfaces
 {
@@ -17,7 +18,7 @@ namespace MusicHub.Services.Data.Interfaces
 
         Task<string> Create(RoleCreateInputModel model);
 
-        T GetById<T>(string id);
+        RoleDetailsModel GetById(string id);
 
         Task Update(string id, RoleEditInputModel model);
 

@@ -88,11 +88,18 @@
             };
         }
 
-        public T GetById<T>(string id)
-            => this.context.Roles
+        public RoleDetailsModel GetById(string id)
+        {
+            var result = this.context.Roles
                 .Where(s => s.Id == id)
-                .To<T>()
+                .To<RoleDetailsModel>()
                 .FirstOrDefault();
+            result.Permissions = this.context.RolePermissions
+              .Where(ur => ur.RoleId == id)
+              .To<RolePermissionViewModel>()
+              .ToList();
+            return result;
+        }
 
         public async Task Update(string id, RoleEditInputModel model)
         {
