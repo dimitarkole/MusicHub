@@ -39,7 +39,7 @@
         public RolesAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var roles = this.context.Roles
-                  .OrderBy(m => m.Name)
+                  .OrderBy(r => r.Name)
                   .To<T>();
 
             return new RolesAllViewModel<T>()
@@ -88,11 +88,22 @@
             };
         }
 
-        public T GetById<T>(string id)
-            => this.context.Roles
-                .Where(s => s.Id == id)
-                .To<T>()
-                .FirstOrDefault();
+        public RoleDetailsModel GetById(string id)
+        {
+            var result = new RoleDetailsModel();
+            result.Name = this.context.Roles
+                .Where(r => r.Id == id)
+                .FirstOrDefault()
+                .Name;
+            result.UsersCount = this.context.UserRoles
+                .Where(ur => ur.RoleId == id)
+                .Count();
+            result.Permissions = this.context.RolePermissions
+              .Where(ur => ur.RoleId == id)
+              .To<RolePermissionViewModel>()
+              .ToList();
+            return result;
+        }
 
         public async Task Update(string id, RoleEditInputModel model)
         {
@@ -123,7 +134,7 @@
         {
             if (!string.IsNullOrEmpty(filter.Name))
             {
-                roles = roles.Where(s => s.Name.ToLower().Contains(filter.Name.ToLower()));
+                roles = roles.Where(r => r.Name.ToLower().Contains(filter.Name.ToLower()));
             }
 
             return roles;
@@ -133,11 +144,11 @@
         {
             if (orderMethod == OrderMethod.NameAsc)
             {
-                roles = roles.OrderBy(s => s.Name);
+                roles = roles.OrderBy(r => r.Name);
             }
             else if (orderMethod == OrderMethod.NameDesc)
             {
-                roles = roles.OrderByDescending(s => s.Name);
+                roles = roles.OrderByDescending(r => r.Name);
             }
 
             return roles;

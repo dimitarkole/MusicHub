@@ -19,6 +19,7 @@
 
         public int UsersCount { get; set; }
 
+        [NotMapped]
         public ICollection<RolePermissionViewModel> Permissions { get; set; }
     }
 }

@@ -11,7 +11,7 @@
 
     public class RolePermissionViewModel : IMapFrom<RolePermission>
     {
-        public int PermissionId { get; set; }
+        //public int PermissionId { get; set; }
 
         public PermissionViewModel Permission { get; set; }
     }
