@@ -12,7 +12,7 @@ import { BooleanSearchService } from '../../core/resolvers/boolean-search.servic
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit {
+export class NavBarComponent implements OnInit, OnChanges {
   @Output() sidenavToggle = new EventEmitter<void>();
   permitions: Permission[];
   isAuth: boolean = false;
@@ -70,13 +70,7 @@ export class NavBarComponent implements OnInit {
     /*this.authService.updatedUser.subscribe((data) => {
       this.profileImage = data.imageUrl;
     })*/
-    this.authService.isAuthChanged.subscribe(() => {
-      this.isAuth = this.authService.isAuth;
-      this.isAdmin = this.authService.isAdmin;
-      this.role = this.authService.role;
-      this.username = authService.username;
-    });
-
+    this.getUserData();
     this.booleanSearchDocumentation = booleanSearchService.getBooleanSearchDocumentation();
     this.searchOptions = this.booleanSearchDocumentation.get('tables');
     this.originalSearchOptions = this.searchOptions;
@@ -84,6 +78,10 @@ export class NavBarComponent implements OnInit {
     if (window.location.href.includes('login')) {
       this.isLoggedIn = false;
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+     this.getUserData();
   }
 
   updateSearch() {
@@ -122,6 +120,8 @@ export class NavBarComponent implements OnInit {
     } else if (url.includes('playlists')) {
       this.currentFilterList = this.playlistMappingFilterList;
     }
+
+    this.getUserData();
   }
 
   showNotifications() {
@@ -163,7 +163,6 @@ export class NavBarComponent implements OnInit {
     }
   }
 
-
   hasPermition(type: string): boolean {
     return this.permitions == null ? false : this.permitions.some(p => p.type == type);
   }
@@ -182,5 +181,22 @@ export class NavBarComponent implements OnInit {
 
   get orderMethod(): AbstractControl {
     return this.searchForm.get('orderMethod');
+  }
+
+  private getUserData() {
+    this.authService.isAuthChanged.subscribe(() => {
+      this.isAuth = this.authService.isAuth;
+      this.isAdmin = this.authService.isAdmin;
+      this.role = this.authService.role;
+      this.username = this.authService.username;
+      this.authService.getPermissions().subscribe(p => {
+        this.permitions = p;
+      });
+    });
+
+    this.isAdmin = this.authService.isAdmin;
+    this.isAuth = this.authService.isAuth;
+    this.role = this.authService.role;
+    this.username = this.authService.username;
   }
 }
