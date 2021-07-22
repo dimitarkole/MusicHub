@@ -315,7 +315,7 @@
         {
             await this.context.Roles.AddRangeAsync(roles);
             await this.context.Users.AddRangeAsync(RoleTestsData.Users);
-            await this.context.Permissions.AddRangeAsync(RoleTestsData.Permissions());
+            await this.context.Permissions.AddRangeAsync(RoleTestsData.Permissions);
             await this.context.SaveChangesAsync();
             var service = new RoleService(this.context, new PaginationService());
             if (roles.Count > 0)
@@ -326,7 +326,6 @@
                 }
 
                 await this.context.UserRoles.AddRangeAsync(RoleTestsData.UsersRoles());
-
                 await this.context.SaveChangesAsync();
             }
 

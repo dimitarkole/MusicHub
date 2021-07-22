@@ -82,6 +82,6 @@
 
         [HttpGet("{id}")]
         public ActionResult<RoleDetailsModel> Get(string id)
-            => this.Ok(this.roleService.GetById<RoleDetailsModel>(id));
+            => this.Ok(this.roleService.GetById(id));
     }
 }
