@@ -43,26 +43,7 @@
             new Role { Id = "Role6", Name = Roles.User },
         };
 
-        public static List<Permission> Permissions()
-        {
-            var permissionTypesByDescription = EnumExtensions.GetEnumValuesByDisplayName<PermissionType>();
-            var permissions = new List<Permission>();
-            var count = 0;
-            foreach (var permissionTypeByDescription in permissionTypesByDescription)
-            {
-                PermissionType type = permissionTypeByDescription.Key;
-                string description = permissionTypeByDescription.Value;
-
-                var newPermission = new Permission
-                {
-                    Type = type,
-                    Description = description,
-                };
-                permissions.Add(newPermission);
-            }
-
-            return permissions;
-        }
+        public static List<Permission> Permissions => PermissionTestsData.Permissions();
 
         public static List<User> Users => UserTestsData.Users;
 
