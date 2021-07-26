@@ -148,11 +148,10 @@
                 var data = new Dictionary<string, string>();
                 data.Add("userName", user.UserName);
                 data.Add("userId", user.Id);
-                var messageType = MessageType.ConfirmEmail;
-                var htmlContent = MessagesContentTemplates.CreateMessageContent(messageType, data);
+                var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
                 await this.emailSender.SendEmailAsync(
                     user.Email,
-                    EmailSubjects.ClientConfirmationEmail,
+                    EmailSubjects.ConfirmEmail,
                     htmlContent);
 
                 return this.Ok();
