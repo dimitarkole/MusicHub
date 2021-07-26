@@ -47,7 +47,6 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp() {
-    alert("Here");  
     let newUser: User = this.signUpForm.value;
     this.authService.create(newUser)
       .subscribe(_ => {

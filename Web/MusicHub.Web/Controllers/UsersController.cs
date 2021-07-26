@@ -11,11 +11,13 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using MusicHub.Common;
     using MusicHub.Common.Settings;
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
+    using MusicHub.Services.Messaging;
     using MusicHub.Web.Extensions.Extensions;
     using MusicHub.Web.Infrastucture;
     using MusicHub.Web.Infrastucture.Configurations;
@@ -30,17 +32,20 @@
     {
         private readonly IProfileService profileService;
         private readonly INotificationsService notificationsService;
+        private readonly IEmailSender emailSender;
 
         public UsersController(
             IProfileService profileService,
             INotificationsService notificationsService,
             UserManager<User> userManager,
+            IEmailSender emailSender,
             SignInManager<User> signInManager,
             ILogger<LogoutModel> logger)
             : base(userManager, signInManager, logger)
         {
             this.profileService = profileService;
             this.notificationsService = notificationsService;
+            this.emailSender = emailSender;
         }
 
         [Authorize]
@@ -139,6 +144,17 @@
             {
                 await this.userManager.AddToRoleAsync(user, Roles.User);
                 await this.profileService.AddDefaultSettings(user.Id);
+
+                var data = new Dictionary<string, string>();
+                data.Add("userName", user.UserName);
+                data.Add("userId", user.Id);
+                var messageType = MessageType.ConfirmEmail;
+                var htmlContent = MessagesContentTemplates.CreateMessageContent(messageType, data);
+                await this.emailSender.SendEmailAsync(
+                    user.Email,
+                    EmailSubjects.ClientConfirmationEmail,
+                    htmlContent);
+
                 return this.Ok();
             }
             else
@@ -298,5 +314,15 @@
             IList<string> roles = await this.userManager.GetRolesAsync(user);
             await this.userManager.RemoveFromRolesAsync(user, roles);
         }
+
+      /*  private async Task SendConfirmationEmail(User user)
+        {
+            const string EmailTemplateName = "PassengerConfirmationEmail";
+            var model = user.To<UserConfirmationEmailViewModel>();
+
+            string body = await this.RenderViewAsync(EmailTemplateName, model, true);
+            //Add smtp server credentials in appsettings.json and then uncomment next line
+            await emailSender.SendEmailAsync(user.Email, EmailSubjects.PassengerConfirmationEmail, body);
+        }*/
     }
 }
