@@ -10,11 +10,11 @@
 
     public static class MessagesContentTemplates
     {
-        public static string CreateMessageContent(MessageType messageType, Dictionary<string, string> data)
+        public static string CreateMessageContent(string emailSubject, Dictionary<string, string> data)
         {
-            switch (messageType)
+            switch (emailSubject)
             {
-                case MessageType.ConfirmEmail: return ConfirmEmailTemplate(data);
+                case EmailSubjects.ConfirmEmail: return ConfirmEmailTemplate(data);
                 default: return "";
             }
         }
