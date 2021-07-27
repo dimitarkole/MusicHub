@@ -37,6 +37,9 @@
         public bool UserExistsByUsername(string username, string id = null) =>
             context.Users.Any(u => u.UserName == username && u.Id != id);
 
+        public bool UserExistsById(string id) =>
+            context.Users.Any(u => u.Id == id);
+
         public bool UserExistsByEmail(string email, string id = null) =>
             context.Users.Any(u => u.Email == email && u.Id != id);
 
@@ -46,6 +49,17 @@
                 .Where(u => userIds.Contains(u.Id))
                 .Select(u => $"{u.FirstName} {u.LastName}")
                 .ToList();
+
+        public async Task ConfirmEmail(string id)
+        {
+            var user = this.context.Users
+                .Where(u => u.Id == id)
+                .FirstOrDefault();
+
+            user.EmailConfirmed = true;
+            this.context.Users.Update(user);
+            await this.context.SaveChangesAsync();
+        }
 
         public Task Delete(string id) => UpdateIsDeleted(id, true);
 
@@ -246,6 +260,5 @@
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
-
     }
 }

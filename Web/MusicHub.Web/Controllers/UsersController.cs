@@ -94,6 +94,18 @@
             return new JsonResult(jwtToken);
         }
 
+        [HttpPost(nameof(ConfirmEmail) + "/{id}")]
+        public async Task<ActionResult> ConfirmEmail(string id)
+        {
+            if (!this.profileService.UserExistsById(id))
+            {
+                return this.BadRequest();
+            }
+
+            await this.profileService.ConfirmEmail(id);
+            return this.Ok();
+        }
+
         [Authorize]
         [AllowAnonymous]
         [HttpGet(nameof(ValidateToken))]
@@ -313,15 +325,5 @@
             IList<string> roles = await this.userManager.GetRolesAsync(user);
             await this.userManager.RemoveFromRolesAsync(user, roles);
         }
-
-      /*  private async Task SendConfirmationEmail(User user)
-        {
-            const string EmailTemplateName = "PassengerConfirmationEmail";
-            var model = user.To<UserConfirmationEmailViewModel>();
-
-            string body = await this.RenderViewAsync(EmailTemplateName, model, true);
-            //Add smtp server credentials in appsettings.json and then uncomment next line
-            await emailSender.SendEmailAsync(user.Email, EmailSubjects.PassengerConfirmationEmail, body);
-        }*/
     }
 }

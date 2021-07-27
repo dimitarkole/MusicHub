@@ -31,6 +31,8 @@
 
         bool UserExistsByEmail(string email, string id = null);
 
+        bool UserExistsById(string id);
+
         Task<User> Update(string id, UserEditInputModel model);
 
         User GetUser(string id);
@@ -46,5 +48,7 @@
         IEnumerable<T> GetSettings<T>(string userId);
 
         Task UploadProfileImage(string userId, UserProfilePictueInputModel model);
+
+        Task ConfirmEmail(string id);
     }
 }
