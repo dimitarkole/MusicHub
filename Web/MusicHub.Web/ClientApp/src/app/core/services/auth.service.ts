@@ -16,6 +16,7 @@ import { ActiveDirectoryUser } from '../../shared/models/activeDirectoryUser';
 import { PermissionType } from '../../shared/models/permissionType';
 import LoginResponse from '../../shared/models/user';
 import { UserPagination } from '../../users/models/userPagination';
+import VerificationCode from '../../shared/models/verificationCode';
 
 @Injectable({
   providedIn: 'root'
@@ -119,7 +120,11 @@ export class AuthService {
 
 	advancedFilter(page: number, filter: UserFilter): Observable<any> {
     return this.http.post(this.route + `/AdvancedSearch/${page}`, filter);
-	}
+  }
+
+  confirmEmail(userId: string, model: VerificationCode) {
+    return this.http.put(this.route + `/ConfirmEmail/${userId}`, model);
+  }
 
   all(page: number): Observable<UserPagination> {
     return this.http.get<UserPagination>(this.route + `/All/${page}`);

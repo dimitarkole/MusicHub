@@ -28,11 +28,20 @@ import { ProfileUserComponent } from './profiles/components/profile-user/profile
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 import { UsersListComponent } from './users/components/users-list/users-list.component';
 import { UserDetailsComponent } from './users/components/user-details/user-details.component';
+import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
+  {
+    path: 'confirmemail/:id',
+    component: ConfirmEmailComponent,
+    resolve:
+    {
+      user: UserResolver
+    }
+  },
   {
     path: 'categories',
     component: CategoriesListComponent,

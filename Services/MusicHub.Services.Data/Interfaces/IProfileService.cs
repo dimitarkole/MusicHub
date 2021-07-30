@@ -49,6 +49,10 @@
 
         Task UploadProfileImage(string userId, UserProfilePictueInputModel model);
 
-        Task ConfirmEmail(string id);
+        bool IsEmailConfirm(string username);
+
+        Task ConfirmEmail(string userId);
+
+        bool CheckVerificationCode(string userId, VerificationCodeInputModel model);
     }
 }

@@ -682,6 +682,9 @@ namespace MusicHub.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("VerificationCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -731,33 +734,6 @@ namespace MusicHub.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("UserSettings");
-                });
-
-            modelBuilder.Entity("MusicHub.Data.Models.VerificationCode", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("VerificationCodes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1044,15 +1020,6 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MusicHub.Data.Models.VerificationCode", b =>
-                {
-                    b.HasOne("MusicHub.Data.Models.User", "User")
-                        .WithMany("VerificationCodes")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MusicHub.Data.Models.Category", b =>
                 {
                     b.Navigation("Musics");
@@ -1127,8 +1094,6 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Playlists");
 
                     b.Navigation("Roles");
-
-                    b.Navigation("VerificationCodes");
                 });
 #pragma warning restore 612, 618
         }
