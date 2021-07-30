@@ -59,8 +59,6 @@
         public ActionResult<UserAllViewModel<UserBriefInfoViewModel>> List(int page)
             => this.Ok(this.profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
-        [Authorize]
-        [Permission(PermissionType.UserAdministration)]
         [HttpGet("{id}")]
         public IActionResult Get(string id)
             => this.Ok(this.profileService.GetById<UserEditInputModel>(id));
@@ -84,6 +82,11 @@
         [HttpPost(nameof(Login))]
         public async Task<ActionResult<ApplicationUser>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
+            if(!this.profileService.IsEmailConfirm(model.Username))
+            {
+                return this.BadRequest("Email is not verificated. Please confirm it before use your profile.");
+            }
+
             var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
 
             if (jwtToken == null)
@@ -94,12 +97,22 @@
             return new JsonResult(jwtToken);
         }
 
-        [HttpPost(nameof(ConfirmEmail) + "/{id}")]
-        public async Task<ActionResult> ConfirmEmail(string id)
+        [HttpPut(nameof(ConfirmEmail) + "/{id}")]
+        public async Task<ActionResult> ConfirmEmail(string id, VerificationCodeInputModel model)
         {
             if (!this.profileService.UserExistsById(id))
             {
-                return this.BadRequest();
+                this.ModelState.AddModelError("User", $"User not found.");
+            }
+
+            if (!this.profileService.CheckVerificationCode(id, model))
+            {
+                this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.profileService.ConfirmEmail(id);
@@ -150,6 +163,7 @@
             }
 
             User user = model.To<User>();
+            user.VerificationCode = Guid.NewGuid().ToString("n").Substring(0, 8);
             IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -160,6 +174,7 @@
                 var data = new Dictionary<string, string>();
                 data.Add("userName", user.UserName);
                 data.Add("userId", user.Id);
+                data.Add("VerificationCode", user.VerificationCode);
                 var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
                 await this.emailSender.SendEmailAsync(
                     user.Email,

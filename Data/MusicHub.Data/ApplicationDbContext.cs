@@ -55,10 +55,7 @@
 
         public DbSet<LicenseFile> LicenseFiles { get; set; }
 
-        public DbSet<VerificationCode> VerificationCodes { get; set; }
-
         public DbSet<PlayedMusic> PlayedMusics { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

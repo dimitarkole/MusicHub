@@ -10,7 +10,7 @@
         <a class="form-title-rigth" routerLink="/signup">
           Sign Up
         </a>
-        <div class="Wrong-Credentials alert alert-danger" *ngIf="wrongCredentials">Invalid username or password!</div>
+        <div class="Wrong-Credentials alert alert-danger" *ngIf="wrongCredentials">{{error}}</div>
         <div class="Wrong-Credentials alert alert-success" *ngIf="successfulCredentials">Successful login!</div>
 
         <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">

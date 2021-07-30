@@ -1,9 +1,12 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { Router } from '@angular/router';
 import { ConfirmedValidator, dateValidator } from '../../common/confirmed.validator';
 import { AuthService } from '../../core/services/auth.service';
 import User from '../../shared/models/user';
+import { SendConfirmEmailComponent } from '../send-confirm-email/send-confirm-email.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -19,6 +22,7 @@ export class SignUpComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    public matDialog: MatDialog,
     private router: Router
   ) { }
 
@@ -52,16 +56,7 @@ export class SignUpComponent implements OnInit {
       .subscribe(_ => {
         this.successfulCredentials = true;
         setTimeout(function () { this.successfulCredentials = false }, 2000);
-        this.authService.login(newUser.username, newUser.password)
-          .subscribe((token: string) => {
-            this.authService.setToken(token);
-            this.authService.initializeAuthenticationState();
-            this.router.navigate(['/']);
-          },
-            err => {
-              this.wrongCredentials = true;
-              setTimeout(function () { this.wrongCredentials = false }, 2000);
-            });
+        this.openConfirmEmailPopUp();
       },
         err => {
           this.wrongCredentials = true;
@@ -99,5 +94,17 @@ export class SignUpComponent implements OnInit {
 
   get privacy(): AbstractControl {
     return this.signUpForm.get('privacy');
+  }
+
+  openConfirmEmailPopUp() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(SendConfirmEmailComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+
+    });
   }
 }

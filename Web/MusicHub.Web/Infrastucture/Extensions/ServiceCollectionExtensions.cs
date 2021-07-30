@@ -132,7 +132,6 @@
                 .AddTransient<ICommentReactionService, CommentReactionService>()
                 .AddTransient<ILicenseMusicService, LicenseMusicService>()
                 .AddTransient<IPlaylistMusicService, PlaylistMusicService>()
-                .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
                 .AddTransient<IMusicReactionService, MusicReactionService>()
                 .AddTransient<IPermissionsService, PermissionsService>()

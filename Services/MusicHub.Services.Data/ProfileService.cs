@@ -87,6 +87,12 @@
             .To<T>()
             .FirstOrDefault();
 
+        public bool CheckVerificationCode(string userId, VerificationCodeInputModel model) =>
+            this.context.Users
+            .Any(u => u.Id == userId &&
+                !u.IsDeleted &&
+                u.VerificationCode == model.VerificationCode);
+
         public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery)
         {
             var users = this.context.Users
@@ -227,6 +233,12 @@
             context.Users.Update(user);
             await context.SaveChangesAsync();
         }
+
+        public bool IsEmailConfirm(string username)
+            => this.context.Users.Any(u => u.UserName == username
+                && u.Email == username
+                && u.EmailConfirmed == true
+                && !u.IsDeleted);
 
         private IQueryable<User> OrederSearch(OrderMethod orderMethod, IQueryable<User> users)
         {

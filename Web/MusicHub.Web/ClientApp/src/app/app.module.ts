@@ -77,6 +77,8 @@ import { UsersListTemplateComponent } from './users/components/users-list-templa
 import { UserDetailsComponent } from './users/components/user-details/user-details.component';
 import { NoSearchResultsComponent } from './shared/no-search-results/no-search-results.component';
 import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.component';
+import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confirm-email.component';
+import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +137,8 @@ import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.co
     UserDetailsComponent,
     NoSearchResultsComponent,
     NoMoreResultComponent,
+    SendConfirmEmailComponent,
+    ConfirmEmailComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -152,7 +156,8 @@ import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.co
     RoleCreateComponent,
     RolesDetailsComponent,
     RoleDeleteComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    SendConfirmEmailComponent,
   ],
   imports: [
     MatSidenavModule,
