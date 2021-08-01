@@ -13,18 +13,20 @@ using System.Threading.Tasks;
 
 namespace MusicHub.Web.Controllers
 {
-    public class VerificationCodeController : ApiController
+    public class VerificationController : ApiController
     {
-        private readonly IVerificationCodeService verificationService;
+        private readonly IVerificationCodeService verificationCodeService;
+        private readonly SignInManager<User> signInManager;
 
-        public VerificationCodeController(
-            IVerificationCodeService verificationService,
+        public VerificationController(
+            IVerificationCodeService verificationCodeService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<LogoutModel> logger)
             : base(userManager, signInManager, logger)
         {
-            this.verificationService = verificationService;
+            this.verificationCodeService = verificationCodeService;
+            this.signInManager = signInManager;
         }
 
         /// <summary>Get verification code.</summary>
@@ -32,14 +34,14 @@ namespace MusicHub.Web.Controllers
         /// <returns>Ok(VerificationCodeViewModel).</returns>
         [HttpGet("{id}")]
         public ActionResult<VerificationCodeViewModel> GetById(string id)
-          => this.Ok(this.verificationService.GetById<VerificationCodeViewModel>(id));
+          => this.Ok(this.verificationCodeService.GetById<VerificationCodeViewModel>(id));
 
         /// <summary>Get active verification code.</summary>
-        /// <param name="userId">User Id.</param>
+        /// <param name="id">User Id.</param>
         /// <returns>Ok(VerificationCodeViewModel).</returns>
-        [HttpGet(nameof(GetActivatedVerificationCode) + "/{userId}")]
-        public ActionResult<VerificationCodeViewModel> GetActivatedVerificationCode(string userId)
-          => this.Ok(this.verificationService.GetActivatedVerificationCode<VerificationCodeViewModel>(userId));
+        [HttpGet(nameof(GetActivatedVerificationCode) + "/{id}")]
+        public ActionResult<VerificationCodeViewModel> GetActivatedVerificationCode(string id, VerificationCodeCheckInputModel model)
+          => this.Ok(this.verificationCodeService.GetActivatedVerificationCode<VerificationCodeViewModel>(id, model.Type));
 
         /// <summary>Add verification code in data.</summary>
         /// <param name="model">Input data.</param>
@@ -54,14 +56,14 @@ namespace MusicHub.Web.Controllers
                 return this.BadRequest();
             }
 
-            await this.verificationService.Create(model);
+            await this.verificationCodeService.Create(model);
             return this.StatusCode(StatusCodes.Status201Created);
         }
 
         /// <summary>Is currect verification code.</summary>
         /// <returns>true/false.</returns>
-        [HttpPost(nameof(CheckCode))]
-        public ActionResult<bool> CheckCode(VerificationCodeCheckInputModel model)
-            => this.Ok(this.verificationService.Check(model));
+        [HttpPost(nameof(CheckCode) + "/{id}")]
+        public ActionResult<bool> CheckCode(string id, VerificationCodeCheckInputModel model)
+            => this.Ok(this.verificationCodeService.CheckVerificationCode(id, model));
     }
 }

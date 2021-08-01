@@ -4,11 +4,15 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
-    public class UserFullNameViewModel : IHaveCustomMappings
+    public class UserFullNameViewModel : IMapFrom<User>, IHaveCustomMappings
     {
         public string Id { get; set; }
 
         public string FullName { get; set; }
+
+        public string Email { get; set; }
+
+        public string UserName { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

@@ -25,8 +25,8 @@ namespace MusicHub.Data.Models
             this.PlayedMusics = new HashSet<PlayedMusic>();
             this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
-            this.VerificationCodes = new HashSet<VerificationCode>();
             this.Licenses = new HashSet<License>();
+            this.VerificationCodes = new HashSet<VerificationCode>();
         }
 
         public virtual string ImageUrl { get; set; }

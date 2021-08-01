@@ -1,0 +1,203 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="profile-card-4 z-depth-3">
+        <div class="card">
+          <div class="card-body text-center bg-primary rounded-top">
+            <div class="user-box">
+              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user avatar">
+            </div>
+            <h5 class="mb-1 text-white">{{user.userName}}</h5>
+            <h6 class="text-light">{{user.firstName+ ' '+ user.lastName}}</h6>
+          </div>
+          <div class="card-body">
+            <ul class="list-group shadow-none">
+              <li class="list-group-item">
+                <div class="list-icon">
+                  <i class="fa fa-envelope"></i>
+                </div>
+                <div class="list-details">
+                  <span>{{user.email}}</span>
+                  <small>Email Address</small>
+                </div>
+              </li>
+            </ul>
+            <div class="row text-center mt-4">
+              <div class="col p-2">
+                <h4 class="mb-1 line-height-5">154</h4>
+                <small class="mb-0 font-weight-bold">Projects</small>
+              </div>
+              <div class="col p-2">
+                <h4 class="mb-1 line-height-5">2.2k</h4>
+                <small class="mb-0 font-weight-bold">Followers</small>
+              </div>
+              <div class="col p-2">
+                <h4 class="mb-1 line-height-5">9.1k</h4>
+                <small class="mb-0 font-weight-bold">Views</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-8">
+      <div class="card z-depth-3">
+        <div class="card-body">
+          <ul class="nav nav-pills nav-pills-primary nav-justified">
+            <li class="nav-item">
+              <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active show"><i class="icon-user"></i> <span class="hidden-xs">Profile</span></a>
+            </li>
+            <li class="nav-item">
+              <a href="javascript:void();" data-target="#edit" data-toggle="pill" class="nav-link"><i class="icon-note"></i> <span class="hidden-xs">Edit</span></a>
+            </li>
+          </ul>
+          <div class="tab-content p-3">
+            <div class="tab-pane active show" id="profile">
+              <h5 class="mb-3">User Profile</h5>
+                  <div class="card-body info-card social-about">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-5">
+                            <div class="mb-0">Name</div>
+                          </div>
+                          <div class="col-sm-7 text-secondary">
+                            {{user.firstName}}
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-5">
+                            <div class="mb-0">Family</div>
+                          </div>
+                          <div class="col-sm-7 text-secondary">
+                            {{user.lastName}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-5">
+                            <div class="mb-0">Birthday</div>
+                          </div>
+                          <div class="col-sm-7 text-secondary">
+                            {{user.birthday | date: 'dd.MM.yyyy'}}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-5">
+                            <div class="mb-0">Created on</div>
+                          </div>
+                          <div class="col-sm-7 text-secondary">
+                            {{user.createdOn | date: 'dd.MM.yyyy'}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="row">
+                          <div class="col-sm-5">
+                            <div class="mb-0">E-mail</div>
+                          </div>
+                          <div class="col-sm-7 text-secondary">
+                            {{user.email}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+              <h5 class="mb-3">Roles</h5>
+              <table class="table table-hover table-striped">
+                <tbody>
+                  <tr>
+                    <td>
+                      #
+                    </td>
+                    <td>Role name
+                    </td>
+                  </tr>
+                  <tr *ngFor="let role of user.roles; index as i">
+                    <td>
+                      {{i+1}}
+                    </td>
+                    <td>
+                      {{role}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!--/row-->
+            </div>
+
+            <div class="tab-pane" id="edit">
+              <form (ngSubmit)="OnSubmit()" [formGroup]="roleForm">
+                  <label>Roles</label>
+                  <div class="row">
+                    <select class="form-control col-md-10" id="select-roles">
+                      <option *ngFor="let role of roles" [value]="role.id">{{role.name}}</option>
+                    </select>
+
+                    <button class="col-md-2" (click)="addRole()" type='button'>
+                      <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                  </div>
+                  <div class="row">
+                    <span class="text-danger" *ngIf="roleIds.hasError('required')">
+                      Role are required!
+                    </span>
+                    <span class="text-danger" *ngIf="roleIds.hasError('minlength')">
+                      User must have more than 0 role!
+                    </span>
+                  </div>
+                  <div class="row">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr class="row">
+                          <th class="col-md-1">#</th>
+                          <th class="col-md-9">Role</th>
+                          <th class="col-md-2">Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let role of selectedRoles; index as i" class="row">
+                          <td scope="row" class="col-md-1">{{ i + 1 }}</td>
+                          <td class="col-md-9">{{role.name}}</td>
+                          <td class="col-md-2 table-operation-coll">
+                            <button class="btn" (click)="removeRole(role)" type="button">
+                              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-8">
+
+                  </div>
+                  <div class="col-md-2">
+                    <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+                  </div>
+
+                  <div class="col-md-2">
+                    <button class="form-btn text-white" id="modal-action-button" type="submit" [disabled]="roleForm.invalid">Save</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -44,6 +44,7 @@
                 .AddIdentity()
                 .AddJwtAuthentication(services.GetAppSettings(this.Configuration), this.Configuration)
                 .ConfigureМегаStorage()
+                .ConfigureFiltering()
                 .AddApplicationServices()
                 .ConfigureAzureBlobStorage()
                 .AddApplicationSettings(this.Configuration)

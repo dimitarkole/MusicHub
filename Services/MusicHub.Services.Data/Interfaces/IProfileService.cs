@@ -15,6 +15,8 @@
 
         T GetById<T>(string id);
 
+        T GetByEmail<T>(string email);
+
         bool UserExistsByUsername(string username, string id = null);
 
         IEnumerable<string> GetFullNames(IEnumerable<string> userIds);
@@ -31,7 +33,11 @@
 
         bool UserExistsByEmail(string email, string id = null);
 
+        bool UserExistsById(string id);
+
         Task<User> Update(string id, UserEditInputModel model);
+
+        User GetUser(string id);
 
         Task ToggleSetting(int settingId);
 
@@ -44,5 +50,9 @@
         IEnumerable<T> GetSettings<T>(string userId);
 
         Task UploadProfileImage(string userId, UserProfilePictueInputModel model);
+
+        bool IsEmailConfirm(string username);
+
+        Task ConfirmEmail(string userId);
     }
 }

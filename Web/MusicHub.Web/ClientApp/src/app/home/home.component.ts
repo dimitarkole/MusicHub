@@ -1,7 +1,7 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { globalConstants } from '../common/global-constants';
 import { NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { CategoryCreateComponent } from '../categories/components/category-create/category-create.component';
@@ -13,6 +13,9 @@ import { MusicService } from '../musics/services/music.service';
 import { CategoryService } from '../categories/services/category.service';
 import { Music } from '../musics/models/music';
 import { CreateOrderMethod } from '../shared/models/orderMethod';
+import { BooleanSearchEntity } from '../shared/models/boolean-search';
+import { cwd } from 'process';
+import { BooleanSearchService } from '../core/resolvers/boolean-search.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,45 +23,26 @@ import { CreateOrderMethod } from '../shared/models/orderMethod';
     // add NgbModalConfig and NgbModal to the component providers
 })
 
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   musicPagination: MusicPagination = { currentPage: 0, numberOfPages: 1, musics: [] };
   isFilter: boolean = false;
   categories$: Observable<Category[]>;
   defaultCategoryId: string = 'Each category';
-  searchForm: FormGroup;
-
+  search: string = "";
+  isSearching: boolean = false;
+  
   constructor(private modalService: NgbModal,
     private musicService: MusicService,
     private categoryService: CategoryService,
-    private router: Router,
+		private searchService: BooleanSearchService,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder) {
     this.musicPagination.musics = new Array<Music>();
     this.categories$ = categoryService.all();
   }
 
   ngOnInit(): void {
-    this.searchForm = this.formBuilder.group({
-      name: [
-        null,
-      ],
-      categoryId: [
-        this.defaultCategoryId
-      ],
-      orderMethod: [
-        "CreatedOnDesc"
-      ]
-    });
-    this.getMusicsPerPage();
-  }
-
-  submit() {
-    let music: Music = this.createFilterModel();
-    this.musicPagination.currentPage = 1;
-    this.isFilter = true;
-    this.musicService.allFilter(1, music).subscribe(data => {
-      this.musicPagination.numberOfPages = data.numberOfPages;
-      this.musicPagination.musics = data.musics;
-    });
+    this.feachData();
   }
 
   @HostListener("window:scroll", [])
@@ -69,61 +53,50 @@ export class HomeComponent {
     // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
     if (pos > max * globalConstants.pagination.updateProcent) {
       //Do your action here
-      if (this.isFilter == false) {
-        this.getMusicsPerPage();
-      }
-      else {
-        this.getFilterMusicsPerPage();
-      }
+      this.feachData();
     }
   }
 
-  get name(): AbstractControl {
-    return this.searchForm.get('name');
-  }
+  private feachData(): void {
+    if (this.musicPagination.currentPage < this.musicPagination.numberOfPages) {
+      this.route.queryParams.subscribe(queryParams => {
+        let query = queryParams.searchQuery;
+        if (!query) {
+          if (this.isSearching == true) {
+            this.ResetData(query);
+            this.isSearching = false;
+          }
 
-  get categoryId(): AbstractControl {
-    return this.searchForm.get('categoryId');
-  }
+          var page = this.musicPagination.currentPage + 1;
+          this.musicService.all(page).subscribe(data => {
+            this.musicPagination.numberOfPages = data.numberOfPages;
+            data.musics.forEach(music => {
+              this.musicPagination.musics.push(music);
+            });
+          });
+        }
+        else {
+          this.isSearching = true;
+          if (this.search != query) {
+            this.ResetData(query);
+          }
 
-  get orderMethod(): AbstractControl {
-    return this.searchForm.get('orderMethod');
-  }
+          var page = this.musicPagination.currentPage + 1;
+          this.searchService.search<MusicPagination>({ query }, BooleanSearchEntity.Musics, page).subscribe(data => {
+            this.musicPagination.numberOfPages = data.numberOfPages
+            data.musics.forEach(music => {
+              this.musicPagination.musics.push(music);
+            });
+          });
+        }
 
-  private getMusicsPerPage(): void {
-    var page = this.musicPagination.currentPage + 1;
-    if (page <= this.musicPagination.numberOfPages) {
-      this.musicPagination.currentPage = page;
-      this.musicService.all(page).subscribe(data => {
-        this.musicPagination.numberOfPages = data.numberOfPages;
-        data.musics.forEach(song => {
-          this.musicPagination.musics.push(song);
-        });
+        this.musicPagination.currentPage = page;
       });
     }
   }
 
-  private getFilterMusicsPerPage(): void {
-    var page = this.musicPagination.currentPage + 1;
-    if (page <= this.musicPagination.numberOfPages) {
-      this.musicPagination.currentPage = page;
-      let music: Music = this.createFilterModel();
-
-      this.musicService.allFilter(page, music).subscribe(data => {
-        this.musicPagination.numberOfPages = data.numberOfPages;
-        data.musics.forEach(song => {
-          this.musicPagination.musics.push(song);
-        });
-      });
-    }
-  }
-
-  private createFilterModel() {
-    let music: Music = this.searchForm.value;
-    music.orderMethod = CreateOrderMethod(this.orderMethod.value);
-    if (music.categoryId == this.defaultCategoryId) {
-      music.categoryId = null;
-    }
-    return music;
+  private ResetData(query: any) {
+    this.search = query;
+    this.musicPagination = { currentPage: 0, numberOfPages: 1, musics: [] };
   }
 }

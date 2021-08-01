@@ -5,10 +5,41 @@
         public const string OctetStreamMimeType = "application/octet-stream";
         public const string SystemName = "MusicHub";
 
+        public static class Email
+        {
+            public const string SystemEmail = "office.musichub@gmail.com";
+            public const string ApiKey = "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";
+        }
+
+        public static class URLs
+        {
+            public const string SiteUrl = "www.musichub.com";
+            public const string PrivacyUrl = "www.musichub.com";
+            public const string Twitter = "www.musichub.com";
+            public const string FAQ = "www.musichub.com";
+            public const string Blog = "www.musichub.com";
+            public const string NotificationSettings = "www.musichub.com";
+            public const string ConfirmEmail = "https://en.MusicHub.com/confirm-email";
+        }
+
+        public static class MessagesStyle
+        {
+            public static string BackgroundHeaderStyle => "border-collapse:collapse;width:700px;height:35px;text-align:left;background-color: #3b125d;background-image: linear-gradient(to right, #2457d7, #3b125d);background: #3b125d;background: linear-gradient(to right, #2457d7, #3b125d);z-index: 100;";
+
+            public static string LogoStyle => "width:651px;height:35px; line-height: 0.75;font-size: 30px;font-weight: 600;color: #ffffff;margin-left: 3px;transform: translateY(4px);font-family: 'Josefin Sans', sans-serif;";
+
+            public static string FooterTextStyle => "color:#ffffff;font-family:Verdana, sans-serif;font-size:12px;font-weight:bold;text-decoration:none;";
+        }
+
         public const string AdministratorRoleName = "Administrator";
 
         public const string CurrentCultureInfo = "bg-BG";
         public const string EnglishCultureInfo = "en-GB";
+
+        public static class EmailSubjects
+        {
+            public const string ConfirmEmail = "Please confirm your email address";
+        }
 
         public static class Roles
         {

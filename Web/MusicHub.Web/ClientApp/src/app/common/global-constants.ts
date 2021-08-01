@@ -16,5 +16,12 @@ export const globalConstants = {
     defaultPage: 1,
     itemsPerPage: 12,
     updateProcent: 0.75,
-  }
+  },
+	languageCode: 'en'
+}
+
+
+export const dateTimeFormats = {
+  dateTime: 'MM/dd/yyyy HH:mm',
+  date: 'MM/dd/yyyy',
 }

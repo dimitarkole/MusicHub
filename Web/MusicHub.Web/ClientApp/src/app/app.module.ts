@@ -72,6 +72,14 @@ import { RoleCreateComponent } from './roles/components/role-create/role-create.
 import { RolesDetailsComponent } from './roles/components/roles-details/roles-details.component';
 import { RoleDeleteComponent } from './roles/components/role-delete/role-delete.component';
 import { RoleEditComponent } from './roles/components/role-edit/role-edit.component';
+import { UsersListComponent } from './users/components/users-list/users-list.component';
+import { UsersListTemplateComponent } from './users/components/users-list-template/users-list-template.component';
+import { UserDetailsComponent } from './users/components/user-details/user-details.component';
+import { NoSearchResultsComponent } from './shared/no-search-results/no-search-results.component';
+import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.component';
+import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confirm-email.component';
+import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
+import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +132,15 @@ import { RoleEditComponent } from './roles/components/role-edit/role-edit.compon
     RolesDetailsComponent,
     RoleCreateComponent,
     RoleDeleteComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    UsersListComponent,
+    UsersListTemplateComponent,
+    UserDetailsComponent,
+    NoSearchResultsComponent,
+    NoMoreResultComponent,
+    SendConfirmEmailComponent,
+    ConfirmEmailComponent,
+    ResendEmailConfirmComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -142,7 +158,8 @@ import { RoleEditComponent } from './roles/components/role-edit/role-edit.compon
     RoleCreateComponent,
     RolesDetailsComponent,
     RoleDeleteComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    SendConfirmEmailComponent,
   ],
   imports: [
     MatSidenavModule,

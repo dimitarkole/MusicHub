@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-
+    using MusicHub.Common;
     using MusicHub.Data.Common.Models;
 
     public class VerificationCode : IAuditInfo
@@ -25,7 +25,9 @@
 
         public virtual User User { get; set; }
 
-        public virtual string Code { get; set; }
+        public string Code { get; set; }
+
+        public VerificationType Type { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

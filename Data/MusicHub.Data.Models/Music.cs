@@ -3,10 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using MusicHub.Data.Common;
     using MusicHub.Data.Common.Models;
     using MusicHub.Data.Models.Enums;
+    using MusicHub.Filtering.Attributes;
+    using static MusicHub.Common.BooleanSearchConstants;
 
-    public class Music : IAuditInfo
+    [FilteringTable(Tables.Musics)]
+    public class Music : Entity<string>, IAuditInfo
     {
         public Music()
         {
@@ -17,10 +21,6 @@
             this.PlaylistMusics = new HashSet<PlaylistMusic>();
             this.MusicLicenses = new HashSet<MusicLicense>();
         }
-
-        // Summary:
-        //     Gets or sets the primary key.
-        public virtual string Id { get; set; }
 
         public string Name { get; set; }
 

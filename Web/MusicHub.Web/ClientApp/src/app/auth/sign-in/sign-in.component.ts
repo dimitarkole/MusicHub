@@ -11,6 +11,7 @@ import { AuthService } from '../../core/services/auth.service';
 export class SignInComponent implements OnInit {
   loginForm: FormGroup;
   wrongCredentials: boolean = false;
+  error = "";
   successfulCredentials: boolean = false;
 
   constructor(
@@ -39,6 +40,7 @@ export class SignInComponent implements OnInit {
       },
       err => {
         this.wrongCredentials = true;
+        this.error = err.error;
         setTimeout(function () { this.wrongCredentials = false }, 2000);
       });
   }

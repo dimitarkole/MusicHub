@@ -71,6 +71,10 @@
         public ActionResult<RolesAllViewModel<RoleViewModel>> Get(int page)
             => this.Ok(this.roleService.All<RoleViewModel>(page, PaginationData.RolesPerPage));
 
+        [HttpGet(nameof(GetAll))]
+        public ActionResult<ICollection<RoleViewModel>> GetAll()
+           => this.Ok(this.roleService.All<RoleViewModel>());
+
         [HttpPost]
         [Route(nameof(Filter) + "/{page}")]
         public ActionResult<RolesAllViewModel<RoleViewModel>> Filter(int page, RoleFilter filter)
@@ -78,6 +82,6 @@
 
         [HttpGet("{id}")]
         public ActionResult<RoleDetailsModel> Get(string id)
-            => this.Ok(this.roleService.GetById<RoleDetailsModel>(id));
+            => this.Ok(this.roleService.GetById(id));
     }
 }

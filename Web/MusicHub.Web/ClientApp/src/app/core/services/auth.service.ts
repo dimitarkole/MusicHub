@@ -15,6 +15,8 @@ import UserFullName from '../../shared/models/userFullName';
 import { ActiveDirectoryUser } from '../../shared/models/activeDirectoryUser';
 import { PermissionType } from '../../shared/models/permissionType';
 import LoginResponse from '../../shared/models/user';
+import { UserPagination } from '../../users/models/userPagination';
+import VerificationCode from '../../shared/models/verificationCode';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,6 @@ export class AuthService {
 	private getUsersPath = 'Users';
 	private getActiveDirectoryUsersPath = 'ActiveDirectory'
 	private editUserPath = 'Users';
-	private getContactsPath = 'Contacts';
 	private deletePath = 'Users/';
 	private filterPath = 'Users/AdvancedSearch';
 	private searchPath = 'SuperAdmin/FindUsers';
@@ -44,7 +45,8 @@ export class AuthService {
 	private editContactPath = 'Contacts';
 	private getUsersClassificationsPath = 'Users/Classifications';
 	private getFullNames = 'Users/GetFullNames';
-	private rolesPath = 'Roles';
+  private rolesPath = 'Roles';
+  private changeRolesPath = 'Users/ChangeRoles';
   private permissionsPath = 'Users/HasPermission';
   private getPermissionsPath = 'Permissions/GetOwnPermissions';
 	private initialsPath = 'Users/GetInitials';
@@ -95,6 +97,10 @@ export class AuthService {
     return this.http.post(`${this.route}/Login`, { username, password });
   }
 
+  resendConfirmEmail(email: string) {
+    return this.http.post(`${this.route}/resendConfirmEmail`, { email});
+  }
+
   saveUserData(data: LoginResponse) {
 		localStorage.setItem('token', data.token);
 		localStorage.setItem('userId', data.userId);
@@ -116,12 +122,16 @@ export class AuthService {
 		return this.http.get<UserInitials[]>(this.initialsPath)
 	}
 
-	advancedFilter(filter: UserFilter): Observable<any> {
-    return this.http.post(this.route + '/AdvancedSearch', filter);
-	}
+	advancedFilter(page: number, filter: UserFilter): Observable<any> {
+    return this.http.post(this.route + `/AdvancedSearch/${page}`, filter);
+  }
 
-	getUsersList(): Observable<UserInfo[]> {
-    return this.http.get<UserInfo[]>(this.route + '/List');
+  confirmEmail(userId: string, model: VerificationCode) {
+    return this.http.put(this.route + `/ConfirmEmail/${userId}`, model);
+  }
+
+  all(page: number): Observable<UserPagination> {
+    return this.http.get<UserPagination>(this.route + `/All/${page}`);
 	}
 
 	isInRole(role: string): boolean {
@@ -192,7 +202,11 @@ export class AuthService {
 
 	edit(id: string, data: any): Observable<any> {
 		return this.http.put(this.editUserPath + '/' + id, data);
-	}
+  }
+
+  changeRoles(id: string, data: any): Observable<any> {
+    return this.http.put(this.changeRolesPath + '/' + id, data);
+  }
 
 	getUsers() {
 		return this.http.get(this.getUsersPath);
@@ -214,20 +228,15 @@ export class AuthService {
 		return this.http.post(this.getUsersPath + '/UploadProfileImage', imageObj);
 	}
 
-	getContacts() {
-		return this.http.get(this.getContactsPath);
-	}
-
 	deleteUser(id) {
 		return this.http.delete(this.deletePath + id);
 	}
 
 	filterResult(filter) {
-		console.log(filter);
 		return this.http.post(this.filterPath, filter);
 	}
 
-	filter(filters) {
+	filter(page:number, filters) {
 		this.filteredUsers.emit(filters);
 	}
 

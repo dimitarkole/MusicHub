@@ -69,7 +69,7 @@
         </div>
 
         <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your birthday">
-          <input class="input100" type="date" name="birthday" placeholder="Birthday" formControlName="birthday" [max]="maxDate|date ">
+          <input class="input100" type="date" name="birthday" placeholder="Birthday" formControlName="birthday">
           <div class="form-label text-danger text-right" *ngIf="birthday.touched && birthday.hasError('required')">
             The birthday is required!
           </div>

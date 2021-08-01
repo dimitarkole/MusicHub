@@ -1,3 +1,5 @@
+import { Role } from "./role";
+
 export default interface User {
   id: string,
   username: string,
@@ -16,6 +18,7 @@ export default interface User {
   phone: string,
   musicsCount: number,
   playlistsCount: number,
+  createdOn: Date,
 }
 
 export default interface LoginResponse {
