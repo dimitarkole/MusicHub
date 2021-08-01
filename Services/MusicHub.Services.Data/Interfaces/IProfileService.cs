@@ -54,5 +54,7 @@
         Task ConfirmEmail(string userId);
 
         bool CheckVerificationCode(string userId, VerificationCodeInputModel model);
+
+        T GetByEmail<T>(string email);
     }
 }

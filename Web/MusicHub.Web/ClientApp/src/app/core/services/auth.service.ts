@@ -97,6 +97,10 @@ export class AuthService {
     return this.http.post(`${this.route}/Login`, { username, password });
   }
 
+  resendConfirmEmail(email: string) {
+    return this.http.post(`${this.route}/resendConfirmEmail`, { email});
+  }
+
   saveUserData(data: LoginResponse) {
 		localStorage.setItem('token', data.token);
 		localStorage.setItem('userId', data.userId);

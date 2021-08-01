@@ -79,6 +79,7 @@ import { NoSearchResultsComponent } from './shared/no-search-results/no-search-r
 import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.component';
 import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confirm-email.component';
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
+import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 
 @NgModule({
   declarations: [
@@ -139,6 +140,7 @@ import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.compon
     NoMoreResultComponent,
     SendConfirmEmailComponent,
     ConfirmEmailComponent,
+    ResendEmailConfirmComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
