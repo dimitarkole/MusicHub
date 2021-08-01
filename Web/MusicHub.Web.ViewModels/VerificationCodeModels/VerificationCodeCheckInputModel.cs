@@ -1,5 +1,6 @@
 ﻿namespace MusicHub.Web.ViewModels.VerificationCodeModels
 {
+    using MusicHub.Common;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,6 +12,6 @@
     {
         public string Code { get; set; }
 
-        public string UserId { get; set; }
+        public VerificationType Type { get; set; }
     }
 }

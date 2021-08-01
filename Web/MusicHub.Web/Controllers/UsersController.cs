@@ -11,18 +11,20 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using MusicHub.Common;
     using MusicHub.Common.Settings;
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Mapping;
+    using MusicHub.Services.Messaging;
     using MusicHub.Web.Extensions.Extensions;
     using MusicHub.Web.Infrastucture;
     using MusicHub.Web.Infrastucture.Configurations;
     using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.NotificationModels;
     using MusicHub.Web.ViewModels.Users;
-
+    using MusicHub.Web.ViewModels.VerificationCodeModels;
     using static MusicHub.Common.GlobalConstants;
     using static MusicHub.Common.ModelConstants;
 
@@ -30,17 +32,23 @@
     {
         private readonly IProfileService profileService;
         private readonly INotificationsService notificationsService;
+        private readonly IVerificationCodeService verificationCodeService;
+        private readonly IEmailSender emailSender;
 
         public UsersController(
             IProfileService profileService,
             INotificationsService notificationsService,
+            IVerificationCodeService verificationCodeService,
             UserManager<User> userManager,
+            IEmailSender emailSender,
             SignInManager<User> signInManager,
             ILogger<LogoutModel> logger)
             : base(userManager, signInManager, logger)
         {
             this.profileService = profileService;
             this.notificationsService = notificationsService;
+            this.verificationCodeService = verificationCodeService;
+            this.emailSender = emailSender;
         }
 
         [Authorize]
@@ -54,8 +62,6 @@
         public ActionResult<UserAllViewModel<UserBriefInfoViewModel>> List(int page)
             => this.Ok(this.profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
-        [Authorize]
-        [Permission(PermissionType.UserAdministration)]
         [HttpGet("{id}")]
         public IActionResult Get(string id)
             => this.Ok(this.profileService.GetById<UserEditInputModel>(id));
@@ -73,12 +79,30 @@
             return this.Ok();
         }
 
+        [HttpPost(nameof(ResendConfirmEmail))]
+        public async Task<ActionResult<string>> ResendConfirmEmail(ResendEmailConfirmInputModel model)
+        {
+            var user = this.profileService.GetByEmail<ResendEmailConfirmDetailsModel>(model.Email);
+            if (user == null)
+            {
+                return this.BadRequest("Email does not exist.");
+            }
+
+            await this.SendConfirmEmail(user.UserName, user.Email, user.Id, user.VerificationCode);
+            return this.Ok();
+        }
+
         // <summary>Login user.</summary>
         /// <param name="model">Login information.</param>
         /// <returns>Token</returns>
         [HttpPost(nameof(Login))]
         public async Task<ActionResult<ApplicationUser>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
+            if (!this.profileService.IsEmailConfirm(model.Username))
+            {
+                return this.BadRequest("Email is not verificated. Please confirm it before use your profile.");
+            }
+
             var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
 
             if (jwtToken == null)
@@ -87,6 +111,28 @@
             }
 
             return new JsonResult(jwtToken);
+        }
+
+        [HttpPut(nameof(ConfirmEmail) + "/{id}")]
+        public async Task<ActionResult> ConfirmEmail(string id, VerificationCodeCheckInputModel model)
+        {
+            if (!this.profileService.UserExistsById(id))
+            {
+                this.ModelState.AddModelError("User", $"User not found.");
+            }
+
+            if (!this.verificationCodeService.CheckVerificationCode(id, model))
+            {
+                this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            await this.profileService.ConfirmEmail(id);
+            return this.Ok();
         }
 
         [Authorize]
@@ -107,10 +153,18 @@
             return this.Ok(this.profileService.HasPermissions(this.User.GetUserId(), permissionType));
         }
 
-        [Authorize]
-        [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(ChangePassword))]
+        [Authorize]
         public async Task<ActionResult> ChangePassword([FromBody] PasswordChangeInputModel model)
+        {
+            User user = await this.userManager.GetUserAsync(this.User);
+
+            IdentityResult result = await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            return result.ToActionResult();
+        }
+
+        [HttpPost(nameof(ChangePasswordWithoutAuth))]
+        public async Task<ActionResult> ChangePasswordWithoutAuth(PasswordChangeWithoutAuthInputModel model)
         {
             User user = await this.userManager.GetUserAsync(this.User);
 
@@ -133,18 +187,46 @@
             }
 
             User user = model.To<User>();
+
             IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 await this.userManager.AddToRoleAsync(user, Roles.User);
                 await this.profileService.AddDefaultSettings(user.Id);
+                var verificationCodeCreateModel = new VerificationCodeCreateInputModel();
+                verificationCodeCreateModel.UserId = user.Id;
+                verificationCodeCreateModel.Type = VerificationType.ConfirmEmail;
+                await this.verificationCodeService.Create(verificationCodeCreateModel);
+                var data = new Dictionary<string, string>();
+                data.Add("userName", user.UserName);
+                data.Add("userId", user.Id);
+                data.Add("verificationCode", verificationCodeCreateModel.Code);
+                var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
+                await this.emailSender.SendEmailAsync(
+                    user.Email,
+                    EmailSubjects.ConfirmEmail,
+                    htmlContent);
+
                 return this.Ok();
             }
             else
             {
                 return this.BadRequest(result.Errors.Select(e => e.Description));
             }
+        }
+
+        private async Task SendConfirmEmail(string userName, string email, string userId, string verificationCode)
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("userName", userName);
+            data.Add("userId", userId);
+            data.Add("VerificationCode", verificationCode);
+            var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
+            await this.emailSender.SendEmailAsync(
+                email,
+                EmailSubjects.ConfirmEmail,
+                htmlContent);
         }
 
         [Authorize]
@@ -161,6 +243,26 @@
             User user = await this.profileService.Update(id, model);
             await this.ClearUserRoles(user);
             await this.userManager.AddToRolesAsync(user, model.Roles);
+
+            return this.Ok();
+        }
+
+        [Authorize]
+        [Permission(PermissionType.UserAdministration)]
+        [HttpPut(nameof(ChangeRoles) + "/{id}")]
+        public async Task<ActionResult> ChangeRoles(UserChangeRolesInputModel model, string id)
+        {
+            // this.ValidateUser(model, id);
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            User user = this.profileService.GetUser(id);
+            await this.ClearUserRoles(user);
+            await this.userManager.AddToRolesAsync(user, model.RoleIds
+                .Select(r => r.RoleName)
+                .ToList());
 
             return this.Ok();
         }
@@ -200,9 +302,9 @@
         public ActionResult FindUsers(int page, [FromBody] FindUserInputModel model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model.SearchQuery));
 
         [Authorize]
-        [Permission(PermissionType.FindAndReplaceUsers)]
+        //[Permission(PermissionType.FindAndReplaceUsers)]
         [HttpPost(nameof(AdvancedSearch) + "/{page}")]
-        public ActionResult AdvancedSearch(int page, [FromBody] UserFilter model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
+        public ActionResult AdvancedSearch(int page, UserFilter model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
@@ -272,6 +374,7 @@
         }
 
         [Authorize]
+        [Permission(PermissionType.UserAdministration)]
         private async Task ClearUserRoles(User user)
         {
             IList<string> roles = await this.userManager.GetRolesAsync(user);

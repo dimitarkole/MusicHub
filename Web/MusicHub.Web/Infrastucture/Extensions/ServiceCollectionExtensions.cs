@@ -29,6 +29,7 @@
     using MusicHub.Services.Interfaces;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.ApplicationInsights;
+    using MusicHub.Filtering;
 
     public static class ServiceCollectionExtensions
     {
@@ -131,14 +132,16 @@
                 .AddTransient<ICommentReactionService, CommentReactionService>()
                 .AddTransient<ILicenseMusicService, LicenseMusicService>()
                 .AddTransient<IPlaylistMusicService, PlaylistMusicService>()
-                .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayedMusicService, PlayedMusicService>()
                 .AddTransient<IMusicReactionService, MusicReactionService>()
                 .AddTransient<IPermissionsService, PermissionsService>()
                 .AddTransient<IMegaStorageService, MegaStorageService>()
                 .AddTransient<IRoleService, RoleService>()
-                .AddTransient<ILicenseService, LicenseService>();
-                //.AddTransient<IEmailSender, SendGridEmailSender>();
+                //.AddTransient<IQueryBuilder, QueryBuilder>()
+                .AddTransient<IBooleanSearchService, BooleanSearchService>()
+                .AddTransient<ILicenseService, LicenseService>()
+                .AddTransient<IVerificationCodeService, VerificationCodeService>()
+                .AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)

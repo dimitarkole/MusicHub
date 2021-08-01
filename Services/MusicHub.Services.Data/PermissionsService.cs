@@ -62,9 +62,6 @@
             await this.context.SaveChangesAsync();
         }
 
-        private int GetDataPagesCount(int entityCount, int entitesPerPage)
-            => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
-
         public IEnumerable<PermissionViewModel> GetPermissions(string roleName)
         {
             List<PermissionViewModel> rolePermissions = this.context.RolePermissions
