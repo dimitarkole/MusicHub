@@ -24,19 +24,18 @@
             this.context = context;
         }
 
-        public bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model, VerificationType type)
+        public bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model)
             => this.context.VerificationCodes
                    .Any(vc => vc.UserId == userId
                            && vc.Code == model.Code
                            && vc.IsUsed == false
-                           && vc.Type == type
+                           && vc.Type == model.Type
                            && (DateTime.UtcNow - vc.CreatedOn)
                    .TotalHours <= VerificationCodeConstants.EndTimeInHours);
 
-        public async Task Create(VerificationCodeCreateInputModel model, VerificationType type)
+        public async Task Create(VerificationCodeCreateInputModel model)
         {
             var verificationCode = model.To<VerificationCode>();
-            verificationCode.Type = type;
             await this.context.VerificationCodes.AddAsync(verificationCode);
             await this.context.SaveChangesAsync();
         }

@@ -10,6 +10,6 @@ namespace MusicHub.Common
         [Display(Name = "Confirm email")]
         ConfirmEmail = 0,
         [Display(Name = "Change password")]
-        ChangePassword = 0,
+        ChangePassword = 1,
     }
 }

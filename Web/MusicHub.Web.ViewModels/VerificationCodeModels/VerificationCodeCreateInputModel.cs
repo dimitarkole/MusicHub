@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using MusicHub.Common;
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
@@ -21,6 +21,8 @@
         }
 
         public string Code { get; set; }
+
+        public VerificationType Type { get; set; }
 
         public string UserId { get; set; }
     }
