@@ -36,7 +36,7 @@
             "' height='90'><div><a style='background-color:#4f84c9;border:1px solid #4f84c9;border-radius:4px;col" +
             "or:#ffffff;display:inline-block;font-family:sans-serif;font-size:15px;font-weight:bold;line-height:5" +
             "0px;text-align:center;text-decoration:none;width:261px;' href='" +
-            ConfirmURL(data["userId"], data["VerificationCode"]) +
+            ConfirmURL(data["userId"], data["verificationCode"]) +
             "' target='_blank'>Confirm Your Email</a> </div> </td></tr><tr> <td " +
             "style='height:35px;font-size:1px;line-height:1px;' colspan='3' height='35'>&nbsp;</td></tr><tr> <td " +
             "style='width:40px;' width='40'>&nbsp;</td> <td style='text-align:left;color:#666666;font-size:14px;f" +
@@ -44,8 +44,8 @@
             " this link into your browser:</span></td> <td style='width:40px;' width='40'>&nbsp;</td></tr><tr> <t" +
             "d style='width:40px;' width='40'>&nbsp;</td> <td style='text-align:left;color:#558cd1;font-size:14px" +
             ";font-family:sans-serif;line-height:19px;'><a style='color:#558cd1;line-height:19px;text-decoration:" +
-            "underline;' href='" + ConfirmURL(data["userId"], data["VerificationCode"]) + "' target='_b" +
-            "lank'>" + ConfirmURL(data["userId"], data["VerificationCode"]) + "</a></td> <td style='wid" +
+            "underline;' href='" + ConfirmURL(data["userId"], data["verificationCode"]) + "' target='_b" +
+            "lank'>" + ConfirmURL(data["userId"], data["verificationCode"]) + "</a></td> <td style='wid" +
             "th:40px;' width='40'>&nbsp;</td></tr><tr> <td style='height:30px;font-size:1px;line-height:1px;' col" +
             "span='3' height='30'>&nbsp;</td></tr><tr> <td style='width:40px;' width='40'>&nbsp;</td> <td style='" +
             "text-align:left;font-size:14px;line-height:19px;color:#666666;font-family:sans-serif;'><span style='" +

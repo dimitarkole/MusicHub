@@ -87,12 +87,6 @@
             .To<T>()
             .FirstOrDefault();
 
-        public bool CheckVerificationCode(string userId, VerificationCodeInputModel model) =>
-            this.context.Users
-            .Any(u => u.Id == userId &&
-                !u.IsDeleted &&
-                u.VerificationCode == model.VerificationCode);
-
         public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery)
         {
             var users = this.context.Users
@@ -148,6 +142,12 @@
                 NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
             };
         }
+
+        public T GetByEmail<T>(string email)
+            => this.context.Users.Where(u => u.Email == email
+                && !u.IsDeleted)
+            .To<T>()
+            .FirstOrDefault();
 
         public bool HasPermissions(string id, PermissionType permissionType)
         {
@@ -272,12 +272,5 @@
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
-
-        public T GetByEmail<T>(string email)
-            => this.context.Users
-                .Where(u => u.Email == email
-                    && !u.IsDeleted)
-                .FirstOrDefault()
-                .To<T>();
     }
 }
