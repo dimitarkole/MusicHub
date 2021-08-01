@@ -11,13 +11,13 @@
 
     public interface IVerificationCodeService
     {
-        Task Create(VerificationCodeCreateInputModel model, VerificationType type);
+        Task Create(VerificationCodeCreateInputModel model);
 
         T GetById<T>(string id);
 
         T GetActivatedVerificationCode<T>(string userId, VerificationType type);
 
-        bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model, VerificationType type);
+        bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model);
 
         Task Delete(string id);
     }

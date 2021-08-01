@@ -121,7 +121,7 @@
                 this.ModelState.AddModelError("User", $"User not found.");
             }
 
-            if (!this.verificationCodeService.CheckVerificationCode(id, model, VerificationType.ConfirmEmail))
+            if (!this.verificationCodeService.CheckVerificationCode(id, model))
             {
                 this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
             }
@@ -153,10 +153,18 @@
             return this.Ok(this.profileService.HasPermissions(this.User.GetUserId(), permissionType));
         }
 
-        [Authorize]
-        [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(ChangePassword))]
+        [Authorize]
         public async Task<ActionResult> ChangePassword([FromBody] PasswordChangeInputModel model)
+        {
+            User user = await this.userManager.GetUserAsync(this.User);
+
+            IdentityResult result = await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            return result.ToActionResult();
+        }
+
+        [HttpPost(nameof(ChangePasswordWithoutAuth))]
+        public async Task<ActionResult> ChangePasswordWithoutAuth(PasswordChangeWithoutAuthInputModel model)
         {
             User user = await this.userManager.GetUserAsync(this.User);
 
@@ -188,7 +196,8 @@
                 await this.profileService.AddDefaultSettings(user.Id);
                 var verificationCodeCreateModel = new VerificationCodeCreateInputModel();
                 verificationCodeCreateModel.UserId = user.Id;
-                await this.verificationCodeService.Create(verificationCodeCreateModel, VerificationType.ConfirmEmail);
+                verificationCodeCreateModel.Type = VerificationType.ConfirmEmail;
+                await this.verificationCodeService.Create(verificationCodeCreateModel);
                 var data = new Dictionary<string, string>();
                 data.Add("userName", user.UserName);
                 data.Add("userId", user.Id);
