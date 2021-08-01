@@ -24,7 +24,7 @@
     using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.NotificationModels;
     using MusicHub.Web.ViewModels.Users;
-
+    using MusicHub.Web.ViewModels.VerificationCodeModels;
     using static MusicHub.Common.GlobalConstants;
     using static MusicHub.Common.ModelConstants;
 
@@ -32,11 +32,13 @@
     {
         private readonly IProfileService profileService;
         private readonly INotificationsService notificationsService;
+        private readonly IVerificationCodeService verificationCodeService;
         private readonly IEmailSender emailSender;
 
         public UsersController(
             IProfileService profileService,
             INotificationsService notificationsService,
+            IVerificationCodeService verificationCodeService,
             UserManager<User> userManager,
             IEmailSender emailSender,
             SignInManager<User> signInManager,
@@ -45,6 +47,7 @@
         {
             this.profileService = profileService;
             this.notificationsService = notificationsService;
+            this.verificationCodeService = verificationCodeService;
             this.emailSender = emailSender;
         }
 
@@ -111,14 +114,14 @@
         }
 
         [HttpPut(nameof(ConfirmEmail) + "/{id}")]
-        public async Task<ActionResult> ConfirmEmail(string id, VerificationCodeInputModel model)
+        public async Task<ActionResult> ConfirmEmail(string id, VerificationCodeCheckInputModel model)
         {
             if (!this.profileService.UserExistsById(id))
             {
                 this.ModelState.AddModelError("User", $"User not found.");
             }
 
-            if (!this.profileService.CheckVerificationCode(id, model))
+            if (!this.verificationCodeService.CheckVerificationCode(id, model, VerificationType.ConfirmEmail))
             {
                 this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
             }
@@ -176,15 +179,25 @@
             }
 
             User user = model.To<User>();
-            user.VerificationCode = Guid.NewGuid().ToString("n").Substring(0, 8);
+
             IdentityResult result = await this.userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 await this.userManager.AddToRoleAsync(user, Roles.User);
                 await this.profileService.AddDefaultSettings(user.Id);
-
-                await this.SendConfirmEmail(user.UserName, user.Email, user.Id, user.VerificationCode);
+                var verificationCodeCreateModel = new VerificationCodeCreateInputModel();
+                verificationCodeCreateModel.UserId = user.Id;
+                await this.verificationCodeService.Create(verificationCodeCreateModel, VerificationType.ConfirmEmail);
+                var data = new Dictionary<string, string>();
+                data.Add("userName", user.UserName);
+                data.Add("userId", user.Id);
+                data.Add("verificationCode", verificationCodeCreateModel.Code);
+                var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
+                await this.emailSender.SendEmailAsync(
+                    user.Email,
+                    EmailSubjects.ConfirmEmail,
+                    htmlContent);
 
                 return this.Ok();
             }

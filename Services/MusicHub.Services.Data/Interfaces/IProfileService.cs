@@ -15,6 +15,8 @@
 
         T GetById<T>(string id);
 
+        T GetByEmail<T>(string email);
+
         bool UserExistsByUsername(string username, string id = null);
 
         IEnumerable<string> GetFullNames(IEnumerable<string> userIds);
@@ -52,9 +54,5 @@
         bool IsEmailConfirm(string username);
 
         Task ConfirmEmail(string userId);
-
-        bool CheckVerificationCode(string userId, VerificationCodeInputModel model);
-
-        T GetByEmail<T>(string email);
     }
 }

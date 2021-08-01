@@ -26,6 +26,7 @@ namespace MusicHub.Data.Models
             this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
             this.Licenses = new HashSet<License>();
+            this.VerificationCodes = new HashSet<VerificationCode>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -72,6 +73,6 @@ namespace MusicHub.Data.Models
 
         public ICollection<Follow> Followings { get; set; }
 
-        public string VerificationCode { get; set; }
+        public ICollection<VerificationCode> VerificationCodes { get; set; }
     }
 }
