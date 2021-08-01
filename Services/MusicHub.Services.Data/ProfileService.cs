@@ -272,5 +272,12 @@
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
              => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
+
+        public T GetByEmail<T>(string email)
+            => this.context.Users
+                .Where(u => u.Email == email
+                    && !u.IsDeleted)
+                .FirstOrDefault()
+                .To<T>();
     }
 }

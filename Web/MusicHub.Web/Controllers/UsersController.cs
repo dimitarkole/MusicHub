@@ -76,13 +76,26 @@
             return this.Ok();
         }
 
+        [HttpPost(nameof(ResendConfirmEmail))]
+        public async Task<ActionResult<string>> ResendConfirmEmail(ResendEmailConfirmInputModel model)
+        {
+            var user = this.profileService.GetByEmail<ResendEmailConfirmDetailsModel>(model.Email);
+            if (user == null)
+            {
+                return this.BadRequest("Email does not exist.");
+            }
+
+            await this.SendConfirmEmail(user.UserName, user.Email, user.Id, user.VerificationCode);
+            return this.Ok();
+        }
+
         // <summary>Login user.</summary>
         /// <param name="model">Login information.</param>
         /// <returns>Token</returns>
         [HttpPost(nameof(Login))]
         public async Task<ActionResult<ApplicationUser>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
-            if(!this.profileService.IsEmailConfirm(model.Username))
+            if (!this.profileService.IsEmailConfirm(model.Username))
             {
                 return this.BadRequest("Email is not verificated. Please confirm it before use your profile.");
             }
@@ -171,15 +184,7 @@
                 await this.userManager.AddToRoleAsync(user, Roles.User);
                 await this.profileService.AddDefaultSettings(user.Id);
 
-                var data = new Dictionary<string, string>();
-                data.Add("userName", user.UserName);
-                data.Add("userId", user.Id);
-                data.Add("VerificationCode", user.VerificationCode);
-                var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
-                await this.emailSender.SendEmailAsync(
-                    user.Email,
-                    EmailSubjects.ConfirmEmail,
-                    htmlContent);
+                await this.SendConfirmEmail(user.UserName, user.Email, user.Id, user.VerificationCode);
 
                 return this.Ok();
             }
@@ -187,6 +192,19 @@
             {
                 return this.BadRequest(result.Errors.Select(e => e.Description));
             }
+        }
+
+        private async Task SendConfirmEmail(string userName, string email, string userId, string verificationCode)
+        {
+            var data = new Dictionary<string, string>();
+            data.Add("userName", userName);
+            data.Add("userId", userId);
+            data.Add("VerificationCode", verificationCode);
+            var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
+            await this.emailSender.SendEmailAsync(
+                email,
+                EmailSubjects.ConfirmEmail,
+                htmlContent);
         }
 
         [Authorize]

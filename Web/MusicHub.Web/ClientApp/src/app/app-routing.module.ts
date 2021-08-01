@@ -29,11 +29,13 @@ import { RolesListComponent } from './roles/components/roles-list/roles-list.com
 import { UsersListComponent } from './users/components/users-list/users-list.component';
 import { UserDetailsComponent } from './users/components/user-details/user-details.component';
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
+import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
+  { path: 'resend-confirm-email', component: ResendEmailConfirmComponent },
   {
     path: 'confirmemail/:id',
     component: ConfirmEmailComponent,
