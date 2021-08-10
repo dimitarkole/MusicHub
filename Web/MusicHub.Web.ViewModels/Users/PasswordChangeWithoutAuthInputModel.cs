@@ -8,12 +8,6 @@
     public class PasswordChangeWithoutAuthInputModel
     {
         [Required]
-        public string Id { get; set; }
-
-        [Required]
-        public string NewPassword { get; set; }
-
-        [Required]
-        public string CurrentPassword { get; set; }
+        public string Password { get; set; }
     }
 }

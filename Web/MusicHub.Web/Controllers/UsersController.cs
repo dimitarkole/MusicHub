@@ -88,9 +88,15 @@
                 return this.BadRequest("Email does not exist.");
             }
 
-            await this.SendConfirmEmail(user.UserName, user.Email, user.Id, user.VerificationCode);
+            var verificationCode = this.verificationCodeService.GetActivatedVerificationCode<VerificationCodeViewModel>(user.Id, VerificationType.ConfirmEmail);
+
+            await this.SendConfirmEmail(user.UserName, user.Email, user.Id, verificationCode.Code);
             return this.Ok();
         }
+
+        [HttpPost(nameof(GetByEmail))]
+        public ActionResult<UserViewModel> GetByEmail(UserFilter model)
+            => this.profileService.GetByEmail<UserViewModel>(model.Email);
 
         // <summary>Login user.</summary>
         /// <param name="model">Login information.</param>
@@ -163,12 +169,18 @@
             return result.ToActionResult();
         }
 
-        [HttpPost(nameof(ChangePasswordWithoutAuth))]
-        public async Task<ActionResult> ChangePasswordWithoutAuth(PasswordChangeWithoutAuthInputModel model)
+        [HttpPost(nameof(ChangePasswordWithoutAuth) + "/{id}")]
+        public async Task<ActionResult> ChangePasswordWithoutAuth(string id, PasswordChangeWithoutAuthInputModel model)
         {
-            User user = await this.userManager.GetUserAsync(this.User);
+            User user = await this.userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-            IdentityResult result = await this.userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
+
+            var result = await this.userManager.ResetPasswordAsync(user, token, model.Password );
             return result.ToActionResult();
         }
 
@@ -221,7 +233,7 @@
             var data = new Dictionary<string, string>();
             data.Add("userName", userName);
             data.Add("userId", userId);
-            data.Add("VerificationCode", verificationCode);
+            data.Add("verificationCode", verificationCode);
             var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.ConfirmEmail, data);
             await this.emailSender.SendEmailAsync(
                 email,

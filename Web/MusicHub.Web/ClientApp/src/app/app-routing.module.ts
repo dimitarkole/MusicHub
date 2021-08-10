@@ -30,14 +30,16 @@ import { UsersListComponent } from './users/components/users-list/users-list.com
 import { UserDetailsComponent } from './users/components/user-details/user-details.component';
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
+import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'resend-confirm-email', component: ResendEmailConfirmComponent },
+  { path: 'forgottenPassword', component: ForgottenPasswordComponent},
   {
-    path: 'confirmemail/:id',
+    path: 'confirm-email/:id',
     component: ConfirmEmailComponent,
     resolve:
     {

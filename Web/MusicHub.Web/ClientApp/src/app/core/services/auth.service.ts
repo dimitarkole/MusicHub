@@ -97,6 +97,10 @@ export class AuthService {
     return this.http.post(`${this.route}/Login`, { username, password });
   }
 
+  getByEmail(user: User) {
+    return this.http.post<User>(`${this.route}/GetByEmail`, user);
+  }
+
   resendConfirmEmail(email: string) {
     return this.http.post(`${this.route}/resendConfirmEmail`, { email});
   }
