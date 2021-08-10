@@ -1,3 +1,6 @@
+import { VerificationType } from "./verificationType";
+
 export default interface VerificationCode {
-  verificationCode: string;
+  code: string;
+  type: VerificationType;
 }

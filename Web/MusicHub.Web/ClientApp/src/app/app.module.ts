@@ -80,6 +80,7 @@ import { NoMoreResultComponent } from './shared/no-more-result/no-more-result.co
 import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confirm-email.component';
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
+import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
 
 @NgModule({
   declarations: [
@@ -141,6 +142,7 @@ import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-
     SendConfirmEmailComponent,
     ConfirmEmailComponent,
     ResendEmailConfirmComponent,
+    ForgottenPasswordComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,

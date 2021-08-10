@@ -26,11 +26,12 @@ export class ProfileService {
     return this.http.post(`${this.route}/ChangePassword`, user);
   }
 
-  changePasswordWithoutAuth(user: User) {
-    return this.http.post(`${this.route}/changePasswordWithoutAuth`, user);
+  changePasswordWithoutAuth(userId: string, user: User) {
+    console.log(user);
+    return this.http.post(`${this.route}/ChangePasswordWithoutAuth/${userId}`, user);
   }
 
-  AdvancedSearch(user: User) {
-    return this.http.post<User[]>(`${this.route}/AdvancedSearch`, user);
+  AdvancedSearch(user: User, page: number) {
+    return this.http.post<User[]>(`${this.route}/AdvancedSearch/${page}`, user);
   }
 }
