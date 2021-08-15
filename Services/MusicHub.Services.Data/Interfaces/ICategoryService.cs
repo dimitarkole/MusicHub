@@ -10,6 +10,8 @@
 
     public interface ICategoryService
     {
+        CategoriesAllViewModel<T> All<T>(int page, int entitesPerPage);
+
         IList<T> All<T>();
 
         Task Create(CategoryCreateInputModel model);
