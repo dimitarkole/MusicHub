@@ -14,6 +14,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Interfaces;
+    using MusicHub.Web.ViewModels.CategoryModels;
     using MusicHub.Web.ViewModels.MusicModels;
     using MusicHub.Web.ViewModels.PlaylistModels;
     using MusicHub.Web.ViewModels.Search;
@@ -25,6 +26,7 @@
         private readonly IBooleanSearchService booleanSearchService;
         private readonly IMusicService musicService;
         private readonly IPlaylistService playlistService;
+        private readonly ICategoryService categoryService;
         private readonly IPaginationService paginationService;
 
         public SearchController(
@@ -34,12 +36,14 @@
             IBooleanSearchService booleanSearchService,
             IMusicService musicService,
             IPlaylistService playlistService,
+            ICategoryService categoryService,
             IPaginationService paginationService)
             : base(userManager, signInManager, logger)
         {
             this.booleanSearchService = booleanSearchService;
             this.musicService = musicService;
             this.playlistService = playlistService;
+            this.categoryService = categoryService;
             this.paginationService = paginationService;
         }
 
@@ -63,6 +67,17 @@
             };
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             return this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter));
+        }
+
+        [HttpPost(nameof(Categories) + "/{page}")]
+        public IActionResult Categories(int page, BooleanSearchInputModel model)
+        {
+            var filter = new CategoryFilterInputModel()
+            {
+                Name = model.Query,
+            };
+            var entitesPerPage = PaginationData.PlaylistsPerPage;
+            return this.Ok(this.categoryService.Filter<CategoryViewModel>(page, entitesPerPage, filter));
         }
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
