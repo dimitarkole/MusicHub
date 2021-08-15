@@ -21,5 +21,7 @@
         T GetById<T>(string id);
 
         Task Delete(string id);
+
+        CategoriesAllViewModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter);
     }
 }

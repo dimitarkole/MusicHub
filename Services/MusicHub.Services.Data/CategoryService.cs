@@ -42,6 +42,27 @@
             };
         }
 
+        public CategoriesAllViewModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter)
+        {
+            IQueryable<Category> categories = this.context.Categories;
+            if (filter.Name != null)
+            {
+                categories = categories.Where(c => c.Name.Contains(filter.Name));
+            }
+
+            var categoriesT = categories.OrderBy(c => c.Name)
+                    .To<T>();
+
+            return new CategoriesAllViewModel<T>()
+            {
+                Categories = categoriesT
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(categoriesT.Count(), entitesPerPage),
+            };
+        }
+
         public IList<T> All<T>()
             => this.context.Categories
                     .OrderBy(c => c.Name)
