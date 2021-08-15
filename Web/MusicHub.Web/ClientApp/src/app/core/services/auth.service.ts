@@ -77,7 +77,6 @@ export class AuthService {
         this.username = tokenData['unique_name'];
         this.isAuth = true;
         this.isAdmin = tokenData["role"] === "Administrator";
-        this.role = tokenData["role"];
       }
       catch (Error) {
         this.isAuth = false;

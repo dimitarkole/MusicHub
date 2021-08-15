@@ -12,7 +12,7 @@ import { BooleanSearchService } from '../../core/resolvers/boolean-search.servic
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.css']
 })
-export class NavBarComponent implements OnInit, OnChanges {
+export class NavBarComponent implements OnInit {
   @Output() sidenavToggle = new EventEmitter<void>();
   permitions: Permission[];
   isAuth: boolean = false;
@@ -64,34 +64,22 @@ export class NavBarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private booleanSearchService: BooleanSearchService,
   ) {
-   /* this.authService.getUserProfile().subscribe((data: any) => {
-      this.profileImage = data.imageUrl;
-    })
-    /*this.authService.updatedUser.subscribe((data) => {
-      this.profileImage = data.imageUrl;
-    })*/
     this.getUserData();
-    this.booleanSearchDocumentation = booleanSearchService.getBooleanSearchDocumentation();
-    this.searchOptions = this.booleanSearchDocumentation.get('tables');
-    this.originalSearchOptions = this.searchOptions;
-
+  
     if (window.location.href.includes('login')) {
       this.isLoggedIn = false;
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-     this.getUserData();
   }
 
   updateSearch() {
     if (this.type.value == "musics") {
       this.router.navigate([""], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
     }
-    this.router.navigate([this.type.value], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
+    this.router.navigate([this.type.value.toLowerCase()], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
   }
 
   ngOnInit() {
+    this.getUserData();
     this.searchForm = this.formBuilder.group({
       search: [
         null,
@@ -113,6 +101,7 @@ export class NavBarComponent implements OnInit, OnChanges {
         this.search.setValue(queryParams.searchQuery);
       }
     });
+
     if (url.includes('users')) {
       this.currentFilterList = this.userMappingFilterList;
     } else if (url.includes('musics')) {
@@ -120,8 +109,6 @@ export class NavBarComponent implements OnInit, OnChanges {
     } else if (url.includes('playlists')) {
       this.currentFilterList = this.playlistMappingFilterList;
     }
-
-    this.getUserData();
   }
 
   showNotifications() {
@@ -184,19 +171,35 @@ export class NavBarComponent implements OnInit, OnChanges {
   }
 
   private getUserData() {
-    this.authService.isAuthChanged.subscribe(() => {
-      this.isAuth = this.authService.isAuth;
-      this.isAdmin = this.authService.isAdmin;
-      this.role = this.authService.role;
-      this.username = this.authService.username;
-      this.authService.getPermissions().subscribe(p => {
-        this.permitions = p;
-      });
-    });
+    var permission: Permission = { type: "User", description: "", id: 1 }
+    this.permitions = [permission];
+      this.getAuthData();
 
-    this.isAdmin = this.authService.isAdmin;
+    this.authService.isAuthChanged.subscribe(() => {
+      this.getAuthData();
+    });
+  }
+
+  private getAuthData() {
     this.isAuth = this.authService.isAuth;
+    this.isAdmin = this.authService.isAdmin;
     this.role = this.authService.role;
     this.username = this.authService.username;
+    if (this.isAuth) {
+      this.authService.getPermissions().subscribe(p => {
+        this.permitions = p;
+        this.setSearchOptions();
+      });
+    }
+    else {
+      this.setSearchOptions();
+    }
+  }
+
+  setSearchOptions() {
+    this.booleanSearchDocumentation = this.booleanSearchService.getBooleanSearchDocumentation();
+    this.searchOptions = this.booleanSearchDocumentation.get('tables')
+      .filter(t => this.hasPermition(PermissionType[t.permission]));
+    this.originalSearchOptions = this.searchOptions;
   }
 }

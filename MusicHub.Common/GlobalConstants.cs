@@ -55,6 +55,7 @@
 
         public static class PaginationData
         {
+            public const int CategoriesPerPage = 10;
             public const int MusicsPerPage = 12;
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;

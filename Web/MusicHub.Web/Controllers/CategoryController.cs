@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static MusicHub.Common.GlobalConstants;
 
 namespace MusicHub.Web.Controllers
 {
@@ -34,7 +35,14 @@ namespace MusicHub.Web.Controllers
         /// <summary>Get categories in data.</summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<CategoryViewModel>> Get() => this.Ok(this.categoryService.All<CategoryViewModel>());
+        public ActionResult<CategoriesAllViewModel<CategoryViewModel>> Get()
+            => this.Ok(this.categoryService.All<CategoryViewModel>());
+
+        /// <summary>Get categories in data.</summary>
+        /// <returns></returns>
+        [HttpGet(nameof(GetAll) + "/{page}")]
+        public ActionResult<CategoriesAllViewModel<CategoryViewModel>> GetAll(int page)
+            => this.Ok(this.categoryService.All<CategoryViewModel>(page, PaginationData.MusicsPerPage));
 
         /// <summary>Get category by id.</summary>
         /// <returns></returns>

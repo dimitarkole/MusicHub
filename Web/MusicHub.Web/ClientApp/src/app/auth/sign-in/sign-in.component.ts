@@ -32,17 +32,16 @@ export class SignInComponent implements OnInit {
 
     this.authService.login(username, password)
       .subscribe((token: string) => {
+        this.authService.setToken(token);
         this.successfulCredentials = true;
         setTimeout(function () { this.successfulCredentials = false }, 2000);
-        this.authService.setToken(token);
         this.authService.initializeAuthenticationState();
         this.router.navigate(['/']);
       },
-      err => {
-        this.wrongCredentials = true;
-        this.error = err.error;
-        setTimeout(function () { this.wrongCredentials = false }, 2000);
-      });
+        err => {
+          this.wrongCredentials = true;
+          setTimeout(function () { this.wrongCredentials = false }, 2000);
+        });
   }
 
   get username(): AbstractControl {
