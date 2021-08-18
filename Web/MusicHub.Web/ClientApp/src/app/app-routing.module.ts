@@ -174,6 +174,17 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'members', children: [
+      {
+        path: '',
+        component: UsersListComponent,
+      },
+      {
+        path: 'all',
+        component: UsersListComponent,
+      }]
+  },
+  {
     path: 'users', children: [
       {
         path: '',

@@ -51,8 +51,8 @@
             this.emailSender = emailSender;
         }
 
-        [Authorize]
-        [Permission(PermissionType.UserAdministration)]
+        // [Authorize]
+        // [Permission(PermissionType.UserAdministration)]
         [HttpGet(nameof(All) + "/{page}")]
         public ActionResult<UserAllViewModel<UserViewModel>> All(int page)
             => this.Ok(this.profileService.All<UserViewModel>(page, PaginationData.UsersPerPage));
