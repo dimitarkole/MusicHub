@@ -48,7 +48,7 @@ export class BooleanSearchService {
         permission: PermissionType.User,
       },
       {
-        name: 'Users',
+        name: 'Members',
         description: 'Filter the users',
         permission: PermissionType.User,
       },

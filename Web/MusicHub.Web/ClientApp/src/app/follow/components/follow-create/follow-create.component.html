@@ -1,11 +1,10 @@
 <div *ngIf="!isAuth">
-  <a class="login100-form-btn" routerLink="/login">
+  <a class="login100-form-btn" routerLink="/signin">
     Follow
   </a>
 </div>
 <div *ngIf="isAuth">
   <form class="row" (ngSubmit)="submitUnfollow()" [formGroup]="followForm" *ngIf="isFollow">
-    followId:{{followId}}
     <div class="col-md-12">
       <button type="submit"
               class="login100-form-btn">
@@ -14,7 +13,7 @@
     </div>
   </form>
 
-  <form class="row" (ngSubmit)="submitFollow()" [formGroup]="followForm" *ngIf="!isFollow">
+  <form class="row" (ngSubmit)="submitFollow()" [formGroup]="followForm"  *ngIf="!isFollow">
     <div class="col-md-12">
       <button type="submit"
               class="login100-form-btn">
