@@ -7,7 +7,6 @@ import { CategoryService } from '../../../categories/services/category.service';
 import { globalConstants } from '../../../common/global-constants';
 import { AuthService } from '../../../core/services/auth.service';
 import { MegaStorageFileService } from '../../../core/services/mega-storage-file.service';
-import { CreateMusicLicenseType, MusicLicenseType, MusicLicenseTypeMapping } from '../../../shared/models/musicLicenseType';
 import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
 import { Music } from '../../models/music';
 import { MusicService } from '../../services/music.service';
@@ -26,9 +25,9 @@ export class MusicCreateComponent implements OnInit {
   descriptionMaxLength = 1000;
   musicForm: FormGroup;
   addedLicenses: Array<string> = [];
-  musicLicenseTypesMapping = MusicLicenseTypeMapping;
+ /* musicLicenseTypesMapping = MusicLicenseTypeMapping;
   musicLicenseTypes = Object.keys(MusicLicenseType)
-    .filter(k => !isNaN(Number(k)));
+    .filter(k => !isNaN(Number(k)));*/
 
   visibleStatusMapping = VisibleStatusMapping;
   visibleStatus = Object.keys(VisibleStatus)
@@ -98,7 +97,7 @@ export class MusicCreateComponent implements OnInit {
        // Validators.required
       ],
       musicLicenseType:[
-        MusicLicenseType.CC,
+       // MusicLicenseType.CC,
         Validators.required
       ],
       visibleStatus: [
@@ -202,7 +201,7 @@ export class MusicCreateComponent implements OnInit {
   private createMusic() {
     let music: Music = this.musicForm.value;
     music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
-    music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
+    //music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
 
     var licenseContorls = this.addedLicenses;
     this.musicService.create(music)

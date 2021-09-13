@@ -1,0 +1,103 @@
+
+#progressbar {
+  margin-bottom: 30px;
+  overflow: hidden;
+  color: #455A64;
+  padding-left: 0px;
+  margin-top: 30px
+}
+
+  #progressbar li {
+    list-style-type: none;
+    width: 20%;
+    float: left;
+    position: relative;
+    font-weight: 400
+  }
+
+  #progressbar #step1:before {
+    content: "1";
+  }
+
+  #progressbar #step2:before {
+    content: "2";
+  }
+
+  #progressbar #step3:before {
+    content: "3";
+  }
+
+  #progressbar #step4:before {
+    content: "4";
+  }
+
+  #progressbar #step5:before {
+    content: "5";
+  }
+
+  #progressbar #step6:before {
+    content: "6";
+  }
+
+  #progressbar li:before {
+    width: 40px;
+    height: 40px;
+    line-height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: #c5c9c6;
+    border-radius: 50%;
+    margin: auto;
+    color: #fff;
+  }
+
+  #progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #c5c9c6;
+    position: absolute;
+    left: 0;
+    top: 21px;
+    z-index: -1
+  }
+
+  #progressbar li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    position: absolute;
+    left: -50%
+  }
+
+  #progressbar li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: absolute;
+    left: 50%
+  }
+
+  #progressbar li:last-child:after {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+  }
+
+  #progressbar li:first-child:after {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+  }
+
+  #progressbar li.active:nth-child(odd):before,
+  #progressbar li.active:nth-child(odd):after {
+    background: linear-gradient(to right, #2457d7, #3b125d)
+  }
+
+  #progressbar li.active:nth-child(even):before,
+  #progressbar li.active:nth-child(even):after {
+    background: linear-gradient(to left, #2457d7, #3b125d)
+  }
+
+  #progressbar li.active:first-child:after {
+    background: #3b125d
+  }

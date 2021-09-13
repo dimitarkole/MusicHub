@@ -81,6 +81,7 @@ import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confir
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
+import { MusicCreateNewComponent } from './musics/components/music-create-new/music-create-new.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-
     MusicsListTemplateComponent,
     MusicsOwnListComponent,
     MusicCreateComponent,
+    MusicCreateNewComponent,
     MusicEditComponent,
     MusicDeleteComponent,
     MusicDetailsComponent,

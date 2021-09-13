@@ -31,6 +31,7 @@ import { UserDetailsComponent } from './users/components/user-details/user-detai
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
+import { MusicCreateNewComponent } from './musics/components/music-create-new/music-create-new.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -73,7 +74,7 @@ const routes: Routes = [
       },
       {
         path: 'create',
-        component: MusicCreateComponent,
+        component: MusicCreateNewComponent,
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.MusicCreator)
       },

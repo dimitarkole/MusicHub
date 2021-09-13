@@ -7,6 +7,10 @@ export const globalConstants = {
     imageFolderPathToUpload: "musics/images/",
     audioFolderPathUpload: "/assets/resources/musics/audio/",
     audioFolderPath: "musics/аudio/",
+    nameMinLength: 1,
+    nameMaxLength: 100,
+    descriptionMinLength: 10,
+    descriptionMaxLength: 1000,
   },
   playlist: {
     imageFolderPath: "../../../assets/resources/playlists/",
