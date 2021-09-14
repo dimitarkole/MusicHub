@@ -110,11 +110,9 @@ export class MusicEditComponent implements OnInit {
         ]
       ],
       musicLicenseType: [
-        music.musicLicenseType,
         Validators.required
       ],
       visibleStatus: [
-        music.visibleStatus,
         Validators.required
       ],
       audioUrl: [
@@ -253,7 +251,6 @@ export class MusicEditComponent implements OnInit {
 
   private editSong() {
     let music: Music = this.musicForm.value;
-    music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
     // music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
 
     var licenseContorls = this.addedLicenses;

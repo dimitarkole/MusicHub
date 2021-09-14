@@ -274,11 +274,38 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("AlbumTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("AppPlayback")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Artist")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Attribution")
+                        .HasColumnType("bit");
+
                     b.Property<string>("AudioUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Barcode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BuyLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CategoryId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Composer")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContainsExplicitContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ContainsMusic")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -286,23 +313,65 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("DisplayEmbedCode")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EnableDirectDownloads")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ISRC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ISWC")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("License")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("MusicLicenseType")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("NoDerivativeWorks")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Noncommercial")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("OfflineListening")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PLine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Privacy")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Publisher")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("RSSfeed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RecordLabel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReleaseTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ShareALike")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("VisibleStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -487,11 +556,11 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Privacy")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("VisibleStatus")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

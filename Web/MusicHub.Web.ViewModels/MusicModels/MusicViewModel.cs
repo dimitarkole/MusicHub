@@ -20,14 +20,8 @@ namespace MusicHub.Web.ViewModels.MusicModels
 
         public string AudioUrl { get; set; }
 
-        public string Description { get; set; }
-
         public virtual CategoryViewModel Category { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public MusicLicenseType MusicLicenseType { get; set; }
-
-        public VisibleStatus VisibleStatus { get; set; }
     }
 }

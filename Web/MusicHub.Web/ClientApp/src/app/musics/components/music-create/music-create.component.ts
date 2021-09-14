@@ -202,7 +202,7 @@ export class MusicCreateComponent implements OnInit {
 
   private createMusic() {
     let music: Music = this.musicForm.value;
-    music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
+    // music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
     //music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
 
     var licenseContorls = this.addedLicenses;
