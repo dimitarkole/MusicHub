@@ -189,8 +189,6 @@
                && expectedMusic.Category.Name == resultMusic.Category.Name
                && expectedMusic.Category.Id == resultMusic.Category.Id
                && expectedMusic.ImageUrl == resultMusic.ImageUrl
-               && expectedMusic.VisibleStatus == resultMusic.VisibleStatus
-               && expectedMusic.MusicLicenseType == resultMusic.MusicLicenseType
                && expectedMusic.AudioUrl == resultMusic.AudioUrl
                && expectedMusic.UserUserName == resultMusic.UserUserName;
 

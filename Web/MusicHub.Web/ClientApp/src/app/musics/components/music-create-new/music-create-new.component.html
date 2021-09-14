@@ -100,12 +100,12 @@
             <span>Public</span>
           </label><br>
           <label>
-            <input type="radio" value="Private" formControlName="privacy" class="control-label">
-            <span>Private</span>
+            <input type="radio" value="Protected" formControlName="privacy" class="control-label">
+            <span>Protected</span>
           </label><br>
           <label>
-            <input type="radio" value="OnlyMe" formControlName="privacy" class="control-label">
-            <span>Only me</span>
+            <input type="radio" value="Private" formControlName="privacy" class="control-label">
+            <span>Private</span>
           </label>
         </div>
       </div>
@@ -306,7 +306,6 @@
             <span>Creative Commons </span>
           </label>
           &nbsp;
-            
           <span *ngIf="license.value == 'CreativeCommons'">
               <a class="sc-link-dark sc-link-primary" href="http://creativecommons.org/licenses/" target="_blank">
                 <img src="https://a-v2.sndcdn.com/assets/images/cc-by-41a8ea72.svg" alt="Alternate Text" class="sc-license-icon"/>
@@ -316,8 +315,6 @@
                 Some rights reserved
               </a>
           </span>
-
-
           <br>
         </div>
       </div>

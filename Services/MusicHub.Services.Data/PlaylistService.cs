@@ -32,7 +32,7 @@
         public PlaylistsAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var playlists = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public && p.PlaylistMusics.Count > 0)
+                    .Where(p => p.Privacy == Privacy.Public && p.PlaylistMusics.Count > 0)
                     .To<T>();
             return new PlaylistsAllViewModel<T>()
             {
@@ -73,7 +73,7 @@
             }
             else
             {
-                playlists = playlists.Where(m => m.VisibleStatus == VisibleStatus.Public);
+                playlists = playlists.Where(m => m.Privacy == Privacy.Public);
             }
 
             playlists = this.FilteringPlaylists(model, playlists);

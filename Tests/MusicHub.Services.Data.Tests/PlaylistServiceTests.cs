@@ -33,7 +33,7 @@
             Assert.True(this.context.Playlists.Any(p => p.Name == model.Name
                 && p.UserId == userId
                 && p.ImageUrl == model.ImageUrl
-                && p.VisibleStatus == model.VisibleStatus));
+                && p.Privacy == model.Privacy));
         }
 
         [Theory]
@@ -43,7 +43,7 @@
         {
             var playlistService = await this.CreatePlaylistService(new List<Playlist>());
             var expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public && p.PlaylistMusics.Count > 0)
+                    .Where(p => p.Privacy == Privacy.Public && p.PlaylistMusics.Count > 0)
                     .OrderByDescending(p => p.CreatedOn)
                     .ThenBy(p => p.Name)
                     .To<PlaylistViewModel>();
@@ -104,7 +104,7 @@
             Assert.True(this.context.Playlists.Any(p => p.Id == playlistId
                 && p.Name == model.Name
                 && p.ImageUrl == model.ImageUrl
-                && p.VisibleStatus == model.VisibleStatus));
+                && p.Privacy == model.Privacy));
         }
 
         [Theory]
@@ -114,7 +114,7 @@
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             IQueryable<Playlist> expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public
+                    .Where(p => p.Privacy == Privacy.Public
                         && p.PlaylistMusics.Count > 0);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             var filter = PlaylistTestsData.FilterModel;
@@ -163,7 +163,7 @@
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             IQueryable<Playlist> expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public
+                    .Where(p => p.Privacy == Privacy.Public
                         && p.PlaylistMusics.Count > 0);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             var filter = PlaylistTestsData.FilterModelWithUserId;
@@ -261,7 +261,7 @@
                && expectedPlaylist.User.Id == resultPlaylist.User.Id
                && expectedPlaylist.User.ImageUrl == resultPlaylist.User.ImageUrl
                && expectedPlaylist.CreatedOn == resultPlaylist.CreatedOn
-               && expectedPlaylist.VisibleStatus == resultPlaylist.VisibleStatus;
+               && expectedPlaylist.Privacy == resultPlaylist.Privacy;
 
         private int GetPlaylistPagesCount(int entityCount, int entitesPerPage)
         {

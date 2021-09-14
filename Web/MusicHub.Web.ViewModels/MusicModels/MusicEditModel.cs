@@ -20,8 +20,55 @@
 
         public string AudioUrl { get; set; }
 
-        public MusicLicenseType MusicLicenseType { get; set; }
+        public Privacy Privacy { get; set; }
 
-        public VisibleStatus VisibleStatus { get; set; }
+        public string BuyLink { get; set; }
+
+        public string AlbumTitle { get; set; }
+
+        public string RecordLabel { get; set; }
+
+        public DateTime ReleaseDate { get; set; }
+
+        public string Barcode { get; set; }
+
+        public string ISWC { get; set; }
+
+        public string PLine { get; set; }
+
+        public string ContainsExplicitContent { get; set; }
+
+        public bool EnableDirectDownloads { get; set; }
+
+        public bool DisplayEmbedCode { get; set; }
+
+        public bool OfflineListening { get; set; }
+
+        public bool AppPlayback { get; set; }
+
+        public bool RSSfeed { get; set; }
+
+        public string ContainsMusic { get; set; }
+
+        public string Artist { get; set; }
+
+        public string Publisher { get; set; }
+
+        public string ISRC { get; set; }
+
+        public string Composer { get; set; }
+
+        public string ReleaseTitle { get; set; }
+
+        public string License { get; set; }
+
+        public bool Attribution { get; set; }
+
+        public bool Noncommercial { get; set; }
+
+        public bool NoDerivativeWorks { get; set; }
+
+        public bool ShareALike { get; set; }
+
     }
 }

@@ -5,13 +5,13 @@
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
-    public enum VisibleStatus
+    public enum Privacy
     {
         [Display(Name = "The entity is public")]
         Public = 0,
         [Display(Name = "Who has link could view entity")]
-        Hidden = 1,
+        Protected = 1,
         [Display(Name = "Only creater could view entity")]
-        OnlyMe = 2,
+        Private = 2,
     }
 }
