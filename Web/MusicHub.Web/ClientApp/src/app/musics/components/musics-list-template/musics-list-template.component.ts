@@ -19,7 +19,7 @@ export class MusicsListTemplateComponent implements OnInit {
   @Input() type: string;
   // @Input() type: string;
   musicAudioPath: string = globalConstants.music.audioFolderPath;
-  musicFolderPath: string = globalConstants.music.imageFolderPath;
+  musicFolderPath: string = globalConstants.music.imageFolderPathToUpload;
   defauleMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
   deleteForm: FormGroup;
 

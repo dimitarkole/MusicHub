@@ -66,7 +66,7 @@
     <div class="col-md-6">
       <div class="row form-group">
         <!-- Text input-->
-        <div class="col-md-4 control-label">Name</div>
+        <div class="col-md-4 control-label">Name<span class="text-danger">*</span></div>
         <div class="col-md-10">
           <input class="form-control" formControlName="name" type="text" placeholder="Music name">
           <span class="help-block text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
@@ -81,7 +81,7 @@
 
       <div class="row form-group">
         <!-- Text input-->
-        <div class="col-md-4 control-label">Category</div>
+        <div class="col-md-4 control-label">Category<span class="text-danger">*</span></div>
         <div class="col-md-10">
           <select class="form-control" formControlName="categoryId">
             <option value="default" disabled selected>Select category</option>
@@ -113,10 +113,10 @@
     <div class="col-md-6">
       <div class="row form-group">
         <!-- Text input-->
-        <div class="col-md-4 control-label">Description</div>
+        <div class="col-md-4 control-label">Description<span class="text-danger">*</span></div>
         <div class="col-md-10">
           <textarea class="form-control" formControlName="description" type="Description"
-                    placeholder="Text" rows="8"></textarea>
+                    placeholder="Text" rows="10"></textarea>
           <span class="text-danger" *ngIf="description.touched && description.hasError('required')">The description is required!</span>
           <span class="text-danger" *ngIf="description.hasError('minlength')">
             The description must contain {{descriptionMinLength}} characters!
@@ -304,15 +304,29 @@
           <label>
             <input type="radio" value="CreativeCommons" formControlName="license" class="control-label">
             <span>Creative Commons </span>
-          </label><br>
+          </label>
+          &nbsp;
+            
+          <span *ngIf="license.value == 'CreativeCommons'">
+              <a class="sc-link-dark sc-link-primary" href="http://creativecommons.org/licenses/" target="_blank">
+                <img src="https://a-v2.sndcdn.com/assets/images/cc-by-41a8ea72.svg" alt="Alternate Text" class="sc-license-icon"/>
+                <img src="https://a-v2.sndcdn.com/assets/images/cc-nc-88c76738.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="noncommercial.value"/>
+                <img src="https://a-v2.sndcdn.com/assets/images/cc-nd-d7e78f26.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="noDerivativeWorks.value"/>
+                <img src="https://a-v2.sndcdn.com/assets/images/cc-sa-061799e3.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="shareALike.value"/>
+                Some rights reserved
+              </a>
+          </span>
+
+
+          <br>
         </div>
       </div>
       <div class="row form-group" *ngIf="license.value=='CreativeCommons'">
         <div class="col-md-3">
           <div class="blockCheckbox m-checked">
             <input class="" formControlName="attribution" type="checkbox" checked="">
+            <span> Attribution</span>
             <div>
-              <div>Attribution</div>
               <p>
                 Allow others to copy, distribute, display and perform your copyrighted work but only if they give credit the way you request.
               </p>
@@ -321,26 +335,26 @@
         </div>
         <div class="col-md-3">
           <input class="" formControlName="noncommercial" type="checkbox">
+          <span> Noncommercial</span>
           <div>
-            <div>Noncommercial</div>
             <p>
               Allow others to distribute, display and perform your work—and derivative works based upon it—but for noncommercial purposes only.
             </p>
           </div>
         </div>
         <div class="col-md-3">
-          <input class="" type="checkbox" formControlName="noDerivativeWorks">
+          <input class="" type="checkbox" formControlName="noDerivativeWorks" (change) ="noDerivativeWorksIsChange()">
+          <span> No Derivative Works</span>
           <div>
-            <div>No Derivative Works</div>
             <p>
               Allow others to copy, distribute, display and perform only verbatim copies of your work, not derivative works based upon it.
             </p>
           </div>
         </div>
         <div class="col-md-3">
-          <input class="" type="checkbox" formControlName="shareAlike">
+          <input class="" type="checkbox" formControlName="shareALike" (change) ="shareALikeIsChange()">
+          <span> Share Alike</span>
           <div>
-            <div>Share Alike</div>
             <p>
               Allow others to distribute derivative works only under a license identical to the license that governs your work.
             </p>
@@ -350,6 +364,7 @@
     </div>
   </div>
   <!-- Set music metadata -->
+
   <!-- Set music permissions -->
   <div class="row" *ngIf="activeStep==5">
     <div class="col-md-4">
@@ -415,6 +430,14 @@
     </div>
   </div>
   <!-- Set music permissions -->
+
+  <div class="row"  *ngIf="activeStep==3">
+    <div class="col-md-12 ">
+        <span class="text-danger">*</span>
+        Required fields
+    </div>
+  </div>
+
 
   <div class="row" *ngIf="activeStep!=5">
     <div class="col-2" *ngIf="activeStep>1">

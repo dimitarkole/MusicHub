@@ -1,6 +1,7 @@
 import { validateVerticalPosition } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import Category from '../../../categories/models/category';
 import { CategoryService } from '../../../categories/services/category.service';
@@ -10,6 +11,8 @@ import { MegaStorageFileService } from '../../../core/services/mega-storage-file
 import { LicenseStatus } from '../../../licenses/models/LicenseStatus';
 import { MusicLicenseType } from '../../../shared/models/musicLicenseType';
 import { VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+import { Music } from '../../models/music';
+import { MusicService } from '../../services/music.service';
 
 @Component({
   selector: 'app-music-create-new',
@@ -17,18 +20,23 @@ import { VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visi
   styleUrls: ['./music-create-new.component.css']
 })
 export class MusicCreateNewComponent implements OnInit {
-  activeStep: number = 2;
+  activeStep: number = 4;
   imageFileToUpload: File = null;
   audioFileToUpload: File = null;
-  musicFolderPath: string = globalConstants.music.imageFolderPath;
+  musicFolderPath: string = globalConstants.music.imageFolderPathToUpload;
   defauleMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
   audioPath: string = "";
   musicForm: FormGroup;
   categories$: Observable<Category[]>
-
+  nameMinLength = globalConstants.music.nameMinLength;
+  nameMaxLength = globalConstants.music.nameMaxLength;
+  descriptionMinLength = globalConstants.music.nameMinLength;
+  descriptionMaxLength = globalConstants.music.nameMaxLength;
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
+    private musicService: MusicService,
+    private router: Router,
     private fileService: MegaStorageFileService,
   ) {
     this.categories$ = categoryService.all();
@@ -40,8 +48,8 @@ export class MusicCreateNewComponent implements OnInit {
         null,
         [
           Validators.required,
-          Validators.minLength(globalConstants.music.nameMinLength),
-          Validators.maxLength(globalConstants.music.nameMaxLength)
+          Validators.minLength(this.nameMinLength),
+          Validators.maxLength(this.nameMaxLength)
         ]
       ],
       categoryId: [
@@ -55,8 +63,8 @@ export class MusicCreateNewComponent implements OnInit {
         null,
         [
           Validators.required,
-          Validators.minLength(globalConstants.music.descriptionMinLength),
-          Validators.maxLength(globalConstants.music.descriptionMaxLength)
+          Validators.minLength(this.descriptionMinLength),
+          Validators.maxLength(this.descriptionMaxLength)
         ]
       ],
       imageUrl: [
@@ -152,7 +160,7 @@ export class MusicCreateNewComponent implements OnInit {
       noDerivativeWorks: [
         false
       ],
-      shareAlike: [
+      shareALike: [
         true
       ],
     })
@@ -176,6 +184,8 @@ export class MusicCreateNewComponent implements OnInit {
     reader.onload = (event: any) => {
       this.audioPath = event.target.result;
       this.audioUrl.setValue(event.target.result);
+      var audioName = this.audioFileToUpload.name;
+      this.name.setValue(audioName.substring(0, audioName.lastIndexOf('.')));
     }
     reader.readAsDataURL(this.audioFileToUpload);
   }
@@ -199,14 +209,25 @@ export class MusicCreateNewComponent implements OnInit {
   }
 
   useDefaultPicture() {
-    alert("here");
     this.imageUrl.setValue(this.defauleMusicImagePath);
-    alert(this.imageUrl.value);
-
   }
 
   submit() {
-
+    this.fileService.create(this.audioFileToUpload, globalConstants.music.audioFolderPath)
+      .subscribe(data => {
+        this.audioUrl.setValue(data["fileName"]);
+        this.imageUrl.setValue(this.defauleMusicImagePath);
+        if (this.imageFileToUpload != null) {
+          this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPath)
+            .subscribe(data => {
+              this.imageUrl.setValue(data["fileName"]);
+              this.createMusic();
+            });
+        }
+        else {
+          this.createMusic();
+        }
+      });
   }
 
   nextStep() {
@@ -351,8 +372,8 @@ export class MusicCreateNewComponent implements OnInit {
     return this.musicForm.get('noDerivativeWorks');
   }
 
-  get shareAlike(): AbstractControl {
-    return this.musicForm.get('shareAlike');
+  get shareALike(): AbstractControl {
+    return this.musicForm.get('shareALike');
   }
 
   // is audio uploaded
@@ -391,7 +412,23 @@ export class MusicCreateNewComponent implements OnInit {
 
   // is basic info Filled
   isThirdStepFilled() {
-    return true;
+    var result = true;
+    if (this.name.valid == false) {
+      this.name.markAsTouched();
+      result = false;
+    }
+
+    if (this.categoryId.valid == false) {
+      this.categoryId.markAsTouched();
+      result = false;
+    }
+
+    if (this.description.valid == false) {
+      this.description.markAsTouched();
+      result = false;
+    }
+
+    return result;
   }
 
   // is metadata Filled
@@ -402,5 +439,25 @@ export class MusicCreateNewComponent implements OnInit {
   // is permissions Filled
   isFifthStepFilled() {
     return true;
+  }
+
+  private createMusic() {
+    let music: Music = this.musicForm.value;
+    //music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
+    //music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
+
+    this.musicService.create(music)
+      .subscribe(data => {
+        this.router.navigate(['musics/own']);
+        this.musicForm.reset();
+      });
+  }
+
+  shareALikeIsChange() {
+    if (this.shareALike.value == true && this.noDerivativeWorks.value == true) this.noDerivativeWorks.setValue(false);
+  }
+
+  noDerivativeWorksIsChange() {
+    if (this.noDerivativeWorks.value == true && this.shareALike.value == true) this.shareALike.setValue(false);
   }
 }

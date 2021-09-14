@@ -101,3 +101,44 @@
   #progressbar li.active:first-child:after {
     background: #3b125d
   }
+
+
+
+
+icon-cc-by-nc-sa {
+  margin-left: 32px;
+}
+
+.sc-license-icon, .sc-license-icon:after, .sc-license-icon:before {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  vertical-align: top;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  content: "";
+}
+
+a.sc-link-dark, a:hover {
+  color: #333;
+}
+
+.sc-license-icon-cc-by, .sc-license-icon-cc-by-nc-nd:before, .sc-license-icon-cc-by-nc-sa:before, .sc-license-icon-cc-by-nc:before, .sc-license-icon-cc-by-nd:before, .sc-license-icon-cc-by-sa:before {
+  background-image: url(https://a-v2.sndcdn.com/assets/images/cc-by-41a8ea72.svg);
+  background-size: 14px 14px;
+}
+
+.sc-license-icon-cc-by-nc, .sc-license-icon-cc-by-nc-nd:after, .sc-license-icon-cc-by-nc-sa:after {
+  background-image: url(https://a-v2.sndcdn.com/assets/images/cc-nc-88c76738.svg);
+  background-size: 14px 14px;
+}
+
+.sc-license-icon-cc-by-nc-nd, .sc-license-icon-cc-by-nd {
+  background-image: url(https://a-v2.sndcdn.com/assets/images/cc-nd-d7e78f26.svg);
+  background-size: 14px 14px;
+}
+
+.sc-license-icon-cc-by-nc-sa, .sc-license-icon-cc-by-sa {
+  background-image: url(https://a-v2.sndcdn.com/assets/images/cc-sa-061799e3.svg);
+  background-size: 14px 14px;
+}

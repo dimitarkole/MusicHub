@@ -133,6 +133,8 @@ export class MusicCreateComponent implements OnInit {
     reader.onload = (event: any) => {
       this.mp3Url = event.target.result;
       this.audioUrl.setValue(event.target.result);
+      alert(this.audioFileToUpload.name);
+      this.name.setValue(this.audioFileToUpload.name);
     }
     reader.readAsDataURL(this.audioFileToUpload);
   }
