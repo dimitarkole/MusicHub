@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ModalComponent } from 'ngb-modal';
 import { modelConstants } from '../../../common/model-constants';
-import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+//import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
 import Playlist from '../../models/playlist';
 import { PlaylistService } from '../../services/playlist.service';
 
@@ -15,9 +15,9 @@ import { PlaylistService } from '../../services/playlist.service';
 export class PlaylistEditComponent implements OnInit {
   nameMinLength = modelConstants.playlist.nameMinLength;
   nameMaxLength = modelConstants.playlist.nameMaxLength;
-  visibleStatusMapping = VisibleStatusMapping;
+  /*visibleStatusMapping = VisibleStatusMapping;
   visibleStatus = Object.keys(VisibleStatus)
-    .filter(k => !isNaN(Number(k)));;
+    .filter(k => !isNaN(Number(k)));;*/
 
   playlistForm: FormGroup
 
@@ -61,7 +61,7 @@ export class PlaylistEditComponent implements OnInit {
 
   OnSubmit() {
     let playlist: Playlist = this.playlistForm.value;
-    playlist.visibleStatus = CreateVisibleStatus(playlist.visibleStatus);
+   // playlist.visibleStatus = CreateVisibleStatus(playlist.visibleStatus);
 
     this.playlistService.edit(playlist)
       .subscribe(_ => {
