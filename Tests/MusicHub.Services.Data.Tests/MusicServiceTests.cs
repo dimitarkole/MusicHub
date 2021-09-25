@@ -33,8 +33,7 @@
                 && m.Description == model.Description
                 && m.CategoryId == model.CategoryId
                 && m.ImageUrl == model.ImageUrl
-                && m.VisibleStatus == model.VisibleStatus
-                && m.MusicLicenseType == model.MusicLicenseType
+                && m.Privacy == model.Privacy
                 && m.AudioUrl == model.AudioUrl));
         }
 
@@ -51,8 +50,7 @@
                 && m.Description == model.Description
                 && m.CategoryId == model.CategoryId
                 && m.ImageUrl == model.ImageUrl
-                && m.VisibleStatus == model.VisibleStatus
-                && m.MusicLicenseType == model.MusicLicenseType
+                && m.Privacy == model.Privacy
                 && m.AudioUrl == model.AudioUrl));
         }
 
@@ -98,7 +96,7 @@
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             var expextedResult = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public)
+                    .Where(m => m.Privacy == Privacy.Public)
                     .OrderByDescending(m => m.CreatedOn)
                     .ThenBy(m => m.MusicReactions.Count(r => r.Reaction == Reaction.Like))
                     .ThenBy(m => m.Name)
@@ -122,7 +120,7 @@
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public);
+                    .Where(m => m.Privacy == Privacy.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModel;
 
@@ -147,7 +145,7 @@
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public);
+                    .Where(m => m.Privacy == Privacy.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
 
@@ -224,7 +222,7 @@
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public);
+                    .Where(m => m.Privacy == Privacy.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserId;
 
@@ -249,7 +247,7 @@
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
             IQueryable<Music> expextedResult = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public);
+                    .Where(m => m.Privacy == Privacy.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserIdAndCategoryId;
 
@@ -302,10 +300,7 @@
                   && m.AudioUrl == result.AudioUrl
                   && m.ImageUrl == result.ImageUrl
                   && m.CategoryId == result.Category.Id
-                  && m.Description == result.Description
                   && m.CreatedOn == result.CreatedOn
-                  && m.MusicLicenseType == result.MusicLicenseType
-                  && m.VisibleStatus == result.VisibleStatus
                   && m.Category.Name == result.Category.Name));
         }
 
@@ -319,7 +314,7 @@
             var musicService = await this.CreateMusicService(getMusics);
             var music = MusicTestsData.SuggestMusic;
             var expextedResult = this.context.Musics
-                    .Where(s => s.Id != music.Id && s.VisibleStatus == VisibleStatus.Public)
+                    .Where(s => s.Id != music.Id && s.Privacy == Privacy.Public)
                     .OrderByDescending(s => s.CategoryId == music.CategoryId)
                     .ThenByDescending(s => s.CreatedOn)
                     .ThenByDescending(s => s.PlayedMusics.Count)
@@ -354,8 +349,6 @@
                && expectedMusic.Category.Name == resultMusic.Category.Name
                && expectedMusic.Category.Id == resultMusic.Category.Id
                && expectedMusic.ImageUrl == resultMusic.ImageUrl
-               && expectedMusic.VisibleStatus == resultMusic.VisibleStatus
-               && expectedMusic.MusicLicenseType == resultMusic.MusicLicenseType
                && expectedMusic.AudioUrl == resultMusic.AudioUrl
                && expectedMusic.UserUserName == resultMusic.UserUserName;
 

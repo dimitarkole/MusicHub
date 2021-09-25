@@ -39,6 +39,8 @@
         public static class EmailSubjects
         {
             public const string ConfirmEmail = "Please confirm your email address";
+            public const string ChangePassword = "Change password";
+            public const string SuccessfulChangedPassword = "Successful changed cassword";
         }
 
         public static class Roles
@@ -53,6 +55,7 @@
 
         public static class PaginationData
         {
+            public const int CategoriesPerPage = 10;
             public const int MusicsPerPage = 12;
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;

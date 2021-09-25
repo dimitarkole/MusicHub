@@ -32,7 +32,7 @@
         public MusicsAllViewModel<T> All<T>(int page, int entitesPerPage)
         {
             var musics = this.context.Musics
-                    .Where(m => m.VisibleStatus == VisibleStatus.Public)
+                    .Where(m => m.Privacy == Privacy.Public)
                     .OrderByDescending(m => m.CreatedOn)
                     .ThenBy(m => m.MusicReactions.Count(r => r.Reaction == Reaction.Like))
                     .ThenBy(m => m.Name)
@@ -89,7 +89,7 @@
             }
             else
             {
-                musics = musics.Where(m => m.VisibleStatus == VisibleStatus.Public);
+                musics = musics.Where(m => m.Privacy == Privacy.Public);
             }
 
             musics = this.FilteringMusics(filter, musics);
@@ -122,7 +122,7 @@
         {
             var music = this.context.Musics.Find(musicId);
             var suggestMusics = this.context.Musics
-                .Where(s => s.Id != musicId && s.VisibleStatus == VisibleStatus.Public)
+                .Where(s => s.Id != musicId && s.Privacy == Privacy.Public)
                 .OrderByDescending(s => s.CategoryId == music.CategoryId)
                 .ThenByDescending(s => s.CreatedOn)
                 .ThenByDescending(s => s.PlayedMusics.Count);

@@ -42,7 +42,7 @@ const routes: Routes = [
     MusicDetailsComponent,
     MusicSuggestionsListComponent,
     MusicPlayComponent,
-    MusicReactionComponent
+    MusicReactionComponent,
   ],
   entryComponents: [
   ],

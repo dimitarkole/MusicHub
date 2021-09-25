@@ -33,12 +33,10 @@ export class AuthorizeGuard implements CanActivate {
         response => {
           if (!response) {
             this.authenticationService.logout();
-            this.authenticationService.logout();
             this.navigateToLogin(currentUrl);
           }
         },
         error => {
-          this.authenticationService.logout();
           this.authenticationService.logout();
           this.navigateToLogin(currentUrl);
         })

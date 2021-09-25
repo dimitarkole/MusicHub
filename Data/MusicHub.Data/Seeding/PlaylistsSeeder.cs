@@ -41,62 +41,62 @@
                     new Playlist()
                     {
                         Name = "Happy music",
-                        VisibleStatus = VisibleStatus.Hidden,
+                        Privacy = Privacy.Protected,
                     },
                     new Playlist()
                     {
                         Name = "Summer",
-                        VisibleStatus = VisibleStatus.Hidden,
+                        Privacy = Privacy.Protected,
                     },
                     new Playlist()
                     {
                         Name = "The best hits",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                     new Playlist()
                     {
                         Name = "Home musics",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                     new Playlist()
                     {
                         Name = "Good morning",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                     new Playlist()
                     {
                         Name = "Happy minutes",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                     new Playlist()
                     {
                         Name = "Soft music",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                     new Playlist()
                     {
                         Name = "Phone music",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        Privacy = Privacy.Private,
                     }, new Playlist()
                     {
                         Name = "Love moment",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        Privacy = Privacy.Private,
                     }, new Playlist()
                     {
                         Name = "R&B",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     }, new Playlist()
                     {
                         Name = "Jazz",
-                        VisibleStatus = VisibleStatus.OnlyMe,
+                        Privacy = Privacy.Protected,
                     }, new Playlist()
                     {
                         Name = "Hip hop",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     }, new Playlist()
                     {
                         Name = "Love minutes",
-                        VisibleStatus = VisibleStatus.Public,
+                        Privacy = Privacy.Public,
                     },
                 };
     }

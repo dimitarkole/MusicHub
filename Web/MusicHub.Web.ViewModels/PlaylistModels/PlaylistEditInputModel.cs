@@ -14,6 +14,6 @@
 
         public string ImageUrl { get; set; }
 
-        public VisibleStatus VisibleStatus { get; set; }
+        public Privacy Privacy { get; set; }
     }
 }

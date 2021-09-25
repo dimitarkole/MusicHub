@@ -89,7 +89,7 @@
         {
             await this.context.Categories.AddRangeAsync(categories);
             await this.context.SaveChangesAsync();
-            var service = new CategoryService(this.context);
+            var service = new CategoryService(this.context, new PaginationService());
 
             return service;
         }

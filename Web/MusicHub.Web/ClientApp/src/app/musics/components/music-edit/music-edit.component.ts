@@ -6,8 +6,7 @@ import Category from '../../../categories/models/category';
 import { CategoryService } from '../../../categories/services/category.service';
 import { AuthService } from '../../../core/services/auth.service';
 import FileInfo from '../../../shared/models/fileInfo';
-import { CreateMusicLicenseType, MusicLicenseType, MusicLicenseTypeMapping } from '../../../shared/models/musicLicenseType';
-import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+//import { CreateMusicLicenseType, MusicLicenseType, MusicLicenseTypeMapping } from '../../../shared/models/musicLicenseType';
 import { Music } from '../../models/music';
 import { MusicService } from '../../services/music.service';
 
@@ -27,13 +26,13 @@ export class MusicEditComponent implements OnInit {
   musicForm: FormGroup;
   deleteFileForm: FormGroup;
   addedLicenses: Array<string> = [];
-  musicLicenseTypesMapping = MusicLicenseTypeMapping;
+/*  musicLicenseTypesMapping = MusicLicenseTypeMapping;
   musicLicenseTypes = Object.keys(MusicLicenseType)
-    .filter(k => !isNaN(Number(k)));
+    .filter(k => !isNaN(Number(k)));*/
 
-  visibleStatusMapping = VisibleStatusMapping;
+  /*visibleStatusMapping = VisibleStatusMapping;
   visibleStatus = Object.keys(VisibleStatus)
-    .filter(k => !isNaN(Number(k)));;
+    .filter(k => !isNaN(Number(k)));;*/
   defaultImage: string = "songDefaultImage.jpg";
   imageUrlDefault: string = "/assets/resources/song/images/" + this.defaultImage;
   mp3Url: string = "";
@@ -110,11 +109,9 @@ export class MusicEditComponent implements OnInit {
         ]
       ],
       musicLicenseType: [
-        music.musicLicenseType,
         Validators.required
       ],
       visibleStatus: [
-        music.visibleStatus,
         Validators.required
       ],
       audioUrl: [
@@ -253,8 +250,7 @@ export class MusicEditComponent implements OnInit {
 
   private editSong() {
     let music: Music = this.musicForm.value;
-    music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
-    music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
+    // music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
 
     var licenseContorls = this.addedLicenses;
     this.musicService.edit(music, this.musicId)

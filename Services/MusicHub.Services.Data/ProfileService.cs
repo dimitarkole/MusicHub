@@ -236,7 +236,6 @@
 
         public bool IsEmailConfirm(string username)
             => this.context.Users.Any(u => u.UserName == username
-                && u.Email == username
                 && u.EmailConfirmed == true
                 && !u.IsDeleted);
 

@@ -7,26 +7,17 @@
           <img src="{{user.imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': user.imageUrl}}" alt="Author Picture" *ngIf="!user.imageUrl">
         </div>
         <h4 class="team-name">
-          <a routerLink="{{'/users/details/' + user.id}}"> {{user.username?.substring(0, 25)}}</a>
+          <a routerLink="{{'/profile/view/' + user.id}}"> {{user.username?.substring(0, 25)}}</a>
         </h4>
         <div class="team-contact-link">{{user.firstName?.substring(0, 12)+ " " + user.lastName?.substring(0, 12)}}</div>
         <div class="team-contact-link">{{user.email}}</div>
-        <div class="team-social-bar-wrap">
+        <div class="team-social-bar-wrap" *ngIf="hasPermition('ManageUserPermissions')">
           <div class="team-social-bar">
-            <a class="social-btn sb-style-1 sb-twitter" href="#">
-              <i class="fa fa-twitter"></i>
-            </a>
-            <a class="social-btn sb-style-1 sb-github" href="#">
-              <i class="fa fa-github"></i>
-            </a>
-            <a class="social-btn sb-style-1 sb-stackoverflow" href="#">
-              <i class="fa fa-linkedin"></i>
-            </a>
-            <a class="social-btn sb-style-1 sb-skype" href="#">
-              <i class="fa fa-skype"></i>
-            </a>
+            <a routerLink="{{'/users/details/' + user.id}}"> Edit user</a>
           </div>
         </div>
+        <app-follow-create class="col-md-5" [userId]="user.id"></app-follow-create>
+
       </div>
     </div>
   </div>
