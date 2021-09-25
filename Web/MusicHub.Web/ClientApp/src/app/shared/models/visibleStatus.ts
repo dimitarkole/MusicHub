@@ -1,26 +1,26 @@
 import { ReturnStatement } from "@angular/compiler";
 
-export enum VisibleStatus {
+export enum PrivacyStatus {
   Public = 0,
-  Hidden = 1,
-  OnlyMe = 2,
+  Protected = 1,
+  Private = 2,
 }
 
 // optional: Record type annotation guaranties that 
 // all the values from the enum are presented in the mapping
-export const VisibleStatusMapping: Record<VisibleStatus, string> = {
-  [VisibleStatus.Public]: "Public",
-  [VisibleStatus.Hidden]: "Hidden",
-  [VisibleStatus.OnlyMe]: "Only me",
+export const PrivacyStatusMapping: Record<PrivacyStatus, string> = {
+  [PrivacyStatus.Public]: "Public",
+  [PrivacyStatus.Protected]: "Protected",
+  [PrivacyStatus.Private]: "Private",
 };
 
-export function CreateVisibleStatus(visibleStatus: number) {
+export function CreatePrivacyStatus(visibleStatus: number) {
   if (visibleStatus == 0) {
-    return VisibleStatus.Public;
+    return PrivacyStatus.Public;
   }
   else if (visibleStatus == 1) {
-    return VisibleStatus.Hidden;
+    return PrivacyStatus.Protected;
   }
 
-  return  VisibleStatus.OnlyMe;
+  return PrivacyStatus.Private;
 }

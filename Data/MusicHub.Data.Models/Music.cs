@@ -46,7 +46,7 @@
 
         public string RecordLabel { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public string Barcode { get; set; }
 

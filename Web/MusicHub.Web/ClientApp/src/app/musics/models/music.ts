@@ -2,7 +2,7 @@ import { MusicLicenseType } from "../../shared/models/musicLicenseType";
 import { OrderMethod } from "../../shared/models/orderMethod";
 import { Reaction } from "../../shared/models/reaction";
 import User from "../../shared/models/user";
-import { VisibleStatus } from "../../shared/models/visibleStatus";
+import { PrivacyStatus } from "../../shared/models/visibleStatus";
 
 export interface Music {
   id?: string,
@@ -13,7 +13,7 @@ export interface Music {
   categoryId?: string,
   categoryName?: string,
   description?: string,
-  privacy?: string,
+  privacy?: PrivacyStatus,
   buyLink?: string,
   albumTitle?: string,
   recordLabel?: string,

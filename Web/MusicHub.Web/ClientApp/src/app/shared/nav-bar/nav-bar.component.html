@@ -15,7 +15,7 @@
           <span class="logo_text">MusicHub</span>
         </a>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-1"></div>
 
       <div class="main_nav  col-md-5">
         <form class="row" (ngSubmit)="updateSearch()" [formGroup]="searchForm">
@@ -29,7 +29,7 @@
           </button>
         </form>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-3"></div>
 
       <!-- Main Navigation
   <nav class="main_nav">
@@ -44,6 +44,8 @@
         <nav class="main_nav">
           <ul class="d-flex flex-row align-items-start justify-content-start row">
             <!-- Dropdown -->
+            <li><a routerLink="/musics/create">Upload</a></li>
+
             <li>
               <a routerLink="/category/create" *ngIf="isAdmin">
                 <img src="../../../../assets/images/icon_addCategory.png" alt="Alternate Text" class="add_element_header" />
@@ -79,15 +81,6 @@
                     <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
                     <div class="col-md-9">
                       My playlists
-                    </div>
-                  </a>
-                </div>
-
-                <div class="dropdown-item" *ngIf="hasPermition('MusicCreator')">
-                  <a routerLink="/musics/create" class="row text-dark">
-                    <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
-                    <div class="col-md-9">
-                      Add music
                     </div>
                   </a>
                 </div>

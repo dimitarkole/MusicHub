@@ -8,7 +8,7 @@ import { globalConstants } from '../../../common/global-constants';
 import { requiredFileType } from '../../../common/requiredFileType.validator';
 import { AuthService } from '../../../core/services/auth.service';
 import { MegaStorageFileService } from '../../../core/services/mega-storage-file.service';
-import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+import { CreatePrivacyStatus, PrivacyStatus, PrivacyStatusMapping } from '../../../shared/models/visibleStatus';
 import { Music } from '../../models/music';
 import { MusicService } from '../../services/music.service';
 
@@ -32,6 +32,11 @@ export class MusicCreateComponent implements OnInit {
   descriptionMinLength = globalConstants.music.nameMinLength;
   descriptionMaxLength = globalConstants.music.nameMaxLength;
   musicId: string = "";
+  privacyStatusMapping = PrivacyStatusMapping;
+  privacyStatus = Object.keys(PrivacyStatus)
+    .filter(k => !isNaN(Number(k)));;
+
+
   constructor(
     private formBuilder: FormBuilder,
     private categoryService: CategoryService,
@@ -46,8 +51,8 @@ export class MusicCreateComponent implements OnInit {
   ngOnInit() {
     var music: Music = {
       categoryId : 'default',
-      imageUrl : this.defauleMusicImagePath,
-      privacy : "Public",
+      imageUrl: this.defauleMusicImagePath,
+      privacy: PrivacyStatus.Public,
       containsExplicitContent : "yes",
       displayEmbedCode : true,
       offlineListening : true,
@@ -58,7 +63,8 @@ export class MusicCreateComponent implements OnInit {
       attribution : true,
       noncommercial : true,
       noDerivativeWorks : false,
-      shareALike : true
+      shareALike: true,
+      enableDirectDownloads: true,
     }
 
     if (this.router.url.includes("edit")) {
@@ -232,8 +238,6 @@ export class MusicCreateComponent implements OnInit {
   }
 
   submit() {
-    alert("here")
-
     if (this.router.url.includes("edit")) {
       this.editMusic();
     }
@@ -474,9 +478,7 @@ export class MusicCreateComponent implements OnInit {
 
   private createMusic() {
     let music: Music = this.musicForm.value;
-    //music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
-    //music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
-
+    music.privacy = CreatePrivacyStatus(music.privacy);
     this.musicService.create(music)
       .subscribe(data => {
         this.router.navigate(['musics/own']);
@@ -486,9 +488,7 @@ export class MusicCreateComponent implements OnInit {
 
   private editMusic() {
     let music: Music = this.musicForm.value;
-    //music.visibleStatus = CreateVisibleStatus(music.visibleStatus);
-    //music.musicLicenseType = CreateMusicLicenseType(music.musicLicenseType);
-
+    music.privacy = CreatePrivacyStatus(music.privacy);
     this.musicService.edit(music, this.musicId)
       .subscribe(data => {
         this.router.navigate(['musics/own']);
