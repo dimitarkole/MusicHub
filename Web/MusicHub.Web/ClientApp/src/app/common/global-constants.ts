@@ -13,7 +13,7 @@ export const globalConstants = {
     descriptionMaxLength: 1000,
   },
   playlist: {
-    imageFolderPath: "../../../assets/resources/playlists/",
+    imageFolderPathToUpload: "../../../assets/resources/playlists/",
     defauldImage: "playlistDefaultImage.jpg",
   },
   pagination: {

@@ -20,7 +20,7 @@ import { PlaylistEditComponent } from '../playlist-edit/playlist-edit.component'
 export class PlaylistsListTemplateComponent implements OnInit {
   @Input() playlists: Playlist[] = [];
   @Input() type: string;
-  playlistDefaultImagePath: string = globalConstants.playlist.imageFolderPath + globalConstants.playlist.defauldImage;
+  playlistDefaultImagePath: string = globalConstants.playlist.imageFolderPathToUpload + globalConstants.playlist.defauldImage;
 
   constructor(
     public matDialog: MatDialog,
