@@ -8,6 +8,7 @@
 
     using AutoMapper;
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
 
     public class PlaylistPlayModel : IMapFrom<Playlist>
@@ -19,6 +20,8 @@
         public string ImageUrl { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public Privacy Privacy { get; set; }
 
         public PlaylistUserViewModel User { get; set; }
     }

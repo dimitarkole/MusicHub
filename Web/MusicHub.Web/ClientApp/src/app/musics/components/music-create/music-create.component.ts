@@ -23,7 +23,7 @@ export class MusicCreateComponent implements OnInit {
   imageFileToUpload: File = null;
   audioFileToUpload: File = null;
   musicFolderPath: string = globalConstants.music.imageFolderPathToUpload;
-  defauleMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
+  defaultMusicImagePath: string = this.musicFolderPath + globalConstants.music.defauldImage;
   audioPath: string = "";
   musicForm: FormGroup;
   categories$: Observable<Category[]>
@@ -51,7 +51,7 @@ export class MusicCreateComponent implements OnInit {
   ngOnInit() {
     var music: Music = {
       categoryId : 'default',
-      imageUrl: this.defauleMusicImagePath,
+      imageUrl: this.defaultMusicImagePath,
       privacy: PrivacyStatus.Public,
       containsExplicitContent : "yes",
       displayEmbedCode : true,
@@ -224,7 +224,7 @@ export class MusicCreateComponent implements OnInit {
   }
 
   uploadImage() {
-    this.imageUrl.setValue(this.defauleMusicImagePath);
+    this.imageUrl.setValue(this.defaultMusicImagePath);
     if (this.imageFileToUpload != null) {
       this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPathToUpload)
         .subscribe(data => {
@@ -234,7 +234,7 @@ export class MusicCreateComponent implements OnInit {
   }
 
   useDefaultPicture() {
-    this.imageUrl.setValue(this.defauleMusicImagePath);
+    this.imageUrl.setValue(this.defaultMusicImagePath);
   }
 
   submit() {
@@ -245,7 +245,7 @@ export class MusicCreateComponent implements OnInit {
       this.fileService.create(this.audioFileToUpload, globalConstants.music.audioFolderPath)
         .subscribe(data => {
           this.audioUrl.setValue(data["fileName"]);
-          this.imageUrl.setValue(this.defauleMusicImagePath);
+          this.imageUrl.setValue(this.defaultMusicImagePath);
           if (this.imageFileToUpload != null) {
             this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPath)
               .subscribe(data => {
