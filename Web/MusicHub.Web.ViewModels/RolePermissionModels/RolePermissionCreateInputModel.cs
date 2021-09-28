@@ -7,7 +7,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
-    public class RolePermissionCreateInputModel : IMapTo<RolePermission>
+    public class RolePermissionCreateInputModel : IMapTo<RolePermission>, IMapFrom<RolePermission>
     {
         public int PermissionId { get; set; }
     }
