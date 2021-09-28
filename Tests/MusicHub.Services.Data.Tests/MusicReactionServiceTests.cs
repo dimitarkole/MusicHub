@@ -13,6 +13,7 @@ using MusicHub.Web.ViewModels.MusicReactionModels;
 using static MusicHub.Common.GlobalConstants;
 using MusicHub.Web.ViewModels.MusicModels;
 using MusicHub.Common;
+using FluentAssertions;
 
 namespace MusicHub.Services.Data.Tests
 {
@@ -56,19 +57,25 @@ namespace MusicHub.Services.Data.Tests
                 .OrderBy(mr => mr.Value.Count())
                 .FirstOrDefault();
             var userId = musicReactionInfo.Key;
-            var allLikedMusicByUser = musicReactionInfo.Value
-                .Where(mr => mr.Reaction == Reaction.Like)
+            var entitesPerPage = PaginationData.LikedMusicsPerPage;
+            var likedMusics = this.context.MusicReactions
+                .Where(s => s.UserId == userId
+                    && s.Reaction == Reaction.Like)
                 .OrderByDescending(s => s.CreatedOn)
                 .To<LikedMusicViewModel>();
-            var entitesPerPage = PaginationData.LikedMusicsPerPage;
-            var countPages = this.GetMusicReactionsPagesCount(allLikedMusicByUser.Count(), entitesPerPage);
 
-            var expectedResult = allLikedMusicByUser.GetPage(page, entitesPerPage)
-               .ToList();
+            var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
+            {
+                LinkedMusics = likedMusics
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicReactionsPagesCount(likedMusics.Count(), entitesPerPage),
+            };
 
-            var result = musicReactionService.All<LikedMusicViewModel>(page, entitesPerPage, userId);
+            var actual = musicReactionService.All<LikedMusicViewModel>(page, entitesPerPage, userId);
 
-            this.ChecLikedMusicAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -79,27 +86,34 @@ namespace MusicHub.Services.Data.Tests
             var musicReactions = MusicReactionTestsData.MusicReactions();
             var musicReactionService = await this.CreateMusicReactionService(musicReactions);
             var userId = musicReactions[0].UserId;
-
-            var allLikedMusicByUser = this.context.MusicReactions
-                .Where(s => s.UserId == userId
-                && s.Reaction == Reaction.Like);
-
-            var filter = MusicReactionTestsData.Filter;
-            allLikedMusicByUser = FilteringMusics(filter, allLikedMusicByUser);
-            allLikedMusicByUser = OrederSearchMusics(filter.OrderMethod, allLikedMusicByUser);
-
-            var allLikedMusicByUserList = allLikedMusicByUser.ToList();
-
             var entitesPerPage = PaginationData.LikedMusicsPerPage;
-            var countPages = this.GetMusicReactionsPagesCount(allLikedMusicByUser.Count(), entitesPerPage);
+            var filter = MusicReactionTestsData.Filter;
 
-            var expectedResult = allLikedMusicByUser.GetPage(page, entitesPerPage)
-                .To<LikedMusicViewModel>()
-                .ToList();
+            this.CheckFilterResult(page, musicReactionService, userId, entitesPerPage, filter);
+        }
 
-            var result = musicReactionService.Filter<LikedMusicViewModel>(page, entitesPerPage, userId, filter);
+        private void CheckFilterResult(int page, MusicReactionService musicReactionService, string userId, int entitesPerPage, MusicFilter filter)
+        {
+            var likedMusics = this.context.MusicReactions
+                  .Where(s => s.UserId == userId
+                      && s.Reaction == Reaction.Like);
 
-            this.ChecLikedMusicAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            likedMusics = FilteringMusics(filter, likedMusics);
+            likedMusics = OrederSearchMusics(filter.OrderMethod, likedMusics);
+
+            var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
+            {
+                LinkedMusics = likedMusics
+                    .GetPage(page, entitesPerPage)
+                    .To<LikedMusicViewModel>()
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicReactionsPagesCount(likedMusics.Count(), entitesPerPage),
+            };
+
+            var actual = musicReactionService.Filter<LikedMusicViewModel>(page, entitesPerPage, userId, filter);
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -110,27 +124,11 @@ namespace MusicHub.Services.Data.Tests
             var musicReactions = MusicReactionTestsData.MusicReactions();
             var musicReactionService = await this.CreateMusicReactionService(musicReactions);
             var userId = musicReactions[0].UserId;
-
-            var allLikedMusicByUser = this.context.MusicReactions
-                .Where(s => s.UserId == userId
-                && s.Reaction == Reaction.Like);
-
             var filter = MusicReactionTestsData.FilterWithCategory;
-            allLikedMusicByUser = FilteringMusics(filter, allLikedMusicByUser);
-            allLikedMusicByUser = OrederSearchMusics(filter.OrderMethod, allLikedMusicByUser);
-
-            var allLikedMusicByUserList = allLikedMusicByUser.ToList();
-
             var entitesPerPage = PaginationData.LikedMusicsPerPage;
-            var countPages = this.GetMusicReactionsPagesCount(allLikedMusicByUser.Count(), entitesPerPage);
 
-            var expectedResult = allLikedMusicByUser.GetPage(page, entitesPerPage)
-                .To<LikedMusicViewModel>()
-                .ToList();
 
-            var result = musicReactionService.Filter<LikedMusicViewModel>(page, entitesPerPage, userId, filter);
-
-            this.ChecLikedMusicAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, musicReactionService, userId, entitesPerPage, filter);
         }
 
         [Fact]
@@ -238,34 +236,6 @@ namespace MusicHub.Services.Data.Tests
 
             return musicReactions;
         }
-
-        private void ChecLikedMusicAllViewModelsIsEqual(int page, int countPages, List<LikedMusicViewModel> expectedResult, LikedMusicsAllViewModel<LikedMusicViewModel> result)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultLikedMusics = result.LinkedMusics.ToList();
-            Assert.Equal(expectedResult.Count, resultLikedMusics.Count);
-
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expectedMusic = expectedResult[i];
-                var resultMusic = resultLikedMusics[i];
-                Assert.True(this.ChecktLikedMusicViewModelIsEqual(expectedMusic, resultMusic));
-            }
-        }
-
-        private bool ChecktLikedMusicViewModelIsEqual(LikedMusicViewModel expectedMusic, LikedMusicViewModel resultMusic)
-            => expectedMusic.Id == resultMusic.Id
-                && expectedMusic.CreatedOn == expectedMusic.CreatedOn
-                && this.CheckMusicViewModelIsEqual(expectedMusic.Music, resultMusic.Music);
-
-        private bool CheckMusicViewModelIsEqual(MusicViewModel expectedMusic, MusicViewModel resultMusic)
-           => expectedMusic.Name == resultMusic.Name
-              && expectedMusic.Category.Name == resultMusic.Category.Name
-              && expectedMusic.Category.Id == resultMusic.Category.Id
-              && expectedMusic.ImageUrl == resultMusic.ImageUrl
-              && expectedMusic.AudioUrl == resultMusic.AudioUrl
-              && expectedMusic.UserUserName == resultMusic.UserUserName;
 
         private int GetMusicReactionsPagesCount(int entityCount, int entitesPerPage)
         {
