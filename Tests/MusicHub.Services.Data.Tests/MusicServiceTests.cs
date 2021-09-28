@@ -126,8 +126,9 @@
             var musicService = await this.CreateMusicService(getMusics);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModel;
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter);
         }
 
         [Theory]
@@ -141,7 +142,9 @@
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
+
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter);
         }
 
         [Theory]
@@ -156,7 +159,9 @@
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter, userId);
+
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter, userId);
         }
 
         [Theory]
@@ -171,7 +176,9 @@
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter, userId);
+
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter, userId);
         }
 
         [Theory]
@@ -185,7 +192,9 @@
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserId;
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
+
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter);
         }
 
         [Theory]
@@ -196,12 +205,12 @@
         {
             var getMusics = MusicTestsData.GetMusics;
             var musicService = await this.CreateMusicService(getMusics);
-            IQueryable<Music> expextedResult = this.context.Musics
-                    .Where(m => m.Privacy == Privacy.Public);
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserIdAndCategoryId;
 
-            this.CheckFilter(page, musicService, entitesPerPage, filter);
+            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
+
+            this.CheckFilter(actual, page, musicService, entitesPerPage, filter);
         }
 
         [Theory]
@@ -214,11 +223,11 @@
             var musicService = await this.CreateMusicService(getMusics);
             var userId = MusicTestsData.GetOwnedUserId;
             var entitesPerPage = PaginationData.MusicsPerPage;
-
+           
             var musics = this.context.Musics
-                   .Where(s => s.UserId == userId)
-                   .OrderByDescending(s => s.CreatedOn)
-                   .To<MusicViewModel>();
+                               .Where(s => s.UserId == userId)
+                               .OrderByDescending(s => s.CreatedOn)
+                               .To<MusicViewModel>();
             var expected = new MusicsAllViewModel<MusicViewModel>()
             {
                 Musics = musics
@@ -283,15 +292,22 @@
             expected.Should().BeEquivalentTo(actual);
         }
 
-        private void CheckFilter(int page, MusicService musicService, int entitesPerPage, MusicFilter filter)
+        private void CheckFilter(MusicsAllViewModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics
                   .Where(m => m.Privacy == Privacy.Public)
-                  .OrderByDescending(m => m.CreatedOn)
-                  .ThenBy(m => m.MusicReactions.Count(r => r.Reaction == Reaction.Like))
-                  .ThenBy(m => m.Name);
-            musics = this.FilteringMusics(filter, musics);
-            musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+                  .OrderByDescending(m => m.CreatedOn);
+
+            if (userId != null)
+            {
+                musics = musics.Where(m => m.UserId == userId);
+            }
+
+            if (filter != new MusicFilter())
+            {
+                musics = this.FilteringMusics(filter, musics);
+                musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+            }
 
             var expected = new MusicsAllViewModel<MusicViewModel>()
             {
@@ -302,8 +318,6 @@
                 CurrentPage = page,
                 NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
             };
-
-            var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
 
             expected.Should().BeEquivalentTo(actual);
         }
