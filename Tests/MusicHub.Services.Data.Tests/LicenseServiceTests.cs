@@ -12,11 +12,14 @@ using MusicHub.Common;
 using MusicHub.Web.ViewModels.LicenseModels;
 using MusicHub.Data.Models.Enums;
 using static MusicHub.Common.GlobalConstants;
+using FluentAssertions;
 
 namespace MusicHub.Services.Data.Tests
 {
     public class LicenseServiceTests : BaseTestClass
     {
+        public int EntitesPerPage = PaginationData.LicensesPerPage;
+
         [Fact]
         public async Task CreateLicense_WithValidData_ShouldWorkCorrect()
         {
@@ -39,20 +42,22 @@ namespace MusicHub.Services.Data.Tests
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
 
-            var allLicenses = this.context.Licenses
+            var licenseLargeViewModel = this.context.Licenses
                 .OrderByDescending(l => l.Status == LicenseStatus.WaitToBeView)
-                .ThenByDescending(l => l.CreatedOn);
+                .ThenByDescending(l => l.CreatedOn)
+                .To<LicenseLargeViewModel>();
 
-            var entitesPerPage = PaginationData.LicensesPerPage;
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
+            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            {
+                Licenses = licenseLargeViewModel
+                    .GetPage(page, this.EntitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(licenses.Count(), this.EntitesPerPage),
+            };
 
-            var result = licenseService.All<LicenseLargeViewModel>(page, entitesPerPage);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            var actual = licenseService.All<LicenseLargeViewModel>(page, this.EntitesPerPage);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -63,22 +68,26 @@ namespace MusicHub.Services.Data.Tests
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
             var userId = licenses[0].UserId;
-            var allUserLicenses = this.context.Licenses
+
+            var licenseLargeViewModel = this.context.Licenses
                 .Where(l => l.UserId == userId)
                 .OrderByDescending(l => l.Status == LicenseStatus.WaitToBeView)
                 .ThenByDescending(l => l.CreatedOn)
-                .ThenByDescending(l => l.Name);
+                .ThenByDescending(l => l.Name)
+                .To<LicenseLargeViewModel>();
 
-            var entitesPerPage = PaginationData.LicensesPerPage;
-            var countPages = this.GetLicensesPagesCount(allUserLicenses.Count(), entitesPerPage);
-            var expectedResult = allUserLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
+            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            {
+                Licenses = licenseLargeViewModel
+                    .GetPage(page, this.EntitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(licenseLargeViewModel.Count(), this.EntitesPerPage),
+            };
 
-            var result = licenseService.AllOwned<LicenseLargeViewModel>(page, entitesPerPage, userId);
+            var actual = licenseService.AllOwned<LicenseLargeViewModel>(page, this.EntitesPerPage, userId);
 
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -87,23 +96,17 @@ namespace MusicHub.Services.Data.Tests
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
             var userId = licenses[0].UserId;
-            var approvedLicenses = this.context.Licenses
+            var expected = this.context.Licenses
                 .Where(l => l.UserId == userId
                     && l.Status == LicenseStatus.Approve)
                 .OrderByDescending(l => l.Name)
                 .To<LicenseLargeViewModel>()
                 .ToList();
 
-            var result = licenseService.AllOwnedApproved<LicenseLargeViewModel>(userId)
+            var actual = licenseService.AllOwnedApproved<LicenseLargeViewModel>(userId)
                 .ToList();
 
-            Assert.Equal(approvedLicenses.Count, result.Count);
-            for (int i = 0; i < approvedLicenses.Count(); i++)
-            {
-                var expectedLicense = approvedLicenses[i];
-                var resultLicense = result[i];
-                Assert.True(this.CheckLicenseViewModelIsEqual(expectedLicense, resultLicense));
-            }
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -113,24 +116,10 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilter;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
-
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -140,24 +129,11 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithUserName;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -167,24 +143,11 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithStatus;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -194,24 +157,11 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithUserNameAndStatus;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -221,24 +171,11 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithUserId;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -248,24 +185,11 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-
-            IQueryable<License> allLicenses = this.context.Licenses;
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithUserIdAndStatus;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter);
         }
 
         [Theory]
@@ -276,24 +200,11 @@ namespace MusicHub.Services.Data.Tests
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
             var userId = LicenseTestsData.LicenseFilterUserId;
-            IQueryable<License> allLicenses = this.context.Licenses
-                .Where(l => l.UserId == userId);
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilter;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter, userId);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter, userId);
         }
 
         [Theory]
@@ -304,24 +215,11 @@ namespace MusicHub.Services.Data.Tests
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
             var userId = LicenseTestsData.LicenseFilterUserId;
-            IQueryable<License> allLicenses = this.context.Licenses
-                .Where(l => l.UserId == userId);
-
-            var entitesPerPage = PaginationData.LicensesPerPage;
             var filter = LicenseTestsData.LicenseFilterWithStatus;
-            allLicenses = this.FilteringLicenses(filter, allLicenses);
 
-            allLicenses = this.OrederSearchMusics(filter.OrderMethod, allLicenses);
-            var countPages = this.GetLicensesPagesCount(allLicenses.Count(), entitesPerPage);
+            var actual = licenseService.Filter<LicenseLargeViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            var expectedResult = allLicenses
-                .GetPage(page, entitesPerPage)
-                .To<LicenseLargeViewModel>()
-                .ToList();
-
-            var result = licenseService.Filter<LicenseLargeViewModel>(page, entitesPerPage, filter, userId);
-
-            this.ChecLicenseAllViewModelsIsEqual(page, countPages, expectedResult, result);
+            this.CheckFilterResult(page, actual, licenseService, filter, userId);
         }
 
         [Fact]
@@ -370,14 +268,14 @@ namespace MusicHub.Services.Data.Tests
             var licenseService = await this.CreateLicenseService(licenses);
             var licenseId = licenses[0].Id;
 
-            var result = licenseService.GetById<LicenseLargeViewModel>(licenseId);
+            var actual = licenseService.GetById<LicenseLargeViewModel>(licenseId);
 
-            var expectedResult = this.context.Licenses
+            var expected = this.context.Licenses
                 .Where(l => l.Id == licenseId)
                 .To<LicenseLargeViewModel>()
                 .FirstOrDefault();
 
-            Assert.True(this.CheckLicenseViewModelIsEqual(expectedResult, result));
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -443,70 +341,16 @@ namespace MusicHub.Services.Data.Tests
             var licenseService = await this.CreateLicenseService(licenses);
             var licenseId = this.context.LicenseFiles.FirstOrDefault().Id;
 
-            var expectedResult = this.context.LicenseFiles
+            var expected = this.context.LicenseFiles
                 .Where(lf => lf.LicensеId == licenseId)
                 .OrderBy(lf => lf.CreatedOn)
                 .To<LicenceFileViewModel>()
                 .ToList();
 
-            var result = licenseService.AllFiles<LicenceFileViewModel>(licenseId).ToList();
+            var actual = licenseService.AllFiles<LicenceFileViewModel>(licenseId).ToList();
 
-            Assert.True(this.CheckLicenseFilesViewModelIsEqual(expectedResult, result));
+            expected.Should().BeEquivalentTo(actual);
         }
-
-        private void ChecLicenseAllViewModelsIsEqual(int page, int countPages, List<LicenseLargeViewModel> expectedResult, LicenseAllViewModel<LicenseLargeViewModel> result)
-        {
-            Assert.Equal(page, result.CurrentPage);
-            Assert.Equal(countPages, result.NumberOfPages);
-            var resultLicenses = result.Licenses.ToList();
-            Assert.Equal(expectedResult.Count, resultLicenses.Count());
-
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expectedLicense = expectedResult[i];
-                var resultLicense = resultLicenses[i];
-                Assert.True(this.CheckLicenseViewModelIsEqual(expectedLicense, resultLicense));
-            }
-        }
-
-        private bool CheckLicenseViewModelIsEqual(LicenseLargeViewModel expectedLicense, LicenseLargeViewModel resultLicense)
-            => expectedLicense.CreatedOn == resultLicense.CreatedOn
-                && expectedLicense.Id == resultLicense.Id
-                && expectedLicense.Name == resultLicense.Name
-                && expectedLicense.Status == resultLicense.Status
-                // && this.CheckLicenseFilesViewModelIsEqual(expectedLicense.LicenseFiles, resultLicense.LicenseFiles)
-                && this.CheckLicenseUserViewModelIsEqual(expectedLicense.User, expectedLicense.User);
-
-        private bool CheckLicenseFilesViewModelIsEqual(List<LicenceFileViewModel> expectedLicenseFiles, List<LicenceFileViewModel> resultLicenseFiles)
-        {
-            if (expectedLicenseFiles.Count != resultLicenseFiles.Count)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < expectedLicenseFiles.Count; i++)
-            {
-                var expectedLicenseFile = expectedLicenseFiles[i];
-                var resultLicenseFile = resultLicenseFiles[i];
-                var result = this.CheckLicenseFileViewModelIsEqual(expectedLicenseFile, resultLicenseFile);
-                if (!result)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        private bool CheckLicenseUserViewModelIsEqual(LicenseUserViewModel expectedUser, LicenseUserViewModel resultUser)
-            => expectedUser.Id == resultUser.Id
-                && expectedUser.ImageUrl == resultUser.ImageUrl
-                && expectedUser.UserName == resultUser.UserName;
-
-        private bool CheckLicenseFileViewModelIsEqual(LicenceFileViewModel expectedFile, LicenceFileViewModel resultFile)
-            => expectedFile.Id == resultFile.Id
-                && expectedFile.Path == resultFile.Path
-                && expectedFile.CreatedOn == resultFile.CreatedOn;
 
         private IQueryable<License> FilteringLicenses(LicenseFilter filter, IQueryable<License> licenses)
         {
@@ -583,6 +427,30 @@ namespace MusicHub.Services.Data.Tests
         {
             var paginationService = new PaginationService();
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
+        }
+
+        private void CheckFilterResult(int page, LicenseAllViewModel<LicenseLargeViewModel> actual, LicenseService licenseService, LicenseFilter filter, string userId = null)
+        {
+            IQueryable<License> licenses = this.context.Licenses;
+            if (!string.IsNullOrEmpty(userId))
+            {
+                licenses = licenses.Where(s => s.UserId == userId);
+            }
+
+            licenses = this.FilteringLicenses(filter, licenses);
+
+            licenses = this.OrederSearchMusics(filter.OrderMethod, licenses);
+            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            {
+                Licenses = licenses
+                        .To<LicenseLargeViewModel>()
+                        .GetPage(page, this.EntitesPerPage)
+                        .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetLicensesPagesCount(licenses.Count(), this.EntitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         private async Task<LicenseService> CreateLicenseService(List<License> licenses)
