@@ -11,6 +11,7 @@ using Xunit;
 using MusicHub.Web.ViewModels.FollowModels;
 using static MusicHub.Common.GlobalConstants;
 using MusicHub.Common;
+using FluentAssertions;
 
 namespace MusicHub.Services.Data.Tests
 {
@@ -18,6 +19,7 @@ namespace MusicHub.Services.Data.Tests
     {
         // followings - users who I following
         // followers - user who followed me
+        public int EntitesPerPage = PaginationData.FollowingsPerPage;
 
         [Fact]
         public async Task CreateFollow_WithValidData_ShouldWorkCorrect()
@@ -61,7 +63,7 @@ namespace MusicHub.Services.Data.Tests
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
-            Assert.True(followService.IsFollowing(follow.FollowerId, follow.FollowingId));
+            Assert.True(followService.IsFollowing(follow.FollowingId, follow.FollowerId));
         }
 
         [Fact]
@@ -99,22 +101,9 @@ namespace MusicHub.Services.Data.Tests
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
+            var actual = followService.AllFollowing<FollowingViewModel>(page, this.EntitesPerPage, userId);
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowerId == userId)
-                .To<FollowingViewModel>()
-                .ToList();
-
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-
-            var result = followService.AllFollowing<FollowingViewModel>(page, entitesPerPage, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-
-            expectedResult = expectedResult.GetPage(page, entitesPerPage)
-               .ToList();
-
-            this.CheckFollowingViewModelsIsEqual(page, expectedResult, result, countPages);
+            this.CheckFilterFollowings(page, new FollowFilterInputModel(), userId, actual);
         }
 
         [Theory]
@@ -127,21 +116,9 @@ namespace MusicHub.Services.Data.Tests
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowingId == userId)
-                .To<FollowerViewModel>()
-                .ToList();
+            var actual = followService.AllFollowers<FollowerViewModel>(page, this.EntitesPerPage, userId);
 
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-
-            var result = followService.AllFollowers<FollowerViewModel>(page, entitesPerPage, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-
-            expectedResult = expectedResult.GetPage(page, entitesPerPage)
-               .ToList();
-
-            this.CheckFollowerViewModelsIsEqual(page, expectedResult, result, countPages);
+            this.CheckFilterFollowers(page, new FollowFilterInputModel(), userId, actual);
         }
 
         [Fact]
@@ -151,7 +128,7 @@ namespace MusicHub.Services.Data.Tests
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
 
-            var result = followService.GetFollow<FollowerViewModel>(follow.FollowingId, follow.FollowerId);
+            var result = followService.GetFollow<FollowerViewModel>(follow.FollowerId, follow.FollowingId);
 
             Assert.Equal(follow.Id, result.Id);
         }
@@ -161,28 +138,15 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowing_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelUserName;
+            var filter = FollowTestsData.FilterModelUserName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowerId == userId);
+            var actual = followService.FilterFollowings<FollowingViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            expectedResult = this.FilteringFollowings(filterModel, expectedResult);
-            expectedResult = this.OrederFollowings(filterModel.OrderMethod, expectedResult);
-
-            var result = followService.FilterFollowings<FollowingViewModel>(page, entitesPerPage, filterModel, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-            var expecetdResultT = expectedResult
-                .To<FollowingViewModel>()
-                .GetPage(page, entitesPerPage)
-                .ToList();
-
-            this.CheckFollowingViewModelsIsEqual(page, expecetdResultT, result, countPages);
+            this.CheckFilterFollowings(page, filter, userId, actual);
         }
 
         [Theory]
@@ -190,28 +154,54 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowers_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelUserName;
+            var filter = FollowTestsData.FilterModelUserName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowingId == userId);
+            var actual = followService.FilterFollowers<FollowerViewModel>(page, this.EntitesPerPage, filter, userId);
+            this.CheckFilterFollowers(page, filter, userId, actual);
+        }
 
-            expectedResult = this.FilteringFollowers(filterModel, expectedResult);
-            expectedResult = this.OrederFollows(filterModel.OrderMethod, expectedResult);
+        private void CheckFilterFollowers(int page, FollowFilterInputModel filter, string userId, FollowersAllViewModel<FollowerViewModel> actual)
+        {
+            var followers = this.context.Follows
+                            .Where(f => f.FollowingId == userId);
+            followers = this.FilteringFollowers(filter, followers);
+            followers = this.OrederFollows(filter.OrderMethod, followers);
+            var followersT = followers.To<FollowerViewModel>();
+            var expected = new FollowersAllViewModel<FollowerViewModel>()
+            {
+                Followers = followersT
+                    .GetPage(page, this.EntitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetFollowPagesCount(followersT.Count(), this.EntitesPerPage),
+            };
 
-            var result = followService.FilterFollowers<FollowerViewModel>(page, entitesPerPage, filterModel, userId);
+            expected.Should().BeEquivalentTo(actual);
+        }
 
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
+        private void CheckFilterFollowings(int page, FollowFilterInputModel filter, string userId, FollowingsAllViewModel<FollowingViewModel> actual)
+        {
+            var followings = this.context.Follows
+                   .Where(f => f.FollowerId == userId);
 
-            var expectedResultT = expectedResult.GetPage(page, entitesPerPage)
-                .To<FollowerViewModel>()
-                .ToList();
+            followings = this.FilteringFollowings(filter, followings);
+            followings = this.OrederFollowings(filter.OrderMethod, followings);
+            var followersT = followings.To<FollowingViewModel>();
 
-            this.CheckFollowerViewModelsIsEqual(page, expectedResultT, result, countPages);
+            var expected = new FollowingsAllViewModel<FollowingViewModel>()
+            {
+                Followings = followersT
+                    .GetPage(page, this.EntitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetFollowPagesCount(followings.Count(), this.EntitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -219,28 +209,15 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowingLastName_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelLastName;
+            var filter = FollowTestsData.FilterModelLastName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowerId == userId);
+            var actual = followService.FilterFollowings<FollowingViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            expectedResult = this.FilteringFollowings(filterModel, expectedResult);
-            expectedResult = this.OrederFollowings(filterModel.OrderMethod, expectedResult);
-
-            var result = followService.FilterFollowings<FollowingViewModel>(page, entitesPerPage, filterModel, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-            var expecetdResultT = expectedResult
-                .To<FollowingViewModel>()
-                .GetPage(page, entitesPerPage)
-                .ToList();
-
-            this.CheckFollowingViewModelsIsEqual(page, expecetdResultT, result, countPages);
+            this.CheckFilterFollowings(page, filter, userId, actual);
         }
 
         [Theory]
@@ -248,28 +225,15 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowersLastName_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelLastName;
+            var filter = FollowTestsData.FilterModelLastName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowingId == userId);
+            var actual = followService.FilterFollowers<FollowerViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            expectedResult = this.FilteringFollowers(filterModel, expectedResult);
-            expectedResult = this.OrederFollows(filterModel.OrderMethod, expectedResult);
-
-            var result = followService.FilterFollowers<FollowerViewModel>(page, entitesPerPage, filterModel, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-
-            var expectedResultT = expectedResult.GetPage(page, entitesPerPage)
-                .To<FollowerViewModel>()
-                .ToList();
-
-            this.CheckFollowerViewModelsIsEqual(page, expectedResultT, result, countPages);
+            this.CheckFilterFollowers(page, filter, userId, actual);
         }
 
         [Theory]
@@ -277,28 +241,15 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowingFirstName_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelFirstName;
+            var filter = FollowTestsData.FilterModelFirstName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowerId == userId);
+            var actual = followService.FilterFollowings<FollowingViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            expectedResult = this.FilteringFollowings(filterModel, expectedResult);
-            expectedResult = this.OrederFollowings(filterModel.OrderMethod, expectedResult);
-
-            var result = followService.FilterFollowings<FollowingViewModel>(page, entitesPerPage, filterModel, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-            var expecetdResultT = expectedResult
-                .To<FollowingViewModel>()
-                .GetPage(page, entitesPerPage)
-                .ToList();
-
-            this.CheckFollowingViewModelsIsEqual(page, expecetdResultT, result, countPages);
+            this.CheckFilterFollowings(page, filter, userId, actual);
         }
 
         [Theory]
@@ -306,71 +257,16 @@ namespace MusicHub.Services.Data.Tests
         [InlineData(2)]
         public async Task FilterFollowersFirstName_WithValidData_ShouldeReturn(int page)
         {
-            var entitesPerPage = PaginationData.FollowingsPerPage;
-            var filterModel = FollowTestsData.FilterModelFirstName;
+            var filter = FollowTestsData.FilterModelFirstName;
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var users = UserTestsData.Users;
             var userId = users[0].Id;
 
-            var expectedResult = this.context.Follows
-                .Where(f => f.FollowingId == userId);
+            var actual = followService.FilterFollowers<FollowerViewModel>(page, this.EntitesPerPage, filter, userId);
 
-            expectedResult = this.FilteringFollowers(filterModel, expectedResult);
-            expectedResult = this.OrederFollows(filterModel.OrderMethod, expectedResult);
-
-            var result = followService.FilterFollowers<FollowerViewModel>(page, entitesPerPage, filterModel, userId);
-
-            var countPages = this.GetFollowPagesCount(expectedResult.Count(), entitesPerPage);
-
-            var expectedResultT = expectedResult.GetPage(page, entitesPerPage)
-                .To<FollowerViewModel>()
-                .ToList();
-
-            this.CheckFollowerViewModelsIsEqual(page, expectedResultT, result, countPages);
+            this.CheckFilterFollowers(page, filter, userId, actual);
         }
-
-        private void CheckFollowerViewModelsIsEqual(int page, List<FollowerViewModel> expectedResult, FollowersAllViewModel<FollowerViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultFollowers = result.Followers.ToList();
-            Assert.Equal(resultFollowers.Count, expectedResult.Count);
-
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expected = expectedResult[i];
-                var resultFollower = resultFollowers[i];
-                Assert.True(this.CheckFollowerViewModelsIsEqual(expected, resultFollower));
-            }
-        }
-
-        private void CheckFollowingViewModelsIsEqual(int page, List<FollowingViewModel> expectedResult, FollowingsAllViewModel<FollowingViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultFollowings = result.Followings.ToList();
-            Assert.Equal(resultFollowings.Count, expectedResult.Count);
-
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expected = expectedResult[i];
-                var resultFollowing = resultFollowings[i];
-                Assert.True(this.CheckFollowingViewModelsIsEqual(expected, resultFollowing));
-            }
-        }
-
-        private bool CheckFollowingViewModelsIsEqual(FollowingViewModel expected, FollowingViewModel result)
-            => expected.Following.Id == result.Following.Id
-                        && expected.Following.UserName == result.Following.UserName
-                        && expected.Following.ImageUrl == result.Following.ImageUrl
-                        && expected.Id == result.Id;
-
-        private bool CheckFollowerViewModelsIsEqual(FollowerViewModel expected, FollowerViewModel result)
-            => expected.Follower.Id == result.Follower.Id
-                && expected.Follower.UserName == result.Follower.UserName
-                && expected.Follower.ImageUrl == result.Follower.ImageUrl
-                && expected.Id == result.Id;
 
         private int GetFollowsCount(int entityCount, int entitesPerPage)
         {

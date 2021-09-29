@@ -14,6 +14,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Common.Extensions;
     using MusicHub.Data.Models.Enums;
+    using FluentAssertions;
 
     public class ProfileServiceTests : BaseTestClass
     {
@@ -59,17 +60,14 @@
             var profileService = await this.CreateProfileService();
             var userIds = UserTestsData.UsersIds;
 
-            var expectedResults = this.context.Users
+            var expected = this.context.Users
                 .Where(u => !u.IsDeleted)
                 .Where(u => userIds.Contains(u.Id))
                 .Select(u => $"{u.FirstName} {u.LastName}")
                 .ToList();
-            var result = profileService.GetFullNames(userIds).ToList();
-            Assert.Equal(expectedResults.Count, result.Count);
-            for (int i = 0; i < expectedResults.Count; i++)
-            {
-                Assert.Equal(expectedResults[i], result[i]);
-            }
+            var actual = profileService.GetFullNames(userIds).ToList();
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -156,14 +154,14 @@
                 && u.LastName == model.LastName
                 && u.Email == model.Email
                 && u.Birthday == model.Birthday));
-            var updatedRoles = this.context.UserRoles
+            var actual = this.context.UserRoles
                 .Where(ur => ur.UserId == userId)
                 .Select(r => r.Role.Name)
                 .ToArray();
-            var expectedResult = model.Roles.ToList();
-            expectedResult.AddRange(lastRoles);
+            var expected = model.Roles.ToList();
+            expected.AddRange(lastRoles);
 
-            this.IsRolesEquals(expectedResult.ToArray(), updatedRoles);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -176,13 +174,21 @@
                     .OrderBy(u => u.UserName)
                     .To<UserViewModel>();
             var entitesPerPage = PaginationData.UsersPerPage;
-            var result = profileService.All<UserViewModel>(page, entitesPerPage);
-            var countPages = this.GetUsersCount(expextedResult.Count(), entitesPerPage);
+            var actual = profileService.All<UserViewModel>(page, entitesPerPage);
+            var users = this.context.Users.Where(u => !u.IsDeleted)
+               .OrderBy(u => u.UserName)
+               .To<UserViewModel>();
 
-            var expectedUsersList = expextedResult.GetPage(page, entitesPerPage)
-               .ToList();
+            var expected = new UserAllViewModel<UserViewModel>()
+            {
+                Users = users
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
+            };
 
-            this.CheckUserAllViewModelsIsEqual(page, expectedUsersList, result, countPages);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -193,7 +199,7 @@
             var profileService = await this.CreateProfileService();
             var entitesPerPage = PaginationData.UsersPerPage;
             var searchQuery = UserTestsData.SearchQuery;
-            var expextedResult = this.context.Users
+            var users = this.context.Users
                    .Where(u => !u.IsDeleted)
                    .Where(u => u.FirstName.Contains(searchQuery) ||
                            u.LastName.Contains(searchQuery))
@@ -201,13 +207,17 @@
                    .OrderBy(u => u.UserName)
                    .To<UserViewModel>();
 
-            var result = profileService.Search(page, entitesPerPage, searchQuery);
-            var countPages = this.GetUsersCount(expextedResult.Count(), entitesPerPage);
+            var expected = new UserAllViewModel<UserViewModel>()
+            {
+                Users = users
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
+            };
 
-            var expectedUsersList = expextedResult.GetPage(page, entitesPerPage)
-               .ToList();
-
-            this.CheckUserAllViewModelsIsEqual(page, expectedUsersList, result, countPages);
+            var actual = profileService.Search(page, entitesPerPage, searchQuery);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -218,27 +228,31 @@
             var profileService = await this.CreateProfileService();
             var entitesPerPage = PaginationData.UsersPerPage;
             var model = UserTestsData.FilterModel;
-            var expextedResult = this.context.Users
+            var users = this.context.Users
                    .Where(u => !u.IsDeleted);
 
             if (!string.IsNullOrEmpty(model.LastName))
             {
-                expextedResult = expextedResult.Where(u => u.LastName.Contains(model.LastName));
+                users = users.Where(u => u.LastName.Contains(model.LastName));
             }
+
             if (!string.IsNullOrEmpty(model.FirstName))
             {
-                expextedResult = expextedResult.Where(u => u.FirstName.Contains(model.FirstName));
+                users = users.Where(u => u.FirstName.Contains(model.FirstName));
             }
 
-            var result = profileService.Search(page, entitesPerPage, model);
-            var countPages = this.GetUsersCount(expextedResult.Count(), entitesPerPage);
+            var expected = new UserAllViewModel<UserViewModel>()
+            {
+                Users = users
+                    .To<UserViewModel>()
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(users.Count(), entitesPerPage),
+            };
 
-            var expectedUsersList = expextedResult.GetPage(page, entitesPerPage)
-                .OrderBy(u => u.UserName)
-                .To<UserViewModel>()
-                .ToList();
-
-            this.CheckUserAllViewModelsIsEqual(page, expectedUsersList, result, countPages);
+            var actual = profileService.Search(page, entitesPerPage, model);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -266,14 +280,13 @@
         {
             var profileService = await this.CreateProfileService();
             var userId = UserTestsData.UserId;
-            var expectedResult = this.context.Users.Where(u => !u.IsDeleted
-                    && u.Id == userId)
+            var expected = this.context.Users
+                .Where(u => u.Id == userId && !u.IsDeleted)
                 .To<UserDetailsViewModel>()
                 .FirstOrDefault();
-            var result = profileService.GetById<UserDetailsViewModel>(userId);
+            var actual = profileService.GetById<UserDetailsViewModel>(userId);
 
-            Assert.True(CheckUserDetailsViewModelsIsEqual(expectedResult, result));
-            this.IsRolesEquals(expectedResult.Roles, result.Roles);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -298,22 +311,14 @@
             var profileService = await this.CreateProfileService();
             var userId = UserTestsData.UserId;
 
-            var expectedResults = this.context.UserSettings
+            var expected = this.context.UserSettings
                 .Where(u => u.UserId == userId)
                 .To<UserSettingViewModel>()
                 .ToList();
 
-            var results = profileService.GetSettings<UserSettingViewModel>(userId).ToList();
+            var actual = profileService.GetSettings<UserSettingViewModel>(userId).ToList();
 
-            Assert.Equal(expectedResults.Count, results.Count);
-            for (int i = 0; i < expectedResults.Count; i++)
-            {
-                var expectedResult = expectedResults[i];
-                var result = results[i];
-                Assert.Equal(expectedResult.Enabled, result.Enabled);
-                Assert.Equal(expectedResult.Type, result.Type);
-                Assert.Equal(expectedResult.Id, result.Id);
-            }
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -346,7 +351,7 @@
                 .FirstOrDefault()
                 .Enabled;
 
-            profileService.ToggleSetting(toggleSettingId);
+            await profileService.ToggleSetting(toggleSettingId);
             var result = this.context.UserSettings
                 .Where(us => us.Id == toggleSettingId)
                 .FirstOrDefault()
@@ -358,62 +363,18 @@
         public async Task GetUsersInfo__WithValidData_ShouldReturnFalse()
         {
             var profileService = await this.CreateProfileService();
-            var userIds = UserTestsData.UsersIds;
+            var userIds = UserTestsData.UsersIds.ToArray();
 
-            var expectedResults = this.context.Users
-                .Where(u => !u.IsDeleted)
+            var expected = context.Users
                 .Where(u => userIds.Contains(u.Id))
                 .To<UserDetailsViewModel>()
                 .ToList();
-            var results = profileService.GetUsersInfo<UserDetailsViewModel>(userIds).ToList();
-            Assert.Equal(expectedResults.Count, results.Count);
-            for (int i = 0; i < expectedResults.Count; i++)
-            {
-                Assert.True(this.CheckUserDetailsViewModelsIsEqual(expectedResults[i], results[i]));
-            }
+            var actual = profileService.GetUsersInfo<UserDetailsViewModel>(userIds).ToList();
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
-        private bool CheckUserDetailsViewModelsIsEqual(UserDetailsViewModel expectedUser, UserDetailsViewModel resultUser)
-          => expectedUser.FirstName == resultUser.FirstName
-               && expectedUser.Email == resultUser.Email
-               && expectedUser.Id == resultUser.Id
-               && expectedUser.ImageUrl == resultUser.ImageUrl
-               && expectedUser.LastName == resultUser.LastName
-               && expectedUser.Username == resultUser.Username;
-
-        private void CheckUserAllViewModelsIsEqual(int page, List<UserViewModel> expectedUsersList, UserAllViewModel<UserViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultUsers = result.Users.ToList();
-            Assert.Equal(resultUsers.Count, expectedUsersList.Count);
-
-            for (int i = 0; i < expectedUsersList.Count(); i++)
-            {
-                var expectedUser = expectedUsersList[i];
-                var resultUser = resultUsers[i];
-                Assert.True(this.CheckUserViewModelsIsEqual(expectedUser, resultUser));
-            }
-        }
-
-        private bool CheckUserViewModelsIsEqual(UserViewModel expectedUser, UserViewModel resultUser)
-            => expectedUser.FirstName == resultUser.FirstName
-               && expectedUser.Email == resultUser.Email
-               && expectedUser.Id == resultUser.Id
-               && expectedUser.ImageUrl == resultUser.ImageUrl
-               && expectedUser.LastName == resultUser.LastName
-               && expectedUser.Username == resultUser.Username;
-
-        private void IsRolesEquals(string[] expectedRoles, string[] result)
-        {
-            Assert.Equal(expectedRoles.Count(), result.Count());
-            for (int i = 0; i < expectedRoles.Length; i++)
-            {
-                Assert.Equal(expectedRoles[i], result[i]);
-            }
-        }
-
-        private int GetUsersCount(int entityCount, int entitesPerPage)
+        private int GetDataPagesCount(int entityCount, int entitesPerPage)
         {
             var paginationService = new PaginationService();
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);

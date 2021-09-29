@@ -17,6 +17,7 @@
     using Xunit;
 
     using static MusicHub.Common.GlobalConstants;
+    using FluentAssertions;
 
     public class RoleServiceTests : BaseTestClass
     {
@@ -76,33 +77,38 @@
         public async Task GetAllRolesPerPage_WithValidData_ShouldWorkCurrect(int page)
         {
             var roleService = await this.CreateRoleService(RoleTestsData.GetRoles);
-            var expectedResult = this.context.Roles
-                    .OrderBy(r => r.Name)
-                    .To<RoleViewModel>()
-                    .ToList();
-
             var entitesPerPage = PaginationData.RolesPerPage;
-            var result = roleService.All<RoleViewModel>(page, entitesPerPage);
-            var countPages = this.GetDataPagesCount(expectedResult.Count(), entitesPerPage);
 
-            var expectedRolesList = expectedResult.GetPage(page, entitesPerPage)
-               .ToList();
+            var roles = this.context.Roles
+                 .OrderBy(r => r.Name)
+                 .To<RoleViewModel>();
 
-            this.CheckRoleViewModelsIsEqual(page, expectedRolesList, result, countPages);
+            var expected = new RolesAllViewModel<RoleViewModel>()
+            {
+                Roles = roles
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(roles.Count(), entitesPerPage),
+            };
+
+            var actual = roleService.All<RoleViewModel>(page, entitesPerPage);
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
         public async Task GetAllRoles_WithValidData_ShouldWorkCurrect()
         {
             var roleService = await this.CreateRoleService(RoleTestsData.GetRoles);
-            var expectedResult = this.context.Roles
-                    .OrderBy(r => r.Name)
-                    .To<RoleViewModel>()
-                    .ToList();
 
-            var result = roleService.All<RoleViewModel>().ToList();
+            var expected = this.context.Roles
+                  .OrderBy(r => r.Name)
+                  .To<RoleViewModel>();
 
-            this.CheckRoleViewModelsIsEqual(expectedResult, result);
+            var actual = roleService.All<RoleViewModel>().ToList();
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Theory]
@@ -111,21 +117,26 @@
         public async Task Filter_WithValidData_ShouldeWorkCurrect(int page)
         {
             var roleService = await this.CreateRoleService(RoleTestsData.GetRoles);
-            IQueryable<Role> roles = this.context.Roles;
-
             var entitesPerPage = PaginationData.RolesPerPage;
             var filter = RoleTestsData.FilterModel;
+
+            IQueryable<Role> roles = this.context.Roles;
             roles = this.FilteringData(filter, roles);
             roles = this.OrederSearchData(filter.OrderMethod, roles);
-            var result = roleService.Filter<RoleViewModel>(page, entitesPerPage, filter);
-            var countPages = this.GetDataPagesCount(roles.Count(), entitesPerPage);
 
-            var expectedRoles = roles
-                    .To<RoleViewModel>()
+            var expected = new RolesAllViewModel<RoleViewModel>()
+            {
+                Roles = roles
                     .GetPage(page, entitesPerPage)
-                    .ToList();
+                    .To<RoleViewModel>()
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(roles.Count(), entitesPerPage),
+            };
 
-            this.CheckRoleViewModelsIsEqual(page, expectedRoles, result, countPages);
+            var actual = roleService.Filter<RoleViewModel>(page, entitesPerPage, filter);
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -155,58 +166,21 @@
             }*/
         }
 
-        private void CheckRoleViewModelsIsEqual(List<RoleViewModel> expectedRoles, List<RoleViewModel> result)
-        {
-            Assert.Equal(expectedRoles.Count, result.Count);
-
-            for (int i = 0; i < expectedRoles.Count(); i++)
-            {
-                var expectedRole = expectedRoles[i];
-                var resultRole = result[i];
-                Assert.True(this.CheckRoleViewModelIsEqual(expectedRole, resultRole));
-                Assert.True(this.CheckRoleViewModelIsEqual(expectedRole, resultRole));
-            }
-        }
-
-        private void CheckRoleViewModelsIsEqual(int page, List<RoleViewModel> expectedRoles, RolesAllViewModel<RoleViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultRoles = result.Roles.ToList();
-            Assert.Equal(resultRoles.Count, expectedRoles.Count);
-
-            for (int i = 0; i < expectedRoles.Count(); i++)
-            {
-                var expectedRole = expectedRoles[i];
-                var resultRole = resultRoles[i];
-                Assert.True(this.CheckRoleViewModelIsEqual(expectedRole, resultRole));
-                Assert.True(this.CheckRoleViewModelIsEqual(expectedRole, resultRole));
-            }
-        }
-
-        private bool CheckRoleViewModelIsEqual(RoleViewModel expectedRole, RoleViewModel resultRole)
-            => expectedRole.Name == resultRole.Name
-                && expectedRole.PermissionsCount == resultRole.PermissionsCount
-                && expectedRole.Id == resultRole.Id
-                && expectedRole.UsersCount == resultRole.UsersCount;
-
         private int GetDataPagesCount(int entityCount, int entitesPerPage)
         {
             var paginationService = new PaginationService();
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
         }
 
-        private void CheckRolePermissions(string roleName, ICollection<RolePermissionCreateInputModel> permissionIds, string roleId)
+        private void CheckRolePermissions(string roleName, ICollection<RolePermissionCreateInputModel> actual, string roleId)
         {
             Assert.True(this.context.Roles.Any(r => r.Name == roleName));
 
-            var ectualCount = this.context.RolePermissions.Where(rp => rp.RoleId == roleId).Count();
-            Assert.Equal(permissionIds.Count, ectualCount);
-            foreach (var permissionId in permissionIds)
-            {
-                Assert.True(this.context.RolePermissions.Any(rp => rp.PermissionId == permissionId.PermissionId
-                    && rp.RoleId == roleId));
-            }
+            var expected = this.context.RolePermissions.Where(rp => rp.RoleId == roleId)
+                .To<RolePermissionCreateInputModel>()
+                .ToList();
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         private IQueryable<Role> FilteringData(RoleFilter filter, IQueryable<Role> roles)
