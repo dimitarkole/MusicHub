@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
@@ -60,13 +61,13 @@
         {
             var permissionService = await this.CreatePermissionService(PermissionTestsData.Permissions());
 
-            var expectedResults = this.context.Permissions
+            var expected = this.context.Permissions
                     .To<PermissionViewModel>()
                     .ToList();
 
-            var results = permissionService.All<PermissionViewModel>().ToList();
+            var actual = permissionService.All<PermissionViewModel>().ToList();
 
-            this.CheckPermissionViewModelsIsEqual(expectedResults, results);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -77,14 +78,13 @@
             var permissionId = this.context.Permissions
                 .FirstOrDefault()
                 .Id;
-            var expectedResult = this.context.Permissions
+            var expected = this.context.Permissions
                 .Where(p => p.Id == permissionId)
                 .To<PermissionViewModel>()
                 .FirstOrDefault();
 
-            var result = permissionService.GetById<PermissionViewModel>(permissionId);
-
-            this.CheckPermissionViewModelIsEqual(expectedResult, result);
+            var actual = permissionService.GetById<PermissionViewModel>(permissionId);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -95,7 +95,7 @@
             var roleName = this.context.Roles
                 .FirstOrDefault()
                 .Name;
-            var expectedResults = this.context.RolePermissions
+            var expected = this.context.RolePermissions
                 .Include(rp => rp.Role)
                 .Where(rp => rp.Role.Name == roleName)
                 .Select(rp => new PermissionViewModel
@@ -106,9 +106,9 @@
                 })
                 .ToList();
 
-            var results = permissionService.GetPermissions(roleName).ToList();
+            var actual = permissionService.GetPermissions(roleName).ToList();
 
-            this.CheckPermissionViewModelsIsEqual(expectedResults, results);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -121,7 +121,7 @@
             var userRoles = this.context.UserRoles
                 .Where(ur => ur.UserId == userId);
 
-            var expectedResults = this.context.RolePermissions
+            var expected = this.context.RolePermissions
                  .Include(rp => rp.Role)
                  .Where(rp => userRoles.Any(ur => ur.RoleId == rp.RoleId))
                  .Select(rp => new PermissionViewModel
@@ -132,27 +132,9 @@
                  })
                  .ToList();
 
-            var results = permissionService.GetUserPermissions(userId).ToList();
+            var actual = permissionService.GetUserPermissions(userId).ToList();
 
-            this.CheckPermissionViewModelsIsEqual(expectedResults, results);
-        }
-
-        private void CheckPermissionViewModelsIsEqual(List<PermissionViewModel> expectedResults, List<PermissionViewModel> results)
-        {
-            Assert.Equal(expectedResults.Count, results.Count);
-            for (int i = 0; i < expectedResults.Count; i++)
-            {
-                var expectedResult = expectedResults[0];
-                var result = results[0];
-                this.CheckPermissionViewModelIsEqual(expectedResult, result);
-            }
-        }
-
-        private void CheckPermissionViewModelIsEqual(PermissionViewModel expectedResult, PermissionViewModel result)
-        {
-            Assert.True(expectedResult.Description == result.Description
-                && expectedResult.Type == result.Type
-                && expectedResult.Id == result.Id);
+            expected.Should().BeEquivalentTo(actual);
         }
 
         private async Task AddPermissionsToRole(string roleName)
