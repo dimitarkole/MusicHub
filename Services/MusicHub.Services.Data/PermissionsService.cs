@@ -43,6 +43,10 @@
         public async Task Delete(int id)
         {
             var permission = this.context.Permissions.Find(id);
+            var permissionRoles = this.context.RolePermissions
+                .Where(rp => rp.PermissionId == id)
+                .ToList();
+            this.context.RolePermissions.RemoveRange(permissionRoles);
             this.context.Permissions.Remove(permission);
             await this.context.SaveChangesAsync();
         }
