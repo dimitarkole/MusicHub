@@ -11,6 +11,7 @@ using static MusicHub.Common.GlobalConstants;
 using MusicHub.Services.Mapping;
 using MusicHub.Common.Extensions;
 using MusicHub.Web.ViewModels.MusicModels;
+using FluentAssertions;
 
 namespace MusicHub.Services.Data.Tests
 {
@@ -65,18 +66,24 @@ namespace MusicHub.Services.Data.Tests
         {
             var commentService = await this.CreateCommentService(CommentTestsData.GetComments);
             var musicId = CommentTestsData.MusicId;
-            var expextedResult = this.context.Comments
-                    .Where(c => c.MusicId == musicId)
-                    .OrderByDescending(c => c.CreatedOn)
-                    .To<CommentViewModel>();
             var entitesPerPage = PaginationData.CommentsPerPage;
-            var expectedCommentsList = expextedResult.GetPage(page, entitesPerPage)
-                .ToList();
 
-            var result = commentService.All<CommentViewModel>(page, entitesPerPage, musicId);
-            var countPages = this.GetCommentsPagesCount(expextedResult.Count(), entitesPerPage);
+            var comments = this.context.Comments
+              .Where(c => c.MusicId == musicId)
+              .OrderByDescending(c => c.CreatedOn)
+              .To<CommentViewModel>();
+            var expected = new CommentsAllViewModel<CommentViewModel>()
+            {
+                Comments = comments
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetCommentsPagesCount(comments.Count(), entitesPerPage),
+            };
 
-            CheckCommentViewModelsIsEqual(page, expectedCommentsList, result, countPages);
+            var actual = commentService.All<CommentViewModel>(page, entitesPerPage, musicId);
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -91,30 +98,6 @@ namespace MusicHub.Services.Data.Tests
             Assert.True(this.context.Comments.Any(c => c.Id == commentId
                 && c.Text == model.Text));
         }
-
-        private static void CheckCommentViewModelsIsEqual(int page, List<CommentViewModel> expectedCommentList, CommentsAllViewModel<CommentViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultComments = result.Comments.ToList();
-            Assert.Equal(resultComments.Count, expectedCommentList.Count);
-
-            for (int i = 0; i < expectedCommentList.Count(); i++)
-            {
-                var expectedComment = expectedCommentList[i];
-                var resultComment = resultComments[i];
-                Assert.True(CheckCommentViewModelIsEqual(expectedComment, resultComment));
-            }
-        }
-
-        private static bool CheckCommentViewModelIsEqual(CommentViewModel expectedComment, CommentViewModel resultComment)
-            => expectedComment.Id == resultComment.Id
-                && expectedComment.Text == resultComment.Text
-                && expectedComment.User.Id == resultComment.User.Id
-                && expectedComment.User.ImageUrl == resultComment.User.ImageUrl
-                && expectedComment.User.UserName == resultComment.User.UserName
-                && expectedComment.CreatedOn == resultComment.CreatedOn;
-                //&& expectedComment.CommentsChildren == resultComment.CommentsChildren;
 
         private int GetCommentsPagesCount(int entityCount, int entitesPerPage)
         {
