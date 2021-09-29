@@ -21,7 +21,7 @@
 
         public virtual Music Music { get; set; }
 
-        public virtual string LicenseId { get; set; }
+        public string LicenseId { get; set; }
 
         public virtual License License { get; set; }
 
