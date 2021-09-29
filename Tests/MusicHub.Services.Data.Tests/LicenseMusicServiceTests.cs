@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using FluentAssertions;
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
     using MusicHub.Tests.TestData;
@@ -15,7 +15,6 @@
 
     public class LicenseMusicServiceTests : BaseTestClass
     {
-
         [Fact]
         public async Task CreateMusicLicense_WithValidData_ShouldWorkCorrect()
         {
@@ -67,36 +66,15 @@
             var musicLicenseService = await this.CreateLicenseMusicService(LicenseMusicTestsData.MusicLicenses());
             var musicId = musicLicenses[0].MusicId;
 
-            var expectedResult = this.context.MusicLicenses
+            var expected = this.context.MusicLicenses
                     .Where(ml => ml.MusicId == musicId)
                     .To<LicenseMusicViewModel>()
                     .ToList();
 
-            var result = musicLicenseService.All<LicenseMusicViewModel>(musicId);
+            var actual = musicLicenseService.All<LicenseMusicViewModel>(musicId);
 
-            this.CheckMusicLicenseViewModelsIsEqual(expectedResult, result);
+            expected.Should().BeEquivalentTo(actual);
         }
-
-        private void CheckMusicLicenseViewModelsIsEqual(List<LicenseMusicViewModel> expectedResult, List<LicenseMusicViewModel> result)
-        {
-            Assert.Equal(expectedResult.Count, result.Count());
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expectedMusicLicense = expectedResult[i];
-                var resultMusicLicense = result[i];
-                Assert.True(this.CheckNotificationViewModelIsEqual(expectedMusicLicense, resultMusicLicense));
-            }
-        }
-
-        private bool CheckNotificationViewModelIsEqual(LicenseMusicViewModel expectedMusicLicense, LicenseMusicViewModel resultMusicLicense)
-            => expectedMusicLicense.Id == resultMusicLicense.Id
-                && this.CheckLicenseViewModelIsEqual(expectedMusicLicense.License, resultMusicLicense.License);
-
-        private bool CheckLicenseViewModelIsEqual(LicenceViewModel expected, LicenceViewModel result)
-           => expected.CreatedOn == result.CreatedOn
-               && expected.Id == result.Id
-               && expected.Name == result.Name
-               && expected.Status == result.Status;
 
         private async Task<LicenseMusicService> CreateLicenseMusicService(List<MusicLicense> musicLicenses)
         {
@@ -110,8 +88,9 @@
             await this.context.Musics.AddRangeAsync(musics);
             await this.context.MusicLicenses.AddRangeAsync(musicLicenses);
             await this.context.SaveChangesAsync();
-            var service = new LicenseMusicService(this.context);// , new PaginationService());
+            var service = new LicenseMusicService(this.context);
 
+            // , new PaginationService());
             return service;
         }
     }
