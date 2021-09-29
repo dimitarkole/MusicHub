@@ -1,6 +1,6 @@
 import { OrderMethod } from "../../shared/models/orderMethod";
 import User from "../../shared/models/user";
-import { VisibleStatus } from "../../shared/models/visibleStatus";
+import { PrivacyStatus } from "../../shared/models/visibleStatus";
 
 export default interface Playlist {
   id: string,
@@ -12,5 +12,5 @@ export default interface Playlist {
   musicId: string,
   imageUrl: string,
   orderMethod: OrderMethod,
-  visibleStatus: VisibleStatus
+  privacy: PrivacyStatus,
 }

@@ -13,6 +13,11 @@
             Name = "category name",
         };
 
+        public static CategoryFilterInputModel CreateFilter => new CategoryFilterInputModel()
+        {
+            Name = "a",
+        };
+
         public static CategoryCreateInputModel CreateModelBadRequestRequared => new CategoryCreateInputModel()
         {
             Name = "",

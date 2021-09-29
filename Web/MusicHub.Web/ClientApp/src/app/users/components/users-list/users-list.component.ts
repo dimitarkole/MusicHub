@@ -3,9 +3,12 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { globalConstants } from '../../../common/global-constants';
+import { BooleanSearchService } from '../../../core/resolvers/boolean-search.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { BooleanSearchEntity } from '../../../shared/models/boolean-search';
 import { UserFilter } from '../../../shared/models/filterModels';
 import { CreateOrderMethod } from '../../../shared/models/orderMethod';
+import { Permission } from '../../../shared/models/permission';
 import User from '../../../shared/models/user';
 import { UserPagination } from '../../models/userPagination';
 
@@ -16,33 +19,18 @@ import { UserPagination } from '../../models/userPagination';
 })
 export class UsersListComponent implements OnInit {
   userPagination: UserPagination = { currentPage: 0, numberOfPages: 1, users: [] };
-  searchForm: FormGroup;
   isFilter: boolean = false;
+  search: string = "";
+  isSearching: boolean = false;
 
   constructor(private router: Router,
-    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+		private searchService: BooleanSearchService,
     private authService: AuthService) {
   }
 
   ngOnInit() {
-    this.searchForm = this.formBuilder.group({
-      userName: [
-        null,
-      ],
-      firstName: [
-        null,
-      ],
-      lastName: [
-        null,
-      ],
-      email: [
-        null,
-      ],
-      orderMethod: [
-        "UserNameAsc"
-      ]
-    });
-    this.getUsersPerPage();
+    this.feachData();
   }
 
   @HostListener("window:scroll", [])
@@ -53,78 +41,50 @@ export class UsersListComponent implements OnInit {
     // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
     if (pos > max * globalConstants.pagination.updateProcent) {
       //Do your action here
-      if (this.isFilter == false) {
-        this.getUsersPerPage();
-      }
-      else {
-        this.getFilterUsersPerPage();
-      }
+      this.feachData();
     }
   }
 
-  get userName(): AbstractControl {
-    return this.searchForm.get('userName');
-  }
+  private feachData(): void {
+    if (this.userPagination.currentPage < this.userPagination.numberOfPages) {
+      this.route.queryParams.subscribe(queryParams => {
+        let query = queryParams.searchQuery;
+        if (!query) {
+          if (this.isSearching == true) {
+            this.ResetData(query);
+            this.isSearching = false;
+          }
 
-  get firstName(): AbstractControl {
-    return this.searchForm.get('firstName');
-  }
+          var page = this.userPagination.currentPage + 1;
+          this.authService.all(page).subscribe(data => {
+            this.userPagination.numberOfPages = data.numberOfPages;
+            data.users.forEach(user => {
+              this.userPagination.users.push(user);
+            });
+          });
+        }
+        else {
+          this.isSearching = true;
+          if (this.search != query) {
+            this.ResetData(query);
+          }
 
-  get lastName(): AbstractControl {
-    return this.searchForm.get('lastName');
-  }
+          var page = this.userPagination.currentPage + 1;
+          this.searchService.search<UserPagination>({ query }, BooleanSearchEntity.Users, page).subscribe(data => {
+            this.userPagination.numberOfPages = data.numberOfPages
+            data.users.forEach(user => {
+              this.userPagination.users.push(user);
+            });
+          });
+        }
 
-  get email(): AbstractControl {
-    return this.searchForm.get('email');
-  }
-
-  get orderMethod(): AbstractControl {
-    return this.searchForm.get('orderMethod');
-  }
-
-  submit() {
-    var page = 1;
-    this.userPagination.users = [];
-    this.userPagination.currentPage = page;
-    let user: UserFilter = this.createFilterModel();
-    this.authService.advancedFilter(page, user).subscribe(data => {
-      this.userPagination.numberOfPages = data.numberOfPages;
-      data.users.forEach(user => {
-        this.userPagination.users.push(user);
-      });
-    });
-  }
-
-  private getUsersPerPage(): void {
-    var page = this.userPagination.currentPage + 1;
-    if (page <= this.userPagination.numberOfPages) {
-      this.userPagination.currentPage = page;
-      this.authService.all(page).subscribe(data => {
-        this.userPagination.numberOfPages = data.numberOfPages;
-        data.users.forEach(user => {
-          this.userPagination.users.push(user);
-        });
+        this.userPagination.currentPage = page;
       });
     }
   }
 
-  private getFilterUsersPerPage(): void {
-    var page = this.userPagination.currentPage + 1;
-    if (page <= this.userPagination.numberOfPages) {
-      this.userPagination.currentPage = page;
-      let user: UserFilter = this.createFilterModel();
-      this.authService.advancedFilter(page, user).subscribe(data => {
-        this.userPagination.numberOfPages = data.numberOfPages;
-        data.users.forEach(user => {
-          this.userPagination.users.push(user);
-        });
-      });
-    }
-  }
-
-  private createFilterModel() {
-    let user: UserFilter = this.searchForm.value;
-    user.orderMethod = CreateOrderMethod(this.orderMethod.value);
-    return user;
+  private ResetData(query: any) {
+    this.search = query;
+    this.userPagination = { currentPage: 0, numberOfPages: 1, users: [] };
   }
 }

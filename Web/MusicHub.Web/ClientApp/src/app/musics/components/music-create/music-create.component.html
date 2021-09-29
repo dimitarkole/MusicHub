@@ -1,145 +1,492 @@
-<h2>
-  Create new music
-</h2>
-<hr />
-<form class="row" (ngSubmit)="submit()" [formGroup]="musicForm">
-  <div class="col-md-5">
-    <div class="form-group">
+
+<div class="container my-5">
+  <h3 class="text-center">Upload music</h3>
+  <ul id="progressbar" class="text-center">
+    <li class="{{activeStep >= 1 ? 'active' : ''}}" id="step1"><div class="d-none d-md-block">Upload music</div></li>
+    <li class="{{activeStep >= 2 ? 'active' : ''}}" id="step2"><div class="d-none d-md-block">Upload image</div></li>
+    <li class="{{activeStep >= 3 ? 'active' : ''}}" id="step3"><div class="d-none d-md-block">Basic info</div></li>
+    <li class="{{activeStep >= 4 ? 'active' : ''}}" id="step4"><div class="d-none d-md-block">Metadata</div></li>
+    <li class="{{activeStep >= 5 ? 'active' : ''}}" id="step5"><div class="d-none d-md-block">Permissions</div></li>
+  </ul>
+</div>
+
+<form class="container" (ngSubmit)="submit()" [formGroup]="musicForm">
+  <!-- Upload audio -->
+  <div class="row" *ngIf="activeStep==1">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
       <div class="row form-group">
         <!-- Text input-->
-        <div class="col-md-2 control-label">Image</div>
-        <div class="col-md-10">
-          <button type="button" class="btn btn-secondary" (click)="image.click()">Upload image</button>
-          &nbsp;<button type="button" class="btn btn-secondary" (click)="useDefaultPicture()">Default image</button>
+
+        <button type="button" class="login100-form-btn" (click)="audio.click()">Upload audio</button>
+
+        <div *ngIf="audioUrl.value != null && !(audioUrl.hasError('required') || audioUrl.hasError('requiredFileType'))">
+          {{audioFileToUpload.name.substring(0,45)}}<br />
+          <div class="text-success">
+            Successful chosen file<br />
+          </div>
+        </div>
+        <input type="file" #audio accept="audio/*" (change)="handleAudioFileInput($event.target.files)" style="display: none">
+        <span class="text-danger" *ngIf="audioUrl.hasError('required') || audioUrl.hasError('requiredFileType')">
+          Upload audio file!
+        </span>
+      </div>
+    </div>
+  </div>
+  <!-- Upload audio -->
+  <!-- Upload image -->
+  <div class="row" *ngIf="activeStep==2">
+    <div class="col-md-12">
+      <div class="row form-group">
+        <div class="col-md-5">
+          <button type="button" class="login100-form-btn" (click)="image.click()">Upload image</button>
+        </div>
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-5">
+          <button type="button" class="login100-form-btn" (click)="useDefaultPicture()">Default image</button>
 
           <input type="file" #image accept="image/*" (change)="handleImageFileInput($event.target.files)" style="display:none;">
-          <span class="text-danger" *ngIf="imageUrl.hasError('required')">
-            The music must have image!
+        </div>
+        <div class="text-danger col-md-12" *ngIf="imageUrl.hasError('required') || imageUrl.hasError('requiredFileType')">
+          Upload image file!
+        </div>
+      </div>
+      <div class="row form-group" *ngIf="!(imageUrl.hasError('required') || imageUrl.hasError('requiredFileType'))">
+        <div class="col-md-3">
+        </div>
+        <img [src]="imageUrl.value" class="col-md-6" style="height:380px; width:99%">
+      </div>
+    </div>
+  </div>
+  <!-- Upload image -->
+  <!-- Set music basic info -->
+  <div class="row" *ngIf="activeStep==3">
+    <div class="col-md-6">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Name<span class="text-danger">*</span></div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="name" type="text" placeholder="Music name">
+          <span class="help-block text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+          <span class="help-block text-danger" *ngIf="name.hasError('minlength')">
+            The music name must contain {{nameMinLength}} characters!
+          </span>
+          <span class="help-block text-danger" *ngIf="name.hasError('maxlength')">
+            The music name must be at most {{nameMaxLength}} characters!
           </span>
         </div>
       </div>
 
-      <img [src]="imageUrl.value" style="height:380px; width:99%">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Category<span class="text-danger">*</span></div>
+        <div class="col-md-10">
+          <select class="form-control" formControlName="categoryId">
+            <option value="default" disabled selected>Select category</option>
+            <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+          </select>
+          <span class="text-danger" *ngIf="categoryId.touched && (categoryId.hasError('required') || categoryId.hasError('pattern'))">The category is required!</span>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Privacy</div>
+        <span class="text-danger" *ngIf="privacy.touched && privacy.hasError('required')">The privacy is required!</span>
+
+        <div class="col-md-10">
+          <div *ngFor="let privacyStatusVar of privacyStatus">
+            <label>
+              <input type="radio" value="{{privacyStatusVar}}" formControlName="privacy" class="control-label">
+              <span>{{privacyStatusMapping[privacyStatusVar]}}</span>
+            </label>
+            <br>
+          </div>
+
+        
+          <!--
+          <label>
+            <input type="radio" value="Public" formControlName="privacy" class="control-label">
+            <span>Public</span>
+          </label><br>
+          <label>
+            <input type="radio" value="Protected" formControlName="privacy" class="control-label">
+            <span>Protected</span>
+          </label><br>
+          <label>
+            <input type="radio" value="Private" formControlName="privacy" class="control-label">
+            <span>Private</span>
+          </label>-->
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Description<span class="text-danger">*</span></div>
+        <div class="col-md-10">
+          <textarea class="form-control" formControlName="description" type="Description"
+                    placeholder="Text" rows="10"></textarea>
+          <span class="text-danger" *ngIf="description.touched && description.hasError('required')">The description is required!</span>
+          <span class="text-danger" *ngIf="description.hasError('minlength')">
+            The description must contain {{descriptionMinLength}} characters!
+          </span>
+          <span class="text-danger" *ngIf="description.hasError('maxlength')">
+            The description must be at most {{descriptionMaxLength}} characters!
+          </span>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="col-md-7">
-    <div class="row form-group">
+  <!-- Set music basic info -->
+  <!-- Set music metadata -->
+  <div class="row" *ngIf="activeStep==4">
+    <div class="col-md-4">
       <!-- Text input-->
-      <div class="col-md-2 control-label">Audio</div>
-      <div class="col-md-10">
-        <button type="button" class="btn btn-secondary" (click)="audio.click()">Upload audio</button>
+      <div class="row form-group">
+        <div class="col-md-4 control-label">Contains music</div>
+        <div class="col-md-8">
+          <select class="form-control" formControlName="containsMusic">
+            <option value="yes" selected>Yes</option>
+            <option [value]="no">No</option>
+          </select>
+        </div>
+      </div>
 
-        <span class="control-label" *ngIf="audioUrl.value != null">
-          Successful chosen file
-        </span>
-        <input type="file" #audio accept="audio/*" (change)="handleAudioFileInput($event.target.files)" style="display:none;">
-        <span class="text-danger" *ngIf="audioUrl.hasError('required')">
-          The music must have audio file!
-        </span>
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">
+          ISRC
+          <!-- HTML to write -->
+          <span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" title="An ISRC (International Standard Recording Code) is a unique identifier that is assigned to a track. Use the same ISRC for a given track wherever you distribute it.<br>If you work with a record label or distributor, ask them if they already have ISRCs for your tracks."></span>
+          <!-- Generated markup by the plugin -->
+          <!-- <div class="tooltip bs-tooltip-top" role="tooltip">
+            <div class="arrow"></div>
+            <div class="tooltip-inner">
+              An ISRC (International Standard Recording Code) is a unique identifier that is assigned to a track.
+              Use the same ISRC for a given track wherever you distribute it.
+              <br>
+              If you work with a record label or distributor, ask them if they already have ISRCs for your tracks.
+            </div>
+          </div>-->
+        </div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="iSRC" type="text" placeholder="ISRC">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Artist</div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="artist" type="text" placeholder="Artist">
+        </div>
+      </div>
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Composer</div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="composer" type="text" placeholder="Composer">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Publisher</div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="publisher" type="text" placeholder="Publisher">
+        </div>
+      </div>
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">
+          Release title
+        </div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="releaseTitle" type="text" placeholder="Release title">
+        </div>
       </div>
     </div>
 
-    <div class="row form-group">
+    <div class="col-md-8">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-2 control-label">Buy-link</div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="buyLink" type="text" placeholder="Buy-link">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <div class="col-md-4 control-label">
+          Record label
+        </div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="recordLabel" type="text" placeholder="Record label">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
       <!-- Text input-->
-      <div class="col-md-2 control-label">Music Name</div>
-      <div class="col-md-10">
-        <input class="form-control" formControlName="name" type="text" placeholder="Music name">
-        <span class="help-block text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
-        <span class="help-block text-danger" *ngIf="name.hasError('minlength')">
-          The music name must contain {{nameMinLength}} characters!
-        </span>
-        <span class="help-block text-danger" *ngIf="name.hasError('maxlength')">
-          The music name must be at most {{nameMaxLength}} characters!
-        </span>
+      <div class="row form-group">
+        <div class="col-md-2 control-label">
+          Album title
+        </div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="albumTitle" type="text" placeholder="Album title">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">Release date</div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="releaseDate" type="date" placeholder="Release date">
+        </div>
       </div>
     </div>
 
-    <div class="row form-group">
-      <!-- Text input-->
-      <div class="col-md-2 control-label">Category</div>
-      <div class="col-md-10">
-        <select class="form-control" formControlName="categoryId">
-          <option value="default" disabled selected>Select category</option>
-          <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
-        </select>
-        <span class="text-danger" *ngIf="categoryId.touched && (categoryId.hasError('required') || categoryId.hasError('pattern'))">The category is required!</span>
+
+    <div class="col-md-8">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-2 control-label">Barcode</div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="barcode" type="text" placeholder="Barcode">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">
+          ISWC
+        </div>
+        <div class="col-md-8">
+          <input class="form-control" formControlName="iSWC" type="text" placeholder="ISWC">
+        </div>
       </div>
     </div>
 
-    <div class="row form-group">
-       <!-- Text input-->
-      <div class="col-md-2 control-label">Distribution</div>
-      <div class="col-md-10">
-        <select class="form-control" formControlName="musicLicenseType">
-          <option *ngFor="let musicLicenseTypeVar of musicLicenseTypes"
-                  [value]="musicLicenseTypeVar">
-            {{musicLicenseTypesMapping[musicLicenseTypeVar]}}
-          </option>
-        </select>
-        <span class="text-danger" *ngIf="musicLicenseType.hasError('requared')">
-          The description must be characters!
-        </span>
+    <div class="col-md-8">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-2 control-label">P line</div>
+        <div class="col-md-10">
+          <input class="form-control" formControlName="pLine" type="text" placeholder="P line">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-4 control-label">
+          Explicit content
+        </div>
+        <div class="col-md-8">
+          <select class="form-control" formControlName="containsExplicitContent">
+            <option value="yes" selected>Yes</option>
+            <option [value]="no">No</option>
+          </select>
+        </div>
       </div>
     </div>
 
-  <!--
+    <div class="col-md-12">
+      <h4 class="row">
+        License
+      </h4>
+      <hr class="row">
 
-  <div class="row form-group">
-    <!-- Text input--
-    <div class="col-md-2 control-label">Linceses</div>
-    <div class="col-md-10">
-      <label *ngFor="let license of licenses$" class="form-control">
-        <input type="checkbox" checklist-model="license.name" checklist-value="license.id" (click)="addLicense(license.id)"> {{license.name}}<br />
-      </label>
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-10">
+          <label>
+            <input type="radio" value="AllRightsReserved" checked="checked" formControlName="license" class="control-label">
+            <span>All rights reserved</span>
+          </label>
+          &nbsp;
+          <label>
+            <input type="radio" value="CreativeCommons" formControlName="license" class="control-label">
+            <span>Creative Commons </span>
+          </label>
+          &nbsp;
+          <span *ngIf="license.value == 'CreativeCommons'">
+            <a class="sc-link-dark sc-link-primary" href="http://creativecommons.org/licenses/" target="_blank">
+              <img src="https://a-v2.sndcdn.com/assets/images/cc-by-41a8ea72.svg" alt="Alternate Text" class="sc-license-icon" />
+              <img src="https://a-v2.sndcdn.com/assets/images/cc-nc-88c76738.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="noncommercial.value" />
+              <img src="https://a-v2.sndcdn.com/assets/images/cc-nd-d7e78f26.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="noDerivativeWorks.value" />
+              <img src="https://a-v2.sndcdn.com/assets/images/cc-sa-061799e3.svg" alt="Alternate Text" class="sc-license-icon" *ngIf="shareALike.value" />
+              Some rights reserved
+            </a>
+          </span>
+          <br>
+        </div>
+      </div>
+      <div class="row form-group" *ngIf="license.value=='CreativeCommons'">
+        <div class="col-md-3">
+          <div class="blockCheckbox m-checked">
+            <input class="" formControlName="attribution" type="checkbox" checked="">
+            <span> Attribution</span>
+            <div>
+              <p>
+                Allow others to copy, distribute, display and perform your copyrighted work but only if they give credit the way you request.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <input class="" formControlName="noncommercial" type="checkbox">
+          <span> Noncommercial</span>
+          <div>
+            <p>
+              Allow others to distribute, display and perform your work—and derivative works based upon it—but for noncommercial purposes only.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <input class="" type="checkbox" formControlName="noDerivativeWorks" (change)="noDerivativeWorksIsChange()">
+          <span> No Derivative Works</span>
+          <div>
+            <p>
+              Allow others to copy, distribute, display and perform only verbatim copies of your work, not derivative works based upon it.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <input class="" type="checkbox" formControlName="shareALike" (change)="shareALikeIsChange()">
+          <span> Share Alike</span>
+          <div>
+            <p>
+              Allow others to distribute derivative works only under a license identical to the license that governs your work.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Set music metadata -->
+  <!-- Set music permissions -->
+  <div class="row" *ngIf="activeStep==5">
+    <div class="col-md-4">
+      <div>
+        <input type="checkbox" value="enableDirectDownloads" formControlName="enableDirectDownloads" class="control-label">
+        <span> Enable direct downloads</span>
+        <div *ngIf="enableDirectDownloads.value">
+          <p>
+            This track will be available fordirect download.
+          </p>
+          <p class="text-danger">
+            Distributing content without permission is unlawful. Make sure you have all necessary rights.
+          </p>
+        </div>
+        <div *ngIf="!enableDirectDownloads.value">
+          <p>This track will not be available for direct download</p>
+        </div>
+      </div><br>
+      <div>
+        <input type="checkbox" value="displayEmbedCode" formControlName="displayEmbedCode" class="control-label">
+        <span> Display embed code</span>
+        <p *ngIf="displayEmbedCode.value">
+          This track’s embedded-player code will be displayed publicly.
+        </p>
+        <p *ngIf="!displayEmbedCode.value">
+          This track’s embedded-player code will only be displayed to you.
+        </p>
+      </div><br>
+    </div>
+    <div class="col-md-4">
+      <div>
+        <input type="checkbox" value="offlineListening" formControlName="offlineListening" class="control-label">
+        <span> Offline listening</span>
+        <p *ngIf="offlineListening.value">
+          This track can be played on devices without an internet connection.
+        </p>
+        <p *ngIf="!offlineListening.value">
+          Playing this track will not be possible on devices without an internet connection.
+        </p>
+      </div><br>
+      <div>
+        <input type="checkbox" value="appPlayback" formControlName="appPlayback" class="control-label">
+        <span> Enable app playback</span>
+        <p *ngIf="appPlayback.value">
+          This track will be playable outside of MusicHub and its apps.
+        </p>
+        <p *ngIf="!appPlayback.value">
+          This track will not be playable outside of MusicHub and its apps.
+        </p>
+      </div><br>
+    </div>
+    <div class="col-md-4">
+      <div>
+        <input type="checkbox" value="rSSfeed" formControlName="rSSfeed" class="control-label">
+        <span> Include in RSS feed</span>
+        <p *ngIf="rSSfeed.value">
+          This track will be included in your RSS feed if it is public.
+        </p>
+        <p *ngIf="!rSSfeed.value">
+          This track will not be included in your RSS feed.
+        </p>
+      </div><br>
+    </div>
+  </div>
+  <!-- Set music permissions -->
 
-      <!--
-      <span class="text-danger" *ngIf="licenseId.touched && (licenseId.hasError('required') || licenseId.hasError('pattern'))">The category is required!</span>
-      --
-  </div>
-  </div>
-      -->
-  <div class="row form-group">
-    <!-- Text input-->
-    <div class="col-md-2 control-label">Visibility</div>
-    <div class="col-md-10">
-      <select class="form-control" formControlName="visibleStatus">
-        <option *ngFor="let visibleStatusVar of visibleStatus"
-                [value]="visibleStatusVar">
-          {{visibleStatusMapping[visibleStatusVar]}}
-        </option>
-      </select>
-      <span class="text-danger" *ngIf="visibleStatusForm.hasError('requared')">
-        The description must be characters!
-      </span>
+  <div class="row" *ngIf="activeStep==3">
+    <div class="col-md-12 ">
+      <span class="text-danger">*</span>
+      Required fields
     </div>
   </div>
 
-  <div class="row form-group">
-    <!-- Text input-->
-    <div class="col-md-2 control-label">Description</div>
-    <div class="col-md-10">
-      <textarea class="form-control" formControlName="description" type="Description"
-                placeholder="Text" rows="8"></textarea>
-      <span class="text-danger" *ngIf="description.touched && description.hasError('required')">The description is required!</span>
-      <span class="text-danger" *ngIf="description.hasError('minlength')">
-        The description must contain {{descriptionMinLength}} characters!
-      </span>
-      <span class="text-danger" *ngIf="description.hasError('maxlength')">
-        The description must be at most {{descriptionMaxLength}} characters!
-      </span>
-    </div>
-  </div>
 
-  <div class="row form-group">
-    <!-- Text input-->
-    <div class="col-md-10 control-label"></div>
-    <div class="col-md-2">
-      <button [disabled]="musicForm.invalid" type="submit"
+  <div class="row" *ngIf="activeStep!=5">
+    <div class="col-2" *ngIf="(activeStep > 1 && operation.toLowerCase() != 'edit') || (activeStep>2 && operation.toLowerCase() == 'edit')">
+      <button type="button" (click)="previousStep()"
               class="login100-form-btn">
-        Add
+        Previous
+      </button>
+    </div>
+    <div class="{{(activeStep == 1 || (activeStep == 2 && operation.toLowerCase() == 'edit'))? 'col-10' : 'col-8'}}">
+
+    </div>
+    <div class="col-2">
+      <button type="button" (click)="nextStep()"
+              class="login100-form-btn">
+        Next
       </button>
     </div>
   </div>
+
+  <div class="row" *ngIf="activeStep==5">
+    <div class="col-2">
+      <button type="submit" (click)="previousStep()"
+              class="login100-form-btn">
+        Previous
+      </button>
+    </div>
+    <div class="col-8">
+
+    </div>
+    <div class="col-2" *ngIf="operation.toLowerCase() != 'edit'">
+      <button [disabled]="musicForm.invalid" type="submit"
+              class="login100-form-btn">
+        Finish
+      </button>
+    </div>
+
+    <div class="col-2" *ngIf="operation.toLowerCase() == 'edit'">
+      <button [disabled]="musicForm.invalid" type="submit"
+              class="login100-form-btn">
+        Save changes
+      </button>
+    </div>
   </div>
 </form>

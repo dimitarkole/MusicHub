@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 import { ModalComponent } from 'ngb-modal';
+import { globalConstants } from '../../../common/global-constants';
 import { modelConstants } from '../../../common/model-constants';
-import { CreateVisibleStatus, VisibleStatus, VisibleStatusMapping } from '../../../shared/models/visibleStatus';
+import { MegaStorageFileService } from '../../../core/services/mega-storage-file.service';
+import { CreatePrivacyStatus, PrivacyStatus, PrivacyStatusMapping } from '../../../shared/models/visibleStatus';
 import Playlist from '../../models/playlist';
 import { PlaylistService } from '../../services/playlist.service';
 
@@ -15,15 +17,18 @@ import { PlaylistService } from '../../services/playlist.service';
 export class PlaylistCreateComponent implements OnInit {
   nameMinLength = modelConstants.playlist.nameMinLength;
   nameMaxLength = modelConstants.playlist.nameMaxLength;
-
-  visibleStatusMapping = VisibleStatusMapping;
-  visibleStatus = Object.keys(VisibleStatus)
-    .filter(k => !isNaN(Number(k)));
+  playlistFolderPath: string = globalConstants.playlist.imageFolderPathToUpload;
+  defaultPlaylistImagePath: string = this.playlistFolderPath + globalConstants.playlist.defauldImage;
+  imageFileToUpload: File = null;
+  privacyStatusMapping = PrivacyStatusMapping;
+  privacyStatus = Object.keys(PrivacyStatus)
+    .filter(k => !isNaN(Number(k)));;
 
   playlistForm: FormGroup
 
   constructor(public dialogRef: MatDialogRef<ModalComponent>,
     private playlistService: PlaylistService,
+    private fileService: MegaStorageFileService,
     private formBuilder: FormBuilder,
   ) { }
 
@@ -38,13 +43,13 @@ export class PlaylistCreateComponent implements OnInit {
         ]
       ],
       imageUrl: [
-        null,
+        this.defaultPlaylistImagePath,
         [
-          Validators.required,
+          // Validators.required,
         ]
       ],
-      visibleStatus: [
-        VisibleStatus.Public,
+      privacy: [
+        PrivacyStatus.Public,
         Validators.required
       ],
     })
@@ -58,20 +63,47 @@ export class PlaylistCreateComponent implements OnInit {
 
   OnSubmit() {
     let playlist: Playlist = this.playlistForm.value;
-    playlist.visibleStatus = CreateVisibleStatus(playlist.visibleStatus);
+    //playlist.visibleStatus = CreateVisibleStatus(playlist.visibleStatus);
+    playlist.privacy = CreatePrivacyStatus(playlist.privacy);
+    this.imageUrl.setValue(this.defaultPlaylistImagePath);
+    if (this.imageFileToUpload != null) {
+      this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPath)
+        .subscribe(data => {
+          this.imageUrl.setValue(data["fileName"]);
+          this.playlistService.create(playlist)
+            .subscribe(_ => {
+              this.dialogRef.close(); //It closes successfully
+            })
+        });
+    }
+    else {
+      this.playlistService.create(playlist)
+        .subscribe(_ => {
+          this.dialogRef.close(); //It closes successfully
+        })
+    }
+  }
 
-    this.playlistService.create(playlist)
-      .subscribe(_ => {
-        this.dialogRef.close(); //It closes successfully
-      })
+  handleImageFileInput(file: FileList) {
+    this.imageFileToUpload = file.item(0);
+    //Show image preview
+    var reader = new FileReader();
+    reader.onload = (event: any) => {
+      this.imageUrl.setValue(event.target.result);
+    }
+    reader.readAsDataURL(this.imageFileToUpload);
+  }
+
+  useDefaultPicture() { 
+    this.imageUrl.setValue(this.defaultPlaylistImagePath);
   }
 
   get name(): AbstractControl {
     return this.playlistForm.get('name');
   }
 
-  get visibleStatusForm(): AbstractControl {
-    return this.playlistForm.get('visibleStatus');
+  get privacy(): AbstractControl {
+    return this.playlistForm.get('privacy');
   }
 
   get imageUrl(): AbstractControl {

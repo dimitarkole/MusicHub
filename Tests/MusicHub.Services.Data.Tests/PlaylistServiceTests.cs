@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using FluentAssertions;
     using MusicHub.Common;
     using MusicHub.Common.Extensions;
     using MusicHub.Data.Models;
@@ -33,7 +33,7 @@
             Assert.True(this.context.Playlists.Any(p => p.Name == model.Name
                 && p.UserId == userId
                 && p.ImageUrl == model.ImageUrl
-                && p.VisibleStatus == model.VisibleStatus));
+                && p.Privacy == model.Privacy));
         }
 
         [Theory]
@@ -42,19 +42,11 @@
         public async Task GetAllPlaylists_WithValidData_ShouldeReturnPublicPlaylist(int page)
         {
             var playlistService = await this.CreatePlaylistService(new List<Playlist>());
-            var expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public && p.PlaylistMusics.Count > 0)
-                    .OrderByDescending(p => p.CreatedOn)
-                    .ThenBy(p => p.Name)
-                    .To<PlaylistViewModel>();
             var entitesPerPage = PaginationData.PlaylistsPerPage;
-            var result = playlistService.All<PlaylistViewModel>(page, entitesPerPage);
-            var countPages = this.GetPlaylistPagesCount(expextedResult.Count(), entitesPerPage);
 
-            var expectedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .ToList();
+            var actual = playlistService.All<PlaylistViewModel>(page, entitesPerPage);
 
-            CheckPlaylistViewModelsIsEqual(page, expectedMusicsList, result, countPages);
+            this.CheckFilterData(actual, page, playlistService, entitesPerPage, new PlaylistFilterInputModel());
         }
 
         [Theory]
@@ -63,27 +55,18 @@
         public async Task GetAllOwnedPlaylists_WithValidData_ShouldeReturnPlaylist(int page)
         {
             var playlistService = await this.CreatePlaylistService(new List<Playlist>());
-            var expextedResult = this.context.Playlists
-                    .Where(p => p.PlaylistMusics.Count > 0)
-                    .OrderByDescending(p => p.CreatedOn)
-                    .ThenBy(p => p.Name)
-                    .To<PlaylistViewModel>();
-            var entitesPerPage = PaginationData.PlaylistsPerPage;
             var userId = PlaylistTestsData.AllOwnedUserId;
-            var result = playlistService.AllOwned<PlaylistViewModel>(page, entitesPerPage, userId);
-            var countPages = this.GetPlaylistPagesCount(expextedResult.Count(), entitesPerPage);
+            var entitesPerPage = PaginationData.PlaylistsPerPage;
 
-            var expectedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .ToList();
+            var actual = playlistService.AllOwned<PlaylistViewModel>(page, entitesPerPage, userId);
 
-            CheckPlaylistViewModelsIsEqual(page, expectedMusicsList, result, countPages);
+            this.CheckFilterData(actual, page, playlistService, entitesPerPage, new PlaylistFilterInputModel(), userId);
         }
 
         [Fact]
         public async Task DeleteCategory_WithValidData_ShouldWorkCorrect()
         {
-            var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists) ;
-
+            var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var playlistId = PlaylistTestsData.DeletePlaylistId;
 
             await playlistService.Delete(playlistId);
@@ -95,7 +78,6 @@
         public async Task UpdatePlaylist_WithValidData_ShouldWorkCorrect()
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
-
             var model = PlaylistTestsData.UpdateModel;
             var playlistId = PlaylistTestsData.UpdatePlaylistId;
 
@@ -104,7 +86,7 @@
             Assert.True(this.context.Playlists.Any(p => p.Id == playlistId
                 && p.Name == model.Name
                 && p.ImageUrl == model.ImageUrl
-                && p.VisibleStatus == model.VisibleStatus));
+                && p.Privacy == model.Privacy));
         }
 
         [Theory]
@@ -113,22 +95,12 @@
         public async Task FilterPlaylists_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
-            IQueryable<Playlist> expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public
-                        && p.PlaylistMusics.Count > 0);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             var filter = PlaylistTestsData.FilterModel;
 
-            var result = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
+            var actual = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
 
-            expextedResult = this.FilteringPlaylists(filter, expextedResult);
-            expextedResult = this.OrederSearchPlaylist(filter.OrderMethod, expextedResult);
-            var countPages = this.GetPlaylistPagesCount(expextedResult.Count(), entitesPerPage);
-            var expectedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .To<PlaylistViewModel>()
-               .ToList();
-
-            CheckPlaylistViewModelsIsEqual(page, expectedMusicsList, result, countPages);
+            this.CheckFilterData(actual, page, playlistService, entitesPerPage, filter);
         }
 
         [Theory]
@@ -138,22 +110,12 @@
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var userId = PlaylistTestsData.AllOwnedUserId;
-            IQueryable<Playlist> expextedResult = this.context.Playlists
-                    .Where(p => p.UserId == userId
-                        && p.PlaylistMusics.Count > 0);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             var filter = PlaylistTestsData.FilterModel;
 
-            var result = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter, userId);
+            var actual = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter, userId);
 
-            expextedResult = this.FilteringPlaylists(filter, expextedResult);
-            expextedResult = this.OrederSearchPlaylist(filter.OrderMethod, expextedResult);
-            var countPages = this.GetPlaylistPagesCount(expextedResult.Count(), entitesPerPage);
-            var expectedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .To<PlaylistViewModel>()
-               .ToList();
-
-            CheckPlaylistViewModelsIsEqual(page, expectedMusicsList, result, countPages);
+            this.CheckFilterData(actual, page, playlistService, entitesPerPage, filter, userId);
         }
 
         [Theory]
@@ -162,22 +124,12 @@
         public async Task FilterPlaylistsWithUserId_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
-            IQueryable<Playlist> expextedResult = this.context.Playlists
-                    .Where(p => p.VisibleStatus == VisibleStatus.Public
-                        && p.PlaylistMusics.Count > 0);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
             var filter = PlaylistTestsData.FilterModelWithUserId;
 
-            var result = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
+            var actual = playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
 
-            expextedResult = this.FilteringPlaylists(filter, expextedResult);
-            expextedResult = this.OrederSearchPlaylist(filter.OrderMethod, expextedResult);
-            var countPages = this.GetPlaylistPagesCount(expextedResult.Count(), entitesPerPage);
-            var expectedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .To<PlaylistViewModel>()
-               .ToList();
-
-            CheckPlaylistViewModelsIsEqual(page, expectedMusicsList, result, countPages);
+            this.CheckFilterData(actual, page, playlistService, entitesPerPage, filter);
         }
 
         [Fact]
@@ -186,13 +138,13 @@
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var playlistId = PlaylistTestsData.GetById;
 
-            var result = playlistService.GetById<PlaylistViewModel>(playlistId);
-            var expextedResult = this.context.Playlists
+            var actual = playlistService.GetById<PlaylistViewModel>(playlistId);
+            var expected = this.context.Playlists
                 .Where(p => p.Id == playlistId)
                 .To<PlaylistViewModel>()
                 .FirstOrDefault();
 
-            Assert.True(CheckPlaylistcViewModelIsEqual(expextedResult, result));
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -219,51 +171,19 @@
             var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var userId = PlaylistTestsData.AllOwnedUserId;
             var musicId = PlaylistTestsData.GetOwnedForAddingMusicMusicId;
-            var expectedResults = this.context.Playlists
+            var expected = this.context.Playlists
                     .Where(p => p.UserId == userId
                          && p.PlaylistMusics.Any(ps => ps.MusicId == musicId) == false)
                     .OrderByDescending(ps => ps.Name)
                     .To<PlaylistViewModel>()
                     .ToList();
 
-            var results = playlistService.GetOwnedForAddingMusic<PlaylistViewModel>(musicId, userId);
+            var actual = playlistService.GetOwnedForAddingMusic<PlaylistViewModel>(musicId, userId);
 
-            Assert.Equal(results.Count, expectedResults.Count);
-            for (int i = 0; i < expectedResults.Count(); i++)
-            {
-                var expextedResult = expectedResults[i];
-                var resultPlaylist = results[i];
-                Assert.True(CheckPlaylistcViewModelIsEqual(expextedResult, resultPlaylist));
-            }
+            expected.Should().BeEquivalentTo(actual);
         }
 
-        private static void CheckPlaylistViewModelsIsEqual(int page, List<PlaylistViewModel> expectedResults, PlaylistsAllViewModel<PlaylistViewModel> result, int countPages)
-        {
-            Assert.Equal(result.CurrentPage, page);
-            Assert.Equal(result.NumberOfPages, countPages);
-            var resultPlaylists = result.Playlists.ToList();
-            Assert.Equal(resultPlaylists.Count, expectedResults.Count);
-
-            for (int i = 0; i < expectedResults.Count(); i++)
-            {
-                var expextedResult = expectedResults[i];
-                var resultPlaylist = resultPlaylists[i];
-                Assert.True(CheckPlaylistcViewModelIsEqual(expextedResult, resultPlaylist));
-            }
-        }
-
-        private static bool CheckPlaylistcViewModelIsEqual(PlaylistViewModel expectedPlaylist, PlaylistViewModel resultPlaylist)
-            => expectedPlaylist.Name == resultPlaylist.Name
-               && expectedPlaylist.Id == resultPlaylist.Id
-               && expectedPlaylist.ImageUrl == resultPlaylist.ImageUrl
-               && expectedPlaylist.PlaylistMusicsCount == resultPlaylist.PlaylistMusicsCount
-               && expectedPlaylist.User.UserName == resultPlaylist.User.UserName
-               && expectedPlaylist.User.Id == resultPlaylist.User.Id
-               && expectedPlaylist.User.ImageUrl == resultPlaylist.User.ImageUrl
-               && expectedPlaylist.CreatedOn == resultPlaylist.CreatedOn
-               && expectedPlaylist.VisibleStatus == resultPlaylist.VisibleStatus;
-
-        private int GetPlaylistPagesCount(int entityCount, int entitesPerPage)
+        private int GetDataPagesCount(int entityCount, int entitesPerPage)
         {
             var paginationService = new PaginationService();
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
@@ -304,6 +224,32 @@
             }
 
             return playlists;
+        }
+
+        private void CheckFilterData(PlaylistsAllViewModel<PlaylistViewModel> actual, int page, PlaylistService playlistService, int entitesPerPage, PlaylistFilterInputModel filter, string userId = null)
+        {
+            IQueryable<Playlist> playlists = this.context.Playlists
+                    .Where(p => p.Privacy == Privacy.Public
+                        && p.PlaylistMusics.Count > 0);
+
+            if(userId != null)
+            {
+                playlists = playlists.Where(p => p.UserId == userId);
+            }
+
+            playlists = this.FilteringPlaylists(filter, playlists);
+            playlists = this.OrederSearchPlaylist(filter.OrderMethod, playlists);
+            var expected = new PlaylistsAllViewModel<PlaylistViewModel>()
+            {
+                Playlists = playlists
+                    .GetPage(page, entitesPerPage)
+                    .To<PlaylistViewModel>()
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(playlists.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         private async Task<PlaylistService> CreatePlaylistService(List<Playlist> playlists)

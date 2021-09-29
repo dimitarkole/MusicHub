@@ -11,6 +11,7 @@ using MusicHub.Common.Extensions;
 using MusicHub.Services.Mapping;
 using static MusicHub.Common.GlobalConstants;
 using MusicHub.Web.ViewModels.MusicModels;
+using FluentAssertions;
 
 namespace MusicHub.Services.Data.Tests
 {
@@ -49,20 +50,10 @@ namespace MusicHub.Services.Data.Tests
             var playedMusics = PlayedMusicTestsData.PlayedMusics();
             var playedMusicService = await this.CreatePlayedMusicService(playedMusics);
             var userId = playedMusics[0].UserId;
-            var expextedResult = this.context.PlayedMusics
-                    .Where(s => s.UserId == userId)
-                    .OrderByDescending(s => s.CreatedOn)
-                    .To<PlayedMusicViewModel>();
             var entitesPerPage = PaginationData.PlayedMusicsPerPage;
+            var actual = playedMusicService.All<PlayedMusicViewModel>(page, entitesPerPage, userId);
 
-            var result = playedMusicService.All<PlayedMusicViewModel>(page, entitesPerPage, userId);
-
-            var expectedCountPages = this.GetPlayedMusicsPagesCount(expextedResult.Count(), entitesPerPage);
-
-            var expectedPlayedMusicsList = expextedResult.GetPage(page, entitesPerPage)
-               .ToList();
-
-            this.CheckPlayedMusicViewModelsIsEqual(page, expectedCountPages, expectedPlayedMusicsList, result);
+            this.CheckFilterModel(page, userId, entitesPerPage, new PlayedMusicFilterInputModels(), actual);
         }
 
         [Theory]
@@ -78,21 +69,9 @@ namespace MusicHub.Services.Data.Tests
                     .OrderByDescending(s => s.CreatedOn);
             var entitesPerPage = PaginationData.PlayedMusicsPerPage;
             var filter = PlayedMusicTestsData.filterModel;
-            if (!string.IsNullOrEmpty(filter.Name))
-            {
-                expextedResult = expextedResult.Where(s => s.UserId == userId
-                        && s.Music.Name.Contains(filter.Name));
-            }
+            var actual = playedMusicService.Filter<PlayedMusicViewModel>(page, entitesPerPage, filter, userId);
 
-            var expextedResultT = expextedResult
-                    .To<PlayedMusicViewModel>();
-            var expectedCountPages = this.GetPlayedMusicsPagesCount(expextedResultT.Count(), entitesPerPage);
-            var expectedPlayedMusicsList = expextedResultT.GetPage(page, entitesPerPage)
-               .ToList();
-
-            var result = playedMusicService.Filter<PlayedMusicViewModel>(page, entitesPerPage, filter, userId);
-
-            this.CheckPlayedMusicViewModelsIsEqual(page, expectedCountPages, expectedPlayedMusicsList, result);
+            this.CheckFilterModel(page, userId, entitesPerPage, filter, actual);
         }
 
         [Fact]
@@ -122,35 +101,30 @@ namespace MusicHub.Services.Data.Tests
             Assert.False(playedMusicService.IsOwned(playedMusicId, userId));
         }
 
-        private void CheckPlayedMusicViewModelsIsEqual(int page, int expectedCountPages, List<PlayedMusicViewModel> expectedPlayedMusics, PlayedMusicAllViewModel<PlayedMusicViewModel> result)
+        private void CheckFilterModel(int page, string userId, int entitesPerPage, PlayedMusicFilterInputModels filter, PlayedMusicAllViewModel<PlayedMusicViewModel> actual)
         {
-            Assert.Equal(page, result.CurrentPage);
-            Assert.Equal(expectedCountPages, result.NumberOfPages);
-            var resultPlayedMusics = result.PlayedMusic.ToList();
-            Assert.Equal(expectedPlayedMusics.Count, resultPlayedMusics.Count);
-
-            for (int i = 0; i < resultPlayedMusics.Count(); i++)
+            IQueryable<PlayedMusic> playedMusics = this.context.PlayedMusics
+                .Where(s => s.UserId == userId)
+                .OrderByDescending(s => s.CreatedOn);
+            if (!string.IsNullOrEmpty(filter.Name))
             {
-                var expectedPlayedMusic = expectedPlayedMusics[i];
-                var resultPlayedMusic = resultPlayedMusics[i];
-                Assert.True(this.CheckPlayedMusicViewModelIsEqual(expectedPlayedMusic, resultPlayedMusic));
+                playedMusics = playedMusics
+                    .Where(s => s.UserId == userId
+                        && s.Music.Name.Contains(filter.Name));
             }
+
+            var playedMusicT = playedMusics.To<PlayedMusicViewModel>();
+            var expected = new PlayedMusicAllViewModel<PlayedMusicViewModel>()
+            {
+                PlayedMusic = playedMusicT
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetPlayedMusicsPagesCount(playedMusicT.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
-
-        private bool CheckPlayedMusicViewModelIsEqual(PlayedMusicViewModel expectedPlayedMusic, PlayedMusicViewModel resultPlayedMusic)
-            => expectedPlayedMusic.Id == resultPlayedMusic.Id
-                && expectedPlayedMusic.CreatedOn == resultPlayedMusic.CreatedOn
-                && CheckMusicViewModelIsEqual(expectedPlayedMusic.Music, resultPlayedMusic.Music);
-
-        private bool CheckMusicViewModelIsEqual(MusicViewModel expectedMusic, MusicViewModel resultMusic)
-            => expectedMusic.Name == resultMusic.Name
-               && expectedMusic.Category.Name == resultMusic.Category.Name
-               && expectedMusic.Category.Id == resultMusic.Category.Id
-               && expectedMusic.ImageUrl == resultMusic.ImageUrl
-               && expectedMusic.VisibleStatus == resultMusic.VisibleStatus
-               && expectedMusic.MusicLicenseType == resultMusic.MusicLicenseType
-               && expectedMusic.AudioUrl == resultMusic.AudioUrl
-               && expectedMusic.UserUserName == resultMusic.UserUserName;
 
         private int GetPlayedMusicsPagesCount(int entityCount, int entitesPerPage)
         {

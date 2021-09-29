@@ -33,6 +33,6 @@
 
         public virtual ICollection<PlaylistMusic> PlaylistMusics { get; set; }
 
-        public VisibleStatus VisibleStatus { get; set; }
+        public Privacy Privacy { get; set; }
     }
 }

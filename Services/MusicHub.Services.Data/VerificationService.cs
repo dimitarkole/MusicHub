@@ -29,13 +29,15 @@
                    .Any(vc => vc.UserId == userId
                            && vc.Code == model.Code
                            && vc.IsUsed == false
-                           && vc.Type == model.Type
+                           && vc.Type == model.Type);
+        /*
                            && (DateTime.UtcNow - vc.CreatedOn)
-                   .TotalHours <= VerificationCodeConstants.EndTimeInHours);
+                   .TotalHours <= VerificationCodeConstants.EndTimeInHours);     */
 
         public async Task Create(VerificationCodeCreateInputModel model)
         {
             var verificationCode = model.To<VerificationCode>();
+            verificationCode.IsUsed = false;
             await this.context.VerificationCodes.AddAsync(verificationCode);
             await this.context.SaveChangesAsync();
         }

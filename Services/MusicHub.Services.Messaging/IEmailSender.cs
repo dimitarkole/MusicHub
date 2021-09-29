@@ -1,5 +1,6 @@
 ﻿namespace MusicHub.Services.Messaging
 {
+    using MusicHub.Web.ViewModels.MailModels;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -9,5 +10,7 @@
             string toMail,
             string subject,
             string messageBody);
+
+        Task SendEmailAsync(EmailInputModel model);
     }
 }

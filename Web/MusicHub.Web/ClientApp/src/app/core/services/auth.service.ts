@@ -77,7 +77,6 @@ export class AuthService {
         this.username = tokenData['unique_name'];
         this.isAuth = true;
         this.isAdmin = tokenData["role"] === "Administrator";
-        this.role = tokenData["role"];
       }
       catch (Error) {
         this.isAuth = false;
@@ -95,6 +94,10 @@ export class AuthService {
 
   login(username: string, password: string) {
     return this.http.post(`${this.route}/Login`, { username, password });
+  }
+
+  getByEmail(user: User) {
+    return this.http.post<User>(`${this.route}/GetByEmail`, user);
   }
 
   resendConfirmEmail(email: string) {

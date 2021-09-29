@@ -29,18 +29,18 @@
 
         public PlayedMusicAllViewModel<T> All<T>(int page, int entitesPerPage, string userId)
         {
-            var playedMusic = this.context.PlayedMusics
+            var playedMusics = this.context.PlayedMusics
                 .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.CreatedOn)
                 .To<T>();
 
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = playedMusic
+                PlayedMusic = playedMusics
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
-                NumberOfPages = this.GetPlayedMusicPagesCount(playedMusic.Count(), entitesPerPage),
+                NumberOfPages = this.GetPlayedMusicPagesCount(playedMusics.Count(), entitesPerPage),
             };
         }
 
@@ -62,17 +62,17 @@
         public PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId)
         {
 
-            IQueryable<PlayedMusic> playedMusic = this.context.PlayedMusics
+            IQueryable<PlayedMusic> playedMusics = this.context.PlayedMusics
                  .Where(s => s.UserId == userId)
                  .OrderByDescending(s => s.CreatedOn);
             if (!string.IsNullOrEmpty(filter.Name))
             {
-                playedMusic = playedMusic
+                playedMusics = playedMusics
                     .Where(s => s.UserId == userId
                         && s.Music.Name.Contains(filter.Name));
             }
 
-            var playedMusicT = playedMusic.To<T>();
+            var playedMusicT = playedMusics.To<T>();
             return new PlayedMusicAllViewModel<T>()
             {
                 PlayedMusic = playedMusicT

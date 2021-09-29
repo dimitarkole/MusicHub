@@ -6,11 +6,15 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using FluentAssertions;
+    using MusicHub.Common.Extensions;
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
     using MusicHub.Tests.TestData;
     using MusicHub.Web.ViewModels.CategoryModels;
     using Xunit;
+
+    using static MusicHub.Common.GlobalConstants;
 
     public class CategotyServiceTests : BaseTestClass
     {
@@ -31,19 +35,73 @@
             var getCategories = CategoryTestsData.GetCategories;
             var categoryService = await this.CreateCategoryService(getCategories);
 
-            var results = categoryService.All<CategoryViewModel>().ToList();
+            var actual = categoryService.All<CategoryViewModel>().ToList();
 
-            var expectedResult = this.context.Categories
+            var expected = this.context.Categories
                 .OrderBy(c => c.Name)
                 .To<CategoryViewModel>()
                 .ToList();
 
-            Assert.Equal(results.Count(), expectedResult.Count());
-            for (int i = 0; i < results.Count(); i++)
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task AllCategoriesByPage_WithValidData_ShouldWorkCorrect(int page)
+        {
+            var getCategories = CategoryTestsData.GetCategories;
+            var categoryService = await this.CreateCategoryService(getCategories);
+            var entitesPerPage = PaginationData.CategoriesPerPage;
+            var actual = categoryService.All<CategoryViewModel>(page, entitesPerPage);
+
+            var categories = this.context.Categories
+                .OrderBy(c => c.Name)
+                .To<CategoryViewModel>()
+                .ToList();
+
+            var expected = new CategoriesAllViewModel<CategoryViewModel>()
             {
-                Assert.Equal(results[i].Id, expectedResult[i].Id);
-                Assert.Equal(results[i].Name, expectedResult[i].Name);
+                Categories = categories
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(categories.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task Filter_WithValidData_ShouldWorkCorrect(int page)
+        {
+            var getCategories = CategoryTestsData.GetCategories;
+            var filter = CategoryTestsData.CreateFilter;
+            var categoryService = await this.CreateCategoryService(getCategories);
+            var entitesPerPage = PaginationData.CategoriesPerPage;
+            var actual = categoryService.Filter<CategoryViewModel>(page, entitesPerPage, filter);
+
+            IQueryable<Category> categories = this.context.Categories
+                .OrderBy(c => c.Name);
+
+            if (filter.Name != null)
+            {
+                categories = categories.Where(c => c.Name.Contains(filter.Name));
             }
+
+            var expected = new CategoriesAllViewModel<CategoryViewModel>()
+            {
+                Categories = categories
+                    .To<CategoryViewModel>()
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetDataPagesCount(categories.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -51,13 +109,13 @@
         {
             var getCategory = CategoryTestsData.GetCategories;
             var categoryService = await this.CreateCategoryService(getCategory);
-            var newModel = CategoryTestsData.UpadateModel;
+            var model = CategoryTestsData.UpadateModel;
             var updateItemId = CategoryTestsData.UpdateCategoryId;
 
-            await categoryService.Update(updateItemId, newModel);
+            await categoryService.Update(updateItemId, model);
 
             Assert.True(this.context.Categories.Any(c => c.Id == updateItemId
-                && c.Name == newModel.Name));
+                && c.Name == model.Name));
         }
 
         [Fact]
@@ -89,9 +147,15 @@
         {
             await this.context.Categories.AddRangeAsync(categories);
             await this.context.SaveChangesAsync();
-            var service = new CategoryService(this.context);
+            var service = new CategoryService(this.context, new PaginationService());
 
             return service;
+        }
+
+        private int GetDataPagesCount(int entityCount, int entitesPerPage)
+        {
+            var paginationService = new PaginationService();
+            return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
         }
     }
 }

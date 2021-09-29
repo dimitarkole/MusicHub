@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { BooleanSearchEntity, BooleanSearchEntryMetadata, BooleanSearchInput } from '../../shared/models/boolean-search';
 import { dateTimeFormats, globalConstants } from '../../common/global-constants';
+import { PermissionType } from '../../shared/models/permissionType';
 
 @Injectable({
 	providedIn: 'root'
@@ -37,16 +38,24 @@ export class BooleanSearchService {
   getTables(): BooleanSearchEntryMetadata[] {
     return [
       {
-        name: 'musics',
-        description: 'Filter the musics'
+        name: 'Musics',
+        description: 'Filter the musics',
+        permission: PermissionType.User,
       },
       {
-        name: 'playlists',
-        description: 'Filter the playlists'
+        name: 'Playlists',
+        description: 'Filter the playlists',
+        permission: PermissionType.User,
       },
       {
-        name: 'users',
-        description: 'Filter the users'
+        name: 'Members',
+        description: 'Filter the users',
+        permission: PermissionType.User,
+      },
+      {
+        name: 'Categories',
+        description: 'Filter the users',
+        permission: PermissionType.CategoryAdministrator,
       },
     ];
   }
@@ -76,19 +85,23 @@ export class BooleanSearchService {
 		return [
 			{
 				name: 'musics', 
-				description: 'Filter the musics'
+        description: 'Filter the musics',
+        permission: PermissionType.User,
       },
       {
         name: 'playlists',
-        description: 'Filter the playlists'
+        description: 'Filter the playlists',
+        permission: PermissionType.User,
       },
 			{
 				name: 'users',
-				description: 'Filter the users'
+        description: 'Filter the users',
+        permission: PermissionType.User,
 			},
 			{
 				name: 'billing',
-				description: 'Filter the timeslips'
+        description: 'Filter the timeslips',
+        permission: PermissionType.UserAdministration,
 			},
 		];
 	}
@@ -105,89 +118,19 @@ export class BooleanSearchService {
 		return [
 			{
 				name: 'firstName',
-				description: 'For example, adding firstName:Jhon to the search will include all users which first name contains \'Jhon\''
+        description: 'For example, adding firstName:Jhon to the search will include all users which first name contains \'Jhon\'',
+        permission: PermissionType.User,
 			},
 			{
 				name: 'middleName',
-				description: 'For example, adding middleName:Jhon to the search will include all users which middle name contains \'Jhon\''
+        description: 'For example, adding middleName:Jhon to the search will include all users which middle name contains \'Jhon\'',
+        permission: PermissionType.User,
 			},
 			{
 				name: 'lastName',
-				description: 'For example, adding lastName:Brian to the search will include all users which last name contains \'Brian\''
+        description: 'For example, adding lastName:Brian to the search will include all users which last name contains \'Brian\'',
+        permission: PermissionType.User,
 			},
-			{
-				name: 'initials',
-				description: 'For example, adding initials:Jhon to the search will include all users which initials contains \'Jhon\''
-			},
-			{
-				name: 'billingRate',
-				description: 'For example, adding billingRate:3 to the search will include all users which billingRate is equal to 3'
-			},
-			{
-				name: 'billingRate:lt',
-				description: 'For example, adding billingRate:lt:3 to the search will include all users which billingRate is less than 3'
-			},
-			{
-				name: 'billingRate:gt',
-				description: 'For example, adding billingRate:gt:3 to the search will include all users which billingRate is graeter than 3'
-			},
-			{
-				name: 'ssn',
-				description: 'For example, adding ssn:123456 to the search will include all users which ssn contains \'123456\''
-			},
-			{
-				name: 'terminationDate',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding terminationDate:${formatedDate} to the search will include all users which termination date is equal to the entered date`
-			},
-			{
-				name: 'terminationDate:from',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding terminationDate:from:${formatedDate} to the search will include all users which termination date is greater than the entered date.`
-			},
-			{
-				name: 'terminationDate:to',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding terminationDate:to:${formatedDate} to the search will include all users which termination date is less than the entered date.`
-			},
-			{
-				name: 'barDate',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding barDate:${formatedDate} to the search will include all users which bar date is equal to the entered date`
-			},
-			{
-				name: 'barDate:from',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding barDate:from:${formatedDate} to the search will include all users which bar date is greater than the entered date.`
-			},
-			{
-				name: 'barDate:to',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding barDate:to:${formatedDate} to the search will include all users which bar date is less than the entered date.`
-			},
-			{
-				name: 'hireDate',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding hireDate:${formatedDate} to the search will include all users which hire date is equal to the entered date`
-			},
-			{
-				name: 'hireDate:from',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding hireDate:from:${formatedDate} to the search will include all users which hire date is greater than the entered date.`
-			},
-			{
-				name: 'hireDate:to',
-				description: `The date fromat should be the folowing: \'dd/MM/yyyy\'. 
-											For example, adding hireDate:to:${formatedDate} to the search will include all users which hire date is less than the entered date.`
-			},
-			{
-				name: 'jobTitle',
-				description: 'For example, adding jobTitle:Hr to the search will include all users which job title contains \'Hr\''
-			},
-			{
-				name: 'classification',
-				description: 'For example, adding classification:judge to the search will include all users which classification contains \'judge\''
-			}
 		]
 	}
 }

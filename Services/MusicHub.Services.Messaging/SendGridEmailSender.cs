@@ -9,6 +9,7 @@
     using SendGrid.Helpers.Mail;
     using MusicHub.Services.Messaging.Infrastucture.Extensions;
     using static MusicHub.Common.GlobalConstants;
+    using MusicHub.Web.ViewModels.MailModels;
 
     public class SendGridEmailSender : IEmailSender
     {
@@ -29,5 +30,8 @@
 
             await client.SendEmailAsync(msg);
         }
+
+        public async Task SendEmailAsync(EmailInputModel model)
+            => await this.SendEmailAsync(model.ToMail, model.Subject, model.MessageBody);
     }
 }

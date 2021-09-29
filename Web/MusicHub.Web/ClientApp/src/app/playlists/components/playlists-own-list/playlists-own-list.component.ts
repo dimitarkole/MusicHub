@@ -77,7 +77,7 @@ export class PlaylistsOwnListComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     // The user can't close the dialog by clicking outside its body
     dialogConfig.id = "modal-component";
-    dialogConfig.width = "600px";
+    dialogConfig.width = "800px";
     // https://material.angular.io/components/dialog/overview
     const modalDialog = this.matDialog.open(PlaylistCreateComponent, dialogConfig);
     modalDialog.afterClosed().subscribe(result => {

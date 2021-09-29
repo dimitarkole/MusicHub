@@ -15,14 +15,14 @@
         {
             Name = "simple playlist name",
             ImageUrl = "Image url.jpg",
-            VisibleStatus = VisibleStatus.OnlyMe,
+            Privacy = Privacy.Protected,
         };
 
         public static PlaylistEditInputModel UpdateModel => new PlaylistEditInputModel()
         {
             Name = "simple playlist name",
             ImageUrl = "Image url.jpg",
-            VisibleStatus = VisibleStatus.OnlyMe,
+            Privacy = Privacy.Protected,
         };
 
         public static string GetOwnedForAddingMusicMusicId => Musics[0].Id;
@@ -73,23 +73,23 @@
 
         public static List<Playlist> Playlists => new List<Playlist>()
         {
-            new Playlist(){ Id = "PlaylistId1", ImageUrl = "Image url.jpg", Name="playlist name1", UserId = Users[0].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId2", ImageUrl = "Image url.jpg", Name="playlist name2", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId3", ImageUrl = "Image url.jpg", Name="playlist name3", UserId = Users[2].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId4", ImageUrl = "Image url.jpg", Name="playlist name4", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId5", ImageUrl = "Image url.jpg", Name="playlist name5", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId6", ImageUrl = "Image url.jpg", Name="playlist name6", UserId = Users[2].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId7", ImageUrl = "Image url.jpg", Name="playlist name7", UserId = Users[3].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId8", ImageUrl = "Image url.jpg", Name="playlist name8", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId9", ImageUrl = "Image url.jpg", Name="playlist name9", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId10", ImageUrl = "Image url.jpg", Name="playlist name10", UserId = Users[2].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId11", ImageUrl = "Image url.jpg", Name="playlist name11", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId12", ImageUrl = "Image url.jpg", Name="playlist name12", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId13", ImageUrl = "Image url.jpg", Name="playlist name13", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId14", ImageUrl = "Image url.jpg", Name="playlist name14", UserId = Users[2].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId15", ImageUrl = "Image url.jpg", Name="playlist name15", UserId = Users[2].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId16", ImageUrl = "Image url.jpg", Name="playlist name16", UserId = Users[1].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
-            new Playlist(){ Id = "PlaylistId17", ImageUrl = "Image url.jpg", Name="playlist name17", UserId = Users[0].Id, VisibleStatus = VisibleStatus.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId1", ImageUrl = "Image url.jpg", Name="playlist name1", UserId = Users[0].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId2", ImageUrl = "Image url.jpg", Name="playlist name2", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId3", ImageUrl = "Image url.jpg", Name="playlist name3", UserId = Users[2].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId4", ImageUrl = "Image url.jpg", Name="playlist name4", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId5", ImageUrl = "Image url.jpg", Name="playlist name5", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId6", ImageUrl = "Image url.jpg", Name="playlist name6", UserId = Users[2].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId7", ImageUrl = "Image url.jpg", Name="playlist name7", UserId = Users[3].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId8", ImageUrl = "Image url.jpg", Name="playlist name8", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId9", ImageUrl = "Image url.jpg", Name="playlist name9", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId10", ImageUrl = "Image url.jpg", Name="playlist name10", UserId = Users[2].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId11", ImageUrl = "Image url.jpg", Name="playlist name11", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId12", ImageUrl = "Image url.jpg", Name="playlist name12", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId13", ImageUrl = "Image url.jpg", Name="playlist name13", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId14", ImageUrl = "Image url.jpg", Name="playlist name14", UserId = Users[2].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId15", ImageUrl = "Image url.jpg", Name="playlist name15", UserId = Users[2].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId16", ImageUrl = "Image url.jpg", Name="playlist name16", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
+            new Playlist(){ Id = "PlaylistId17", ImageUrl = "Image url.jpg", Name="playlist name17", UserId = Users[0].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
         };
 
     }

@@ -1,20 +1,23 @@
-﻿using MusicHub.Data.Models;
-using MusicHub.Tests.TestData;
-using MusicHub.Web.ViewModels.NotificationModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-using MusicHub.Services.Mapping;
-using MusicHub.Common.Extensions;
-using static MusicHub.Common.GlobalConstants;
-using MusicHub.Common.Extensions;
-using MusicHub.Services.Mapping;
-
-namespace MusicHub.Services.Data.Tests
+﻿namespace MusicHub.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using FluentAssertions;
+    using MusicHub.Common.Extensions;
+    using MusicHub.Common.Extensions;
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Tests.TestData;
+    using MusicHub.Web.ViewModels.NotificationModels;
+    using Xunit;
+
+    using static MusicHub.Common.GlobalConstants;
+
     public class NotificationsServiceTests : BaseTestClass
     {
         [Fact]
@@ -54,18 +57,24 @@ namespace MusicHub.Services.Data.Tests
             var userId = NotificationTestsData.UserId;
 
             var entitesPerPage = PaginationData.NotificationPerPage;
-            var result = notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, userId);
+            var actual = notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, userId);
 
-            var userNotifications = this.context.Notifications
-              .Where(n => n.UserId == userId && !n.Seen)
-              .OrderBy(n => n.Seen == false)
-              .ThenByDescending(n => n.CreatedOn)
-              .To<NotificationViewModel>();
-            var expectedResult = userNotifications.GetPage(page, entitesPerPage)
-               .ToList();
-            var expectedCountPages = this.GetNotificationPagesCount(expectedResult.Count(), entitesPerPage);
+            var allNotifications = this.context.Notifications
+                .Where(n => n.UserId == userId && !n.Seen)
+                .OrderBy(n => n.Seen == false)
+                .ThenByDescending(n => n.CreatedOn)
+                .To<NotificationViewModel>();
 
-            this.CheckAllNotificationModelsIsEqual(expectedResult, result);
+            var expected = new NotificationAllViewModel<NotificationViewModel>()
+            {
+                Notifications = allNotifications
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetNotificationsPagesCount(allNotifications.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
         }
 
         [Fact]
@@ -95,28 +104,11 @@ namespace MusicHub.Services.Data.Tests
             Assert.Equal(notification.UserId, resultId);
         }
 
-        private int GetNotificationPagesCount(int entityCount, int entitesPerPage)
+        private int GetNotificationsPagesCount(int entityCount, int entitesPerPage)
         {
             var paginationService = new PaginationService();
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
         }
-
-        private void CheckAllNotificationModelsIsEqual(List<NotificationViewModel> expectedResult, NotificationAllViewModel<NotificationViewModel> result)
-        {
-            Assert.Equal(expectedResult.Count, result.Notifications.Count());
-            var notifications = result.Notifications.ToList();
-            for (int i = 0; i < expectedResult.Count(); i++)
-            {
-                var expectedNotification = expectedResult[i];
-                var resultNotification = notifications[i];
-                Assert.True(this.CheckNotificationViewModelIsEqual(expectedNotification, resultNotification));
-            }
-        }
-
-        private bool CheckNotificationViewModelIsEqual(NotificationViewModel expectedNotification, NotificationViewModel resultNotification)
-            => expectedNotification.Id == resultNotification.Id
-                && expectedNotification.CreatedOn == resultNotification.CreatedOn
-                && expectedNotification.Content == resultNotification.Content;
 
         private async Task<NotificationsService> CreateNotificationsService(List<Notification> notifications)
         {
