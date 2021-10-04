@@ -12,7 +12,13 @@
         public static CommentCreatreInputModel CreateModel => new CommentCreatreInputModel()
         {
             MusicId = Musics[0].Id,
-            Text = "simple comment"
+            Text = "simple comment",
+        };
+
+        public static CommentCreatreInputModel CreateModelIncurrect => new CommentCreatreInputModel()
+        {
+            MusicId = "",
+            Text = "",
         };
 
         public static string UpdateCommentId => GetComments[0].Id;
@@ -22,9 +28,19 @@
             Text = "simple comment",
         };
 
+        public static CommentEditInputModel UpdateIncurrectModel => new CommentEditInputModel()
+        {
+            Text = "",
+        };
+
         public static CommentChildrenCreatreInputModel CreateChildModel => new CommentChildrenCreatreInputModel()
         {
             Text = "simple comment",
+        };
+
+        public static CommentChildrenCreatreInputModel CreateChildIncurrectModel => new CommentChildrenCreatreInputModel()
+        {
+            Text = "",
         };
 
         public static string CreateUserId => Users[0].Id;
