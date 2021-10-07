@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.DirectoryServices.AccountManagement" Version="4.7.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
+    <ProjectReference Include="..\..\MusicHub.Common\MusicHub.Common.csproj" />
+    <ProjectReference Include="..\..\Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
+    <ProjectReference Include="..\MusicHub.Services.Data\MusicHub.Services.Data.csproj" />
+    <ProjectReference Include="..\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
+    <ProjectReference Include="..\MusicHub.Services.Messaging\MusicHub.Services.Messaging.csproj" />
+    <ProjectReference Include="..\MusicHub.Services\MusicHub.Services.csproj" />
+  </ItemGroup>
+
+</Project>
