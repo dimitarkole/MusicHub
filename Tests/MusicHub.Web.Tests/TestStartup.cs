@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MusicHub.Web.Infrastucture.Extensions;
 
 namespace MusicHub.Web.Tests
 {
@@ -28,6 +29,7 @@ namespace MusicHub.Web.Tests
         public void ConfigureTestServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
+            services.AddApplicationServices();
         }
     }
 }
