@@ -4,8 +4,13 @@ using System.Text;
 
 namespace MusicHub.Web.ViewModels.ChartModels
 {
-    public class ChartDataViewModel
+    public class ChartDataViewModel<TValue>
     {
+        public ChartDataViewModel()
+        {
+
+        }
+
         public ChartDataViewModel(string dimensionOne, double quantity)
         {
             this.DimensionOne = dimensionOne;
