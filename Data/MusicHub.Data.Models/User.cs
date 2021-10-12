@@ -18,7 +18,6 @@ namespace MusicHub.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Musics = new HashSet<Music>();
-            this.Orders = new HashSet<Order>();
             this.Playlists = new HashSet<Playlist>();
             this.Comments = new HashSet<Comment>();
             this.MusicReactions = new HashSet<MusicReaction>();
@@ -27,6 +26,7 @@ namespace MusicHub.Data.Models
             this.Followers = new HashSet<Follow>();
             this.Licenses = new HashSet<License>();
             this.VerificationCodes = new HashSet<VerificationCode>();
+            this.PaySubscriptions = new HashSet<PaySubscription>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -63,8 +63,6 @@ namespace MusicHub.Data.Models
 
         public virtual ICollection<PlayedMusic> PlayedMusics { get; set; }
 
-        public virtual ICollection<Order> Orders { get; set; }
-
         public virtual ICollection<Playlist> Playlists { get; set; }
 
         public virtual ICollection<UserRole> Roles { get; set; }
@@ -74,5 +72,7 @@ namespace MusicHub.Data.Models
         public ICollection<Follow> Followings { get; set; }
 
         public ICollection<VerificationCode> VerificationCodes { get; set; }
+
+        public ICollection<PaySubscription> PaySubscriptions { get; set; }
     }
 }

@@ -467,7 +467,7 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("MusicHub.Data.Models.Order", b =>
+            modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -490,7 +490,7 @@ namespace MusicHub.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("PaySubscriptions");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Permission", b =>
@@ -663,6 +663,33 @@ namespace MusicHub.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Subscriptions");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.SubscriptionClaim", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PayPlanId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SubcriptionId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PayPlanId");
+
+                    b.ToTable("SubscriptionClaims");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.User", b =>
@@ -1012,14 +1039,14 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MusicHub.Data.Models.Order", b =>
+            modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Subscription", "Subscription")
-                        .WithMany()
+                        .WithMany("PaySubscriptions")
                         .HasForeignKey("SubscriptionId");
 
                     b.HasOne("MusicHub.Data.Models.User", "User")
-                        .WithMany("Orders")
+                        .WithMany("PaySubscriptions")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Subscription");
@@ -1086,6 +1113,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Permission");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.SubscriptionClaim", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.Subscription", "PayPlan")
+                        .WithMany("SubcriptionClaims")
+                        .HasForeignKey("PayPlanId");
+
+                    b.Navigation("PayPlan");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
@@ -1174,6 +1210,13 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Users");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.Subscription", b =>
+                {
+                    b.Navigation("PaySubscriptions");
+
+                    b.Navigation("SubcriptionClaims");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.User", b =>
                 {
                     b.Navigation("Claims");
@@ -1192,7 +1235,7 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("Musics");
 
-                    b.Navigation("Orders");
+                    b.Navigation("PaySubscriptions");
 
                     b.Navigation("PlayedMusics");
 

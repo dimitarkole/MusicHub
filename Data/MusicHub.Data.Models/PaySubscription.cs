@@ -1,15 +1,15 @@
-﻿namespace MusicHub.Data.Models
+﻿using MusicHub.Data.Common.Models;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MusicHub.Data.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
-    using MusicHub.Data.Common.Models;
-
-    public class Order : IAuditInfo
+    public class PaySubscription : IAuditInfo
     {
-        public Order()
+        public PaySubscription()
         {
+            this.CreatedOn = DateTime.UtcNow;
             this.Id = Guid.NewGuid().ToString();
         }
 
@@ -17,11 +17,11 @@
         //     Gets or sets the primary key.
         public virtual string Id { get; set; }
 
-        public virtual string UserId { get; set; }
+        public string UserId { get; set; }
 
         public virtual User User { get; set; }
 
-        public virtual string SubscriptionId { get; set; }
+        public string SubscriptionId { get; set; }
 
         public virtual Subscription Subscription { get; set; }
 

@@ -43,7 +43,9 @@
 
         public virtual DbSet<Subscription> Subscriptions { get; set; }
 
-        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<PaySubscription> PaySubscriptions { get; set; }
+
+        public virtual DbSet<SubscriptionClaim> SubscriptionClaims { get; set; }
 
         public virtual DbSet<Playlist> Playlists { get; set; }
 
