@@ -11,6 +11,8 @@ namespace MusicHub.Data.Models
         {
             this.CreatedOn = DateTime.UtcNow;
             this.Id = Guid.NewGuid().ToString();
+            this.SubcriptionClaims = new HashSet<SubscriptionClaim>();
+            this.PaySubscriptions = new HashSet<PaySubscription>();
         }
 
         // Summary:
@@ -22,6 +24,10 @@ namespace MusicHub.Data.Models
         public string Description { get; set; }
 
         public double Price { get; set; }
+
+        public ICollection<SubscriptionClaim> SubcriptionClaims { get; set; }
+
+        public ICollection<PaySubscription> PaySubscriptions { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

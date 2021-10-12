@@ -4,29 +4,26 @@ using System.Text;
 
 namespace MusicHub.Web.ViewModels.ChartModels
 {
-    public class ChartViewModel
+    public class ChartViewModel<TValue>
     {
-        public ChartViewModel()
+        public ChartViewModel() 
+            : this(string.Empty)
         {
-            this.ChartData = new List<ChartDataViewModel>();
         }
 
-        public ChartViewModel(string titlle, List<ChartDataViewModel> chartData)
+        public ChartViewModel(string titlle, List<ChartData<TValue>> data)
         {
-            this.Titlle = titlle;
-            this.ChartData = chartData;
+            this.Title = titlle;
+            this.Data = data;
         }
 
-        public ChartViewModel(string titlle)
+        public ChartViewModel(string title)
         {
-            this.Titlle = titlle;
-            this.ChartData = new List<ChartDataViewModel>();
+            this.Title = title;
         }
 
-        public string Titlle { get; set; }
+        public List<ChartData<TValue>> Data { get; set; }
 
-        public string StackedDimensionOne { get; set; }
-
-        public List<ChartDataViewModel> ChartData { get; set; }
+        public string Title { get; set; }
     }
 }
