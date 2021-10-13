@@ -140,6 +140,7 @@
                 //.AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
+                .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
                 //.AddTransient<IAzureStorageService, AzureStorageService>()

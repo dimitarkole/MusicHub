@@ -648,9 +648,6 @@ namespace MusicHub.Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
@@ -659,6 +656,9 @@ namespace MusicHub.Data.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -679,15 +679,15 @@ namespace MusicHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PayPlanId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SubcriptionId")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SubscriptionId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PayPlanId");
+                    b.HasIndex("SubscriptionId");
 
                     b.ToTable("SubscriptionClaims");
                 });
@@ -1117,11 +1117,11 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.SubscriptionClaim", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.Subscription", "PayPlan")
+                    b.HasOne("MusicHub.Data.Models.Subscription", "Subscription")
                         .WithMany("SubcriptionClaims")
-                        .HasForeignKey("PayPlanId");
+                        .HasForeignKey("SubscriptionId");
 
-                    b.Navigation("PayPlan");
+                    b.Navigation("Subscription");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
