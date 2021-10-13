@@ -1,4 +1,5 @@
 ﻿using MusicHub.Data.Common.Models;
+using MusicHub.Data.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,9 +22,9 @@ namespace MusicHub.Data.Models
 
         public string Name { get; set; }
 
-        public string Description { get; set; }
-
         public double Price { get; set; }
+
+        public SubscriptionType Type { get; set; }
 
         public ICollection<SubscriptionClaim> SubcriptionClaims { get; set; }
 

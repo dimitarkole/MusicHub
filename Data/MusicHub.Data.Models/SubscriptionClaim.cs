@@ -21,7 +21,7 @@ namespace MusicHub.Data.Models
 
         public string SubcriptionId { get; set; }
 
-        public Subscription PayPlan { get; set; }
+        public Subscription Subscription { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
