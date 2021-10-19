@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule, NgbDropdownModule, NgbModalModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 //import { ChartsModule } from 'ng2-charts';
 //import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 //import { EffectsModule } from '@ngrx/effects';
@@ -81,6 +82,11 @@ import { SendConfirmEmailComponent } from './auth/send-confirm-email/send-confir
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
+import { SimpleChartComponent } from './simple-chart/simple-chart.component';
+import { MusicHubLineChartComponent } from './charts/components/music-hub-line-chart/music-hub-line-chart.component';
+import { MusicHubPieChartComponent } from './charts/components/music-hub-pie-chart/music-hub-pie-chart.component';
+import { MusicHubBarChartComponent } from './charts/components/music-hub-bar-chart/music-hub-bar-chart.component';
+
 
 @NgModule({
   declarations: [
@@ -143,6 +149,10 @@ import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-
     ConfirmEmailComponent,
     ResendEmailConfirmComponent,
     ForgottenPasswordComponent,
+    SimpleChartComponent,
+    MusicHubLineChartComponent,
+    MusicHubPieChartComponent,
+    MusicHubBarChartComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -164,9 +174,11 @@ import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-
     SendConfirmEmailComponent,
   ],
   imports: [
+    BrowserModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
     MatSidenavModule,
     BrowserModule,
-    BrowserAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
