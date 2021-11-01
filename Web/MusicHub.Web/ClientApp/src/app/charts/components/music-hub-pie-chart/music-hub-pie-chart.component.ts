@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PieChart } from '../../models/pieChart ';
 
 @Component({
   selector: 'app-music-hub-pie-chart',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./music-hub-pie-chart.component.css']
 })
 export class MusicHubPieChartComponent implements OnInit {
+  @Input() chart: PieChart;
+  view: any[] = [600, 270];
+   // options
+  showLegend: boolean = true;
+  showLabels: boolean = true;
 
-  constructor() { }
+  gradient: boolean = false;
+  isDoughnut: boolean = true;
 
-  ngOnInit() {
+  legendPosition: string = 'below';
+  constructor() {
+    
   }
 
+  ngOnInit(): void {
+  }
 }

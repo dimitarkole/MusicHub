@@ -8,6 +8,10 @@ namespace MusicHub.Web.ViewModels.ChartModels
     {
         public string Name { get; set; }
 
-        public ICollection<BarChartSeriesViewModel> Series { get; set; }
+        public string XAxisLabel { get; set; }
+
+        public string YAxisLabel { get; set; }
+
+        public IEnumerable<BarChartSeriesViewModel> Series { get; set; }
     }
 }
