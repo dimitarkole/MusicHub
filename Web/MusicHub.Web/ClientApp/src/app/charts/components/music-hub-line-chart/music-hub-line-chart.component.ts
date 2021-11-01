@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { LineChart } from '../../models/lineChart';
 import { LineChartData } from '../../models/lineChartData';
 import { ChartService } from '../../services/chart.service';
 
@@ -8,9 +9,8 @@ import { ChartService } from '../../services/chart.service';
   styleUrls: ['./music-hub-line-chart.component.css']
 })
 export class MusicHubLineChartComponent implements OnInit {
-  chartData: LineChartData;
-
-  view: any[] = [700, 370];
+  @Input() chart: LineChart;
+  view: any[] = [600, 400];
 
   // options
   legend: boolean = true;
@@ -27,10 +27,7 @@ export class MusicHubLineChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chartService.Get().subscribe(c => {
-      console.log(c);
-      this.chartData = c;
-    });
+   
   }
 
   onSelect(event) {

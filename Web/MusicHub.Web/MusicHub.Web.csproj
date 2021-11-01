@@ -80,6 +80,7 @@
     <ProjectReference Include="..\..\MusicHub.Common\MusicHub.Common.csproj" />
     <ProjectReference Include="..\..\Data\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services.Data.Analysis\MusicHub.Services.Data.Analysis.csproj" />
     <ProjectReference Include="..\..\Services\MusicHub.Services.Data\MusicHub.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\MusicHub.Services.Messaging\MusicHub.Services.Messaging.csproj" />

@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { BaseUrlInterceptor } from '../core/interceptors/base-url.interceptor';
 import { AppComponent } from '../app.component';
+import { CategoryAnalysisComponent } from './components/category-analysis/category-analysis.component';
 
 const routes: Routes = [
   { path: '', component: CategoriesListComponent },//, canActivate: [PermissionsGuard], data: withPermission(PermissionType.CategoryAdministrator)},
@@ -33,12 +34,14 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     CategoriesListComponent,
-    CategoryCreateComponent
+    CategoryCreateComponent,
+    CategoryAnalysisComponent
   ],
   entryComponents: [
     //CategoryEditComponent,
     CategoryCreateComponent,
     //CategoryDeleteComponent,
+    CategoryAnalysisComponent
   ],
   imports: [
     CommonModule,

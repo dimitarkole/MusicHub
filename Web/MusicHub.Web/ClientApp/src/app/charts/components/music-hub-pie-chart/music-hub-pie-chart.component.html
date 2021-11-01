@@ -1,1 +1,11 @@
-<p>music-hub-pie-chart works!</p>
+<h3>{{chart?.name}}</h3>
+<br>
+<div>
+  <ngx-charts-pie-chart [results]="chart?.series"
+                        [view]="view"
+                        [legend]="showLegend"
+                        [legendPosition]="legendPosition"
+                        [labels]="showLabels"
+                        [doughnut]="isDoughnut">
+  </ngx-charts-pie-chart>
+</div>
