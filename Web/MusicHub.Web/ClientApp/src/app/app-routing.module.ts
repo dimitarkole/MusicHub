@@ -32,6 +32,7 @@ import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.compon
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
 import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
+import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -182,6 +183,12 @@ const routes: Routes = [
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.ManageUserPermissions)
       },
+      {
+        path: 'analysis',
+        component: RoleAnalysisComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.ManageUserPermissions)
+      }
     ]
   },
   {

@@ -150,7 +150,8 @@
         public static IServiceCollection AddApplicationAnalysisServices(
            this IServiceCollection services)
            => services
-                .AddTransient<ICategoryAnalysisService, CategoryAnalysisService>();
+                .AddTransient<ICategoryAnalysisService, CategoryAnalysisService>()
+                .AddTransient<IRoleAnalysisService, RoleAnalysisService>();
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
            => services.AddSwaggerGen(c =>
