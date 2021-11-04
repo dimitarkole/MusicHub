@@ -20,7 +20,6 @@ export class CategoryAnalysisComponent implements OnInit {
   getCategoriesByPlayedMusicsCountAllTime: PieChart;
   analysisForm: FormGroup
 
-
   view: any[] = [700, 370];
 
   constructor(private categoryAnalysisService: CategoryAnalysisService,
@@ -53,7 +52,6 @@ export class CategoryAnalysisComponent implements OnInit {
 
   getChartsData() {
     let filter: ChartDataFilter = this.analysisForm.value;
-    console.log(filter);
     this.categoryAnalysisService.getMusicsInCategories(filter).subscribe(r => {
       this.getMusicsInCategoriesChart = r;
     });

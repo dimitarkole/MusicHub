@@ -10,7 +10,7 @@ import { ChartService } from '../../services/chart.service';
 })
 export class MusicHubLineChartComponent implements OnInit {
   @Input() chart: LineChart;
-  view: any[] = [600, 400];
+  view: any[] = [575, 400];
 
   // options
   legend: boolean = true;

@@ -1,0 +1,63 @@
+<form (ngSubmit)="OnSubmit()" [formGroup]="analysisForm" class="row">
+  <div class="col-md-3">
+    <div>
+      From
+    </div>
+    <input class="input100" type="date" placeholder="Created From" formControlName="createdOnFrom">
+  </div>
+
+  <div class="col-md-3">
+    <div>
+      To
+    </div>
+    <input class="input100" type="date" placeholder="Created To" formControlName="createdOnTo">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      Months before
+    </div>
+    <input class="input100" type="number" placeholder="Months before" formControlName="countOfMonthsBefore">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      Count of categories
+    </div>
+    <input class="input100" type="number" placeholder="Count of categories" formControlName="countOfSeries">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      <br />
+    </div>
+    <button class="form-btn text-white input100" type="submit">Update</button>
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-md-6">
+    <app-music-hub-pie-chart [chart]="getRolesByCountOfUsers">
+    </app-music-hub-pie-chart>
+  </div>
+
+  <div class="col-md-6">
+    <app-music-hub-pie-chart [chart]="getRolesByCountOfPermissions">
+    </app-music-hub-pie-chart>
+  </div>
+
+  <div class="col-md-6">
+    <app-music-hub-line-chart [chart]="getRolesByUsersForMonths">
+    </app-music-hub-line-chart>
+  </div>
+
+  <div class="col-md-6">
+    <app-music-hub-line-chart [chart]="getRolesByAverageCountOfUsersForWeek">
+    </app-music-hub-line-chart>
+  </div>
+
+  <div class="col-md-6">
+    <app-music-hub-line-chart [chart]="getRolesByUsersLastWeek">
+    </app-music-hub-line-chart>
+  </div>
+</div>

@@ -22,8 +22,7 @@
         }
 
         public PieChartViewModel GetCategoriesByPlayedMusicsCountAllTime(ChartFilterData filter)
-        {
-            return new PieChartViewModel()
+            => new PieChartViewModel()
             {
                 Series = this.context.PlayedMusics
                     .GroupBy(g => g.Music.Category.Name)
@@ -36,7 +35,6 @@
                     .ToList(),
                 Name = CategoryAnalysis.GetCategoriesByPlayedMusicsCountAllTime,
             };
-        }
 
         public PieChartViewModel GetCategoriesWithMusicsAllTime()
             => new PieChartViewModel()
@@ -81,10 +79,10 @@
                                                 && c.CreatedOn > filter.CreatedOnFrom
                                                 && c.CreatedOn < filter.CreatedOnTo)
                                                 || (filter.CreatedOnFrom == filter.CreatedOnTo))
-                        .GroupBy(c => c.CreatedOn.Month )
+                        .GroupBy(g => new { Month = g.CreatedOn.Month, Year = g.CreatedOn.Year })
                         .Select(c => new PieChartSeriesViewModel()
                         {
-                            Name = c.Key + "",
+                            Name = c.Key.Month + "/" + c.Key.Year,
                             Value = c.Count(),
                         })
                         .ToList(),
@@ -105,10 +103,10 @@
                         .Where(pm => pm.Music.CategoryId == category.Id
                                  && pm.CreatedOn > treeMonthsBefore
                                  && pm.CreatedOn < today)
-                        .GroupBy(g => g.CreatedOn.Month)
+                        .GroupBy(g => new { Month = g.CreatedOn.Month, Year = g.CreatedOn.Year })
                         .Select(r => new LineChartSeriesViewModel()
                         {
-                            Name = r.Key +"",
+                            Name = r.Key.Month + "/" + r.Key.Year,
                             Value = r.Count(),
                         })
                         .ToList();
@@ -151,7 +149,7 @@
                     Series = category.Musics
                         .Where(m => m.CreatedOn > treeMonthsBefore
                             && m.CreatedOn < today)
-                        .GroupBy(g => g.CreatedOn.ToString("MMM"))
+                        .GroupBy(g => g.CreatedOn.ToString("MMM yyyy"))
                         .Select(r => new LineChartSeriesViewModel()
                         {
                             Name = r.Key,

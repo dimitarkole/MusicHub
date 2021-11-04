@@ -4,16 +4,20 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Analysis.Interfaces;
+    using MusicHub.Web.Infrastucture;
     using MusicHub.Web.ViewModels.ChartModels;
     using static MusicHub.Common.AnalysisConstants;
 
+    [Authorize]
+    [Permission(PermissionType.CategoryAdministrator)]
     public class CategoryAnalysisController : ApiController
     {
         private readonly ICategoryAnalysisService categoryAnalysisService;
