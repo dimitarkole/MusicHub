@@ -131,7 +131,7 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void EditMusics_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        public void EditMusic_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
             var categories = MusicTestsData.Categories;
             var musics = MusicTestsData.GetMusics;
@@ -156,7 +156,7 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void EditNotOwnedMusics_WithDataInTheDb_ShouldReturnForbidWithCorrectData()
+        public void EditNotOwnedMusic_WithDataInTheDb_ShouldReturnForbidWithCorrectData()
         {
             var categories = MusicTestsData.Categories;
             var musics = MusicTestsData.GetMusics;
@@ -181,7 +181,7 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void DeletetMusics_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        public void DeletetMusic_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
             var categories = MusicTestsData.Categories;
             var musics = MusicTestsData.GetMusics;
@@ -204,7 +204,7 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void DeleteNotOwnedMusics_WithDataInTheDb_ShouldReturnForbidWithCorrectData()
+        public void DeleteNotOwnedMusic_WithDataInTheDb_ShouldReturnForbidWithCorrectData()
         {
             var categories = MusicTestsData.Categories;
             var musics = MusicTestsData.GetMusics;

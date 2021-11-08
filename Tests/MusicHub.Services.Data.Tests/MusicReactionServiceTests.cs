@@ -127,7 +127,6 @@ namespace MusicHub.Services.Data.Tests
             var filter = MusicReactionTestsData.FilterWithCategory;
             var entitesPerPage = PaginationData.LikedMusicsPerPage;
 
-
             this.CheckFilterResult(page, musicReactionService, userId, entitesPerPage, filter);
         }
 
