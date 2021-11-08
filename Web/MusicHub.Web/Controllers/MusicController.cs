@@ -15,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.MusicModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -51,6 +52,7 @@
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpPost(nameof(Filter) + "/{page}")]
+        [Authorize]
         [Permission(PermissionType.MusicCreator)]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter model)
           => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, model, this.userManager.GetUserId(this.User)));
@@ -71,7 +73,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -95,7 +97,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
