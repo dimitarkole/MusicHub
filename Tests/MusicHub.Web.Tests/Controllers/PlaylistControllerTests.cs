@@ -203,7 +203,6 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
-
         [Fact]
         public void CreatePlaylist_WithDataInTheDb_ShouldReturnOkWithPlaylistId()
         {
