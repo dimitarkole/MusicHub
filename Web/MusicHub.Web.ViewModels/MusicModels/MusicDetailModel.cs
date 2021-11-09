@@ -86,8 +86,8 @@
 
         public bool ShareALike { get; set; }
 
-        public virtual ICollection<MusicLicenseViewModel> MusicLicenses { get; set; }
-
+        // public virtual ICollection<MusicLicenseViewModel> MusicLicenses { get; set; }
+                                      
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Music, MusicDetailModel>()
@@ -103,6 +103,6 @@
                       s => s.MusicReactions.Where(
                           r => r.Reaction == Reaction.Dislike)
                       .Count()));
-        }
+        }   
     }
 }

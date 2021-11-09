@@ -7,6 +7,7 @@ using MusicHub.Data.Models;
 using MusicHub.Data.Models.Enums;
 using MusicHub.Services.Data.Interfaces;
 using MusicHub.Web.Infrastucture;
+using MusicHub.Web.Infrastucture.Extensions;
 using MusicHub.Web.ViewModels.CommentModels;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,11 @@ namespace MusicHub.Web.Controllers
         [Permission(PermissionType.User)]
         public async Task<IActionResult> Post(CommentReactionCreateModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
             var userId = this.userManager.GetUserId(this.User);
             await this.commentReactionService.Create(model, userId);
             return this.Ok();
@@ -59,7 +65,13 @@ namespace MusicHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            var userId = this.userManager.GetUserId(this.User);
+            if (!this.commentReactionService.IsOwned(id, userId))
+            {
+                return this.Forbid();
             }
 
             await this.commentReactionService.Update(model, id);

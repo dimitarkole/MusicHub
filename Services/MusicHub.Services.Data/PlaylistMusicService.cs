@@ -62,6 +62,11 @@
             await this.context.SaveChangesAsync();
         }
 
+        public string GetPlaylistIdByPlaylistMusicId(string id)
+            => this.context.PlaylistMusics.Where(pm => pm.Id == id)
+                    .FirstOrDefault()
+                    .PlaylistId;
+
         public async Task Update(PlaylistMusicEditInputModel model, string id)
         {
             var playlistMusic = this.context.PlaylistMusics.Find(id);

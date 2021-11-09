@@ -82,7 +82,6 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
-
         [Fact]
         public void Create_WhitCurrectData_ShouldReturnBadRequestMaxNameLenght()
         {

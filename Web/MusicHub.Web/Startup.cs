@@ -46,6 +46,7 @@
                 .ConfigureМегаStorage()
                 .ConfigureFiltering()
                 .AddApplicationServices()
+                .AddApplicationAnalysisServices()
                 .ConfigureAzureBlobStorage()
                 .AddApplicationSettings(this.Configuration)
                 .AddCors(options => options.AddPolicy("AllowWebApp", builder => builder

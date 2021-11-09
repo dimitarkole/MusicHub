@@ -75,6 +75,7 @@ namespace MusicHub.Tests.TestData
                             UserId = user.Id,
                             Reaction = reaction,
                             MusicId = music.Id,
+                            ModifiedOn = null,
                         };
 
                         playedMusics.Remove(music);

@@ -1,0 +1,15 @@
+<h3>{{chart?.name}}</h3>
+<br>
+<div>
+  <ngx-charts-line-chart [results]="chart?.data"
+                         [view]="view"
+                         [legend]="legend"
+                         [showXAxisLabel]="showXAxisLabel"
+                         [showYAxisLabel]="showYAxisLabel"
+                         [xAxis]="xAxis"
+                         [yAxis]="yAxis"
+                         [xAxisLabel]="chart?.xAxisLabel"
+                         [yAxisLabel]="chart?.yAxisLabel"
+                         [timeline]="timeline">
+  </ngx-charts-line-chart>
+</div>

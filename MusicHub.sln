@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31025.194
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{E389DEB6-5F90-444B-A054-12A10D39C76F}"
 EndProject
@@ -41,7 +41,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Web.ViewModels", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Tests.TestData", "Tests\MusicHub.Tests.TestData\MusicHub.Tests.TestData.csproj", "{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicHub.Filtering", "MusicHub.Filtering\MusicHub.Filtering.csproj", "{856B708D-7C16-4B6B-B856-603A1404EA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Filtering", "MusicHub.Filtering\MusicHub.Filtering.csproj", "{856B708D-7C16-4B6B-B856-603A1404EA81}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicHub.Services.Data.Analysis", "Services\MusicHub.Services.Data.Analysis\MusicHub.Services.Data.Analysis.csproj", "{2337E075-F669-4A58-82FD-AAD2F4582FD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +115,10 @@ Global
 		{856B708D-7C16-4B6B-B856-603A1404EA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{856B708D-7C16-4B6B-B856-603A1404EA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{856B708D-7C16-4B6B-B856-603A1404EA81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2337E075-F669-4A58-82FD-AAD2F4582FD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2337E075-F669-4A58-82FD-AAD2F4582FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2337E075-F669-4A58-82FD-AAD2F4582FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2337E075-F669-4A58-82FD-AAD2F4582FD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +138,7 @@ Global
 		{3EE06C6E-C8F3-418A-A309-8AC81976A074} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
 		{13B7AACB-9C85-4409-8D4B-95A67D0DFFF7} = {E389DEB6-5F90-444B-A054-12A10D39C76F}
 		{7B136F22-CDA1-4FDF-AA56-433A0A52DBB3} = {7A731632-6714-44E2-A9E4-069EBA9E666C}
+		{2337E075-F669-4A58-82FD-AAD2F4582FD8} = {516E002B-9E6E-4456-B7F6-EAA353966DE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384484BE-4680-4529-9CC2-AD37BA4D12D1}

@@ -102,7 +102,7 @@
         /// <param name="model">Login information.</param>
         /// <returns>Token</returns>
         [HttpPost(nameof(Login))]
-        public async Task<ActionResult<ApplicationUser>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
+        public async Task<ActionResult<User>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
             if (!this.profileService.IsEmailConfirm(model.Username))
             {

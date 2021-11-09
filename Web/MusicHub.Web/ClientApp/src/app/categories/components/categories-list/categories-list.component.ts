@@ -11,6 +11,7 @@ import { BooleanSearchEntity } from '../../../shared/models/boolean-search';
 import Category from '../../models/category';
 import CategoryPagination from '../../models/categoryPagination';
 import { CategoryService } from '../../services/category.service';
+import { CategoryAnalysisComponent } from '../category-analysis/category-analysis.component';
 import { CategoryCreateComponent } from '../category-create/category-create.component';
 import { CategoryDeleteComponent } from '../category-delete/category-delete.component';
 import { CategoryEditComponent } from '../category-edit/category-edit.component';

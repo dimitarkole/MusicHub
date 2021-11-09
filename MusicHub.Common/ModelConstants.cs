@@ -9,7 +9,7 @@
 
         public static class CategotyConstants
         {
-            public const int NameMinLength = 1;
+            public const int NameMinLength = 2;
             public const int NameMaxLength = 60;
         }
 

@@ -18,5 +18,7 @@
         Task Delete(string id);
 
         Task Update(PlaylistMusicEditInputModel model, string id);
+
+        string GetPlaylistIdByPlaylistMusicId(string id);
     }
 }
