@@ -89,12 +89,13 @@
             };
         }
 
-        public async Task Create(PlaylistCreateInputModel model, string userId)
+        public async Task<string> Create(PlaylistCreateInputModel model, string userId)
         {
             Playlist playlist = model.To<Playlist>();
             playlist.UserId = userId;
             await this.context.Playlists.AddAsync(playlist);
             await this.context.SaveChangesAsync();
+            return playlist.Id;
         }
 
         public async Task Delete(string id)

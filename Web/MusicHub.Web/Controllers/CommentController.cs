@@ -14,6 +14,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.CommentModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -61,7 +62,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -83,7 +84,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -105,7 +106,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
@@ -129,7 +130,7 @@
             var userId = this.userManager.GetUserId(this.User);
             if (!this.commentService.IsOwned(id, userId))
             {
-                return this.Forbid();
+                return this.BadRequest("This comment is not owned!");
             }
 
             await this.commentService.Delete(id);

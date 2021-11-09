@@ -69,7 +69,8 @@
         public async Task<IActionResult> Delete(string id)
         {
             var userId = this.userManager.GetUserId(this.User);
-            if (this.playlistService.IsOwned(id, userId))
+            var playlistId = this.playlistMusicService.GetPlaylistIdByPlaylistMusicId(id);
+            if (!this.playlistService.IsOwned(playlistId, userId))
             {
                 return this.Forbid();
             }

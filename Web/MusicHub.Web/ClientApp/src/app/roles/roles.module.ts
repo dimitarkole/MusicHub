@@ -23,6 +23,7 @@ import { RoleCreateComponent } from './components/role-create/role-create.compon
 import { RolesDetailsComponent } from './components/roles-details/roles-details.component';
 import { RoleDeleteComponent } from './components/role-delete/role-delete.component';
 import { RoleEditComponent } from './components/role-edit/role-edit.component';
+import { RoleAnalysisComponent } from './components/role-analysis/role-analysis.component';
 
 const routes: Routes = [
 ];
@@ -33,7 +34,8 @@ const routes: Routes = [
     RoleCreateComponent,
     RolesDetailsComponent,
     RoleDeleteComponent,
-    RoleEditComponent
+    RoleEditComponent,
+    RoleAnalysisComponent
   ],
   entryComponents: [
   ],

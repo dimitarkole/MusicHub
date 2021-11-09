@@ -16,48 +16,54 @@
 
     public class ApplicationDbContext : IdentityDbContext<User, Role, string, IdentityUserClaim<string>, UserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
+        public ApplicationDbContext()
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Permission> Permissions { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
 
-        public DbSet<RolePermission> RolePermissions { get; set; }
+        public virtual DbSet<RolePermission> RolePermissions { get; set; }
 
-        public DbSet<UserSetting> UserSettings { get; set; }
+        public virtual DbSet<UserSetting> UserSettings { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
 
-        public DbSet<Music> Musics { get; set; }
+        public virtual DbSet<Music> Musics { get; set; }
 
-        public DbSet<Notification> Notifications { get; set; }
+        public virtual DbSet<Notification> Notifications { get; set; }
 
-        public DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
-        public DbSet<CommentReaction> CommentReactions { get; set; }
+        public virtual DbSet<CommentReaction> CommentReactions { get; set; }
 
-        public DbSet<Subscription> Subscriptions { get; set; }
+        public virtual DbSet<Subscription> Subscriptions { get; set; }
 
-        public DbSet<Order> Orders { get; set; }
+        public virtual DbSet<PaySubscription> PaySubscriptions { get; set; }
 
-        public DbSet<Playlist> Playlists { get; set; }
+        public virtual DbSet<SubscriptionClaim> SubscriptionClaims { get; set; }
 
-        public DbSet<VerificationCode> VerificationCodes { get; set; }
+        public virtual DbSet<Playlist> Playlists { get; set; }
 
-        public DbSet<PlaylistMusic> PlaylistMusics { get; set; }
+        public virtual DbSet<VerificationCode> VerificationCodes { get; set; }
 
-        public DbSet<MusicReaction> MusicReactions { get; set; }
+        public virtual DbSet<PlaylistMusic> PlaylistMusics { get; set; }
 
-        public DbSet<Follow> Follows { get; set; }
+        public virtual DbSet<MusicReaction> MusicReactions { get; set; }
 
-        public DbSet<License> Licenses { get; set; }
+        public virtual DbSet<Follow> Follows { get; set; }
 
-        public DbSet<MusicLicense> MusicLicenses { get; set; }
+        public virtual DbSet<License> Licenses { get; set; }
 
-        public DbSet<LicenseFile> LicenseFiles { get; set; }
+        public virtual DbSet<MusicLicense> MusicLicenses { get; set; }
 
-        public DbSet<PlayedMusic> PlayedMusics { get; set; }
+        public virtual DbSet<LicenseFile> LicenseFiles { get; set; }
+
+        public virtual DbSet<PlayedMusic> PlayedMusics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

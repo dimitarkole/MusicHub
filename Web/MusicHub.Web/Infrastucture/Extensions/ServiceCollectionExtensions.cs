@@ -30,6 +30,8 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.ApplicationInsights;
     using MusicHub.Filtering;
+    using MusicHub.Services.Data.Analysis.Interfaces;
+    using MusicHub.Services.Data.Analysis;
 
     public static class ServiceCollectionExtensions
     {
@@ -140,9 +142,16 @@
                 //.AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
+                .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
-                //.AddTransient<IAzureStorageService, AzureStorageService>()
+        //.AddTransient<IAzureStorageService, AzureStorageService>()
+
+        public static IServiceCollection AddApplicationAnalysisServices(
+           this IServiceCollection services)
+           => services
+                .AddTransient<ICategoryAnalysisService, CategoryAnalysisService>()
+                .AddTransient<IRoleAnalysisService, RoleAnalysisService>();
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)
            => services.AddSwaggerGen(c =>

@@ -80,6 +80,7 @@
             {
                 return permissions
                     .Where(p => p.Type != PermissionType.UserAdministration
+                        && p.Type != PermissionType.SubscriptionManager
                         && p.Type != PermissionType.LicenseCreator
                         && p.Type != PermissionType.CategoryAdministrator
                         && p.Type != PermissionType.DataAnalisator)
@@ -89,6 +90,7 @@
             {
                 return permissions
                     .Where(p => p.Type != PermissionType.UserAdministration
+                        && p.Type != PermissionType.SubscriptionManager
                         && p.Type != PermissionType.LicenseCreator
                         && p.Type != PermissionType.CategoryAdministrator
                         && p.Type != PermissionType.DataAnalisator

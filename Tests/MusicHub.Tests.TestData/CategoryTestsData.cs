@@ -30,7 +30,7 @@
 
         public static CategoryCreateInputModel CreateModelBadRequestMaxNameLenght => new CategoryCreateInputModel()
         {
-            Name = "simple category name with more carachers simple",
+            Name = "simple category name with more carachers simple 1234567891041345669266256254962556",
         };
 
         public static List<Category> GetCategories => new List<Category>()
@@ -51,6 +51,7 @@
         {
             Name = "",
         };
+
         public static CategoryEditModel UpdateModelBadRequestMinNameLenght => new CategoryEditModel()
         {
             Name = "n",
@@ -58,7 +59,7 @@
 
         public static CategoryEditModel UpdateModelBadRequestMaxNameLenght => new CategoryEditModel()
         {
-            Name = "simple category name with more carachers simple",
+            Name = "simple category name with more carachers simple 1234567891041345669266256254962556",
         };
 
         public static string UpdateCategoryId => GetCategories[0].Id;

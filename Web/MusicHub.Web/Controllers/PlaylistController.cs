@@ -15,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.PlaylistModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -70,12 +71,12 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
-            await this.playlistService.Create(model, userId);
-            return this.StatusCode(StatusCodes.Status201Created);
+            var playlistId = await this.playlistService.Create(model, userId);
+            return this.StatusCode(StatusCodes.Status201Created, new { playlistId = playlistId});
         }
 
         /// <summary>Edit playlist.</summary>
@@ -92,7 +93,7 @@
             var userId = this.userManager.GetUserId(this.User);
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             if (!this.playlistService.IsOwned(id, userId))

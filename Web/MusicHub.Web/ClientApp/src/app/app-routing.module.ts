@@ -31,6 +31,8 @@ import { UserDetailsComponent } from './users/components/user-details/user-detai
 import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
 import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
+import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
+import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -47,10 +49,20 @@ const routes: Routes = [
     }
   },
   {
-    path: 'categories',
-    component: CategoriesListComponent,
-    canActivate: [PermissionsGuard],
-    data: withPermission(PermissionType.CategoryAdministrator)
+    path: 'categories', children: [
+      {
+        path: '',
+        component: CategoriesListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.CategoryAdministrator)
+      },
+      {
+        path: 'analysis',
+        component: CategoryAnalysisComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.CategoryAdministrator)
+      }
+    ],
   },
   {
     path: 'playlists', children: [
@@ -171,6 +183,12 @@ const routes: Routes = [
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.ManageUserPermissions)
       },
+      {
+        path: 'analysis',
+        component: RoleAnalysisComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.ManageUserPermissions)
+      }
     ]
   },
   {

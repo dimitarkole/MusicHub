@@ -31,5 +31,7 @@
         CommentCreator = 11,
         [Display(Name = "User - play musics and playlists")]
         User = 12,
+        [Display(Name = "SubscriptionManager - managing with subscriptions")]
+        SubscriptionManager = 12,
     }
 }
