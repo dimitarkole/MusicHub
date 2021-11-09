@@ -13,6 +13,7 @@
     using Microsoft.Extensions.Logging;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.PlayedMusicModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -56,12 +57,12 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
-            await this.playedMusicService.Create(model, userId);
-            return this.StatusCode(StatusCodes.Status201Created);
+            var playedMusicId = await this.playedMusicService.Create(model, userId);
+            return this.StatusCode(StatusCodes.Status201Created, new { playedMusicId = playedMusicId});
         }
 
         /// <summary>Delete played music in data.</summary>

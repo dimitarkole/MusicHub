@@ -14,7 +14,7 @@
 
         PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId);
 
-        Task Create(PlayedMusicCreateInputModel model, string userId);
+        Task<string> Create(PlayedMusicCreateInputModel model, string userId);
 
         Task Delete(string id);
 
