@@ -8,6 +8,7 @@ using static MusicHub.Common.GlobalConstants;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using MusicHub.Web.ViewModels.VerificationCodeModels;
 
 namespace MusicHub.Tests.TestData
 {
@@ -21,6 +22,11 @@ namespace MusicHub.Tests.TestData
 
         public static PermissionType HasPermissionTruePermitionType => PermissionType.User;
 
+        public static ChangePermissionsInputModel ChangePermissionsInputModel => new ChangePermissionsInputModel()
+        {
+            Id = Users[0].Id,
+        };
+
         public static string HasPermissionFalseUserId => Users[1].Id;
 
         public static PermissionType HasPermissionFalsePermitionType => PermissionType.CategoryAdministrator;
@@ -29,10 +35,22 @@ namespace MusicHub.Tests.TestData
 
         public static string SearchQuery => "1";
 
+        public static FindUserInputModel FindModel => new FindUserInputModel()
+        {
+            SearchQuery = SearchQuery,
+        };
+
         public static UserFilter FilterModel => new UserFilter()
         {
             FirstName = "First Name1",
             LastName = "Last",
+        };
+
+        public static UserFilter FilterModelWithEmail => new UserFilter()
+        {
+            FirstName = "First Name1",
+            LastName = "Last",
+            Email = Users[0].Email,
         };
 
         public static List<string> UsersIds => Users.Select(u => u.Id)
@@ -47,7 +65,7 @@ namespace MusicHub.Tests.TestData
         public static UserEditInputModel UpdateModel => new UserEditInputModel()
         {
             FirstName = "updated first name",
-            Email = "updated email",
+            Email = "updated_email@gmail.com",
             LastName = "updated lase name",
             Birthday = DateTime.Parse("26.03.2002"),
             UserName = "updated username",
@@ -56,7 +74,7 @@ namespace MusicHub.Tests.TestData
         public static UserEditInputModel UpdateModelWithRoles => new UserEditInputModel()
         {
             FirstName = "updated first name",
-            Email = "updated email",
+            Email = "updated_email@gmail.com",
             LastName = "updated lase name",
             Birthday = DateTime.Parse("26.03.2002"),
             Roles = UpdateRoles(),
@@ -65,7 +83,7 @@ namespace MusicHub.Tests.TestData
 
         public static List<User> Users => new List<User>()
         {
-            new User() { Id ="testUserId1", FirstName = "First Name1", LastName = "Last Name1", UserName= "UserName1", ImageUrl = "image", Roles = new List<UserRole>()},
+            new User() { Id ="testUserId1", FirstName = "First Name1", LastName = "Last Name1", UserName= "UserName1", ImageUrl = "image", Roles = new List<UserRole>() },
             new User() { Id ="testUserId2", FirstName = "First Name2", LastName = "Last Name2",  UserName= "UserName2", ImageUrl = "image", Roles = new List<UserRole>()},
             new User() { Id ="testUserId3", FirstName = "First Name3", LastName = "Last Name3",  UserName= "UserName3", ImageUrl = "image", Roles = new List<UserRole>()},
             new User() { Id ="testUserId4", FirstName = "First Name4", LastName = "Last Name4",  UserName= "UserName4", ImageUrl = "image", Roles = new List<UserRole>()},

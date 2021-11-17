@@ -24,15 +24,14 @@
             this.context = context;
         }
 
-        public bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model)
-            => this.context.VerificationCodes
-                   .Any(vc => vc.UserId == userId
-                           && vc.Code == model.Code
-                           && vc.IsUsed == false
-                           && vc.Type == model.Type);
-        /*
-                           && (DateTime.UtcNow - vc.CreatedOn)
-                   .TotalHours <= VerificationCodeConstants.EndTimeInHours);     */
+        public bool IsVerificationCodeCorrect(string userId, VerificationCodeCheckInputModel model)
+        {
+            var verificationCode = this.GetActivatedVerificationCode<VerificationCodeViewModel>(userId);
+            return verificationCode == null ? false
+                : verificationCode.Code == model.Code
+                    && verificationCode.IsUsed == false
+                    && verificationCode.Type == model.Type;
+        }
 
         public async Task Create(VerificationCodeCreateInputModel model)
         {
@@ -70,5 +69,17 @@
                 .Where(vc => vc.Id == id)
                 .To<T>()
                 .FirstOrDefault();
+
+        public async Task SetVerificationCodeIsUsed(string userId, string code)
+        {
+            var verificationCode = this.context.VerificationCodes
+                .Where(vc => vc.UserId == userId
+                    && vc.Code == code)
+                .OrderByDescending(vc => vc.CreatedOn)
+                .FirstOrDefault();
+            verificationCode.IsUsed = true;
+            this.context.VerificationCodes.Update(verificationCode);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

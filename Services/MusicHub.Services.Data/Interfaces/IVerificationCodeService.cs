@@ -13,11 +13,13 @@
     {
         Task Create(VerificationCodeCreateInputModel model);
 
+        Task SetVerificationCodeIsUsed(string userId, string code);
+
         T GetById<T>(string id);
 
         T GetActivatedVerificationCode<T>(string userId, VerificationType type);
 
-        bool CheckVerificationCode(string userId, VerificationCodeCheckInputModel model);
+        bool IsVerificationCodeCorrect(string userId, VerificationCodeCheckInputModel model);
 
         Task Delete(string id);
     }

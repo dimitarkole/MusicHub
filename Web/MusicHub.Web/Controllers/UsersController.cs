@@ -96,7 +96,7 @@
 
         [HttpPost(nameof(GetByEmail))]
         public ActionResult<UserViewModel> GetByEmail(UserFilter model)
-            => this.profileService.GetByEmail<UserViewModel>(model.Email);
+            => this.Ok(this.profileService.GetByEmail<UserViewModel>(model.Email));
 
         // <summary>Login user.</summary>
         /// <param name="model">Login information.</param>
@@ -127,7 +127,7 @@
                 this.ModelState.AddModelError("User", $"User not found.");
             }
 
-            if (!this.verificationCodeService.CheckVerificationCode(id, model))
+            if (!this.verificationCodeService.IsVerificationCodeCorrect(id, model))
             {
                 this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
             }
@@ -137,6 +137,7 @@
                 return this.BadRequest(this.ModelState.Errors());
             }
 
+            await this.verificationCodeService.SetVerificationCodeIsUsed(id, model.Code);
             await this.profileService.ConfirmEmail(id);
             return this.Ok();
         }
@@ -350,6 +351,7 @@
         }
 
         [Authorize]
+        [Permission(PermissionType.UserAdministration)]
         [HttpPost("[action]/{settingId}")]
         public async Task<ActionResult> ToggleSetting(int settingId)
         {
@@ -361,11 +363,7 @@
         [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(Settings))]
         public ActionResult Settings()
-        {
-            string userId = this.User.GetUserId();
-            IEnumerable<UserSettingViewModel> userSettings = this.profileService.GetSettings<UserSettingViewModel>(userId);
-            return this.Ok(userSettings);
-        }
+            => this.Ok(this.profileService.GetSettings<UserSettingViewModel>(this.User.GetUserId()));
 
         [Authorize]
         private void ValidateUser(UserInputModel model, string id = null)

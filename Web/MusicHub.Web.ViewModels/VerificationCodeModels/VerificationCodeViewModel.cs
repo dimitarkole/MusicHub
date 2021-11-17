@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
-
+    using MusicHub.Common;
     using MusicHub.Data.Models;
     using MusicHub.Services.Mapping;
 
@@ -15,6 +15,8 @@
 
         public string UserId { get; set; }
 
-        public string IsUsed { get; set; }
+        public VerificationType Type { get; set; }
+
+        public bool IsUsed { get; set; }
     }
 }
