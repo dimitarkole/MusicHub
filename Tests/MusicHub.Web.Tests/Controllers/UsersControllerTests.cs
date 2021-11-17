@@ -162,8 +162,8 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void ConfirmEmail_WithDataInTheDb_ShouldReturnОк()
         {
-            var users = VerificationTestsData.Users;
-            var verificationCodes = VerificationTestsData.VerificationCodes();
+            var users = VerificationCodeTestsData.Users;
+            var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCode = verificationCodes
                     .Where(vc => vc.Type == VerificationType.ConfirmEmail
                         && vc.IsUsed == false)
@@ -193,8 +193,8 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void ConfirmEmail_WithDataInTheDb_CodeIsUsed_ShouldReturnBadRequest()
         {
-            var users = VerificationTestsData.Users;
-            var verificationCodes = VerificationTestsData.VerificationCodes();
+            var users = VerificationCodeTestsData.Users;
+            var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCode = verificationCodes
                     .Where(vc => vc.Type == VerificationType.ConfirmEmail
                         && vc.IsUsed == true)
@@ -222,8 +222,8 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void ConfirmEmail_WithDataInTheDb_UserIdIsNotFound_ShouldReturnBadRequest()
         {
-            var users = VerificationTestsData.Users;
-            var verificationCodes = VerificationTestsData.VerificationCodes();
+            var users = VerificationCodeTestsData.Users;
+            var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCode = verificationCodes
                     .Where(vc => vc.Type == VerificationType.ConfirmEmail
                         && vc.IsUsed == true)
@@ -409,7 +409,7 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void DeleteUser_WithDataInTheDb_UserIdIsNotFound_ShouldReturnOk()
         {
-            var users = VerificationTestsData.Users;
+            var users = VerificationCodeTestsData.Users;
             var userId = users[0].Id;
             var deleteUserId = users[1].Id;
             MyController<UsersController>
@@ -428,7 +428,7 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void RenewUser_WithDataInTheDb_UserIdIsNotFound_ShouldReturnOk()
         {
-            var users = VerificationTestsData.Users;
+            var users = VerificationCodeTestsData.Users;
             var userId = users[0].Id;
             users[1].IsDeleted = true;
             var deletedUserId = users[1].Id;

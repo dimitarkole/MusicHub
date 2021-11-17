@@ -1,5 +1,6 @@
 ﻿using MusicHub.Common;
 using MusicHub.Data.Models;
+using MusicHub.Web.ViewModels.VerificationCodeModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,17 @@ using System.Text;
 
 namespace MusicHub.Tests.TestData
 {
-    public static class VerificationTestsData
+    public static class VerificationCodeTestsData
     {
         public static List<User> Users = UserTestsData.Users;
 
         public static string UserId = UserTestsData.Users[0].Id;
+
+        public static VerificationCodeCreateInputModel CreateModel => new VerificationCodeCreateInputModel()
+        {
+            Type = VerificationType.ChangePassword,
+            UserId = UserId,
+        };
 
         public static List<VerificationCode> VerificationCodes()
         {
@@ -31,10 +38,11 @@ namespace MusicHub.Tests.TestData
                     UserId = user.Id,
                     Code = code,
                     IsUsed = isUsed,
-                    Id = "VerificationCodeId" + ++id,
+                    Id = "VerificationCodeId" + id,
                     Type = verificationType,
                 };
 
+                id++;
                 result.Add(verificationCode);
             }
 
