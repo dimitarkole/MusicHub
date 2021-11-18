@@ -33,6 +33,7 @@ import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
 import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
+import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -77,6 +78,7 @@ const routes: Routes = [
   },
   {
     path: 'musics', children: [
+      { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard]  },
       {
         path: 'own',
         component: MusicsOwnListComponent,

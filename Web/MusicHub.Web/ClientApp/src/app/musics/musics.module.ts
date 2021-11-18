@@ -28,6 +28,7 @@ import { MusicDetailsComponent } from './components/music-details/music-details.
 import { MusicSuggestionsListComponent } from './components/music-suggestions-list/music-suggestions-list.component';
 import { MusicPlayComponent } from './components/music-play/music-play.component';
 import { MusicReactionComponent } from './components/music-reaction/music-reaction.component';
+import { LikedMusicsListComponent } from './components/liked-musics-list/liked-musics-list.component';
 
 const routes: Routes = [
 ];
@@ -43,6 +44,7 @@ const routes: Routes = [
     MusicSuggestionsListComponent,
     MusicPlayComponent,
     MusicReactionComponent,
+    LikedMusicsListComponent,
   ],
   entryComponents: [
   ],

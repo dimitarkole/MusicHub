@@ -88,6 +88,7 @@ import { MusicHubPieChartComponent } from './charts/components/music-hub-pie-cha
 import { MusicHubBarChartComponent } from './charts/components/music-hub-bar-chart/music-hub-bar-chart.component';
 import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
+import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
 
 
 @NgModule({
@@ -157,6 +158,7 @@ import { RoleAnalysisComponent } from './roles/components/role-analysis/role-ana
     MusicHubBarChartComponent,
     CategoryAnalysisComponent,
     RoleAnalysisComponent,
+    LikedMusicsListComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,
