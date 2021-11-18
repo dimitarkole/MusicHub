@@ -6,7 +6,7 @@ namespace MusicHub.Web.ViewModels.MusicReactionModels
 {
     public class LikedMusicsAllViewModel<T>
     {
-        public IEnumerable<T> LinkedMusics { get; set; }
+        public IEnumerable<T> LikedMusics { get; set; }
 
         public int NumberOfPages { get; set; }
 

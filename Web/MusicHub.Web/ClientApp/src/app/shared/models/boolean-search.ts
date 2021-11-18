@@ -9,6 +9,7 @@ export enum BooleanSearchEntity {
 	Playlists = 2,
   Categories = 3,
   Users = 4,
+	LikedMusics = 5,
 }
 
 export interface BooleanSearchEntryMetadata {
