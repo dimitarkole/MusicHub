@@ -1596,9 +1596,10 @@ section {
 .featured_list {
   width: calc(100% + 30px);
   left: -15px;
+  margin-top: 82px;
 }
 
-  .featured_list ul li {
+  .featured_list > div > div > div > div > div {
     position: relative;
     width: calc(100% / 3);
     min-height: 100px;
@@ -1607,40 +1608,38 @@ section {
     margin-bottom: 30px;
   }
 
-    .featured_list ul li > div:first-of-type {
-      position: absolute;
-      left: 15px;
-      bottom: 0;
-      width: calc(100% - 30px);
-      height: 40%;
-      display: -webkit-box;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: -webkit-flex;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: start;
-      background: rgba(0,0,0,0.66);
-      z-index: 1;
-      padding-left: 10px;
-    }
-
+  .featured_list > div > div > div > div > div > div:first-of-type {
+    position: absolute;
+    left: 15px;
+    bottom: 0;
+    width: calc(100% - 30px);
+    height: 78px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    background: rgba(0,0,0,0.66);
+    z-index: 1;
+    padding-left: 90px;
+  }
 .featured_album_info {
   position: absolute;
-  left: 63%;
+  left: 65%;
   bottom: 0;
-  width: 31.5%;
-  height: 60%;
-  top: 0px;
+  width: 35%;
+  height: 166.7%;
+  top: -130px;
   display: flex;
-  flex-direction: column;
-  align-items: start;
   background: rgba(0,0,0,0.66);
-  z-index: 1;
+  color: white;
+  text-align: center;
   padding: 10%;
   padding-top: 20%;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .featured_song_info {
@@ -1662,16 +1661,15 @@ section {
   height: 210px;
 }
 
+  .featured_list .jp-artist {
+    display: none;
+  }
 
-.featured_list .jp-artist {
-  display: none;
-}
-
-.featured_list .jp-playlist > ul > li > div:first-of-type a {
-  display: none;
-  -webkit-order: 2;
-  order: 2;
-}
+  .featured_list .jp-playlist > div > div > div:first-of-type a {
+    display: none;
+    -webkit-order: 2;
+    order: 2;
+  }
 
 .featured_title {
   font-size: 14px;
@@ -1680,7 +1678,7 @@ section {
   outline: none;
 }
 
-.featured_list .jp-playlist > ul > li > div:first-of-type a:hover {
+.featured_list .jp-playlist > div > div > div:first-of-type a:hover {
   color: #2e9e7a;
 }
 
@@ -1693,7 +1691,7 @@ section {
 
 .album_play_button {
   position: absolute;
-  left: 20px;
+  left: 35px;
   bottom: 16px;
   width: 45px;
   height: 45px;
@@ -1727,7 +1725,6 @@ section {
     height: 13px;
     content: url(../images/stop.png);
   }
-
 /*********************************
 10. News
 *********************************/

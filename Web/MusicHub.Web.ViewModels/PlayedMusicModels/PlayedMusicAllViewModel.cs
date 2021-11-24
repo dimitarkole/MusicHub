@@ -7,7 +7,7 @@
     public class PlayedMusicAllViewModel<T>
     {
 
-        public IEnumerable<T> PlayedMusic { get; set; }
+        public IEnumerable<T> PlayedMusics { get; set; }
 
         public int NumberOfPages { get; set; }
 
