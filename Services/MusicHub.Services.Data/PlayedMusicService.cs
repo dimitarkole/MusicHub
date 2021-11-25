@@ -36,7 +36,7 @@
 
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = playedMusics
+                PlayedMusics = playedMusics
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
@@ -76,7 +76,7 @@
             var playedMusicT = playedMusics.To<T>();
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = playedMusicT
+                PlayedMusics = playedMusicT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,

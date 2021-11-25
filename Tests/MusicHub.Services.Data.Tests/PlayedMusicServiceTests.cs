@@ -116,7 +116,7 @@ namespace MusicHub.Services.Data.Tests
             var playedMusicT = playedMusics.To<PlayedMusicViewModel>();
             var expected = new PlayedMusicAllViewModel<PlayedMusicViewModel>()
             {
-                PlayedMusic = playedMusicT
+                PlayedMusics = playedMusicT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,

@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { Music } from '../../models/music';
+import { PlayedMusic } from '../../models/playedMusic';
 import { MusicService } from '../../services/music.service';
+import { PlayedMusicService } from '../../services/played-music.service';
 
 @Component({
   selector: 'app-music-play',
@@ -12,7 +14,7 @@ import { MusicService } from '../../services/music.service';
 })
 export class MusicPlayComponent implements OnInit {
   isAuth: boolean = false;
-  lisenedMusicForm: FormGroup
+  playedMusicForm: FormGroup
   music: Music;
   musicId: string;
 
@@ -20,8 +22,8 @@ export class MusicPlayComponent implements OnInit {
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private musicService: MusicService,
+    private playedMusicService: PlayedMusicService,
     private authService: AuthService) {
-    //private lisenedMusicService: LisenedMusicService
     this.isAuth = authService.isAuth;
     this.authService.isAuthChanged.subscribe(() => {
       this.isAuth = this.authService.isAuth;
@@ -33,17 +35,16 @@ export class MusicPlayComponent implements OnInit {
   }
 
   private preparedPage() {
-    this.lisenedMusicForm = this.formBuilder.group({
+    this.playedMusicForm = this.formBuilder.group({
       musicId: null,
     });
     this.music = this.route.snapshot.data.music;
     this.musicId = this.music.id;
    
     if (this.isAuth) {
-      this.lisenedMusicForm.get('musicId').setValue(this.musicId);
-     // let lisenedSong: listenedSong = this.lisenedSongForm.value;
-     /* this.lisenedSongService.create(lisenedSong)
-        .subscribe(_ => _);*/
+      this.playedMusicForm.get('musicId').setValue(this.musicId);
+      let playedMusic: PlayedMusic = this.playedMusicForm.value;
+      this.playedMusicService.create(playedMusic).subscribe();
     }
   }
 
