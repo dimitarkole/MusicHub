@@ -66,7 +66,7 @@ namespace MusicHub.Services.Data.Tests
 
             var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
             {
-                LinkedMusics = likedMusics
+                LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
@@ -103,7 +103,7 @@ namespace MusicHub.Services.Data.Tests
 
             var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
             {
-                LinkedMusics = likedMusics
+                LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
                     .To<LikedMusicViewModel>()
                     .ToList(),

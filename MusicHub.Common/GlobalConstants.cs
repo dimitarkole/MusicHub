@@ -48,8 +48,6 @@
             public const string SuperAdministrator = "SuperAdmin";
             public const string Administrator = "Admin";
             public const string DataAnalisator = "DataAnalisator";
-            public const string TeamAdministrator = "TeamAdmin";
-            public const string Artist = "Artist";
             public const string User = "User";
         }
 
