@@ -90,6 +90,7 @@ import { CategoryAnalysisComponent } from './categories/components/category-anal
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
 import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
 import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
+import { FollowingListNavBarComponent } from './follow/components/following-list-nav-bar/following-list-nav-bar.component';
 
 
 @NgModule({
@@ -161,6 +162,7 @@ import { PlayedMusicsListsComponent } from './musics/components/played-musics-li
     RoleAnalysisComponent,
     LikedMusicsListComponent,
     PlayedMusicsListsComponent,
+    FollowingListNavBarComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,

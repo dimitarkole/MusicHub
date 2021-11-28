@@ -36,14 +36,14 @@
         [Authorize]
         [HttpGet(nameof(GetFollowing) + "/{page}")]
         public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetFollowing(int page)
-         => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowingsPerPage, this.userManager.GetUserId(this.User)));
+         => this.Ok(this.followService.AllFollowers<FollowingViewModel>(page, PaginationData.FollowingsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own followers users.</summary>
         /// <returns>Ok(FollowingViewModel).</returns>
         [Authorize]
         [HttpGet(nameof(GetFollowers) + "/{page}")]
         public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetFollowers(int page)
-            => this.Ok(this.followService.AllFollowers<FollowingViewModel>(page, PaginationData.FollowersPerPage, this.userManager.GetUserId(this.User)));
+            => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowersPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get Following users.</summary>
         /// <param name="id">Id - user id.</param>
