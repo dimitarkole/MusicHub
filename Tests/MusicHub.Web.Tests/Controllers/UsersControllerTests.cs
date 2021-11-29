@@ -767,25 +767,6 @@ namespace MusicHub.Web.Tests.Controllers
                   .Where(p => p.Type == PermissionType.DataAnalisator)
                   .ToList();
             }
-            else if (roleName == Roles.TeamAdministrator)
-            {
-                return permissions
-                    .Where(p => p.Type != PermissionType.UserAdministration
-                        && p.Type != PermissionType.LicenseCreator
-                        && p.Type != PermissionType.CategoryAdministrator
-                        && p.Type != PermissionType.DataAnalisator)
-                    .ToList();
-            }
-            else if (roleName == Roles.Artist)
-            {
-                return permissions
-                    .Where(p => p.Type != PermissionType.UserAdministration
-                        && p.Type != PermissionType.LicenseCreator
-                        && p.Type != PermissionType.CategoryAdministrator
-                        && p.Type != PermissionType.DataAnalisator
-                        && p.Type != PermissionType.TeamManager)
-                    .ToList();
-            }
             else if (roleName == Roles.User)
             {
                 return permissions

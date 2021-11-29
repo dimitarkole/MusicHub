@@ -15,7 +15,7 @@
         {
             var musics = this.GetMusics();
             var userRoleId = dbConDescription.Roles
-                .Where(r => r.Name == Roles.Artist)
+                .Where(r => r.Name == Roles.User)
                 .FirstOrDefault()
                 .Id;
             var users = dbConDescription.Users
