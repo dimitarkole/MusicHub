@@ -11,6 +11,9 @@ import { PlaylistService } from '../../../playlists/services/playlist.service';
 import { MusicService } from '../../../musics/services/music.service';
 import User from '../../../shared/models/user';
 import { CreateOrderMethod } from '../../../shared/models/orderMethod';
+import { FollowersListComponent } from '../../../follow/components/followers-list/followers-list.component';
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { FollowingListComponent } from '../../../follow/components/following-list/following-list.component';
 
 @Component({
   selector: 'app-profile-user',
@@ -28,6 +31,7 @@ export class ProfileUserComponent implements OnInit {
 
   constructor(
     private modalService: NgbModal,
+    public matDialog: MatDialog,
     private playlistService: PlaylistService,
     private formBuilder: FormBuilder,
     private musicService: MusicService,
@@ -68,19 +72,31 @@ export class ProfileUserComponent implements OnInit {
     this.getPlaylistsPerPage();
   }
 
-  /*openFollowing() {
-    let modal = this.modalService.open(FollowingListComponent);
-    modal.componentInstance.userId = this.user.id;
-    modal.result.then(_ => {
-    })
+  openFollowing() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.data = this.user.id;
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(FollowingListComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
   }
 
   openFollowers() {
-    let modal = this.modalService.open(FollowersListComponent);
-    modal.componentInstance.userId = this.user.id;
-    modal.result.then(_ => {
-    })
-  }*/
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.data = this.user.id;
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(FollowersListComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
+  }
 
   @HostListener("window:scroll", [])
   onWindowScroll() {

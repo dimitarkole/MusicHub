@@ -11,6 +11,7 @@ import { FollowService } from '../../services/follow.service';
 })
 export class FollowCreateComponent implements OnInit {
   @Input() userId: string;
+  //FollowingId
   @Input() followId: string;
   isAuth: Boolean = false;
   followForm: FormGroup;
@@ -24,30 +25,28 @@ export class FollowCreateComponent implements OnInit {
 
   ngOnInit() {
     this.setFollowData();
-
     this.followForm = this.formBuilder.group({
-      followerId: this.userId,
+      followingId: this.userId,
     });
   }
 
   submitFollow() {
     let follow: Follow = this.followForm.value;
-    console.log(follow);
     this.followService.create(follow)
       .subscribe(_ => this.setFollowData());
   }
 
   submitUnfollow() {
     this.followService.delete(this.followId)
-      .subscribe(_ => this.setFollowData())
+      .subscribe(_ => {
+        this.isFollow = false;
+      })
   }
-
+    
   setFollowData() {
     //this.followService.isFollowing(this.userId)
     //  .subscribe(f => {
     //    this.isFollow = f;
-    //    console.log("f");
-    //    console.log(f);
     //    if (f == true) {
     //      alert("here")
           this.followService.getFollowingId(this.userId)
@@ -56,7 +55,6 @@ export class FollowCreateComponent implements OnInit {
               if (this.followId != null) {
                 this.isFollow = true;
               }
-
             });
        /* }
       })*/

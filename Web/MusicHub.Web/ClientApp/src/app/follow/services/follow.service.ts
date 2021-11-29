@@ -11,8 +11,8 @@ export class FollowService {
 
   constructor(private http: HttpClient) { }
 
-  allFollowing(page: number) {
-    return this.http.get<FollowPagination>(`${this.route}/GetFollowing/${page}`);
+  allOwnFollowing(page: number) {
+    return this.http.get<FollowPagination>(`${this.route}/GetOwnFollowing/${page}`);
   }
 
   allFollowers(page: number) {

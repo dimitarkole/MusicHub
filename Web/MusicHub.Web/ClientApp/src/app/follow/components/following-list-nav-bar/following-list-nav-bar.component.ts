@@ -38,7 +38,7 @@ export class FollowingListNavBarComponent implements OnInit {
   private feachData(): void {
     if (this.followPagination.currentPage < this.followPagination.numberOfPages) {
       var page = this.followPagination.currentPage + 1;
-      this.followService.allFollowing(page).subscribe(
+      this.followService.allOwnFollowing(page).subscribe(
         data => {
           this.followPagination = data;
         });

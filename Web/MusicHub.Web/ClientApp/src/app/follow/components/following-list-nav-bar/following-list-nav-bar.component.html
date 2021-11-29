@@ -2,7 +2,8 @@
 <p>
   Following
 </p>
-<a mat-list-item  routerLink="{{'/profile/view/' + follower.following.id}}" class="row dropdown-item text-dark" *ngFor="let followed of  followPagination.followings; index as i">
+<a mat-list-item  routerLink="{{'/profile/view/' + follower.following.id}}" class="row dropdown-item text-dark"
+   *ngFor="let follower of  followPagination.followings; index as i">
   <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="col-md-3" />
   <div class="col-md-9">
     {{follower.following.userName?.substring(0, 30)}}

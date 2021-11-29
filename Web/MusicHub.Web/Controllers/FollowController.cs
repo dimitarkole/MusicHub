@@ -34,16 +34,17 @@
         /// <summary>Get own Following users.</summary>
         /// <returns>Ok(FollowViewModel).</returns>
         [Authorize]
-        [HttpGet(nameof(GetFollowing) + "/{page}")]
-        public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetFollowing(int page)
-         => this.Ok(this.followService.AllFollowers<FollowingViewModel>(page, PaginationData.FollowingsPerPage, this.userManager.GetUserId(this.User)));
+        [HttpGet(nameof(GetOwnFollowing) + "/{page}")]
+        public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetOwnFollowing(int page)
+         => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowingsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own followers users.</summary>
         /// <returns>Ok(FollowingViewModel).</returns>
-        [Authorize]
+       /* [Authorize]
         [HttpGet(nameof(GetFollowers) + "/{page}")]
         public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetFollowers(int page)
-            => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowersPerPage, this.userManager.GetUserId(this.User)));
+            => this.Ok(this.followService.AllFollowers<FollowingViewModel>(page, PaginationData.FollowersPerPage, this.userManager.GetUserId(this.User)));
+         */
 
         /// <summary>Get Following users.</summary>
         /// <param name="id">Id - user id.</param>
@@ -75,12 +76,12 @@
             }
 
             var userId = this.userManager.GetUserId(this.User);
-            if (userId == model.FollowerId)
+            if (userId == model.FollowingId)
             {
                 return this.BadRequest();
             }
 
-            if (this.followService.IsFollowing(userId, model.FollowerId))
+            if (this.followService.IsFollowing(userId, model.FollowingId))
             {
                 return this.BadRequest();
             }
@@ -89,7 +90,7 @@
             return this.StatusCode(StatusCodes.Status201Created);
         }
 
-        /// <summary>Delete</summary>
+        /// <summary>Delete</summary>                v
         /// <param name="id">Id- Id of follow.</param>
         /// <returns>Ok.</returns>
         [Authorize]
@@ -122,7 +123,7 @@
         [HttpGet(nameof(IsFollowing) + "/{id}")]
         [Authorize]
         public ActionResult<bool> IsFollowing(string id)
-            => this.Ok(this.followService.IsFollowing(this.userManager.GetUserId(this.User), id));
+            => this.Ok(this.followService.IsFollowing(id, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get Following data.</summary>
         /// <param name="id">Id- follow Id.</param>
@@ -131,12 +132,12 @@
         [HttpGet(nameof(GetFollowingId) + "/{id}")]
         public ActionResult<string> GetFollowingId(string id)
         {
-            if (!this.followService.IsFollowing(this.userManager.GetUserId(this.User), id))
+            if (!this.followService.IsFollowing(id, this.userManager.GetUserId(this.User)))
             {
                 return null;
             }
 
-            var result = this.followService.GetFollow<FollowerViewModel>(id, this.userManager.GetUserId(this.User)).Id;
+            var result = this.followService.GetFollow<FollowerViewModel>(this.userManager.GetUserId(this.User), id).Id;
             return this.Ok(new { Id = result });
         }
     }

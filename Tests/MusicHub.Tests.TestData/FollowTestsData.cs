@@ -34,7 +34,7 @@ namespace MusicHub.Tests.TestData
 
         public static FollowCreateInputModel CreateModel => new FollowCreateInputModel()
         {
-            FollowerId = Users[0].Id,
+            FollowingId = Users[0].Id,
         };
 
         public static List<Follow> Follows()

@@ -21,7 +21,7 @@ namespace MusicHub.Web.Tests.Controllers
             var users = FollowTestsData.Users;
             var model = new FollowCreateInputModel()
             {
-                FollowerId = users[0].Id,
+                FollowingId = users[0].Id,
             };
 
             MyController<FollowController>
