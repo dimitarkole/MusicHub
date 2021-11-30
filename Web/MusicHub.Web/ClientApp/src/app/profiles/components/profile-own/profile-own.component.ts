@@ -48,7 +48,7 @@ export class ProfileOwnComponent implements OnInit {
     // The user can't close the dialog by clicking outside its body
     dialogConfig.id = "modal-component";
     dialogConfig.data = this.userId;
-    dialogConfig.width = "600px";
+    dialogConfig.width = "500px";
     // https://material.angular.io/components/dialog/overview
     const modalDialog = this.matDialog.open(FollowingListComponent, dialogConfig);
     modalDialog.afterClosed().subscribe(result => {
@@ -61,7 +61,7 @@ export class ProfileOwnComponent implements OnInit {
     // The user can't close the dialog by clicking outside its body
     dialogConfig.id = "modal-component";
     dialogConfig.data = this.userId;
-    dialogConfig.width = "600px";
+    dialogConfig.width = "500px";
     // https://material.angular.io/components/dialog/overview
     const modalDialog = this.matDialog.open(FollowersListComponent, dialogConfig);
     modalDialog.afterClosed().subscribe(result => {

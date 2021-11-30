@@ -9,11 +9,13 @@
         <div class="row follow-aria">
           <div class="col-md-12 follow-scroll">
             <div class="row" *ngFor="let follower of followPagination.followers; index as j">
-              <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="logo" class="col-md-3">
-              <a routerLink="{{'/profile/view/' + follower?.follower?.id}}" class="col-md-5" (click)="modal.dismiss('Cross click')">
+              <app-user-avatar [imageUrl]="follower?.follower.imageUrl" [type]="'medium'"  class="col-md-3">
+              </app-user-avatar>
+
+              <a routerLink="{{'/profile/view/' + follower?.follower?.id}}" class="col-md-4" (click)="modal.dismiss('Cross click')">
                 {{follower?.follower?.userName?.substring(0, 30)}}<br />
               </a>
-              <app-follow-create class="col-md-4" [userId]="follower.follower.id"></app-follow-create>
+              <app-follow-create class="col-md-5" [userId]="follower.follower.id"></app-follow-create>
               <div class="col-md-12">
                 <hr />
               </div>
