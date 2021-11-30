@@ -3,6 +3,9 @@
 <div class="card social-prof">
   <div class="card-body">
     <div class="wrapper">
+      <app-user-avatar [imageUrl]="user?.imageUrl" [type]="'profile'">
+      </app-user-avatar>
+
       <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="" class="user-profile">
       <h3>{{user?.username}}</h3>
       <div class="row">

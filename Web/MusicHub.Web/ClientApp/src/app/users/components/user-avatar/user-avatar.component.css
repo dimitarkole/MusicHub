@@ -1,0 +1,23 @@
+.large-avatar {
+  height: 90px;
+  width: 90px;
+}
+
+.medium-avatar {
+  height: 70px;
+  width: 70px;
+}
+
+.small-avatar {
+  height: 40px;
+  width: 40px;
+}
+
+.user-profile {
+  position: absolute;
+  bottom: -75px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  left: 50px;
+}

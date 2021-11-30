@@ -8,6 +8,7 @@ import { withPermission } from '../core/guards/with-permission';
 import { PermissionType } from '../shared/models/permissionType';
 import { UsersListTemplateComponent } from './components/users-list-template/users-list-template.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
+import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
 
 const routes: Routes = [
   { 
@@ -28,7 +29,8 @@ const routes: Routes = [
   declarations: [
     UsersListComponent,
     UsersListTemplateComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    UserAvatarComponent
   ],
   imports: [
     CommonModule,
