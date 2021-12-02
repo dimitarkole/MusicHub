@@ -10,6 +10,12 @@ namespace MusicHub.Web.ViewModels.Users
     {
         public string Id { get; set; }
 
+        public string ImageUrl { get; set; }
+
+        public virtual int MusicsCount { get; set; }
+
+        public virtual int PlaylistsCount { get; set; }
+
         public string[] Roles { get; set; }
 
         public DateTime CreatedOn { get; set; }
