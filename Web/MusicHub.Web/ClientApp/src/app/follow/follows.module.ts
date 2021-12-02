@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material';
 import { FollowCreateComponent } from './components/follow-create/follow-create.component';
 import { FollowersListComponent } from './components/followers-list/followers-list.component';
 import { FollowingListComponent } from './components/following-list/following-list.component';
+import { FollowingListNavBarComponent } from './components/following-list-nav-bar/following-list-nav-bar.component';
 
 const routes: Routes = [
 ];
@@ -30,7 +31,8 @@ const routes: Routes = [
   declarations: [
   FollowCreateComponent,
   FollowersListComponent,
-  FollowingListComponent],
+  FollowingListComponent,
+  FollowingListNavBarComponent],
   entryComponents: [
   ],
 

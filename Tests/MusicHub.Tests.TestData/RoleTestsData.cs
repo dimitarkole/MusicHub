@@ -38,8 +38,6 @@
             new Role { Id = "Role1", Name = Roles.SuperAdministrator },
             new Role { Id = "Role2", Name = Roles.Administrator },
             new Role { Id = "Role3", Name = Roles.DataAnalisator },
-            new Role { Id = "Role4", Name = Roles.TeamAdministrator },
-            new Role { Id = "Role5", Name = Roles.Artist },
             new Role { Id = "Role6", Name = Roles.User },
         };
 

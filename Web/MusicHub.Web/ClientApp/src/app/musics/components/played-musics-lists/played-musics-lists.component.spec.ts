@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfileOwnComponent } from './profile-own.component';
+import { PlayedMusicsListsComponent } from './played-musics-lists.component';
 
-describe('ProfileOwnComponent', () => {
-  let component: ProfileOwnComponent;
-  let fixture: ComponentFixture<ProfileOwnComponent>;
+describe('PlayedMusicsListsComponent', () => {
+  let component: PlayedMusicsListsComponent;
+  let fixture: ComponentFixture<PlayedMusicsListsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ProfileOwnComponent ]
+      declarations: [ PlayedMusicsListsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProfileOwnComponent);
+    fixture = TestBed.createComponent(PlayedMusicsListsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

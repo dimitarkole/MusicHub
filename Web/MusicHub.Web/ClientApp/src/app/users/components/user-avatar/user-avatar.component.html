@@ -1,0 +1,19 @@
+<div class="team-thumb" *ngIf="type == 'large'">
+  <img src="{{imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': imageUrl}}"
+       class="large-avatar"
+       alt="User avatar">
+</div>
+<img src="{{imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': imageUrl}}"
+     class="medium-avatar"
+     *ngIf="type == 'medium'"
+     alt="User avatar">
+
+<img src="{{imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': imageUrl}}"
+     class="small-avatar"
+     *ngIf="type == 'small'"
+     alt="User avatar">
+
+<img src="{{imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': imageUrl}}"
+     class="user-profile"
+     *ngIf="type == 'profile'"
+     alt="User avatar">

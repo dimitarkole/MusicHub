@@ -36,7 +36,7 @@
 
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = playedMusics
+                PlayedMusics = playedMusics
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
@@ -44,12 +44,13 @@
             };
         }
 
-        public async Task Create(PlayedMusicCreateInputModel model, string userId)
+        public async Task<string> Create(PlayedMusicCreateInputModel model, string userId)
         {
             var playedMusic = model.To<PlayedMusic>();
             playedMusic.UserId = userId;
             await this.context.PlayedMusics.AddAsync(playedMusic);
             await this.context.SaveChangesAsync();
+            return playedMusic.Id;
         }
 
         public async Task Delete(string id)
@@ -75,7 +76,7 @@
             var playedMusicT = playedMusics.To<T>();
             return new PlayedMusicAllViewModel<T>()
             {
-                PlayedMusic = playedMusicT
+                PlayedMusics = playedMusicT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,

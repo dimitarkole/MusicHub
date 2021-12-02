@@ -27,6 +27,34 @@
             this.paginationService = paginationService;
         }
 
+        public async Task Create(FollowCreateInputModel model, string userId)
+        {
+            Follow follow = model.To<Follow>();
+            follow.FollowerId = userId;
+            await this.context.Follows.AddAsync(follow);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task Delete(string id)
+        {
+            var follow = this.context.Follows
+                .Where(f => f.Id == id)
+                .FirstOrDefault();
+            this.context.Follows.Remove(follow);
+            await this.context.SaveChangesAsync();
+        }
+
+        public bool IsFollowing(string followingUserId, string followerUserId)
+         => this.context.Follows
+             .Any(f => f.FollowerId == followerUserId
+                 && f.FollowingId == followingUserId);
+
+        public bool IsOwned(string id, string userId)
+           => this.context.Follows
+                .Any(f =>
+                    f.Id == id
+                    && f.FollowerId == userId);
+
         public FollowingsAllViewModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId)
         {
             var followings = this.context.Follows
@@ -37,25 +65,6 @@
             return new FollowingsAllViewModel<T>()
             {
                 Followings = followings
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetFollowPagesCount(followings.Count(), entitesPerPage),
-            };
-        }
-
-        public FollowingsAllViewModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
-        {
-            var followings = this.context.Follows
-               .Where(f => f.FollowerId == userId);
-
-            followings = this.FilteringFollowings(filter, followings);
-            followings = this.OrederFollowings(filter.OrderMethod, followings);
-            var followersT = followings.To<T>();
-
-            return new FollowingsAllViewModel<T>()
-            {
-                Followings = followersT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
@@ -79,6 +88,25 @@
             };
         }
 
+        public FollowingsAllViewModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
+        {
+            var followings = this.context.Follows
+               .Where(f => f.FollowerId == userId);
+
+            followings = this.FilteringFollowings(filter, followings);
+            followings = this.OrederFollowings(filter.OrderMethod, followings);
+            var followersT = followings.To<T>();
+
+            return new FollowingsAllViewModel<T>()
+            {
+                Followings = followersT
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetFollowPagesCount(followings.Count(), entitesPerPage),
+            };
+        }
+
         public FollowersAllViewModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
         {
             var followers = this.context.Follows
@@ -96,23 +124,6 @@
             };
         }
 
-        public async Task Create(FollowCreateInputModel model, string userId)
-        {
-            Follow follow = model.To<Follow>();
-            follow.FollowingId = userId;
-            await this.context.Follows.AddAsync(follow);
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task Delete(string id)
-        {
-            var follow = this.context.Follows
-                .Where(f => f.Id == id)
-                .FirstOrDefault();
-            this.context.Follows.Remove(follow);
-            await this.context.SaveChangesAsync();
-        }
-
         public T GetFollow<T>(string followerUserId, string followingId)
            => this.context.Follows
                     .Where(f =>
@@ -120,17 +131,6 @@
                         && f.FollowingId == followingId)
                     .To<T>()
                     .FirstOrDefault();
-
-        public bool IsFollowing(string followingUserId, string followerUserId)
-            => this.context.Follows
-                .Any(f => f.FollowerId == followerUserId
-                    && f.FollowingId == followingUserId);
-
-        public bool IsOwned(string id, string userId)
-           => this.context.Follows
-                .Any(f =>
-                    f.Id == id
-                    && f.FollowingId == userId);
 
         private IQueryable<Follow> FilteringFollowings(FollowFilterInputModel filter, IQueryable<Follow> follows)
         {
@@ -182,6 +182,14 @@
             {
                 follows = follows.OrderByDescending(f => f.Follower.UserName);
             }
+            else if (orderMethod == OrderMethod.CreatedOnAsc)
+            {
+                follows = follows.OrderBy(f => f.Follower.CreatedOn);
+            }
+            else if (orderMethod == OrderMethod.CreatedOnDesc)
+            {
+                follows = follows.OrderByDescending(f => f.Follower.CreatedOn);
+            }
 
             return follows;
         }
@@ -192,9 +200,17 @@
             {
                 follows = follows.OrderByDescending(f => f.Following.UserName);
             }
-            else
+            else if (orderMethod == OrderMethod.NameAsc)
             {
                 follows = follows.OrderBy(f => f.Following.UserName);
+            }
+            else if (orderMethod == OrderMethod.CreatedOnAsc)
+            {
+                follows = follows.OrderBy(f => f.CreatedOn);
+            }
+            else if (orderMethod == OrderMethod.CreatedOnDesc)
+            {
+                follows = follows.OrderByDescending(f => f.CreatedOn);
             }
 
             return follows;

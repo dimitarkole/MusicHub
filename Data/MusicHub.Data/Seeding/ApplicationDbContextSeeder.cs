@@ -33,6 +33,7 @@
                               new PlaylistsSeeder(),
                               new PlaylistMusicsSeeder(),
                               new CommentSeeder(),
+                              new PlayedMusicsSeeder(),
                           };
 
             foreach (var seeder in seeders)

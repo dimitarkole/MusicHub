@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="featured_list">
+      <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+          <div class="jp-playlist">
+            <div class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
+              <div class="jp-playlist-current col-md-3" *ngFor="let linkedMusic of linkedMusicPagination.linkedMusics; index as j">
+                <div>
+                  <div class="featured_album">
+                    {{linkedMusic.music.name?.substring(0, 25)}}
+                  </div>
+                  <div class="featured_title">
+                    <small>{{linkedMusic.music.user?.username}}</small>
+                  </div>
+                </div>
+                <div class="featured_image">
+                  <img src="{{defauleMusicImagePath}}" alt="logo" class="song_image" /><!-- *ngIf="music.imageUrl==''">-->
+                </div>
+                <div class="album_play_button" routerLink="/home/play/{{linkedMusic.music.id}}">
+                </div>
+              </div>
+
+              <div class="featured_song_image">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
