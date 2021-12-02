@@ -92,6 +92,11 @@ export class AuthService {
     return localStorage.getItem(globalConstants.jwtTokenKey);
   }
 
+  isProfileMine(id: string) {
+    return this.http.get<boolean>(`${this.route}/IsProfileMine/${id}`);
+  }
+
+
   login(username: string, password: string) {
     return this.http.post(`${this.route}/Login`, { username, password });
   }

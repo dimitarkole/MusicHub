@@ -1,6 +1,6 @@
 import { Component, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { globalConstants } from '../../../common/global-constants';
 import { AuthService } from '../../../core/services/auth.service';
@@ -14,6 +14,10 @@ import { CreateOrderMethod } from '../../../shared/models/orderMethod';
 import { FollowersListComponent } from '../../../follow/components/followers-list/followers-list.component';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { FollowingListComponent } from '../../../follow/components/following-list/following-list.component';
+import { ProfileEditComponent } from '../profile-edit/profile-edit.component';
+import { ProfileChangePasswordComponent } from '../profile-change-password/profile-change-password.component';
+import { ProfileService } from '../../services/profile.service';
+import Playlist from '../../../playlists/models/playlist';
 
 @Component({
   selector: 'app-profile-user',
@@ -22,7 +26,8 @@ import { FollowingListComponent } from '../../../follow/components/following-lis
 })
 export class ProfileUserComponent implements OnInit {
   isAuth: boolean = false;
-  musicPagination: MusicPagination = { currentPage: 0, numberOfPages: 2, musics: [] };
+  isMyProfile: boolean = false;
+  musicPagination: MusicPagination = { currentPage: 0, numberOfPages: 1, musics: [] };
   playlistPagination: PlaylistPagination = { currentPage: 0, numberOfPages: 1, playlists: [] };
 
   defaultCategoryId: string = 'Each category';
@@ -35,6 +40,7 @@ export class ProfileUserComponent implements OnInit {
     private playlistService: PlaylistService,
     private formBuilder: FormBuilder,
     private musicService: MusicService,
+    private profileService: ProfileService,
     private router: Router,
     private route: ActivatedRoute,
     public authService: AuthService) {
@@ -56,6 +62,20 @@ export class ProfileUserComponent implements OnInit {
 
   private preparedPage() {
     this.user = this.route.snapshot.data.user;
+    if (this.user == null) {
+      this.profileService.MyProfile().subscribe(data => {
+        this.user = data;
+        this.user.id = data.id;
+        this.authService.isProfileMine(this.user.id).subscribe(data => {
+          this.isMyProfile = data;
+        });
+      })
+    }
+
+    this.authService.isProfileMine(this.user.id).subscribe(data => {
+      this.isMyProfile = data;
+    });
+
     this.searchForm = this.formBuilder.group({
       name: [
         null,
@@ -98,6 +118,28 @@ export class ProfileUserComponent implements OnInit {
     });
   }
 
+  openEdit() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    // https://material.angular.io/components/dialog/overview
+    const modalDialog = this.matDialog.open(ProfileEditComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+      if (result == true) window.location.reload();
+    });
+  }
+
+  openChangePassword() {
+    let modal = this.modalService.open(ProfileChangePasswordComponent);
+
+    modal.result.then(_ => {
+      this.router.navigate(['/myProfile']);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
   @HostListener("window:scroll", [])
   onWindowScroll() {
     //In chrome and some browser scroll is given to body tag
@@ -127,7 +169,7 @@ export class ProfileUserComponent implements OnInit {
     var page = this.musicPagination.currentPage + 1;
     if (page <= this.musicPagination.numberOfPages) {
       this.musicPagination.currentPage = page;
-      let music: Music = this.createFilterModel();
+      let music: Music = this.createMusicFilterModel();
       this.musicService.allFilter(page, music).subscribe(data => {
         this.musicPagination.numberOfPages = data.numberOfPages;
         data.musics.forEach(Music => {
@@ -141,7 +183,8 @@ export class ProfileUserComponent implements OnInit {
     var page = this.playlistPagination.currentPage + 1;
     if (page <= this.playlistPagination.numberOfPages) {
       this.playlistPagination.currentPage = page;
-      this.playlistService.allOwn(page).subscribe(data => {
+      let playlist: Playlist = this.createPlaylistFilterModel();
+      this.playlistService.allFilter(page, playlist).subscribe(data => {
         this.playlistPagination.numberOfPages = data.numberOfPages;
         data.playlists.forEach(Music => {
           this.playlistPagination.playlists.push(Music);
@@ -150,13 +193,21 @@ export class ProfileUserComponent implements OnInit {
     }
   }
 
-  private createFilterModel() {
+  private createMusicFilterModel() {
     let music: Music = this.searchForm.value;
+    music.userId = this.user.id;
     music.orderMethod = CreateOrderMethod(this.orderMethod.value);
     if (music.categoryId == this.defaultCategoryId) {
       music.categoryId = null;
     }
 
     return music;
+  }
+
+  private createPlaylistFilterModel() {
+    let playlist: Playlist = this.searchForm.value;
+    playlist.userId = this.user.id;
+    playlist.orderMethod = CreateOrderMethod(this.orderMethod.value);
+    return playlist;
   }
 }

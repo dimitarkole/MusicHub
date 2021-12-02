@@ -20,14 +20,12 @@ import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { BaseUrlInterceptor } from '../core/interceptors/base-url.interceptor';
 import { AppComponent } from '../app.component';
-import { ProfileOwnComponent } from './components/profile-own/profile-own.component';
 import { ProfileChangePasswordComponent } from './components/profile-change-password/profile-change-password.component';
 import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
 
 @NgModule({
   declarations: [
-    ProfileOwnComponent,
     ProfileChangePasswordComponent,
     ProfileEditComponent,
     ProfileUserComponent

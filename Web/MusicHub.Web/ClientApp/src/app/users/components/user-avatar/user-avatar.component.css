@@ -14,10 +14,9 @@
 }
 
 .user-profile {
-  position: absolute;
-  bottom: -75px;
-  width: 150px;
-  height: 150px;
+  bottom: -85px;
+  width: 170px;
+  height: 170px;
   border-radius: 50%;
   left: 50px;
 }

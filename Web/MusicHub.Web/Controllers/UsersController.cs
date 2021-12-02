@@ -62,13 +62,18 @@
         public ActionResult<UserAllViewModel<UserBriefInfoViewModel>> List(int page)
             => this.Ok(this.profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
+        [Authorize]
+        [HttpGet(nameof(IsProfileMine) + "/{id}")]
+        public ActionResult<bool> IsProfileMine(string id)
+         => this.Ok(this.User.GetUserId() == id);
+
         [HttpGet("{id}")]
         public IActionResult Get(string id)
             => this.Ok(this.profileService.GetById<UserEditInputModel>(id));
 
         [Authorize]
         [HttpGet(nameof(MyProfile))]
-        public IActionResult MyProfile() => this.Ok(this.profileService.GetById<UserDetailsViewModel>(this.User.GetUserId()));
+        public IActionResult MyProfile() => this.Ok(this.profileService.GetById<UserEditInputModel>(this.User.GetUserId()));
 
         [Authorize]
         [HttpPost(nameof(UploadProfileImage))]
