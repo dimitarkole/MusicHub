@@ -26,6 +26,7 @@ namespace MusicHub.Tests.TestData
         {
             var permissionTypesByDescription = EnumExtensions.GetEnumValuesByDisplayName<PermissionType>();
             var permissions = new List<Permission>();
+            int id = 0;
             foreach (var permissionTypeByDescription in permissionTypesByDescription)
             {
                 PermissionType type = permissionTypeByDescription.Key;
@@ -33,6 +34,7 @@ namespace MusicHub.Tests.TestData
 
                 var newPermission = new Permission
                 {
+                    Id = ++id,
                     Type = type,
                     Description = description,
                 };
@@ -45,5 +47,7 @@ namespace MusicHub.Tests.TestData
         public static List<Role> Roles => RoleTestsData.GetRoles;
 
         public static List<User> Users => UserTestsData.Users;
+
+        public static List<UserRole> UsersRoles => RoleTestsData.UsersRoles();
     }
 }

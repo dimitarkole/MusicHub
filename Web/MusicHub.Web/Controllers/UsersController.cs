@@ -62,13 +62,18 @@
         public ActionResult<UserAllViewModel<UserBriefInfoViewModel>> List(int page)
             => this.Ok(this.profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
+        [Authorize]
+        [HttpGet(nameof(IsProfileMine) + "/{id}")]
+        public ActionResult<bool> IsProfileMine(string id)
+         => this.Ok(this.User.GetUserId() == id);
+
         [HttpGet("{id}")]
         public IActionResult Get(string id)
             => this.Ok(this.profileService.GetById<UserEditInputModel>(id));
 
         [Authorize]
         [HttpGet(nameof(MyProfile))]
-        public IActionResult MyProfile() => this.Ok(this.profileService.GetById<UserDetailsViewModel>(this.User.GetUserId()));
+        public IActionResult MyProfile() => this.Ok(this.profileService.GetById<UserEditInputModel>(this.User.GetUserId()));
 
         [Authorize]
         [HttpPost(nameof(UploadProfileImage))]
@@ -96,7 +101,7 @@
 
         [HttpPost(nameof(GetByEmail))]
         public ActionResult<UserViewModel> GetByEmail(UserFilter model)
-            => this.profileService.GetByEmail<UserViewModel>(model.Email);
+            => this.Ok(this.profileService.GetByEmail<UserViewModel>(model.Email));
 
         // <summary>Login user.</summary>
         /// <param name="model">Login information.</param>
@@ -127,7 +132,7 @@
                 this.ModelState.AddModelError("User", $"User not found.");
             }
 
-            if (!this.verificationCodeService.CheckVerificationCode(id, model))
+            if (!this.verificationCodeService.IsVerificationCodeCorrect(id, model))
             {
                 this.ModelState.AddModelError("VerificationCode", $"Wrong verification code.");
             }
@@ -137,6 +142,7 @@
                 return this.BadRequest(this.ModelState.Errors());
             }
 
+            await this.verificationCodeService.SetVerificationCodeIsUsed(id, model.Code);
             await this.profileService.ConfirmEmail(id);
             return this.Ok();
         }
@@ -350,6 +356,7 @@
         }
 
         [Authorize]
+        [Permission(PermissionType.UserAdministration)]
         [HttpPost("[action]/{settingId}")]
         public async Task<ActionResult> ToggleSetting(int settingId)
         {
@@ -361,11 +368,7 @@
         [Permission(PermissionType.UserAdministration)]
         [HttpPost(nameof(Settings))]
         public ActionResult Settings()
-        {
-            string userId = this.User.GetUserId();
-            IEnumerable<UserSettingViewModel> userSettings = this.profileService.GetSettings<UserSettingViewModel>(userId);
-            return this.Ok(userSettings);
-        }
+            => this.Ok(this.profileService.GetSettings<UserSettingViewModel>(this.User.GetUserId()));
 
         [Authorize]
         private void ValidateUser(UserInputModel model, string id = null)

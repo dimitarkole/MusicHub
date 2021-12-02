@@ -56,7 +56,11 @@
         {
             var role = model.To<Role>();
             await this.context.Roles.AddAsync(role);
-            await this.CreateRolePermission(model.PermissionIds, role.Id);
+            if (model.PermissionIds != null)
+            {
+                await this.CreateRolePermission(model.PermissionIds, role.Id);
+            }
+
             await this.context.SaveChangesAsync();
             return role.Id;
         }
@@ -116,7 +120,10 @@
             this.context.Roles.Update(role);
             this.context.RolePermissions.RemoveRange(rolePermissions);
             await this.context.SaveChangesAsync();
-            await this.CreateRolePermission(model.PermissionIds, role.Id);
+            if (model.PermissionIds != null)
+            {
+                await this.CreateRolePermission(model.PermissionIds, role.Id);
+            }
             await this.context.SaveChangesAsync();
         }
 

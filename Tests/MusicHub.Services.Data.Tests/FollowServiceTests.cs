@@ -30,8 +30,8 @@ namespace MusicHub.Services.Data.Tests
 
             await followService.Create(model, userId);
 
-            Assert.True(this.context.Follows.Any(f => f.FollowingId == userId
-                && f.FollowerId == model.FollowerId));
+            Assert.True(this.context.Follows.Any(f => f.FollowerId == userId
+                && f.FollowingId == model.FollowingId));
         }
 
         [Fact]

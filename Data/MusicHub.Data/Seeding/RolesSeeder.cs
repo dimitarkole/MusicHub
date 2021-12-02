@@ -23,8 +23,6 @@
             await this.SeedRoleAsync(roleManager, Roles.SuperAdministrator, permissions);
             await this.SeedRoleAsync(roleManager, Roles.Administrator, permissions);
             await this.SeedRoleAsync(roleManager, Roles.DataAnalisator, permissions);
-            await this.SeedRoleAsync(roleManager, Roles.TeamAdministrator, permissions);
-            await this.SeedRoleAsync(roleManager, Roles.Artist, permissions);
             await this.SeedRoleAsync(roleManager, Roles.User, permissions);
         }
 
@@ -64,45 +62,21 @@
             else if (roleName == Roles.DataAnalisator)
             {
                 return permissions
-                    .Where(p => p.Type != PermissionType.UserAdministration &&
-                        p.Type != PermissionType.LicenseCreator &&
-                        p.Type != PermissionType.ManageUserPermissions &&
-                        p.Type != PermissionType.CategoryAdministrator)
+                    .Where(p => p.Type == PermissionType.DataAnalisator
+                        || p.Type == PermissionType.MusicCreator
+                        || p.Type == PermissionType.PlaylistCreator
+                        || p.Type == PermissionType.CommentCreator
+                        || p.Type == PermissionType.User)
                    .ToList();
-            }
-            else if (roleName == Roles.DataAnalisator)
-            {
-                return permissions
-                  .Where(p => p.Type == PermissionType.DataAnalisator)
-                  .ToList();
-            }
-            else if (roleName == Roles.TeamAdministrator)
-            {
-                return permissions
-                    .Where(p => p.Type != PermissionType.UserAdministration
-                        && p.Type != PermissionType.SubscriptionManager
-                        && p.Type != PermissionType.LicenseCreator
-                        && p.Type != PermissionType.CategoryAdministrator
-                        && p.Type != PermissionType.DataAnalisator)
-                    .ToList();
-            }
-            else if (roleName == Roles.Artist)
-            {
-                return permissions
-                    .Where(p => p.Type != PermissionType.UserAdministration
-                        && p.Type != PermissionType.SubscriptionManager
-                        && p.Type != PermissionType.LicenseCreator
-                        && p.Type != PermissionType.CategoryAdministrator
-                        && p.Type != PermissionType.DataAnalisator
-                        && p.Type != PermissionType.TeamManager)
-                    .ToList();
             }
             else if (roleName == Roles.User)
             {
                 return permissions
-                    .Where(p => p.Type == PermissionType.User
-                        && p.Type == PermissionType.CommentCreator
-                        && p.Type == PermissionType.PlaylistCreator)
+                    .Where(p => p.Type == PermissionType.LicenseCreator
+                        || p.Type == PermissionType.PlaylistCreator
+                        || p.Type == PermissionType.CommentCreator
+                        || p.Type == PermissionType.MusicCreator
+                        || p.Type == PermissionType.User)
                     .ToList();
             }
 

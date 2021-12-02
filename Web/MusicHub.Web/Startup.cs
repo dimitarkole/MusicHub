@@ -70,7 +70,7 @@
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
 
             // Uncomment the line below if you want to seed data in your database
-            // app.SeedData();
+            app.SeedData();
 
             if (env.IsDevelopment())
             {

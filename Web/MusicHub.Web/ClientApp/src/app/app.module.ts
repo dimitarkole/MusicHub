@@ -61,7 +61,6 @@ import { LicenseOwnListComponent } from './licenses/components/license-own-list/
 import { LicenseEditComponent } from './licenses/components/license-edit/license-edit.component';
 import { LicenseDeleteComponent } from './licenses/components/license-delete/license-delete.component';
 import { LicenseRequestComponent } from './licenses/components/license-request/license-request.component';
-import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
 import { ProfileChangePasswordComponent } from './profiles/components/profile-change-password/profile-change-password.component';
 import { ProfileEditComponent } from './profiles/components/profile-edit/profile-edit.component';
 import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
@@ -88,6 +87,10 @@ import { MusicHubPieChartComponent } from './charts/components/music-hub-pie-cha
 import { MusicHubBarChartComponent } from './charts/components/music-hub-bar-chart/music-hub-bar-chart.component';
 import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
+import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
+import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
+import { FollowingListNavBarComponent } from './follow/components/following-list-nav-bar/following-list-nav-bar.component';
+import { UserAvatarComponent } from './users/components/user-avatar/user-avatar.component';
 
 
 @NgModule({
@@ -130,7 +133,6 @@ import { RoleAnalysisComponent } from './roles/components/role-analysis/role-ana
     LicenseDeleteComponent,
     LicenseDeleteComponent,
     LicenseRequestComponent,
-    ProfileOwnComponent,
     ProfileChangePasswordComponent,
     ProfileEditComponent,
     ProfileUserComponent,
@@ -157,6 +159,10 @@ import { RoleAnalysisComponent } from './roles/components/role-analysis/role-ana
     MusicHubBarChartComponent,
     CategoryAnalysisComponent,
     RoleAnalysisComponent,
+    LikedMusicsListComponent,
+    PlayedMusicsListsComponent,
+    FollowingListNavBarComponent,
+    UserAvatarComponent
   ],
   entryComponents: [
     CategoryCreateComponent,

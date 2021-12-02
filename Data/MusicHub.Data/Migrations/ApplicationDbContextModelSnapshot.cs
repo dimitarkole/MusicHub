@@ -208,8 +208,14 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("FollowerId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("FollowingId", "FollowerId");
 

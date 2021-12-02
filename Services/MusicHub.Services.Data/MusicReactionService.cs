@@ -40,7 +40,7 @@
 
             return new LikedMusicsAllViewModel<T>()
             {
-                LinkedMusics = likedMusics
+                LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,
@@ -74,7 +74,7 @@
 
             return new LikedMusicsAllViewModel<T>()
             {
-                LinkedMusics = likedMusics
+                LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
                     .To<T>()
                     .ToList(),

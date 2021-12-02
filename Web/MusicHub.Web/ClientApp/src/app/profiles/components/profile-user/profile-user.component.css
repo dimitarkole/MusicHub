@@ -38,12 +38,12 @@
   }
 
   .social-profile .user-profile {
-  position: absolute;
+  position: float;
   bottom: -75px;
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  left: 50px;
+  left: 50%;
   }
 
   .social-nav {

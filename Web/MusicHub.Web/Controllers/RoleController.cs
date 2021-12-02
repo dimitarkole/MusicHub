@@ -15,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.PermissionModels;
     using MusicHub.Web.ViewModels.RoleModels;
 
@@ -41,7 +42,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var roleId = await this.roleService.Create(model);
@@ -53,7 +54,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.roleService.Update(id, model);

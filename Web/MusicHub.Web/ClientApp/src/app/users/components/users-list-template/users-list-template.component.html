@@ -3,9 +3,8 @@
     <!-- Author-->
     <div class="col-lg-3 col-sm-6 mb-30 pb-2"  *ngFor="let user of users; index as i">
       <div class="team-card-style-3 mx-auto">
-        <div class="team-thumb">
-          <img src="{{user.imageUrl==null? 'https://bootdey.com/img/Content/avatar/avatar7.png': user.imageUrl}}" alt="Author Picture" *ngIf="!user.imageUrl">
-        </div>
+        <app-user-avatar [imageUrl]="user.imageUrl" [type]="'large'">
+        </app-user-avatar>
         <h4 class="team-name">
           <a routerLink="{{'/profile/view/' + user.id}}"> {{user.username?.substring(0, 25)}}</a>
         </h4>

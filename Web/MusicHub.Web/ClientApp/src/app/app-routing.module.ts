@@ -23,7 +23,6 @@ import { LicenseResolver } from './core/resolvers/license.resolver';
 import { LicenseCreateComponent } from './licenses/components/license-create/license-create.component';
 import { LicenseDetailsComponent } from './licenses/components/license-details/license-details.component';
 import { LicenseOwnListComponent } from './licenses/components/license-own-list/license-own-list.component';
-import { ProfileOwnComponent } from './profiles/components/profile-own/profile-own.component';
 import { ProfileUserComponent } from './profiles/components/profile-user/profile-user.component';
 import { RolesListComponent } from './roles/components/roles-list/roles-list.component';
 import { UsersListComponent } from './users/components/users-list/users-list.component';
@@ -33,6 +32,8 @@ import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-
 import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
 import { CategoryAnalysisComponent } from './categories/components/category-analysis/category-analysis.component';
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
+import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
+import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -77,6 +78,8 @@ const routes: Routes = [
   },
   {
     path: 'musics', children: [
+      { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard]  },
+      { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard]  },
       {
         path: 'own',
         component: MusicsOwnListComponent,
@@ -155,7 +158,7 @@ const routes: Routes = [
   },
   {
     path: 'myProfile', children: [
-      { path: '', component: ProfileOwnComponent, canActivate: [AuthorizeGuard] },
+      { path: '', component: ProfileUserComponent, canActivate: [AuthorizeGuard] },
     ]
   },
   {

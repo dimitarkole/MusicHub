@@ -160,26 +160,43 @@
           </div>
         </a>
       </div>
+      <div class="dropdown-item" *ngIf="hasPermition('User')">
+        <a mat-list-item routerLink='/musics/history' class="row dropdown-item text-dark">
+          <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+          <div class="col-md-9">
+            History
+          </div>
+        </a>
+      </div>
+      <div class="dropdown-item" *ngIf="hasPermition('User')">
+        <a mat-list-item routerLink='/musics/liked' class="row dropdown-item text-dark">
+          <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+          <div class="col-md-9">
+            Liked music
+          </div>
+        </a>
+      </div>
+      <app-following-list-nav-bar></app-following-list-nav-bar>
 
       <!-- <a mat-list-item routerLink='/home/likedMusics' class="row dropdown-item text-dark">
-        <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
-        <div class="col-md-9">
-          Liked music
-        </div>
-      </a>
+    <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+    <div class="col-md-9">
+      Liked music
+    </div>
+  </a>
 
-      <a mat-list-item routerLink='/license/own' class="row dropdown-item text-dark" *ngIf="role==='User'">
-        <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
-        <div class="col-md-9">
-          My licenses
-        </div>
-      </a>
-      <a mat-list-item routerLink='/license/all' class="row dropdown-item text-dark" *ngIf="isAdmin">
-        <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
-        <div class="col-md-9">
-          All licenses
-        </div>
-      </a>-->
+  <a mat-list-item routerLink='/license/own' class="row dropdown-item text-dark" *ngIf="role==='User'">
+    <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+    <div class="col-md-9">
+      My licenses
+    </div>
+  </a>
+  <a mat-list-item routerLink='/license/all' class="row dropdown-item text-dark" *ngIf="isAdmin">
+    <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+    <div class="col-md-9">
+      All licenses
+    </div>
+  </a>-->
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
