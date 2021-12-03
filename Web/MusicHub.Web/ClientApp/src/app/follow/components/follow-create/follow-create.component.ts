@@ -52,9 +52,7 @@ export class FollowCreateComponent implements OnInit {
           this.followService.getFollowingId(this.userId)
             .subscribe(data => {
               this.followId = data["id"];
-              if (this.followId != null) {
-                this.isFollow = true;
-              }
+              this.isFollow = this.followId != "";
             });
        /* }
       })*/

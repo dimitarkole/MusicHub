@@ -111,11 +111,11 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.MyProfile())
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserDetailsViewModel>()
+                    .WithModelOfType<UserEditInputModel>()
                     .Passing(actual =>
                     {
                         var service = new ProfileService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
-                        var expected = service.GetById<UserDetailsViewModel>(userId);
+                        var expected = service.GetById<UserEditInputModel>(userId);
                         expected.Should().BeEquivalentTo(actual);
                     }));
         }
