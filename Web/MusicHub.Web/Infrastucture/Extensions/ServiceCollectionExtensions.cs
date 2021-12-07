@@ -151,6 +151,7 @@
            this IServiceCollection services)
            => services
                 .AddTransient<ICategoryAnalysisService, CategoryAnalysisService>()
+                .AddTransient<IOwnMusicAnalysisService, OwnMusicAnalysisService>()
                 .AddTransient<IRoleAnalysisService, RoleAnalysisService>();
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)

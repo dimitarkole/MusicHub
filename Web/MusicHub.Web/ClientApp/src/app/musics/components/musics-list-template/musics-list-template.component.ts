@@ -27,7 +27,6 @@ export class MusicsListTemplateComponent implements OnInit {
     private musicService: MusicService,
     private router: Router,
     public matDialog: MatDialog,
-    //private fileService: FileService,
     private formBuilder: FormBuilder,
     private authService: AuthService) {
   }
