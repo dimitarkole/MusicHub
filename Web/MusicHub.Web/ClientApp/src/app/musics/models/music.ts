@@ -38,7 +38,7 @@ export interface Music {
   noncommercial?: boolean,
   noDerivativeWorks?: boolean,
   shareALike?: boolean,
-
+  playedMusicsCount?: number,
   countViews?: string,
   countLikes?: number,
   countDislikes?: number,

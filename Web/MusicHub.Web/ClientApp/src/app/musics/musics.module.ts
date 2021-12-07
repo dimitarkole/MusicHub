@@ -30,6 +30,8 @@ import { MusicPlayComponent } from './components/music-play/music-play.component
 import { MusicReactionComponent } from './components/music-reaction/music-reaction.component';
 import { LikedMusicsListComponent } from './components/liked-musics-list/liked-musics-list.component';
 import { PlayedMusicsListsComponent } from './components/played-musics-lists/played-musics-lists.component';
+import { OwnMusicsAnalysisComponent } from './components/own-musics-analysis/own-musics-analysis.component';
+import { MusicImageComponent } from './components/music-image/music-image.component';
 
 const routes: Routes = [
 ];
@@ -47,6 +49,8 @@ const routes: Routes = [
     MusicReactionComponent,
     LikedMusicsListComponent,
     PlayedMusicsListsComponent,
+    OwnMusicsAnalysisComponent,
+    MusicImageComponent,
   ],
   entryComponents: [
   ],

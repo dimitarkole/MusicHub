@@ -91,6 +91,8 @@ import { LikedMusicsListComponent } from './musics/components/liked-musics-list/
 import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
 import { FollowingListNavBarComponent } from './follow/components/following-list-nav-bar/following-list-nav-bar.component';
 import { UserAvatarComponent } from './users/components/user-avatar/user-avatar.component';
+import { OwnMusicsAnalysisComponent } from './musics/components/own-musics-analysis/own-musics-analysis.component';
+import { MusicImageComponent } from './musics/components/music-image/music-image.component';
 
 
 @NgModule({
@@ -162,7 +164,9 @@ import { UserAvatarComponent } from './users/components/user-avatar/user-avatar.
     LikedMusicsListComponent,
     PlayedMusicsListsComponent,
     FollowingListNavBarComponent,
-    UserAvatarComponent
+    UserAvatarComponent,
+    OwnMusicsAnalysisComponent,
+    MusicImageComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
@@ -182,7 +186,7 @@ import { UserAvatarComponent } from './users/components/user-avatar/user-avatar.
     RoleDeleteComponent,
     RoleEditComponent,
     SendConfirmEmailComponent,
-    CategoryAnalysisComponent
+    CategoryAnalysisComponent,
   ],
   imports: [
     BrowserModule,

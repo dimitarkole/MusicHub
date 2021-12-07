@@ -29,6 +29,12 @@ namespace MusicHub.Common
             public static string GetTopCategoriesByPlayedMusicsCountForMonths = "Top categories of playing musics";
         }
 
+        public static class OwnMusicAnalysis
+        {
+            public static string GetCreatedMusicByCategoriesCountsAllTime = "Musics by categories for all time";
+            public static int PlayedMusicsCount = 10;
+        }
+
         public static class RoleAnalysis
         {
             public static string GetRolesByUsersForMonths = "Roles by count of users";
