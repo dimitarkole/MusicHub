@@ -12,7 +12,7 @@ import Category from '../categories/models/category';
 import { MusicService } from '../musics/services/music.service';
 import { CategoryService } from '../categories/services/category.service';
 import { Music } from '../musics/models/music';
-import { CreateOrderMethod } from '../shared/models/orderMethod';
+import { CreateOrderMethod, OrderMethod } from '../shared/models/orderMethod';
 import { BooleanSearchEntity } from '../shared/models/boolean-search';
 import { cwd } from 'process';
 import { BooleanSearchService } from '../core/resolvers/boolean-search.service';
@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   isSearching: boolean = false;
   
   constructor(private modalService: NgbModal,
+    private router: Router,
     private musicService: MusicService,
     private categoryService: CategoryService,
 		private searchService: BooleanSearchService,
@@ -60,36 +61,18 @@ export class HomeComponent implements OnInit {
   private feachData(): void {
     if (this.musicPagination.currentPage < this.musicPagination.numberOfPages) {
       this.route.queryParams.subscribe(queryParams => {
-        let query = queryParams.searchQuery;
-        if (!query) {
-          if (this.isSearching == true) {
-            this.ResetData(query);
-            this.isSearching = false;
-          }
-
-          var page = this.musicPagination.currentPage + 1;
-          this.musicService.all(page).subscribe(data => {
-            this.musicPagination.numberOfPages = data.numberOfPages;
-            data.musics.forEach(music => {
-              this.musicPagination.musics.push(music);
-            });
+        var musicFilter: Music = {
+          name: queryParams.searchQuery == undefined? "": queryParams.searchQuery,
+          categoryId: queryParams.categoryId == undefined ? "" :queryParams.categoryId,
+        };
+        console.log(musicFilter);
+        var page = this.musicPagination.currentPage + 1;
+        this.musicService.allFilter(page, musicFilter).subscribe(data => {
+          this.musicPagination.numberOfPages = data.numberOfPages;
+          data.musics.forEach(music => {
+            this.musicPagination.musics.push(music);
           });
-        }
-        else {
-          this.isSearching = true;
-          if (this.search != query) {
-            this.ResetData(query);
-          }
-
-          var page = this.musicPagination.currentPage + 1;
-          this.searchService.search<MusicPagination>({ query }, BooleanSearchEntity.Musics, page).subscribe(data => {
-            this.musicPagination.numberOfPages = data.numberOfPages
-            data.musics.forEach(music => {
-              this.musicPagination.musics.push(music);
-            });
-          });
-        }
-
+        });
         this.musicPagination.currentPage = page;
       });
     }
@@ -98,5 +81,24 @@ export class HomeComponent implements OnInit {
   private ResetData(query: any) {
     this.search = query;
     this.musicPagination = { currentPage: 0, numberOfPages: 1, musics: [] };
+  }
+
+  filterByCategory(categoryId: string) {
+    var searchValue = "", type="";
+    this.route.queryParams.subscribe(params => {
+      searchValue = params['searchQuery'];
+      type = params['type'];
+    });
+    
+    this.router.navigate([""], { queryParams: { searchQuery: searchValue, type: type, categoryId: categoryId } })
+      .then(() => {
+        this.musicPagination.musics = [];
+        this.musicPagination.currentPage = 0;
+        this.feachData();
+      });
+  }
+
+  selectedOrderMehtod(orderMethod: string) {
+    alert("Here" + orderMethod);
   }
 }

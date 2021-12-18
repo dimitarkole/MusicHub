@@ -1,0 +1,7 @@
+<div class="row categories_title">
+  <div class="col-md-12">Categories</div>
+</div>
+<div class="row" *ngFor="let category of categories$ |async; index as i"  (click)="selectCategory(category.id)">
+  <div class="col-md-9 text-left">-{{category.name}}</div>
+  <div class="col-md-3 text-right">({{category.musicsCount}})</div>
+</div>

@@ -1,6 +1,21 @@
-<app-musics-list-template [musics]="musicPagination.musics" [type]="''">
+<div class="row">
+  <div class="col-md-2">
+    <app-filter-category (selectedCategory)="filterByCategory($event)"></app-filter-category>
+  </div>
+  <div class="col-md-10">
+    <div class="row">
+        <h3 class="col-md-9">
+          Popular musics
+        </h3>
+        <div class="col-md-3">
+          <app-order-by-drop-down (orderMethod)="selectedOrderMehtod($event)"></app-order-by-drop-down>
+        </div>
+    </div>
+    <app-musics-list-template [musics]="musicPagination.musics" [type]="''">
 
-</app-musics-list-template>
+    </app-musics-list-template>
+  </div>
+</div>
 
 <div *ngIf ="isSearching && musicPagination.musics.length == 0" class="text-center error-message">
   <app-no-search-results></app-no-search-results>

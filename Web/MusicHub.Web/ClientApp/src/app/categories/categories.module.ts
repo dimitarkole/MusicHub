@@ -25,6 +25,7 @@ import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { BaseUrlInterceptor } from '../core/interceptors/base-url.interceptor';
 import { AppComponent } from '../app.component';
 import { CategoryAnalysisComponent } from './components/category-analysis/category-analysis.component';
+import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
 
 const routes: Routes = [
   { path: '', component: CategoriesListComponent },//, canActivate: [PermissionsGuard], data: withPermission(PermissionType.CategoryAdministrator)},
@@ -35,7 +36,8 @@ const routes: Routes = [
   declarations: [
     CategoriesListComponent,
     CategoryCreateComponent,
-    CategoryAnalysisComponent
+    CategoryAnalysisComponent,
+    FilterCategoryComponent
   ],
   entryComponents: [
     //CategoryEditComponent,
