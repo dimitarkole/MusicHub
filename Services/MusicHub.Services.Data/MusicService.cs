@@ -152,7 +152,13 @@
 
         private IQueryable<Music> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Music> musics)
         {
-            if (orderMethod == OrderMethod.CreatedOnAsc)
+            musics = musics.OrderByDescending(m => m.PlayedMusics.Count / (
+                               (m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+                               - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)
+                               + m.Comments.Count())/* == 0 /*? 1 : (m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+                               - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)
+                               + m.Comments.Count()))*/));
+           /* if (orderMethod == OrderMethod.CreatedOnAsc)
             {
                 musics = musics.OrderBy(s => s.CreatedOn);
             }
@@ -167,7 +173,7 @@
             else if (orderMethod == OrderMethod.NameDesc)
             {
                 musics = musics.OrderByDescending(s => s.Name);
-            }
+            }       */
 
             return musics;
         }

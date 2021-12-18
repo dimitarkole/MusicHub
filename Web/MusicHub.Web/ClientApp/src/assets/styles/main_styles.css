@@ -1594,8 +1594,6 @@ section {
 
 .featured_list {
   width: calc(100% + 30px);
-  left: -15px;
-  margin-top: 82px;
 }
 
   .featured_list > div > div > div > div > div {

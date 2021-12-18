@@ -93,6 +93,8 @@ import { FollowingListNavBarComponent } from './follow/components/following-list
 import { UserAvatarComponent } from './users/components/user-avatar/user-avatar.component';
 import { OwnMusicsAnalysisComponent } from './musics/components/own-musics-analysis/own-musics-analysis.component';
 import { MusicImageComponent } from './musics/components/music-image/music-image.component';
+import { FilterCategoryComponent } from './categories/components/filter-category/filter-category.component';
+import { OrderByDropDownComponent } from './shared/order-by-drop-down/order-by-drop-down.component';
 
 
 @NgModule({
@@ -166,7 +168,9 @@ import { MusicImageComponent } from './musics/components/music-image/music-image
     FollowingListNavBarComponent,
     UserAvatarComponent,
     OwnMusicsAnalysisComponent,
-    MusicImageComponent
+    MusicImageComponent,
+    FilterCategoryComponent,
+    OrderByDropDownComponent
   ],
   entryComponents: [
     CategoryCreateComponent,
