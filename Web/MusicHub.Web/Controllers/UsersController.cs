@@ -31,13 +31,11 @@
     public class UsersController : ApiController
     {
         private readonly IProfileService profileService;
-        private readonly INotificationsService notificationsService;
         private readonly IVerificationCodeService verificationCodeService;
         private readonly IEmailSender emailSender;
 
         public UsersController(
             IProfileService profileService,
-            INotificationsService notificationsService,
             IVerificationCodeService verificationCodeService,
             UserManager<User> userManager,
             IEmailSender emailSender,
@@ -46,7 +44,6 @@
             : base(userManager, signInManager, logger)
         {
             this.profileService = profileService;
-            this.notificationsService = notificationsService;
             this.verificationCodeService = verificationCodeService;
             this.emailSender = emailSender;
         }
@@ -334,26 +331,6 @@
         [HttpGet("[action]/{id}")]
         public ActionResult GetUserName(string id) => this.Ok(this.profileService.GetById<UserFullNameViewModel>(id));
 
-        [Authorize]
-        [HttpGet(nameof(Notifications) + "/{page}")]
-        public ActionResult Notifications(int page)
-        {
-            var entitesPerPage = PaginationData.NotificationPerPage;
-            return this.Ok(this.notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, this.User.GetUserId()));
-        }
-
-        [Authorize]
-        [HttpPost("[action]/{notificationId}")]
-        public async Task<ActionResult> MarkNotificationAsSeen(string notificationId)
-        {
-            if (this.User.GetUserId() != this.notificationsService.GetNotificationOwner(notificationId))
-            {
-                return this.Forbid();
-            }
-
-            await this.notificationsService.MarkAsSeen(notificationId);
-            return this.Ok();
-        }
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
