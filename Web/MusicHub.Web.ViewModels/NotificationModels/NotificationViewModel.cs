@@ -12,6 +12,8 @@ namespace MusicHub.Web.ViewModels.NotificationModels
 
         public string Content { get; set; }
 
+        public bool Seen { get; set; }
+
         public DateTime CreatedOn { get; set; }
     }
 }

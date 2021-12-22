@@ -1,0 +1,7 @@
+<div class="row">
+  <div class="col-md-12" *ngFor="let notification of notificationPagination.notifications; index as i">
+    <p class="alert {{notification.seen? 'alert-light' : 'alert-dark'}}">
+      {{notification.content}}
+    </p>
+  </div>
+</div>

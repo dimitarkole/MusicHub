@@ -43,7 +43,7 @@
         public NotificationAllViewModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId)
         {
             var notifications = this.context.Notifications
-                .Where(n => n.UserId == userId && !n.Seen)
+                .Where(n => n.UserId == userId)
                 .OrderBy(n => n.Seen == false)
                 .ThenByDescending(n => n.CreatedOn)
                 .To<T>();
