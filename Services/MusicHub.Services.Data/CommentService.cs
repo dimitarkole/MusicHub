@@ -10,9 +10,9 @@
     using MusicHub.Data;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.CommentModels;
-    using MusicHub.Services.Interfaces;
 
     public class CommentService : ICommentService
     {
@@ -31,6 +31,22 @@
         {
             var comments = this.context.Comments
                 .Where(c => c.MusicId == musicId)
+                .OrderByDescending(c => c.CreatedOn)
+                .To<T>();
+            return new CommentsAllViewModel<T>()
+            {
+                Comments = comments
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetCommentsPagesCount(comments.Count(), entitesPerPage),
+            };
+        }
+
+        public CommentsAllViewModel<T> GetChildrenComments<T>(int page, int entitesPerPage, string parentCommentId)
+        {
+            var comments = this.context.Comments
+                .Where(c => c.ParentCommentId == parentCommentId)
                 .OrderByDescending(c => c.CreatedOn)
                 .To<T>();
             return new CommentsAllViewModel<T>()
