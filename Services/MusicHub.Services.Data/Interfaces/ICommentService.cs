@@ -12,6 +12,8 @@
     {
         CommentsAllViewModel<T> All<T>(int page, int entitesPerPage, string musicId);
 
+        CommentsAllViewModel<T> GetChildrenComments<T>(int page, int entitesPerPage, string parentCommentId);
+
         Task Create(CommentCreatreInputModel model, string userId);
 
         Task CreateChildrenComment(CommentChildrenCreatreInputModel model, string parentCommentId, string userId);

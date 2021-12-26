@@ -8,6 +8,7 @@ export default interface Comment {
   text: string,
   likesCount: number,
   dislikesCount: number,
+  commentsChildrenCount: number,
   commentsChildren: Array<Comment>,
   user: User,
   createdOn: Date,
