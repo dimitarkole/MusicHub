@@ -63,7 +63,7 @@
         /// <summary>Get sugesst musics by music id.</summary>
         /// <param name="id">Id of music.</param>
         /// <returns>Ok(MusicPlayModel).</returns>
-        [HttpGet(nameof(SuggestMusics) + "/{page}/{id}")]
+        [HttpGet(nameof(SuggestMusics) + "/{id}/{page}")]
         public ActionResult<MusicsAllViewModel<MusicViewModel>> SuggestMusics(int page, string id)
             => this.Ok(this.musicService.SuggestMusics<MusicViewModel>(page, PaginationData.SuggestMusicPerPage, id));
 
