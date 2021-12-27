@@ -1625,7 +1625,6 @@ section {
   }
 .featured_album_info {
   position: absolute;
-  left: 65%;
   bottom: 0;
   width: 35%;
   height: 166.7%;
@@ -1641,7 +1640,6 @@ section {
 
 .featured_song_info {
   position: absolute;
-  left: 45px;
   bottom: 0;
   width: 100%-45px;
   height: 60%;
@@ -1688,8 +1686,6 @@ section {
 
 .album_play_button {
   position: absolute;
-  left: 35px;
-  bottom: 16px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
