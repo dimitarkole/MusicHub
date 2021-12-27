@@ -14,7 +14,7 @@ namespace MusicHub.Web.ViewModels.MusicModels
 
         public string Name { get; set; }
 
-        public string UserUserName { get; set; }
+        public MusicUserViewModel User { get; set; }
 
         public string ImageUrl { get; set; }
 

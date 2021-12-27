@@ -96,6 +96,7 @@ import { MusicImageComponent } from './musics/components/music-image/music-image
 import { FilterCategoryComponent } from './categories/components/filter-category/filter-category.component';
 import { OrderByDropDownComponent } from './shared/order-by-drop-down/order-by-drop-down.component';
 import { NotificationsListComponent } from './notifications/components/notifications-list/notifications-list.component';
+import { MusicSmallDetailsComponent } from './musics/components/music-small-details/music-small-details.component';
 
 
 @NgModule({
@@ -172,7 +173,8 @@ import { NotificationsListComponent } from './notifications/components/notificat
     MusicImageComponent,
     FilterCategoryComponent,
     OrderByDropDownComponent,
-    NotificationsListComponent
+    NotificationsListComponent,
+    MusicSmallDetailsComponent,
   ],
   entryComponents: [
     CategoryCreateComponent,

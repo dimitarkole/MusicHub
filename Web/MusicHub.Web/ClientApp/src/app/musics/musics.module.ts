@@ -32,6 +32,7 @@ import { LikedMusicsListComponent } from './components/liked-musics-list/liked-m
 import { PlayedMusicsListsComponent } from './components/played-musics-lists/played-musics-lists.component';
 import { OwnMusicsAnalysisComponent } from './components/own-musics-analysis/own-musics-analysis.component';
 import { MusicImageComponent } from './components/music-image/music-image.component';
+import { MusicSmallDetailsComponent } from './components/music-small-details/music-small-details.component';
 
 const routes: Routes = [
 ];
@@ -51,6 +52,7 @@ const routes: Routes = [
     PlayedMusicsListsComponent,
     OwnMusicsAnalysisComponent,
     MusicImageComponent,
+    MusicSmallDetailsComponent,
   ],
   entryComponents: [
   ],
