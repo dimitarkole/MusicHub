@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
@@ -28,6 +29,18 @@ namespace MusicHub.Web.Controllers
             : base(userManager, signInManager, logger)
         {
             this.notificationsService = notificationsService;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(NotificationInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            await this.notificationsService.Add(model);
+            return this.StatusCode(StatusCodes.Status201Created);// new { musicId = musicId });
         }
 
         [Authorize]

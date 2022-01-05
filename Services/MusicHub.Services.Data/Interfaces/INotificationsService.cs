@@ -11,8 +11,6 @@ namespace MusicHub.Services.Data.Interfaces
     {
         Task Add(NotificationInputModel model);
 
-        Task AddRange(IEnumerable<NotificationInputModel> models);
-
         NotificationAllViewModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId);
 
         Task MarkAsSeen(string id);

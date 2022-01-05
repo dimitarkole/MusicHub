@@ -1,0 +1,8 @@
+.notification{
+    padding-bottom:10px;
+}
+
+.notification-list {
+  max-height: 200px;
+  overflow-y: scroll;
+}

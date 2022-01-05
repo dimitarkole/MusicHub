@@ -16,7 +16,7 @@
     using MusicHub.Web.Infrastucture;
     using MusicHub.Web.ViewModels.MusicModels;
     using MusicHub.Web.ViewModels.MusicReactionModels;
-
+    using MusicHub.Web.ViewModels.NotificationModels;
     using static MusicHub.Common.GlobalConstants;
 
     [Authorize]
@@ -24,15 +24,18 @@
     public class MusicReactionController : ApiController
     {
         private readonly IMusicReactionService musicReactionService;
+        private readonly INotificationsService notificationsService;
 
         public MusicReactionController(
             IMusicReactionService musicReactionService,
+            INotificationsService notificationsService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
             ILogger<LogoutModel> logger)
             : base(userManager, signInManager, logger)
         {
             this.musicReactionService = musicReactionService;
+            this.notificationsService = notificationsService;
         }
 
         [HttpGet(nameof(GetLikedMusics) + "/{page}")]
@@ -51,7 +54,6 @@
         public async Task<IActionResult> Post(MusicReactionCreateInputModel model)
         {
             var userId = this.userManager.GetUserId(this.User);
-
             await this.musicReactionService.Create(model, userId);
             return this.Ok();
         }
