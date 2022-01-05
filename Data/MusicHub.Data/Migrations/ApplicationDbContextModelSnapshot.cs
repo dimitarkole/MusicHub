@@ -462,6 +462,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<bool>("Seen")
                         .HasColumnType("bit");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -471,6 +474,33 @@ namespace MusicHub.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationClaim", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NotificationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NotificationId");
+
+                    b.ToTable("NotificationClaims");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
@@ -1045,6 +1075,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationClaim", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.Notification", "Notification")
+                        .WithMany("Claims")
+                        .HasForeignKey("NotificationId");
+
+                    b.Navigation("Notification");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Subscription", "Subscription")
@@ -1197,6 +1236,11 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("PlayedMusics");
 
                     b.Navigation("PlaylistMusics");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.Notification", b =>
+                {
+                    b.Navigation("Claims");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Permission", b =>

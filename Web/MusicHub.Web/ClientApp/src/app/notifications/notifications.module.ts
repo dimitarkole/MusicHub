@@ -19,13 +19,15 @@ import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { AppComponent } from '../app.component';
 import { NotificationsListComponent } from './components/notifications-list/notifications-list.component';
+import { NotificationSpecialInfoComponent } from './components/notification-special-info/notification-special-info.component';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
-    NotificationsListComponent
+    NotificationsListComponent,
+    NotificationSpecialInfoComponent
   ],
   entryComponents: [
   ],

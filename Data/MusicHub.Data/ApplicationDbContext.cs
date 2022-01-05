@@ -37,6 +37,8 @@
 
         public virtual DbSet<Notification> Notifications { get; set; }
 
+        public virtual DbSet<NotificationClaim> NotificationClaims { get; set; }
+
         public virtual DbSet<Comment> Comments { get; set; }
 
         public virtual DbSet<CommentReaction> CommentReactions { get; set; }

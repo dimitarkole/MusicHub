@@ -97,6 +97,8 @@ import { FilterCategoryComponent } from './categories/components/filter-category
 import { OrderByDropDownComponent } from './shared/order-by-drop-down/order-by-drop-down.component';
 import { NotificationsListComponent } from './notifications/components/notifications-list/notifications-list.component';
 import { MusicSmallDetailsComponent } from './musics/components/music-small-details/music-small-details.component';
+import { NotificationSpecialInfoComponent } from './notifications/components/notification-special-info/notification-special-info.component';
+import { SimpleModule } from '../simple/simple.module';
 
 
 @NgModule({
@@ -174,6 +176,7 @@ import { MusicSmallDetailsComponent } from './musics/components/music-small-deta
     FilterCategoryComponent,
     OrderByDropDownComponent,
     NotificationsListComponent,
+    NotificationSpecialInfoComponent,
     MusicSmallDetailsComponent,
   ],
   entryComponents: [
@@ -218,6 +221,7 @@ import { MusicSmallDetailsComponent } from './musics/components/music-small-deta
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+
  /*   ChartsModule,
     ClipboardModule,
     /*StoreModule.forRoot({}, {
