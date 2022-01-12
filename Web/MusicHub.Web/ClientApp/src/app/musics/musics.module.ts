@@ -33,12 +33,34 @@ import { PlayedMusicsListsComponent } from './components/played-musics-lists/pla
 import { OwnMusicsAnalysisComponent } from './components/own-musics-analysis/own-musics-analysis.component';
 import { MusicImageComponent } from './components/music-image/music-image.component';
 import { MusicSmallDetailsComponent } from './components/music-small-details/music-small-details.component';
+import { UsersModule } from '../users/users.module';
+import { FollowsModule } from '../follow/follows.module';
+import { CommentModule } from '../comments/comments.module';
+import { SharedModule } from '../shared/shared.module';
+import { ChartModule } from '../charts/charts.module';
+import { MusicsRoutingModule } from './musics-routing.module';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
+    MusicsListTemplateComponent,
+    MusicsOwnListComponent,
+    MusicCreateComponent,
+    MusicEditComponent,
+    MusicDeleteComponent,
+    MusicDetailsComponent,
+    MusicSuggestionsListComponent,
+    MusicPlayComponent,
+    MusicReactionComponent,
+    LikedMusicsListComponent,
+    PlayedMusicsListsComponent,
+    OwnMusicsAnalysisComponent,
+    MusicImageComponent,
+    MusicSmallDetailsComponent,
+  ],
+  exports: [
     MusicsListTemplateComponent,
     MusicsOwnListComponent,
     MusicCreateComponent,
@@ -70,7 +92,11 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule,
+    CommentModule,
+    ChartModule,
+    MusicsRoutingModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -81,4 +107,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class MusicsModule { }

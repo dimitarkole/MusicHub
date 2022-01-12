@@ -20,12 +20,18 @@ import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { AppComponent } from '../app.component';
 import { NotificationsListComponent } from './components/notifications-list/notifications-list.component';
 import { NotificationSpecialInfoComponent } from './components/notification-special-info/notification-special-info.component';
+import { UsersModule } from '../users/users.module';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
+    NotificationsListComponent,
+    NotificationSpecialInfoComponent
+  ],
+  exports: [
     NotificationsListComponent,
     NotificationSpecialInfoComponent
   ],
@@ -55,4 +61,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class NotificationsModule { }

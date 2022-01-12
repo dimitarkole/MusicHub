@@ -9,22 +9,16 @@ import { PermissionType } from '../shared/models/permissionType';
 import { UsersListTemplateComponent } from './components/users-list-template/users-list-template.component';
 import { UserDetailsComponent } from './components/user-details/user-details.component';
 import { UserAvatarComponent } from './components/user-avatar/user-avatar.component';
-
-const routes: Routes = [
-  { 
-    path: '', 
-    component: UsersListComponent, 
-    canActivate:[PermissionsGuard], 
-    data: withPermission(PermissionType.UserAdministration) 
-  },
-	// { 
-  //   path: 'create/ad', 
-  //   component: UsercreateComponent, 
-  //   canActivate:[PermissionsGuard], 
-  //   data: withPermission(PermissionType.UserAdministration) 
-  // },
-]
-
+import { BrowserModule } from '@angular/platform-browser';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule, MatDialogModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule } from '@angular/material';
+import { AppRoutingModule } from '../app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LayoutModule } from '@angular/cdk/layout';
+import { FollowsModule } from '../follow/follows.module';
+import { UsersRoutingModule } from './users-routing.module';
 @NgModule({
   declarations: [
     UsersListComponent,
@@ -33,10 +27,33 @@ const routes: Routes = [
     UserAvatarComponent
   ],
   imports: [
-    CommonModule,
-    FormsModule,
+    BrowserModule,
+    NgxChartsModule,
+    BrowserAnimationsModule,
+    MatSidenavModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes),
+    HttpClientModule,
+    NgbModule,
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatDialogModule,
+    AppRoutingModule,
+    FormsModule,
+    FollowsModule,
+    UsersRoutingModule
+  ],
+  exports: [
+    UsersListComponent,
+    UsersListTemplateComponent,
+    UserDetailsComponent,
+    UserAvatarComponent,
+    BrowserModule,
+  ],
+  providers: [
   ]
 })
-export class UsersModule { }
+export class UsersModule {
+}

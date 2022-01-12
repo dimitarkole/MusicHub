@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material';
 import { MusicHubLineChartComponent } from './components/music-hub-line-chart/music-hub-line-chart.component';
 import { MusicHubBarChartComponent } from './components/music-hub-bar-chart/music-hub-bar-chart.component';
 import { MusicHubPieChartComponent } from './components/music-hub-pie-chart/music-hub-pie-chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 const routes: Routes = [
 ];
@@ -32,24 +33,32 @@ const routes: Routes = [
     MusicHubPieChartComponent,
     MusicHubBarChartComponent,
   ],
+  exports: [
+    MusicHubLineChartComponent,
+    MusicHubPieChartComponent,
+    MusicHubBarChartComponent,
+  ],
   entryComponents: [
   ],
 
   imports: [
-    MatSidenavModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
+    NgxChartsModule,
+    MatSidenavModule,
     NgbModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
   ],
+  
   providers: [
     //{ provide: AppInsightsServiceService },
     NgbActiveModal,
@@ -59,4 +68,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class ChartModule { }
