@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { CommonModule, DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -23,17 +23,33 @@ import { FollowCreateComponent } from './components/follow-create/follow-create.
 import { FollowersListComponent } from './components/followers-list/followers-list.component';
 import { FollowingListComponent } from './components/following-list/following-list.component';
 import { FollowingListNavBarComponent } from './components/following-list-nav-bar/following-list-nav-bar.component';
+import { Inject } from '@angular/core';
+import { UsersModule } from '../users/users.module';
+import { SharedModule } from '../shared/shared.module';
+import { UserAvatarComponent } from '../users/components/user-avatar/user-avatar.component';
 
 const routes: Routes = [
 ];
 
 @NgModule({
   declarations: [
-  FollowCreateComponent,
-  FollowersListComponent,
-  FollowingListComponent,
-  FollowingListNavBarComponent],
+    FollowCreateComponent,
+    FollowersListComponent,
+    FollowingListComponent,
+    FollowingListNavBarComponent,
+
+    //UserAvatarComponent,
+  ],
+  exports: [
+    FollowCreateComponent,
+    FollowersListComponent,
+    FollowingListComponent,
+    FollowingListNavBarComponent,
+    BrowserModule,
+  ],
   entryComponents: [
+    FollowersListComponent,
+    FollowingListComponent,
   ],
 
   imports: [
@@ -49,7 +65,8 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    UsersModule
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -60,4 +77,5 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class FollowsModule {
+}

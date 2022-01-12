@@ -26,6 +26,11 @@ import { BaseUrlInterceptor } from '../core/interceptors/base-url.interceptor';
 import { AppComponent } from '../app.component';
 import { CategoryAnalysisComponent } from './components/category-analysis/category-analysis.component';
 import { FilterCategoryComponent } from './components/filter-category/filter-category.component';
+import { MatDialogModule } from '@angular/material';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from '../charts/charts.module';
+import { SharedModule } from '../shared/shared.module';
+import { CategoriesRoutingModule } from './categories-routing.module';
 
 const routes: Routes = [
   { path: '', component: CategoriesListComponent },//, canActivate: [PermissionsGuard], data: withPermission(PermissionType.CategoryAdministrator)},
@@ -36,24 +41,31 @@ const routes: Routes = [
   declarations: [
     CategoriesListComponent,
     CategoryCreateComponent,
+    CategoryEditComponent,
+    CategoryDeleteComponent,
     CategoryAnalysisComponent,
     FilterCategoryComponent
   ],
   entryComponents: [
-    //CategoryEditComponent,
     CategoryCreateComponent,
-    //CategoryDeleteComponent,
-    CategoryAnalysisComponent
+    CategoryDeleteComponent,
+    CategoryEditComponent,
+    CategoryAnalysisComponent,
+  ],
+
+  exports: [
+    CategoriesListComponent,
+    CategoryCreateComponent,
+    CategoryEditComponent,
+    CategoryDeleteComponent,
+    CategoryAnalysisComponent,
+    FilterCategoryComponent
   ],
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule.forChild(routes),
-    MatSidenavModule,
     BrowserModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
+    MatSidenavModule,
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
@@ -62,6 +74,11 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatDialogModule,
+    AppRoutingModule,
+    FormsModule,
+    ChartModule,  
+    CategoriesRoutingModule,
   ],
   providers: [
     DatePipe,

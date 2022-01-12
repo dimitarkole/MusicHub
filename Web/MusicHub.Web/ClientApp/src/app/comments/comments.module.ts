@@ -24,13 +24,28 @@ import { CommentListComponent } from './components/comment-list/comment-list.com
 import { CommentDeleteComponent } from './components/comment-delete/comment-delete.component';
 import { CommentDetailsComponent } from './components/comment-details/comment-details.component';
 import { CommentReactionComponent } from './components/comment-reaction/comment-reaction.component';
+import { SharedModule } from '../shared/shared.module';
+import { UsersModule } from '../users/users.module';
+import { ChartModule } from '../charts/charts.module';
 
 const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    CommentListComponent,
+    CommentDeleteComponent,
+    CommentDetailsComponent,
+    CommentReactionComponent,
+  ],
+  exports: [
+    CommentListComponent,
+    CommentDeleteComponent,
+    CommentDetailsComponent,
+    CommentReactionComponent,
+  ],
   entryComponents: [
+    CommentDeleteComponent
   ],
 
   imports: [
@@ -46,7 +61,8 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    SharedModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -57,4 +73,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class CommentModule { }

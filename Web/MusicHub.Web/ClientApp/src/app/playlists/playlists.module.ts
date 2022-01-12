@@ -25,6 +25,8 @@ import { MatDialogModule } from '@angular/material';
 import { PlaylistsListTemplateComponent } from './components/playlists-list-template/playlists-list-template.component';
 import { PlaylistsListComponent } from './components/playlists-list/playlists-list.component';
 import { PlaylistsOwnListComponent } from './components/playlists-own-list/playlists-own-list.component';
+import { ChartModule } from '../charts/charts.module';
+import { SharedModule } from '../shared/shared.module';
 
 const routes: Routes = [
   { path: '', component: PlaylistsListComponent },//, canActivate: [PermissionsGuard], data: withPermission(PermissionType.CategoryAdministrator)},
@@ -33,6 +35,14 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
+    PlaylistDeleteComponent,
+    PlaylistCreateComponent,
+    PlaylistEditComponent,
+    PlaylistsListTemplateComponent,
+    PlaylistsListComponent,
+    PlaylistsOwnListComponent
+  ],
+  exports: [
     PlaylistDeleteComponent,
     PlaylistCreateComponent,
     PlaylistEditComponent,
@@ -59,7 +69,9 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    ChartModule,
+    SharedModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },

@@ -95,9 +95,7 @@
     <Folder Include="ClientApp\src\app\follow\components\" />
     <Folder Include="ClientApp\src\app\follow\models\" />
     <Folder Include="ClientApp\src\app\follow\services\" />
-    <Folder Include="ClientApp\src\app\musics\components\" />
     <Folder Include="ClientApp\src\app\musics\services\" />
-    <Folder Include="ClientApp\src\app\roles\" />
     <Folder Include="ClientApp\src\app\playlists\components\" />
     <Folder Include="ClientApp\src\app\users\services\" />
     <Folder Include="ClientApp\src\assets\js\" />
