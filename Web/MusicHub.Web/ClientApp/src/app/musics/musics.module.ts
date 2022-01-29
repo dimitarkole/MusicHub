@@ -38,9 +38,53 @@ import { FollowsModule } from '../follow/follows.module';
 import { CommentModule } from '../comments/comments.module';
 import { SharedModule } from '../shared/shared.module';
 import { ChartModule } from '../charts/charts.module';
-import { MusicsRoutingModule } from './musics-routing.module';
+import { MusicResolver } from '../core/resolvers/music.resolver';
+import { AuthorizeGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
+  {
+    path: 'play/:id',
+    component: MusicPlayComponent,
+    resolve:
+    {
+      music: MusicResolver
+    },
+  },
+  { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
+  { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard] },
+  {
+    path: 'own', children: [
+      {
+        path: '',
+        component: MusicsOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.MusicCreator)
+      },
+      {
+        path: 'analysis',
+        component: OwnMusicsAnalysisComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.MusicCreator)
+      }
+    ]
+
+  },
+  {
+    path: 'create',
+    component: MusicCreateComponent,
+    canActivate: [PermissionsGuard],
+    data: withPermission(PermissionType.MusicCreator)
+  },
+  {
+    path: 'edit/:id',
+    component: MusicCreateComponent,
+    resolve:
+    {
+      music: MusicResolver
+    },
+    canActivate: [AuthorizeGuard],
+    data: withPermission(PermissionType.MusicCreator)
+  },
 ];
 
 @NgModule({
@@ -83,7 +127,6 @@ const routes: Routes = [
     MatSidenavModule,
     BrowserModule,
     BrowserAnimationsModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
@@ -96,7 +139,7 @@ const routes: Routes = [
     SharedModule,
     CommentModule,
     ChartModule,
-    MusicsRoutingModule,
+    RouterModule.forChild(routes),
   ],
   providers: [
     //{ provide: AppInsightsServiceService },

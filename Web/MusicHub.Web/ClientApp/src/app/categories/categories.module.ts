@@ -75,10 +75,10 @@ const routes: Routes = [
     MatIconModule,
     MatListModule,
     MatDialogModule,
-    AppRoutingModule,
     FormsModule,
     ChartModule,  
     CategoriesRoutingModule,
+    RouterModule.forChild(routes),
   ],
   providers: [
     DatePipe,
