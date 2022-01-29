@@ -13,6 +13,14 @@ import { OwnMusicsAnalysisComponent } from './components/own-musics-analysis/own
 import { PlayedMusicsListsComponent } from './components/played-musics-lists/played-musics-lists.component';
 
 const routes: Routes = [
+  {
+    path: 'play/:id',
+    component: MusicPlayComponent,
+    resolve:
+    {
+      music: MusicResolver
+    },
+  },
   { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
   { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard] },
   {
@@ -47,14 +55,6 @@ const routes: Routes = [
     },
     canActivate: [AuthorizeGuard],
     data: withPermission(PermissionType.MusicCreator)
-  },
-  {
-    path: 'play/:id',
-    component: MusicPlayComponent,
-    resolve:
-    {
-      music: MusicResolver
-    },
   },
 ];
 

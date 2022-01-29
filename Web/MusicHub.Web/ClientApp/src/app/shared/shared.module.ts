@@ -36,6 +36,7 @@ import { FollowingListNavBarComponent } from '../follow/components/following-lis
 import { NotificationsListComponent } from '../notifications/components/notifications-list/notifications-list.component';
 import { NotificationSpecialInfoComponent } from '../notifications/components/notification-special-info/notification-special-info.component';
 import { SharedsRoutingModule } from './shareds-routing.module';
+import { HomeComponent } from '../home/home.component';
 
 @NgModule({
   declarations: [

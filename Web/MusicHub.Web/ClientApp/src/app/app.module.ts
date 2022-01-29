@@ -38,11 +38,15 @@ import { RolesModule } from './roles/roles.module';
 import { ProfileModule } from './profiles/profile.module';
 import { AuthsModule } from './auth/auths.module';
 import { SharedModule } from './shared/shared.module';
+//import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 /*
 import { StoreModule } from '@ngrx/store';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';*/
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -51,10 +55,9 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';*/
     SimpleChartComponent,
   ],
   entryComponents: [
-
   ],
   imports: [
-    //CommonModule,
+    CommonModule,
     BrowserModule,
     NgxChartsModule,
     BrowserAnimationsModule,
@@ -86,6 +89,18 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';*/
     RolesModule,
     ProfileModule,
     AuthsModule,
+
+    StoreModule.forRoot({}, {
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true
+      }
+    }),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
