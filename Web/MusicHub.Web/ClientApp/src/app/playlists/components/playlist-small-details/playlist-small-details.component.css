@@ -1,0 +1,19 @@
+.music-info {
+  margin-top: -65px;
+  padding: 10px;
+  background-color: rgba(0,0,0,0.66);
+}
+
+.featured_album_info {
+  position: absolute;
+  bottom: 11px;
+  width: 40%;
+  top: -153px;
+  right: 3%;
+  background: rgba(0,0,0,0.66);
+  color: white;
+  text-align: center;
+  padding: 10%;
+  padding-top: 20%;
+  font-size: 18px;
+}

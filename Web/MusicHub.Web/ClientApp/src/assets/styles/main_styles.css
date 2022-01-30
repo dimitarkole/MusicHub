@@ -1623,20 +1623,7 @@ section {
     z-index: 1;
     padding-left: 90px;
   }
-.featured_album_info {
-  position: absolute;
-  bottom: 0;
-  width: 35%;
-  height: 166.7%;
-  top: -130px;
-  display: flex;
-  background: rgba(0,0,0,0.66);
-  color: white;
-  text-align: center;
-  padding: 10%;
-  padding-top: 20%;
-  font-size: 18px;
-}
+
 
 .featured_song_info {
   position: absolute;
