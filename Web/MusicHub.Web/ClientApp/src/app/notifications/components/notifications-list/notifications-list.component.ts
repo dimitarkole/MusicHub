@@ -57,6 +57,10 @@ export class NotificationsListComponent implements OnInit {
     return notificationType == NotificationType.LikeMusic;
   }
 
+  isNotificationForNewFollow(notificationType: NotificationType): boolean {
+    return notificationType == NotificationType.NewFollow;
+  }
+
   getUserIdClaim(claims: NotificationClaim[])
   {
     return claims.filter(c => c.type == NotificationClaimType.UserId)[0];
