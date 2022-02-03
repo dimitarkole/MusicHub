@@ -1,20 +1,18 @@
 <div class="blog-comment">
   <div class="row">
-    <div class="col-sm-2">
-      <app-user-avatar [imageUrl]="comment.user?.imageUrl" [type]="'medium'">
-      </app-user-avatar>
-    </div>
-    <div class="col-sm-10">
+    <div class="col-sm-12">
       <ul class="comments">
         <li class="clearfix">
           <div class="post-comments">
             <div class="meta row">
-              <div class="col-md-8">
+              <div class="col-lg-6">
+                <app-user-avatar [imageUrl]="comment.user?.imageUrl" [type]="'small'">
+                </app-user-avatar>
                 <a routerLink="{{'/profile/view/' + comment.user?.id}}">
                   {{comment.user.userName}}
                 </a> ({{comment.createdOn | date : 'MMMM d, yyyy'}})
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4">
                 <div class="row">
                   <div class="col-sm-9 text-right">
                     <app-comment-reaction [comment]="comment"></app-comment-reaction>
@@ -38,6 +36,14 @@
                         </button>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-2" *ngIf="type=='parent'">
+                <div class="row">
+                  <div class="col-sm-12 text-right">
+                    <button class="login100-form-btn" (click)="viewChilder()">Answer</button>
                   </div>
                 </div>
               </div>
@@ -79,11 +85,52 @@
       </ul>
     </div>
   </div>
+    <div class="row" *ngIf="comment.commentsChildrenCount>0">
+      <small class="col-md-12" (click)="viewChilder()">
+        View answers ({{comment.commentsChildrenCount}})
+      </small>
+    </div>
 
-  <ul class="comments">
-    <!-- <app-comment-list *ngIf="comment.commentsChildren?.length>0" id="collapseExample"
-                      [ngbCollapse]="!isCollapsed" [allComments]="comment?.commentsChildren"
-                      class="col-md-12">
-    </app-comment-list>-->
-  </ul>
+  <div class="comments" *ngIf="viewChilderen && type=='parent'">
+    <div class="row">
+      <div class="col-md-2">
+
+      </div>
+      <div class="col-md-10">
+        <form (ngSubmit)="createChildrenComment()" [formGroup]="commentChildrenForm" class="row">
+          <div class="form-group col-md-12">
+            <div class="row">
+              <div class=" col-md-12">
+                <textarea class="form-control" formControlName="textChildren" type="text" rows="3"
+                          placeholder="White your commment here"></textarea>
+                <span class="text-danger" *ngIf="textChildren.touched && textChildren.hasError('required')">The comment is required!</span>
+                <span class="text-danger" *ngIf="textChildren.hasError('minlength')">The comment must contain minimum {{commentMinLength}} characters!</span>
+                <span class="text-danger" *ngIf="textChildren.hasError('maxlength')">The comment must contain maximum {{commentMaxLength}} characters!</span>
+              </div>
+            </div>
+            <div class="row">
+              <div class=" col-md-9">
+              </div>
+
+              <div class="col-md-3">
+                <br>
+                <button [disabled]="commentForm.invalid" type="submit" class="login100-form-btn">Comment</button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="row">
+          {{childrenCommentPagination.comments.length}}
+          <app-comment-details [comment]="comment" [type]="'child'" class="col-md-12" *ngFor="let comment of childrenCommentPagination.comments"></app-comment-details>
+        </div>
+      </div>
+      <small class="col-md-10">
+      </small>
+
+      <small class="col-md-2" (click)="getCommentsPerPage()" *ngIf="childrenCommentPagination.comments.length < comment.commentsChildrenCount">
+        Load More
+      </small>
+    </div>
+  </div>
 </div>

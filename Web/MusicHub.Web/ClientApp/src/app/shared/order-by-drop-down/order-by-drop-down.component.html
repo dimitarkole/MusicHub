@@ -1,0 +1,12 @@
+<div class="row form-group">
+  <!-- Text input-->
+  <div class="col-md-2 control-label">Sorting</div>
+  <div class="col-md-10">
+    <select class="form-control" (change)="changeOrderMehtod($event.target.value)">
+      <option [value]="'CreatedOnDesc'" default>Time: newly music first</option>
+      <option [value]="'CreatedOnAsc'">Time: oldly music first</option>
+      <option [value]="'NameAsc'">Name: A-Z</option>
+      <option [value]="'NameDesc'">Name: Z-A</option>
+    </select>
+  </div>
+</div>

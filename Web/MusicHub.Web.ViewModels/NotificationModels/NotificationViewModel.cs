@@ -1,4 +1,5 @@
 ﻿using MusicHub.Data.Models;
+using MusicHub.Data.Models.Enums;
 using MusicHub.Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,12 @@ namespace MusicHub.Web.ViewModels.NotificationModels
 
         public string Content { get; set; }
 
+        public bool Seen { get; set; }
+
         public DateTime CreatedOn { get; set; }
+
+        public NotificationType Type { get; set; }
+
+        public ICollection<NotificationClaimViewModel> Claims { get; set; }
     }
 }

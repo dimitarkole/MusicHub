@@ -44,7 +44,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public bool IsFollowing(string followingUserId, string followerUserId)
+        public bool IsFollowing(string followerUserId, string followingUserId)
          => this.context.Follows
              .Any(f => f.FollowerId == followerUserId
                  && f.FollowingId == followingUserId);

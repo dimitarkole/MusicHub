@@ -1,1 +1,25 @@
-<p>music-suggestions-list works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <h2>Similar musics:</h2>
+    <hr />
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="featured_list">
+        <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player">
+          <div class="jp-type-playlist">
+            <div class="jp-playlist">
+              <div class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
+                <div class="col-md-6" *ngFor="let music of suggestMusicPagination.musics; index as i">
+                  <app-music-small-details [music]="music" [type]="type">
+                  </app-music-small-details>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

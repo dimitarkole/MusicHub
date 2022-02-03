@@ -111,11 +111,11 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.MyProfile())
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserDetailsViewModel>()
+                    .WithModelOfType<UserEditInputModel>()
                     .Passing(actual =>
                     {
                         var service = new ProfileService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
-                        var expected = service.GetById<UserDetailsViewModel>(userId);
+                        var expected = service.GetById<UserEditInputModel>(userId);
                         expected.Should().BeEquivalentTo(actual);
                     }));
         }
@@ -571,7 +571,7 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
-        [Theory]
+       /* [Theory]
         [InlineData(1)]
         [InlineData(2)]
         public void GetNotifications_WithDataInTheDb_ShouldReturnOkWithCorrectData(int page)
@@ -596,9 +596,9 @@ namespace MusicHub.Web.Tests.Controllers
                         var expected = service.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, userId);
                         expected.Should().BeEquivalentTo(actual);
                     }));
-        }
+        }           */
 
-        [Fact]
+       /* [Fact]
         public void MarkNotificationAsSeen_WithDataInTheDb_ShouldReturnOk()
         {
             var users = NotificationTestsData.Users;
@@ -644,7 +644,7 @@ namespace MusicHub.Web.Tests.Controllers
 
             Assert.False(From.Services<ApplicationDbContext>().Notifications
              .Any(n => n.Id == notificationId && n.Seen == true));
-        }
+        } */
 
         [Fact]
         public void Settings_WithDataInTheDb_ShouldReturnOkWithCorrectData()

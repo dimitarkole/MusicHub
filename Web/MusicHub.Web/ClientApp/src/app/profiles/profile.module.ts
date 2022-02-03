@@ -23,6 +23,12 @@ import { AppComponent } from '../app.component';
 import { ProfileChangePasswordComponent } from './components/profile-change-password/profile-change-password.component';
 import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatDialogModule } from '@angular/material/dialog';
+import { SharedModule } from '../shared/shared.module';
+import { MusicsModule } from '../musics/musics.module';
+import { PlaylistsModule } from '../playlists/playlists.module';
+import { ProfilesRoutingModule } from './profiles-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,19 +36,20 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
     ProfileEditComponent,
     ProfileUserComponent
   ],
+  exports: [
+    ProfileChangePasswordComponent,
+    ProfileEditComponent,
+    ProfileUserComponent
+  ],
   entryComponents: [
-    //CategoryEditComponent,
-    // CategoryCreateComponent,
-    //CategoryDeleteComponent,
+    ProfileEditComponent,
+    ProfileChangePasswordComponent,
   ],
   imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    //RouterModule.forChild(routes),
-    MatSidenavModule,
     BrowserModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -52,6 +59,12 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatDialogModule,
+    FormsModule,
+    SharedModule,
+    MusicsModule,
+    PlaylistsModule,
+    ProfilesRoutingModule
   ],
   providers: [
     DatePipe,
@@ -61,4 +74,4 @@ import { ProfileUserComponent } from './components/profile-user/profile-user.com
   ],
   bootstrap: [AppComponent]
 })
-export class CategoriesModule { }
+export class ProfileModule { }

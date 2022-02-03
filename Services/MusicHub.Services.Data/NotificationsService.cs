@@ -33,18 +33,11 @@
             await context.SaveChangesAsync();
         }
 
-        public async Task AddRange(IEnumerable<NotificationInputModel> models)
-        {
-            IEnumerable<Notification> notifications = models.Select(m => m.To<Notification>());
-            await context.Notifications.AddRangeAsync(notifications);
-            await context.SaveChangesAsync();
-        }
-
         public NotificationAllViewModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId)
         {
             var notifications = this.context.Notifications
-                .Where(n => n.UserId == userId && !n.Seen)
-                .OrderBy(n => n.Seen == false)
+                .Where(n => n.UserId == userId)
+                .OrderBy(n => n.Seen)
                 .ThenByDescending(n => n.CreatedOn)
                 .To<T>();
 

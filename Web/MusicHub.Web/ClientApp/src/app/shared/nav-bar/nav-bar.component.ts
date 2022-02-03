@@ -72,10 +72,15 @@ export class NavBarComponent implements OnInit {
   }
 
   updateSearch() {
-    if (this.type.value == "musics") {
+    if (this.type.value == "Musics") {
+      var href = this.router.url;
+      alert(href);
+
       this.router.navigate([""], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
     }
-    this.router.navigate([this.type.value.toLowerCase()], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
+    else {
+      this.router.navigate([this.type.value.toLowerCase()], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
+    }
   }
 
   ngOnInit() {

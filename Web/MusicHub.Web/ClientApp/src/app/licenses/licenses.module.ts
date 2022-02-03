@@ -26,6 +26,9 @@ import { LicenseEditComponent } from './components/license-edit/license-edit.com
 import { LicenseDeleteComponent } from './components/license-delete/license-delete.component';
 import { LicenseRequestComponent } from './components/license-request/license-request.component';
 import { LicenseDetailsComponent } from './components/license-details/license-details.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatDialogModule } from '@angular/material';
+import { LicensesRoutingModule } from './licenses-routing.module';
 
 const routes: Routes = [
 ];
@@ -41,13 +44,25 @@ const routes: Routes = [
     LicenseRequestComponent,
     LicenseDetailsComponent
   ],
+  exports: [
+    LicenseCreateComponent,
+    LicenseListTemplateComponent,
+    LicenseListComponent,
+    LicenseOwnListComponent,
+    LicenseEditComponent,
+    LicenseDeleteComponent,
+    LicenseRequestComponent,
+    LicenseDetailsComponent
+  ],
   entryComponents: [
+    LicenseDeleteComponent,
   ],
 
   imports: [
-    MatSidenavModule,
     BrowserModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -57,6 +72,9 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatDialogModule,
+    FormsModule,
+    LicensesRoutingModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -67,4 +85,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class LicensesModule { }

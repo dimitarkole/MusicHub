@@ -20,7 +20,7 @@
 
         public CommentUserViewModel User { get; set; }
 
-        public virtual ICollection<CommentViewModel> CommentsChildren { get; set; }
+        public virtual int CommentsChildrenCount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

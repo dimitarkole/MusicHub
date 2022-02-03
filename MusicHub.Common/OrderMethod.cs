@@ -23,5 +23,7 @@
         EmailAsc = 6,
         [Display(Name = "Order by enity email desc")]
         EmailDesc = 7,
+        [Display(Name = "Best order")]
+        BestOrder = 8,
     }
 }

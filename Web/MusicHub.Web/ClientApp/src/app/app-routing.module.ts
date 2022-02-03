@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'signup', component: SignUpComponent },
   { path: 'signin', component: SignInComponent },
   { path: 'resend-confirm-email', component: ResendEmailConfirmComponent },
-  { path: 'forgottenPassword', component: ForgottenPasswordComponent},
+  { path: 'forgottenPassword', component: ForgottenPasswordComponent },
   {
     path: 'confirm-email/:id',
     component: ConfirmEmailComponent,
@@ -78,8 +78,8 @@ const routes: Routes = [
   },
   {
     path: 'musics', children: [
-      { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard]  },
-      { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard]  },
+      { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
+      { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'own',
         component: MusicsOwnListComponent,
@@ -118,7 +118,8 @@ const routes: Routes = [
         path: '',
         component: LicenseOwnListComponent,
         canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.LicenseCreator) },
+        data: withPermission(PermissionType.LicenseCreator)
+      },
       {
         path: 'request/:id',
         component: LicenseRequestComponent,
@@ -127,7 +128,7 @@ const routes: Routes = [
           license: LicenseResolver
         },
         canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.LicenseManager) 
+        data: withPermission(PermissionType.LicenseManager)
       },
       {
         path: 'own',
@@ -139,7 +140,8 @@ const routes: Routes = [
         path: 'all',
         component: LicenseListComponent,
         canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.LicenseManager)  },
+        data: withPermission(PermissionType.LicenseManager)
+      },
       {
         path: 'create',
         component: LicenseCreateComponent,
@@ -179,7 +181,8 @@ const routes: Routes = [
         path: '',
         component: RolesListComponent,
         canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.ManageUserPermissions) },
+        data: withPermission(PermissionType.ManageUserPermissions)
+      },
       {
         path: 'all',
         component: RolesListComponent,
@@ -238,3 +241,87 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+/*
+
+
+
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { UserResolver } from './core/resolvers/user.resolver';
+import { SignUpComponent } from './auth/sign-up/sign-up.component';
+import { SignInComponent } from './auth/sign-in/sign-in.component';
+import { AuthorizeGuard } from './core/guards/auth.guard';
+import { UsersListComponent } from './users/components/users-list/users-list.component';
+import { ConfirmEmailComponent } from './auth/confirm-email/confirm-email.component';
+import { ResendEmailConfirmComponent } from './auth/resend-email-confirm/resend-email-confirm.component';
+import { ForgottenPasswordComponent } from './auth/forgotten-password/forgotten-password.component';
+import { MusicPlayComponent } from './musics/components/music-play/music-play.component';
+import { MusicResolver } from './core/resolvers/music.resolver';
+import { PlaylistResolver } from './core/resolvers/playlist.resolver';
+
+const routes: Routes = [
+  { path: '', pathMatch: 'full', component: HomeComponent },
+  { path: 'signup', component: SignUpComponent },
+  { path: 'signin', component: SignInComponent },
+  { path: 'resend-confirm-email', component: ResendEmailConfirmComponent },
+  { path: 'forgottenPassword', component: ForgottenPasswordComponent },
+  {
+    path: 'confirm-email/:id',
+    component: ConfirmEmailComponent,
+    resolve:
+    {
+      user: UserResolver
+    }
+  },
+  {
+    path: 'categories', loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule)
+  },
+  {
+    path: 'playlists', loadChildren: () => import('./playlists/playlists.module').then(m => m.PlaylistsModule)
+  },
+  {
+    path: 'playlists/play/:id',
+    component: MusicPlayComponent,
+    resolve:
+    {
+      music: PlaylistResolver
+    },
+  },
+  {
+    path: 'musics', loadChildren: () => import('./musics/musics.module').then(m => m.MusicsModule)
+  },
+  /*
+  {
+    path: 'license', canActivate: [AuthorizeGuard], loadChildren: () => import('./licenses/licenses.module').then(m => m.LicensesModule)
+  },
+  {
+    path: 'profile', loadChildren: () => import('./profiles/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path: 'role', loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)
+  },
+  {
+    path: 'members',
+    children: [
+      {
+        path: '',
+        component: UsersListComponent,
+      },
+      {
+        path: 'all',
+        component: UsersListComponent,
+      }]
+  },
+  {
+    path: 'users', loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)
+  }*
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+*/

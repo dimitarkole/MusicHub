@@ -32,8 +32,8 @@ export class MusicService {
     return this.http.post<MusicPagination>(`${this.routeHomeController}/Filter/${page}`, music);
   }
 
-  suggestSongs(musicId: string) {
-    return this.http.get<Music[]>(`${this.routeHomeController}/SuggestSongs/${musicId}`);
+  suggestMusics(musicId: string, page: number) {
+    return this.http.get<MusicPagination>(`${this.routeHomeController}/SuggestMusics/${musicId}/${page}`);
   }
 
   allOwn(page: number) {

@@ -1,0 +1,30 @@
+<div class="row ">
+  <div class="col-md-11 notification-list" (scroll)="onScroll()" id="notifications">
+    <div class="row">
+      <div class="col-md-12" *ngFor="let notification of notificationPagination.notifications; index as i">
+        <div class="container">
+
+          <div class="row {{notification.seen? 'alert-light' : 'alert-dark'}} notification">
+            <div class="col-md-3">
+              <app-notification-special-info [claim]="getUserIdClaim(notification.claims)" [type]="'userAvatar'" *ngIf="isNotificationForLikeMusic(notification.type) || isNotificationForNewFollow(notification.type)"></app-notification-special-info>
+            </div>
+            <div class="col-md-9" *ngIf="isNotificationForLikeMusic(notification.type)">
+              <app-notification-special-info [claim]="getUserIdClaim(notification.claims)" [type]="'username'"></app-notification-special-info>
+              <small>
+                {{notification.content}}
+              </small>
+              <app-notification-special-info [claim]="getMusicIdClaim(notification.claims)" [type]="'musicName'"></app-notification-special-info>
+            </div>
+
+            <div class="col-md-9" *ngIf="isNotificationForNewFollow(notification.type)">
+              <app-notification-special-info [claim]="getUserIdClaim(notification.claims)" [type]="'username'"></app-notification-special-info>
+              <small>
+                {{notification.content}}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
