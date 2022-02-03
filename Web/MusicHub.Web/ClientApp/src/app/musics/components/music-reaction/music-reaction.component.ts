@@ -77,11 +77,8 @@ export class MusicReactionComponent implements OnInit, OnChanges {
             ],
             type: NotificationType.LikeMusic
           };
-          console.log("notification");
-          console.log(notification);
           this.notificationService.create(notification).subscribe(_ => _);
-        })
-     
+        });
       });
   }
 
