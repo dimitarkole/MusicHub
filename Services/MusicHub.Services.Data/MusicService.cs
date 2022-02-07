@@ -152,28 +152,29 @@
 
         private IQueryable<Music> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Music> musics)
         {
-            musics = musics.OrderByDescending(m => m.PlayedMusics.Count / (
-                               (m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
-                               - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)
-                               + m.Comments.Count())/* == 0 /*? 1 : (m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
-                               - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)
-                               + m.Comments.Count()))*/));
-           /* if (orderMethod == OrderMethod.CreatedOnAsc)
-            {
-                musics = musics.OrderBy(s => s.CreatedOn);
-            }
-            else if (orderMethod == OrderMethod.CreatedOnDesc)
-            {
-                musics = musics.OrderByDescending(s => s.CreatedOn);
-            }
-            else if (orderMethod == OrderMethod.NameAsc)
-            {
-                musics = musics.OrderBy(s => s.Name);
-            }
-            else if (orderMethod == OrderMethod.NameDesc)
-            {
-                musics = musics.OrderByDescending(s => s.Name);
-            }       */
+            musics = musics.OrderByDescending(m => (m.PlayedMusics.Count / 2)
+              + ((m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+              - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)) * 2)
+              + m.Comments.Count());
+            /* == 0 /*? 1 : (m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+                           - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)
+                           + m.Comments.Count()))*/
+            /* if (orderMethod == OrderMethod.CreatedOnAsc)
+             {
+                 musics = musics.OrderBy(s => s.CreatedOn);
+             }
+             else if (orderMethod == OrderMethod.CreatedOnDesc)
+             {
+                 musics = musics.OrderByDescending(s => s.CreatedOn);
+             }
+             else if (orderMethod == OrderMethod.NameAsc)
+             {
+                 musics = musics.OrderBy(s => s.Name);
+             }
+             else if (orderMethod == OrderMethod.NameDesc)
+             {
+                 musics = musics.OrderByDescending(s => s.Name);
+             }       */
 
             return musics;
         }

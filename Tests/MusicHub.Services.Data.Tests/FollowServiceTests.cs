@@ -40,7 +40,7 @@ namespace MusicHub.Services.Data.Tests
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
-            Assert.True(followService.IsOwned(follow.Id, follow.FollowingId));
+            Assert.True(followService.IsOwned(follow.Id, follow.FollowerId));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace MusicHub.Services.Data.Tests
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
-            Assert.True(followService.IsFollowing(follow.FollowingId, follow.FollowerId));
+            Assert.True(followService.IsFollowing(follow.FollowerId, follow.FollowingId));
         }
 
         [Fact]

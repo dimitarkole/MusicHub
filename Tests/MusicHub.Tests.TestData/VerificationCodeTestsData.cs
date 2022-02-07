@@ -35,10 +35,10 @@ namespace MusicHub.Tests.TestData
                 var verificationType = random.Next(0, 2) >= 0 ? VerificationType.ConfirmEmail: VerificationType.ChangePassword;
                 var verificationCode = new VerificationCode()
                 {
+                    Id = "VerificationCodeId" + id,
                     UserId = user.Id,
                     Code = code,
                     IsUsed = isUsed,
-                    Id = "VerificationCodeId" + id,
                     Type = verificationType,
                 };
 
