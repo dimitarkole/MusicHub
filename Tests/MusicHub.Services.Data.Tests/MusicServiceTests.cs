@@ -298,16 +298,18 @@
                   .Where(m => m.Privacy == Privacy.Public)
                   .OrderByDescending(m => m.CreatedOn);
 
-            if (userId != null)
+            if (!string.IsNullOrEmpty(userId))
             {
                 musics = musics.Where(m => m.UserId == userId);
             }
-
-            if (filter != new MusicFilter())
+            else
             {
-                musics = this.FilteringMusics(filter, musics);
-                musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+                musics = musics.Where(m => m.Privacy == Privacy.Public);
             }
+
+            musics = this.FilteringMusics(filter, musics);
+
+            musics = this.OrederSearchMusics(filter.OrderMethod, musics);
 
             var expected = new MusicsAllViewModel<MusicViewModel>()
             {
@@ -330,6 +332,11 @@
 
         private IQueryable<Music> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Music> musics)
         {
+            musics = musics.OrderByDescending(m => (m.PlayedMusics.Count / 2)
+                + ((m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+                - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)) * 2)
+                + m.Comments.Count());
+            /*
             if (orderMethod == OrderMethod.CreatedOnAsc)
             {
                 musics = musics.OrderBy(s => s.CreatedOn);
@@ -345,7 +352,7 @@
             else if (orderMethod == OrderMethod.NameDesc)
             {
                 musics = musics.OrderByDescending(s => s.Name);
-            }
+            }  */
 
             return musics;
         }

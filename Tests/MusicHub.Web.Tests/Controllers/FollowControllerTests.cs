@@ -286,9 +286,10 @@ namespace MusicHub.Web.Tests.Controllers
             var users = FollowTestsData.Users;
             var follows = FollowTestsData.Follows();
             var userId = users[0].Id;
+
             var followingId = follows
                 .Where(f => f.FollowerId != userId)
-                .FirstOrDefault()
+               . FirstOrDefault()
                 .FollowingId;
             MyController<FollowController>
                 .Instance()
@@ -306,7 +307,7 @@ namespace MusicHub.Web.Tests.Controllers
                         {
                             if(property.Name == "Id")
                             {
-                                Assert.Empty(property.GetValue(obj).ToString());
+                                Assert.NotEmpty(property.GetValue(obj).ToString());
                             }
                         }
                     }));
