@@ -13,5 +13,7 @@ namespace MusicHub.Data.Models.Enums
         LikeMusic = 1,
         [Display(Name = "Like comment")]
         LikeComment = 2,
+        [Display(Name = "New comment")]
+        NewComment = 3,
     }
 }

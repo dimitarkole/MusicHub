@@ -44,7 +44,7 @@ export class FollowCreateComponent implements OnInit {
         this.setFollowData();
         this.prifileSerivice.MyProfile().subscribe(u => {
           var notification: Notification = {
-            content: " follow you ",
+            content: " follows you ",
             userId: follow.followingId,
             claims: [
               {

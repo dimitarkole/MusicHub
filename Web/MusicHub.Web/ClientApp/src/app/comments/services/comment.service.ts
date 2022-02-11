@@ -31,7 +31,7 @@ export class CommentService {
   }
 
   isOwn(id: string) {
-    return this.http.get<boolean>(`${this.routeCommentController}/IsOwn/${id}`);
+    return this.http.get<boolean>(`${this.routeCommentController}/IsOwned/${id}`);
   }
 
   createChildrenComment(parentCommentId: string, comment: Comment) {
