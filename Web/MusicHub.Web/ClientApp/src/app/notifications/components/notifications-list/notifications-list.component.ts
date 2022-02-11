@@ -61,6 +61,14 @@ export class NotificationsListComponent implements OnInit {
     return notificationType == NotificationType.NewFollow;
   }
 
+  isNotificationForNewComment(notificationType: NotificationType): boolean {
+    return notificationType == NotificationType.NewComment;
+  }
+
+  isNotificationForLikeComment(notificationType: NotificationType): boolean {
+    return notificationType == NotificationType.LikeComment;
+  }
+
   getUserIdClaim(claims: NotificationClaim[])
   {
     return claims.filter(c => c.type == NotificationClaimType.UserId)[0];

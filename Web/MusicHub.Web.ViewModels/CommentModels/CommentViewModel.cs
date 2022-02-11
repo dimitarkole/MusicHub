@@ -16,6 +16,8 @@
     {
         public string Id { get; set; }
 
+        public string MusicId { get; set; }
+
         public string Text { get; set; }
 
         public CommentUserViewModel User { get; set; }
