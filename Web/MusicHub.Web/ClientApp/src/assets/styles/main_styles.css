@@ -1964,7 +1964,7 @@ section {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 10px;
+  padding: 5px;
 }
 
 .glyphicon-asterisk:before {
