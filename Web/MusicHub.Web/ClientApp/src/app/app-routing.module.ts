@@ -34,6 +34,8 @@ import { CategoryAnalysisComponent } from './categories/components/category-anal
 import { RoleAnalysisComponent } from './roles/components/role-analysis/role-analysis.component';
 import { LikedMusicsListComponent } from './musics/components/liked-musics-list/liked-musics-list.component';
 import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
+import { PlaylistResolver } from './core/resolvers/playlist.resolver';
+import { PlaylistPlayComponent } from './playlists/components/playlist-play/playlist-play.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -73,6 +75,14 @@ const routes: Routes = [
         component: PlaylistsOwnListComponent,
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.PlaylistCreator)
+      },
+      {
+        path: 'play/:id',
+        component: PlaylistPlayComponent,
+        resolve:
+        {
+          playlist: PlaylistResolver
+        },
       },
     ]
   },
