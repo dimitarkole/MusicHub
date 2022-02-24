@@ -49,7 +49,7 @@
                 .OrderByDescending(p => p.Position)
                 .To<PlaylistMusicViewModel>();
 
-            var expected = new PlaylistMusicsAllViewModel<PlaylistMusicViewModel>()
+            var expected = new PlaylistMusicsPageModel<PlaylistMusicViewModel>()
             {
                 PlaylistMusics = playlistMusics
                     .GetPage(page, entitesPerPage)

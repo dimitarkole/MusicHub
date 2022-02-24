@@ -27,7 +27,7 @@
             this.paginationService = paginationService;
         }
 
-        public PlaylistMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string id)
+        public PlaylistMusicsPageModel<T> All<T>(int page, int entitesPerPage, string id)
         {
 
             var playlistMusics = this.context.PlaylistMusics
@@ -35,7 +35,7 @@
               .OrderByDescending(p => p.Position)
               .To<T>();
 
-            return new PlaylistMusicsAllViewModel<T>()
+            return new PlaylistMusicsPageModel<T>()
             {
                 PlaylistMusics = playlistMusics
                     .GetPage(page, entitesPerPage)

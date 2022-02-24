@@ -64,7 +64,7 @@ namespace MusicHub.Services.Data.Tests
                 .OrderByDescending(s => s.CreatedOn)
                 .To<LikedMusicViewModel>();
 
-            var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
+            var expected = new LikedMusicPageModel<LikedMusicViewModel>()
             {
                 LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
@@ -101,7 +101,7 @@ namespace MusicHub.Services.Data.Tests
             likedMusics = FilteringMusics(filter, likedMusics);
             likedMusics = OrederSearchMusics(filter.OrderMethod, likedMusics);
 
-            var expected = new LikedMusicsAllViewModel<LikedMusicViewModel>()
+            var expected = new LikedMusicPageModel<LikedMusicViewModel>()
             {
                 LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)

@@ -67,7 +67,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetLikedMusics(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<LikedMusicsAllViewModel<LikedMusicViewModel>>()
+                    .WithModelOfType<LikedMusicPageModel<LikedMusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.LikedMusicsPerPage;
@@ -97,7 +97,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.FilterLikedMusics(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<LikedMusicsAllViewModel<LikedMusicViewModel>>()
+                    .WithModelOfType<LikedMusicPageModel<LikedMusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.LikedMusicsPerPage;
@@ -127,7 +127,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.FilterLikedMusics(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<LikedMusicsAllViewModel<LikedMusicViewModel>>()
+                    .WithModelOfType<LikedMusicPageModel<LikedMusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.LikedMusicsPerPage;

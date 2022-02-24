@@ -14,6 +14,6 @@ namespace MusicHub.Services.Data.Analysis.Interfaces
 
         LineChartViewModel GetTopCreatedMusicByCategoriesCountForMonths(string userId, ChartFilterData filter);
 
-        MusicsAllViewModel<T> GetTopPlayedMusicsAllTime<T>(int page, int entitesPerPage, string userId);
+        MusicPageModel<T> GetTopPlayedMusicsAllTime<T>(int page, int entitesPerPage, string userId);
     }
 }

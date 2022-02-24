@@ -35,13 +35,13 @@ namespace MusicHub.Web.Controllers
         /// <summary>Get categories in data.</summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<CategoriesAllViewModel<CategoryViewModel>> Get()
+        public ActionResult<CategoryPageModel<CategoryViewModel>> Get()
             => this.Ok(this.categoryService.All<CategoryViewModel>());
 
         /// <summary>Get categories in data.</summary>
         /// <returns></returns>
         [HttpGet(nameof(GetAll) + "/{page}")]
-        public ActionResult<CategoriesAllViewModel<CategoryViewModel>> GetAll(int page)
+        public ActionResult<CategoryPageModel<CategoryViewModel>> GetAll(int page)
             => this.Ok(this.categoryService.All<CategoryViewModel>(page, PaginationData.MusicsPerPage));
 
         /// <summary>Get category by id.</summary>

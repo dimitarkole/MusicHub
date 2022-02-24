@@ -13,7 +13,7 @@
 
         Task Create(PlaylistMusicCreateInputModel model);
 
-        PlaylistMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string id);
+        PlaylistMusicsPageModel<T> All<T>(int page, int entitesPerPage, string id);
 
         Task Delete(string id);
 

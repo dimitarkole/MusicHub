@@ -11,9 +11,9 @@
 
     public interface IMusicReactionService
     {
-        LikedMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string userId);
+        LikedMusicPageModel<T> All<T>(int page, int entitesPerPage, string userId);
 
-        LikedMusicsAllViewModel<T> Filter<T>(int page, int entitesPerPage, string userId, MusicFilter filter);
+        LikedMusicPageModel<T> Filter<T>(int page, int entitesPerPage, string userId, MusicFilter filter);
 
         Task Create(MusicReactionCreateInputModel model, string userId);
 

@@ -29,7 +29,7 @@
             this.paginationService = paginationService;
         }
 
-        public MusicsAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public MusicPageModel<T> All<T>(int page, int entitesPerPage)
         {
             var musics = this.context.Musics
                     .Where(m => m.Privacy == Privacy.Public)
@@ -37,7 +37,7 @@
                     .ThenBy(m => m.MusicReactions.Count(r => r.Reaction == Reaction.Like))
                     .ThenBy(m => m.Name)
                     .To<T>();
-            return new MusicsAllViewModel<T>()
+            return new MusicPageModel<T>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -47,13 +47,13 @@
             };
         }
 
-        public MusicsAllViewModel<T> AllOwn<T>(int page, int entitesPerPage, string userId)
+        public MusicPageModel<T> AllOwn<T>(int page, int entitesPerPage, string userId)
         {
             var musics = this.context.Musics
                    .Where(s => s.UserId == userId)
                    .OrderByDescending(s => s.CreatedOn)
                    .To<T>();
-            return new MusicsAllViewModel<T>()
+            return new MusicPageModel<T>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -79,7 +79,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public MusicsAllViewModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null)
+        public MusicPageModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics;
 
@@ -95,7 +95,7 @@
             musics = this.FilteringMusics(filter, musics);
 
             musics = this.OrederSearchMusics(filter.OrderMethod, musics);
-            return new MusicsAllViewModel<T>()
+            return new MusicPageModel<T>()
             {
                 Musics = musics
                         .To<T>()
@@ -118,7 +118,7 @@
                     s.Id == musicId
                     && s.UserId == userId);
 
-        public MusicsAllViewModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId)
+        public MusicPageModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId)
         {
             var music = this.context.Musics.Find(musicId);
             var suggestMusics = this.context.Musics
@@ -127,7 +127,7 @@
                 .ThenByDescending(s => s.CreatedOn)
                 .ThenByDescending(s => s.PlayedMusics.Count);
 
-            return new MusicsAllViewModel<T>()
+            return new MusicPageModel<T>()
             {
                 Musics = suggestMusics
                        .To<T>()

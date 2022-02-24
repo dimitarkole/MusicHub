@@ -29,12 +29,12 @@
             this.paginationService = paginationService;
         }
 
-        public PlaylistsAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public PlaylistPageModel<T> All<T>(int page, int entitesPerPage)
         {
             var playlists = this.context.Playlists
                     .Where(p => p.Privacy == Privacy.Public && p.PlaylistMusics.Count > 0)
                     .To<T>();
-            return new PlaylistsAllViewModel<T>()
+            return new PlaylistPageModel<T>()
             {
                 Playlists = playlists
                     .GetPage(page, entitesPerPage)
@@ -44,7 +44,7 @@
             };
         }
 
-        public PlaylistsAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
+        public PlaylistPageModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
         {
             var playlists = this.context.Playlists
                .Where(p => p.UserId == userId
@@ -52,7 +52,7 @@
                .OrderByDescending(p => p.CreatedOn)
                .To<T>();
 
-            return new PlaylistsAllViewModel<T>()
+            return new PlaylistPageModel<T>()
             {
                 Playlists = playlists
                     .GetPage(page, entitesPerPage)
@@ -62,7 +62,7 @@
             };
         }
 
-        public PlaylistsAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId = null)
+        public PlaylistPageModel<T> Filter<T>(int page, int entitesPerPage, PlaylistFilterInputModel model, string userId = null)
         {
             var playlists = this.context.Playlists
                .Where(p => p.PlaylistMusics.Count > 0);
@@ -79,7 +79,7 @@
             playlists = this.FilteringPlaylists(model, playlists);
             playlists = this.OrederSearchPlaylist(model.OrderMethod, playlists);
             var playlistsT = playlists.To<T>();
-            return new PlaylistsAllViewModel<T>()
+            return new PlaylistPageModel<T>()
             {
                 Playlists = playlistsT
                     .GetPage(page, entitesPerPage)

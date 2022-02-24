@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.PlaylistModels
+﻿namespace MusicHub.Web.ViewModels.Users
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class PlaylistMusicsAllViewModel<T>
+    public class UserPageModel<T>
     {
-        public IEnumerable<T> PlaylistMusics { get; set; }
+        public IEnumerable<T> Users { get; set; }
 
         public int NumberOfPages { get; set; }
 

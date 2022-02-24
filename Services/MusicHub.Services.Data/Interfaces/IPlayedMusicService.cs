@@ -10,9 +10,9 @@
 
     public interface IPlayedMusicService
     {
-        PlayedMusicAllViewModel<T> All<T>(int page, int entitesPerPage, string userId);
+        PlayedMusicPageModel<T> All<T>(int page, int entitesPerPage, string userId);
 
-        PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId);
+        PlayedMusicPageModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId);
 
         Task<string> Create(PlayedMusicCreateInputModel model, string userId);
 

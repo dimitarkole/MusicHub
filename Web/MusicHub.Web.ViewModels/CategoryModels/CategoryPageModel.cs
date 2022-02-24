@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MusicHub.Web.ViewModels.SubscriptionModels
+namespace MusicHub.Web.ViewModels.CategoryModels
 {
-    public class SubscriptionsAllViewModel<T>
+    public class CategoryPageModel<T>
     {
-        public IEnumerable<T> Subscriptions { get; set; }
+        public IEnumerable<T> Categories { get; set; }
 
         public int NumberOfPages { get; set; }
 

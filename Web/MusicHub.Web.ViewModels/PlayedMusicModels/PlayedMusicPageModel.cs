@@ -1,12 +1,13 @@
-﻿namespace MusicHub.Web.ViewModels.NotificationModels
+﻿namespace MusicHub.Web.ViewModels.PlayedMusicModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class NotificationAllViewModel<T>
+    public class PlayedMusicPageModel<T>
     {
-        public IEnumerable<T> Notifications { get; set; }
+
+        public IEnumerable<T> PlayedMusics { get; set; }
 
         public int NumberOfPages { get; set; }
 

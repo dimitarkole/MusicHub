@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.PermissionModels
+﻿namespace MusicHub.Web.ViewModels.PlaylistModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class PermissionsAllViewModel<T>
+    public class PlaylistPageModel<T>
     {
-        public IEnumerable<T> Permissions { get; set; }
+        public IEnumerable<T> Playlists { get; set; }
 
         public int NumberOfPages { get; set; }
 

@@ -9,13 +9,13 @@ namespace MusicHub.Services.Data.Interfaces
 {
     public interface IMusicService
     {
-        MusicsAllViewModel<T> All<T>(int page, int entitesPerPage);
+        MusicPageModel<T> All<T>(int page, int entitesPerPage);
 
-        MusicsAllViewModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId);
+        MusicPageModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId);
 
-        MusicsAllViewModel<T> AllOwn<T>(int page, int entitesPerPage, string userId);
+        MusicPageModel<T> AllOwn<T>(int page, int entitesPerPage, string userId);
 
-        MusicsAllViewModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null);
+        MusicPageModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null);
 
         Task<string> Create(MusicCreateInputModel model, string userId);
 

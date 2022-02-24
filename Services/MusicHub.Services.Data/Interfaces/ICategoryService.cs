@@ -10,7 +10,7 @@
 
     public interface ICategoryService
     {
-        CategoriesAllViewModel<T> All<T>(int page, int entitesPerPage);
+        CategoryPageModel<T> All<T>(int page, int entitesPerPage);
 
         IList<T> All<T>();
 
@@ -22,6 +22,6 @@
 
         Task Delete(string id);
 
-        CategoriesAllViewModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter);
+        CategoryPageModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter);
     }
 }

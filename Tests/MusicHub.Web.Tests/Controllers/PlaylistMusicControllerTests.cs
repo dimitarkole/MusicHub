@@ -44,7 +44,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Get(playlistId, page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<PlaylistMusicsAllViewModel<PlaylistMusicViewModel>>()
+                    .WithModelOfType<PlaylistMusicsPageModel<PlaylistMusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.PlaylistsMusicsPerPage;

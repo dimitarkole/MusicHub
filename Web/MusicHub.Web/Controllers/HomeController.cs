@@ -35,7 +35,7 @@
         /// <param name="page">The page of music.</param>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpGet(nameof(Get) + "/{page}")]
-        public ActionResult<MusicsAllViewModel<MusicViewModel>> Get(int page)
+        public ActionResult<MusicPageModel<MusicViewModel>> Get(int page)
           => this.Ok(this.musicService.All<MusicViewModel>(page, PaginationData.MusicsPerPage));
 
         /// <summary>Filter music.</summary>
@@ -50,7 +50,7 @@
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpPost]
         [Route(nameof(Filter) + "/{page}")]
-        public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter filter)
+        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, MusicFilter filter)
             => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, filter));
 
         /// <summary>Get music by id.</summary>
@@ -64,14 +64,14 @@
         /// <param name="id">Id of music.</param>
         /// <returns>Ok(MusicPlayModel).</returns>
         [HttpGet(nameof(SuggestMusics) + "/{id}/{page}")]
-        public ActionResult<MusicsAllViewModel<MusicViewModel>> SuggestMusics(int page, string id)
+        public ActionResult<MusicPageModel<MusicViewModel>> SuggestMusics(int page, string id)
             => this.Ok(this.musicService.SuggestMusics<MusicViewModel>(page, PaginationData.SuggestMusicPerPage, id));
 
         /// <summary>Get palylists.</summary>
         /// <param name="page">The page of palylists.</param>
         /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
         [HttpGet(nameof(GetPlaylists) + "/{page}")]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> GetPlaylists(int page)
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> GetPlaylists(int page)
             => this.Ok(this.playlistService.All<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage));
 
         /// <summary>Get playlist by id.</summary>
@@ -92,7 +92,7 @@
         /// </param>
         /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
         [HttpPost(nameof(PlaylistFilter) + "/{page}")]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> PlaylistFilter(int page, PlaylistFilterInputModel model)
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> PlaylistFilter(int page, PlaylistFilterInputModel model)
             => this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, model));
     }
 }

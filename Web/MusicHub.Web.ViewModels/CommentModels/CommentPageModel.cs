@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class CommentsAllViewModel<T>
+    public class CommentPageModel<T>
     {
         public IEnumerable<T> Comments { get; set; }
 

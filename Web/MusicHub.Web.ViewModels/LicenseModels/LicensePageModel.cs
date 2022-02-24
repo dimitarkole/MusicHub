@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.Users
+﻿namespace MusicHub.Web.ViewModels.LicenseModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class UserAllViewModel<T>
+    public class LicensePageModel<T>
     {
-        public IEnumerable<T> Users { get; set; }
+        public IEnumerable<T> Licenses { get; set; }
 
         public int NumberOfPages { get; set; }
 

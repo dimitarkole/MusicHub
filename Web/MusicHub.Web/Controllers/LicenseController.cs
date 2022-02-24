@@ -39,14 +39,14 @@
         [HttpGet(nameof(Get) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
-        public ActionResult<LicenseAllViewModel<LicenseLargeViewModel>> Get(int page)
+        public ActionResult<LicensePageModel<LicenseLargeViewModel>> Get(int page)
             => this.Ok(this.licenseService.All<LicenseLargeViewModel>(page, PaginationData.LicensesPerPage));
 
         /// <summary>Get all licenes.</summary>
         /// <param name="page">The page of license.</param>
         /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
         [HttpGet(nameof(GetFiles) + "/{licenseId}")]
-        public ActionResult<LicenseAllViewModel<LicenceFileViewModel>> GetFiles(string licenseId)
+        public ActionResult<LicensePageModel<LicenceFileViewModel>> GetFiles(string licenseId)
             => this.Ok(this.licenseService.AllFiles<LicenceFileViewModel>(licenseId));
 
         /// <summary>Get own licenses.</summary>
@@ -55,7 +55,7 @@
         [HttpGet(nameof(GetOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.LicenseCreator)]
-        public ActionResult<LicenseAllViewModel<LicenceViewModel>> GetOwn(int page)
+        public ActionResult<LicensePageModel<LicenceViewModel>> GetOwn(int page)
             => this.Ok(this.licenseService.AllOwned<LicenceViewModel>(page, PaginationData.LicensesPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own licenses.</summary>
@@ -63,7 +63,7 @@
         [HttpGet(nameof(GetOwnApproved))]
         [Authorize]
         [Permission(PermissionType.LicenseCreator)]
-        public ActionResult<LicenseAllViewModel<LicenceSmallViewModel>> GetOwnApproved()
+        public ActionResult<LicensePageModel<LicenceSmallViewModel>> GetOwnApproved()
             => this.Ok(this.licenseService.AllOwnedApproved<LicenceSmallViewModel>(this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own licenses.</summary>
@@ -72,7 +72,7 @@
         [HttpPost(nameof(Filter) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
-        public ActionResult<LicenseAllViewModel<LicenseLargeViewModel>> Filter(int page, LicenseFilter licenseFilter)
+        public ActionResult<LicensePageModel<LicenseLargeViewModel>> Filter(int page, LicenseFilter licenseFilter)
             => this.Ok(this.licenseService.Filter<LicenseLargeViewModel>(page, PaginationData.LicensesPerPage, licenseFilter));
 
         /// <summary>Get own licenses.</summary>
@@ -81,7 +81,7 @@
         [HttpPost(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.LicenseCreator)]
-        public ActionResult<LicenseAllViewModel<LicenceSmallViewModel>> FilterOwn(int page, LicenseFilter licenseFilter)
+        public ActionResult<LicensePageModel<LicenceSmallViewModel>> FilterOwn(int page, LicenseFilter licenseFilter)
             => this.Ok(this.licenseService.Filter<LicenceSmallViewModel>(page, PaginationData.LicensesPerPage, licenseFilter, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get music by id.</summary>

@@ -179,7 +179,7 @@
                .OrderBy(u => u.UserName)
                .To<UserViewModel>();
 
-            var expected = new UserAllViewModel<UserViewModel>()
+            var expected = new UserPageModel<UserViewModel>()
             {
                 Users = users
                     .GetPage(page, entitesPerPage)
@@ -207,7 +207,7 @@
                    .OrderBy(u => u.UserName)
                    .To<UserViewModel>();
 
-            var expected = new UserAllViewModel<UserViewModel>()
+            var expected = new UserPageModel<UserViewModel>()
             {
                 Users = users
                     .GetPage(page, entitesPerPage)
@@ -241,7 +241,7 @@
                 users = users.Where(u => u.FirstName.Contains(model.FirstName));
             }
 
-            var expected = new UserAllViewModel<UserViewModel>()
+            var expected = new UserPageModel<UserViewModel>()
             {
                 Users = users
                     .To<UserViewModel>()

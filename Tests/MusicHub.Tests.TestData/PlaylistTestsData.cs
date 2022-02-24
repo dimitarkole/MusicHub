@@ -91,6 +91,5 @@
             new Playlist(){ Id = "PlaylistId16", ImageUrl = "Image url.jpg", Name="playlist name16", UserId = Users[1].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
             new Playlist(){ Id = "PlaylistId17", ImageUrl = "Image url.jpg", Name="playlist name17", UserId = Users[0].Id, Privacy = Privacy.Public,  PlaylistMusics = new List<PlaylistMusic>()},
         };
-
     }
 }

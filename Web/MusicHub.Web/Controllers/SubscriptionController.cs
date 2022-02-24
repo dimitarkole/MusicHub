@@ -33,11 +33,11 @@
         }
 
         [HttpGet(nameof(Get) + "/{page}")]
-        public ActionResult<SubscriptionsAllViewModel<SubscriptionViewModel>> Get(int page)
+        public ActionResult<SubscriptionPageModel<SubscriptionViewModel>> Get(int page)
          => this.Ok(this.subscriptionService.All<SubscriptionViewModel>(page, PaginationData.SubscriptionsPerPage));
 
         [HttpPost(nameof(Filter) + "/{page}")]
-        public ActionResult<SubscriptionsAllViewModel<SubscriptionViewModel>> Filter(int page, SubscriptionFilter model)
+        public ActionResult<SubscriptionPageModel<SubscriptionViewModel>> Filter(int page, SubscriptionFilter model)
           => this.Ok(this.subscriptionService.Filter<SubscriptionViewModel>(page, PaginationData.SubscriptionsPerPage, model));
 
         [HttpPost]

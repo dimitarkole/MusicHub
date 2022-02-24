@@ -87,12 +87,12 @@
             };
         }
 
-        public MusicsAllViewModel<T> GetTopPlayedMusicsAllTime<T>(int page, int entitesPerPage, string userId)
+        public MusicPageModel<T> GetTopPlayedMusicsAllTime<T>(int page, int entitesPerPage, string userId)
         {
             var musics = this.context.Musics.Where(m => m.UserId == userId)
                 .OrderByDescending(m => m.PlayedMusics.Count())
                 .To<T>();
-            return new MusicsAllViewModel<T>()
+            return new MusicPageModel<T>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
