@@ -33,7 +33,7 @@
             await context.SaveChangesAsync();
         }
 
-        public NotificationAllViewModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId)
+        public NotificationPageModel<T> GetUserNotifications<T>(int page, int entitesPerPage, string userId)
         {
             var notifications = this.context.Notifications
                 .Where(n => n.UserId == userId)
@@ -41,7 +41,7 @@
                 .ThenByDescending(n => n.CreatedOn)
                 .To<T>();
 
-            return new NotificationAllViewModel<T>()
+            return new NotificationPageModel<T>()
             {
                 Notifications = notifications
                     .GetPage(page, entitesPerPage)

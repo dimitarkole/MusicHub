@@ -51,12 +51,12 @@
         // [Authorize]
         // [Permission(PermissionType.UserAdministration)]
         [HttpGet(nameof(All) + "/{page}")]
-        public ActionResult<UserAllViewModel<UserViewModel>> All(int page)
+        public ActionResult<UserPageModel<UserViewModel>> All(int page)
             => this.Ok(this.profileService.All<UserViewModel>(page, PaginationData.UsersPerPage));
 
         [Authorize]
         [HttpGet(nameof(List) + "/{page}")]
-        public ActionResult<UserAllViewModel<UserBriefInfoViewModel>> List(int page)
+        public ActionResult<UserPageModel<UserBriefInfoViewModel>> List(int page)
             => this.Ok(this.profileService.All<UserBriefInfoViewModel>(page, PaginationData.UsersPerPage));
 
         [Authorize]

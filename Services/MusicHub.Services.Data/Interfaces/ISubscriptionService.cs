@@ -10,9 +10,9 @@
 
     public interface ISubscriptionService
     {
-        SubscriptionsAllViewModel<T> All<T>(int page, int entitesPerPage);
+        SubscriptionPageModel<T> All<T>(int page, int entitesPerPage);
 
-        SubscriptionsAllViewModel<T> Filter<T>(int page, int entitesPerPage, SubscriptionFilter filter);
+        SubscriptionPageModel<T> Filter<T>(int page, int entitesPerPage, SubscriptionFilter filter);
 
         Task Create(SubscriptionCreateInputModel model);
 

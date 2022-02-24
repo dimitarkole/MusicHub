@@ -37,7 +37,7 @@
         /// <param name="page">The page of musics.</param>
         /// <returns>Ok(PlayedMusicAllViewModel<PlayedMusicViewModel>).</returns>
         [HttpGet("{page}")]
-        public ActionResult<PlayedMusicAllViewModel<PlayedMusicViewModel>> Get(int page)
+        public ActionResult<PlayedMusicPageModel<PlayedMusicViewModel>> Get(int page)
             => this.Ok(this.playedMusicService
                 .All<PlayedMusicViewModel>(page, PaginationData.PlayedMusicsPerPage, this.userManager.GetUserId(this.User)));
 
@@ -46,7 +46,7 @@
         /// <param name="filter">Filter data.</param>
         /// <returns>Ok(PlayedMusicAllViewModel<PlayedMusicViewModel>).</returns>
         [HttpGet(nameof(Filter) + "/{page}")]
-        public ActionResult<PlayedMusicAllViewModel<PlayedMusicViewModel>> Filter(int page, PlayedMusicFilterInputModels filter)
+        public ActionResult<PlayedMusicPageModel<PlayedMusicViewModel>> Filter(int page, PlayedMusicFilterInputModels filter)
             => this.Ok(this.playedMusicService.Filter<PlayedMusicViewModel>(page, PaginationData.PlayedMusicsPerPage, filter, this.userManager.GetUserId(this.User)));
 
         /// <summary>Add played music in data.</summary>

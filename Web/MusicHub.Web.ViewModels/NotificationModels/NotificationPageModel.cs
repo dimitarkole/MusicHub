@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.RoleModels
+﻿namespace MusicHub.Web.ViewModels.NotificationModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class RolesAllViewModel<T>
+    public class NotificationPageModel<T>
     {
-        public IEnumerable<T> Roles { get; set; }
+        public IEnumerable<T> Notifications { get; set; }
 
         public int NumberOfPages { get; set; }
 

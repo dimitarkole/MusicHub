@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MusicHub.Web.ViewModels.CategoryModels
+namespace MusicHub.Web.ViewModels.MusicReactionModels
 {
-    public class CategoriesAllViewModel<T>
+    public class LikedMusicPageModel<T>
     {
-        public IEnumerable<T> Categories { get; set; }
+        public IEnumerable<T> LikedMusics { get; set; }
 
         public int NumberOfPages { get; set; }
 

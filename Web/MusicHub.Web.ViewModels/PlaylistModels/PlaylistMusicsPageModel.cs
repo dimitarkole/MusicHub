@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.FollowModels
+﻿namespace MusicHub.Web.ViewModels.PlaylistModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class FollowersAllViewModel<T>
+    public class PlaylistMusicsPageModel<T>
     {
-        public IEnumerable<T> Followers { get; set; }
+        public IEnumerable<T> PlaylistMusics { get; set; }
 
         public int NumberOfPages { get; set; }
 

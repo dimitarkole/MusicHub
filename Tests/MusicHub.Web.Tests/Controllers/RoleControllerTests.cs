@@ -37,7 +37,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Get(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<RolesAllViewModel<RoleViewModel>>()
+                    .WithModelOfType<RolePageModel<RoleViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.RolesPerPage;
@@ -88,7 +88,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<RolesAllViewModel<RoleViewModel>>()
+                    .WithModelOfType<RolePageModel<RoleViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.RolesPerPage;

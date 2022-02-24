@@ -1,13 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.PlayedMusicModels
+﻿namespace MusicHub.Web.ViewModels.RoleModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class PlayedMusicAllViewModel<T>
+    public class RolePageModel<T>
     {
-
-        public IEnumerable<T> PlayedMusics { get; set; }
+        public IEnumerable<T> Roles { get; set; }
 
         public int NumberOfPages { get; set; }
 

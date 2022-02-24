@@ -11,7 +11,7 @@
 
     public interface IProfileService
     {
-        UserAllViewModel<T> All<T>(int page, int entitesPerPage);
+        UserPageModel<T> All<T>(int page, int entitesPerPage);
 
         T GetById<T>(string id);
 
@@ -25,9 +25,9 @@
 
         Task Renew(string id);
 
-        UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery);
+        UserPageModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery);
 
-        UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, UserFilter model);
+        UserPageModel<UserViewModel> Search(int page, int entitesPerPage, UserFilter model);
 
         bool HasPermissions(string id, PermissionType permissionType);
 

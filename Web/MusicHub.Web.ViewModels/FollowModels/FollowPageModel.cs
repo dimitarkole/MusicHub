@@ -1,12 +1,12 @@
-﻿namespace MusicHub.Web.ViewModels.LicenseModels
+﻿namespace MusicHub.Web.ViewModels.FollowModels
 {
     using System;
     using System.Collections.Generic;
     using System.Text;
 
-    public class LicenseAllViewModel<T>
+    public class FollowPageModel<T>
     {
-        public IEnumerable<T> Licenses { get; set; }
+        public IEnumerable<T> Followers { get; set; }
 
         public int NumberOfPages { get; set; }
 

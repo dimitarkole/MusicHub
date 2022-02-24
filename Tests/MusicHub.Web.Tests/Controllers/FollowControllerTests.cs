@@ -39,7 +39,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetOwnFollowing(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<FollowingsAllViewModel<FollowingViewModel>>()
+                    .WithModelOfType<FollowingPageModel<FollowingViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.FollowingsPerPage;
@@ -65,7 +65,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetFollowing(userId, page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<FollowingsAllViewModel<FollowingViewModel>>()
+                    .WithModelOfType<FollowingPageModel<FollowingViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.FollowingsPerPage;
@@ -91,7 +91,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetFollowers(userId, page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType< FollowersAllViewModel<FollowerViewModel>>()
+                    .WithModelOfType< FollowPageModel<FollowerViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.FollowersPerPage;
@@ -117,7 +117,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.FilterFollowers(userId, page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<FollowersAllViewModel<FollowerViewModel>>()
+                    .WithModelOfType<FollowPageModel<FollowerViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.FollowersPerPage;
@@ -144,7 +144,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.FilterFollowings(userId, page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<FollowingsAllViewModel<FollowingViewModel>>()
+                    .WithModelOfType<FollowingPageModel<FollowingViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.FollowingsPerPage;

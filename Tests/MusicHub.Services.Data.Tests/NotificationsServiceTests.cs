@@ -65,7 +65,7 @@
                 .ThenByDescending(n => n.CreatedOn)
                 .To<NotificationViewModel>();
 
-            var expected = new NotificationAllViewModel<NotificationViewModel>()
+            var expected = new NotificationPageModel<NotificationViewModel>()
             {
                 Notifications = allNotifications
                     .GetPage(page, entitesPerPage)

@@ -27,13 +27,13 @@
             this.context = context;
         }
 
-        public CommentsAllViewModel<T> All<T>(int page, int entitesPerPage, string musicId)
+        public CommentPageModel<T> All<T>(int page, int entitesPerPage, string musicId)
         {
             var comments = this.context.Comments
                 .Where(c => c.MusicId == musicId)
                 .OrderByDescending(c => c.CreatedOn)
                 .To<T>();
-            return new CommentsAllViewModel<T>()
+            return new CommentPageModel<T>()
             {
                 Comments = comments
                     .GetPage(page, entitesPerPage)
@@ -43,13 +43,13 @@
             };
         }
 
-        public CommentsAllViewModel<T> GetChildrenComments<T>(int page, int entitesPerPage, string parentCommentId)
+        public CommentPageModel<T> GetChildrenComments<T>(int page, int entitesPerPage, string parentCommentId)
         {
             var comments = this.context.Comments
                 .Where(c => c.ParentCommentId == parentCommentId)
                 .OrderByDescending(c => c.CreatedOn)
                 .To<T>();
-            return new CommentsAllViewModel<T>()
+            return new CommentPageModel<T>()
             {
                 Comments = comments
                     .GetPage(page, entitesPerPage)

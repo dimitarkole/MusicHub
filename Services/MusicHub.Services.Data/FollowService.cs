@@ -55,14 +55,14 @@
                     f.Id == id
                     && f.FollowerId == userId);
 
-        public FollowingsAllViewModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId)
+        public FollowingPageModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId)
         {
             var followings = this.context.Follows
                 .Where(f => f.FollowerId == userId)
                 .To<T>()
                 .ToList();
 
-            return new FollowingsAllViewModel<T>()
+            return new FollowingPageModel<T>()
             {
                 Followings = followings
                     .GetPage(page, entitesPerPage)
@@ -72,13 +72,13 @@
             };
         }
 
-        public FollowersAllViewModel<T> AllFollowers<T>(int page, int entitesPerPage, string userId)
+        public FollowPageModel<T> AllFollowers<T>(int page, int entitesPerPage, string userId)
         {
             var followers = this.context.Follows
                 .Where(f => f.FollowingId == userId)
                 .To<T>();
 
-            return new FollowersAllViewModel<T>()
+            return new FollowPageModel<T>()
             {
                 Followers = followers
                     .GetPage(page, entitesPerPage)
@@ -88,7 +88,7 @@
             };
         }
 
-        public FollowingsAllViewModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
+        public FollowingPageModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
         {
             var followings = this.context.Follows
                .Where(f => f.FollowerId == userId);
@@ -97,7 +97,7 @@
             followings = this.OrederFollowings(filter.OrderMethod, followings);
             var followersT = followings.To<T>();
 
-            return new FollowingsAllViewModel<T>()
+            return new FollowingPageModel<T>()
             {
                 Followings = followersT
                     .GetPage(page, entitesPerPage)
@@ -107,14 +107,14 @@
             };
         }
 
-        public FollowersAllViewModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
+        public FollowPageModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId)
         {
             var followers = this.context.Follows
                .Where(f => f.FollowingId == userId);
             followers = this.FilteringFollowers(filter, followers);
             followers = this.OrederFollows(filter.OrderMethod, followers);
             var followersT = followers.To<T>();
-            return new FollowersAllViewModel<T>()
+            return new FollowPageModel<T>()
             {
                 Followers = followersT
                     .GetPage(page, entitesPerPage)

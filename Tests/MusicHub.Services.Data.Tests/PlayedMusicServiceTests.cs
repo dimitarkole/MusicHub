@@ -101,7 +101,7 @@ namespace MusicHub.Services.Data.Tests
             Assert.False(playedMusicService.IsOwned(playedMusicId, userId));
         }
 
-        private void CheckFilterModel(int page, string userId, int entitesPerPage, PlayedMusicFilterInputModels filter, PlayedMusicAllViewModel<PlayedMusicViewModel> actual)
+        private void CheckFilterModel(int page, string userId, int entitesPerPage, PlayedMusicFilterInputModels filter, PlayedMusicPageModel<PlayedMusicViewModel> actual)
         {
             IQueryable<PlayedMusic> playedMusics = this.context.PlayedMusics
                 .Where(s => s.UserId == userId)
@@ -114,7 +114,7 @@ namespace MusicHub.Services.Data.Tests
             }
 
             var playedMusicT = playedMusics.To<PlayedMusicViewModel>();
-            var expected = new PlayedMusicAllViewModel<PlayedMusicViewModel>()
+            var expected = new PlayedMusicPageModel<PlayedMusicViewModel>()
             {
                 PlayedMusics = playedMusicT
                     .GetPage(page, entitesPerPage)

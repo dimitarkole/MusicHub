@@ -264,7 +264,7 @@ namespace MusicHub.Web.Tests.Controllers
                .To<CommentViewModel>();
             var entitesPerPage = PaginationData.CommentsPerPage;
 
-            var expected = new CommentsAllViewModel<CommentViewModel>()
+            var expected = new CommentPageModel<CommentViewModel>()
             {
                 Comments = expectedCommentLists
                     .GetPage(page, entitesPerPage)
@@ -279,7 +279,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Get(musicId, page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<CommentsAllViewModel<CommentViewModel>>()
+                    .WithModelOfType<CommentPageModel<CommentViewModel>>()
                     .Passing(actual =>
                     {
                         expected.Should().BeEquivalentTo(actual);

@@ -19,7 +19,6 @@
 
     public class MusicServiceTests : BaseTestClass
     {
-
         [Fact]
         public async Task CreateMusic_WithValidData_ShouldWorkCorrect()
         {
@@ -104,7 +103,7 @@
                    .ThenBy(m => m.Name)
                    .To<MusicViewModel>();
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -228,7 +227,7 @@
                                .Where(s => s.UserId == userId)
                                .OrderByDescending(s => s.CreatedOn)
                                .To<MusicViewModel>();
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -277,7 +276,7 @@
                 .ThenByDescending(s => s.CreatedOn)
                 .ThenByDescending(s => s.PlayedMusics.Count);
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = suggestMusics
                        .To<MusicViewModel>()
@@ -292,7 +291,7 @@
             expected.Should().BeEquivalentTo(actual);
         }
 
-        private void CheckFilter(MusicsAllViewModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
+        private void CheckFilter(MusicPageModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics
                   .Where(m => m.Privacy == Privacy.Public)
@@ -311,7 +310,7 @@
 
             musics = this.OrederSearchMusics(filter.OrderMethod, musics);
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)

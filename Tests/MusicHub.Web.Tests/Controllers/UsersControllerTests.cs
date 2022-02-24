@@ -39,7 +39,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.All(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserViewModel>>()
+                    .WithModelOfType<UserPageModel<UserViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
@@ -65,7 +65,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.List(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserBriefInfoViewModel >>()
+                    .WithModelOfType<UserPageModel<UserBriefInfoViewModel >>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
@@ -461,7 +461,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.FindUsers(page, findModel))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserViewModel>>()
+                    .WithModelOfType<UserPageModel<UserViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
@@ -487,7 +487,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.AdvancedSearch(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserViewModel>>()
+                    .WithModelOfType<UserPageModel<UserViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
@@ -513,7 +513,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.AdvancedSearch(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserViewModel>>()
+                    .WithModelOfType<UserPageModel<UserViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
@@ -538,7 +538,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetFullNames(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<UserAllViewModel<UserFullNameViewModel>>()
+                    .WithModelOfType<UserPageModel<UserFullNameViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.UsersPerPage;
