@@ -20,6 +20,7 @@
             this.PlayedMusics = new HashSet<PlayedMusic>();
             this.PlaylistMusics = new HashSet<PlaylistMusic>();
             this.MusicLicenses = new HashSet<MusicLicense>();
+            this.AlbumMusics = new HashSet<AlbumMusic>();
         }
 
         public string Name { get; set; }
@@ -99,6 +100,8 @@
         public ICollection<PlaylistMusic> PlaylistMusics { get; set; }
 
         public ICollection<PlayedMusic> PlayedMusics { get; set; }
+
+        public ICollection<AlbumMusic> AlbumMusics { get; set; }
 
         public ICollection<MusicLicense> MusicLicenses { get; set; }
     }
