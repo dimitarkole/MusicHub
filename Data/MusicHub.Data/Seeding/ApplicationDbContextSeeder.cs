@@ -34,6 +34,8 @@
                               new PlaylistMusicsSeeder(),
                               new CommentSeeder(),
                               new PlayedMusicsSeeder(),
+                              new AlbumsSeeder(),
+                              new AlbumMusicsSeeder(),
                           };
 
             foreach (var seeder in seeders)
