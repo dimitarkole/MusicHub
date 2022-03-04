@@ -8,7 +8,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
 
-    internal class AlbumEditInputModel : IMapTo<Album>
+    public class AlbumEditInputModel : IMapTo<Album>
     {
         public string Name { get; set; }
 

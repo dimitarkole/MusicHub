@@ -77,7 +77,7 @@
             }
 
             playlists = this.FilteringPlaylists(model, playlists);
-            playlists = this.OrederSearchPlaylist(model.OrderMethod, playlists);
+            playlists = this.OrderSearchPlaylist(model.OrderMethod, playlists);
             var playlistsT = playlists.To<T>();
             return new PlaylistPageModel<T>()
             {
@@ -140,8 +140,7 @@
             {
                 playlists = playlists.Where(s => s.UserId == filter.UserId);
             }
-
-            if (!string.IsNullOrEmpty(filter.Name))
+            else if (!string.IsNullOrEmpty(filter.Name))
             {
                 playlists = playlists.Where(p => p.Name.ToLower().Contains(filter.Name.ToLower()));
             }
@@ -149,7 +148,7 @@
             return playlists;
         }
 
-        private IQueryable<Playlist> OrederSearchPlaylist(OrderMethod orderMethod, IQueryable<Playlist> playlists)
+        private IQueryable<Playlist> OrderSearchPlaylist(OrderMethod orderMethod, IQueryable<Playlist> playlists)
         {
             if (orderMethod == OrderMethod.CreatedOnAsc)
             {
@@ -170,6 +169,7 @@
 
             return playlists;
         }
+
         private int GetPlaylistsPagesCount(int entityCount, int entitesPerPage)
             => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
     }
