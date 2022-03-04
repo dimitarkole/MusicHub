@@ -51,6 +51,10 @@
 
         public virtual DbSet<Playlist> Playlists { get; set; }
 
+        public virtual DbSet<Album> Albums { get; set; }
+
+        public virtual DbSet<AlbumMusic> AlbumMusics { get; set; }
+
         public virtual DbSet<VerificationCode> VerificationCodes { get; set; }
 
         public virtual DbSet<PlaylistMusic> PlaylistMusics { get; set; }
@@ -93,7 +97,7 @@
 
         private void ApplyAuditInfoRules()
         {
-            IEnumerable<EntityEntry> changedEntries = ChangeTracker
+            IEnumerable<EntityEntry> changedEntries = this.ChangeTracker
                 .Entries()
                 .Where(e =>
                     e.Entity is IAuditInfo &&
