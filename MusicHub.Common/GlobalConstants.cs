@@ -63,6 +63,7 @@
             public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;
             public const int AlbumsPerPage = 12;
+            public const int AlbumMusicsPerPage = 12;
             public const int PlaylistsMusicsPerPage = 12;
             public const int LikedMusicsPerPage = 12;
             public const int LicensesPerPage = 12;

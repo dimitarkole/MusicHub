@@ -50,7 +50,7 @@
             var playlistMusic = model.To<PlaylistMusic>();
             var musicsInPlaylist = this.context.PlaylistMusics
               .Where(pm => pm.PlaylistId == model.PlaylistId);
-            playlistMusic.Position = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position);
+            playlistMusic.Position = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position) + 1;
             await this.context.PlaylistMusics.AddAsync(playlistMusic);
             await this.context.SaveChangesAsync();
         }

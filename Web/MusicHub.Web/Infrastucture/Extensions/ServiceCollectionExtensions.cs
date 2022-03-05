@@ -143,6 +143,7 @@
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
                 .AddTransient<IAlbumService, AlbumService>()
+                .AddTransient<IAlbumMusicService, AlbumMusicService>()
                 .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
