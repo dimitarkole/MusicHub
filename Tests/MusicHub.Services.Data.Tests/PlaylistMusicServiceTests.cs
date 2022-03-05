@@ -23,13 +23,10 @@
         {
             var playlistMusicService = await this.CreatePlaylistMusicService(new List<PlaylistMusic>());
             var model = PlaylistMusicTestsData.CreateModel;
-
             var musicsInPlaylist = this.context.PlaylistMusics
               .Where(pm => pm.PlaylistId == model.PlaylistId);
-            var expectedPosition = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position);
-
+            var expectedPosition = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position) + 1;
             await playlistMusicService.Create(model);
-
             Assert.True(this.context.PlaylistMusics.Any(pm => pm.MusicId == model.MusicId
                 && pm.PlaylistId == model.PlaylistId
                 && pm.Position == expectedPosition));
@@ -68,9 +65,7 @@
         {
             var playlistMusicService = await this.CreatePlaylistMusicService(PlaylistMusicTestsData.PlaylistMusics());
             var playlistMusicId = PlaylistMusicTestsData.DeletePlaylistMusicId;
-
             await playlistMusicService.Delete(playlistMusicId);
-
             Assert.False(this.context.PlayedMusics.Any(pm => pm.Id == playlistMusicId));
         }
 
@@ -87,13 +82,11 @@
 
             var expected = this.ChangePlaylistMusicPostion(playlistMusicId, playlistMusicNewPosition);
             await playlistMusicService.Update(model, playlistMusicId);
-
             var playlistMusic = this.context.PlaylistMusics.Find(playlistMusicId);
             var playlistId = playlistMusic.PlaylistId;
             var actual = this.context.PlaylistMusics
                 .Where(pm => pm.PlaylistId == playlistId)
                 .ToList();
-
             expected.Should().BeEquivalentTo(actual);
         }
 
@@ -110,13 +103,11 @@
 
             var expected = this.ChangePlaylistMusicPostion(playlistMusicId, playlistMusicNewPosition);
             await playlistMusicService.Update(model, playlistMusicId);
-
             var playlistMusic = this.context.PlaylistMusics.Find(playlistMusicId);
             var playlistId = playlistMusic.PlaylistId;
             var actual = this.context.PlaylistMusics
                 .Where(pm => pm.PlaylistId == playlistId)
                 .ToList();
-
             expected.Should().BeEquivalentTo(actual);
         }
 

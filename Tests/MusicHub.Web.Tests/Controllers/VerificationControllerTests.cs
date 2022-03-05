@@ -143,7 +143,6 @@ namespace MusicHub.Web.Tests.Controllers
                 .Where(vc => vc.IsUsed == true)
                 .FirstOrDefault()
                 .UserId;
-
             var verificationCode = verificationCodes
                 .Where(vc => vc.UserId == userId
                   && vc.IsUsed == true)
