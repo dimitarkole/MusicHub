@@ -135,5 +135,33 @@
         [Permission(PermissionType.AlbumCreator)]
         public ActionResult<AlbumPageModel<AlbumViewModel>> FilterOwn(int page, AlbumFilterInputModel filter)
             => this.Ok(this.albumService.Filter<AlbumViewModel>(page, PaginationData.AlbumsPerPage, filter, this.userManager.GetUserId(this.User)));
+
+        /// <summary>Get albums.</summary>
+        /// <param name="page">The page of album.</param>
+        /// <returns>Ok(AlbumPageModel<AlbumViewModel>).</returns>
+        [HttpGet(nameof(GetAlbums) + "/{page}")]
+        public ActionResult<AlbumPageModel<AlbumViewModel>> GetAlbums(int page)
+            => this.Ok(this.albumService.All<AlbumViewModel>(page, PaginationData.AlbumsPerPage));
+
+        /// <summary>Get album by id.</summary>
+        /// <param name="id">The id of palylists.</param>
+        /// <returns>Ok(AlbumPlayModel).</returns>
+        [HttpGet(nameof(GetAlbum) + "/{id}")]
+        public ActionResult<AlbumPlayModel> GetAlbum(string id)
+           => this.Ok(this.albumService.GetById<AlbumPlayModel>(id));
+
+        /// <summary>Filter albums.</summary>
+        /// <param name="page">The page of music.</param>
+        /// <param name="filter">Filter data.
+        /// <para>Name - name of album.</para>
+        /// <para>Username - name of user who created album.</para>
+        /// <para>UserId - id of user who created album.</para>
+        /// <para>CategoryId - id of category of album.</para>
+        /// <para>OrderMethod - order method.</para>
+        /// </param>
+        /// <returns>Ok(AlbumPageModel<AlbumViewModel>).</returns>
+        [HttpPost(nameof(AlbumsFilter) + "/{page}")]
+        public ActionResult<AlbumPageModel<AlbumViewModel>> AlbumsFilter(int page, AlbumFilterInputModel model)
+            => this.Ok(this.albumService.Filter<AlbumViewModel>(page, PaginationData.AlbumsPerPage, model));
     }
 }
