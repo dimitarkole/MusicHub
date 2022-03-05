@@ -28,32 +28,24 @@
             this.paginationService = paginationService;
         }
 
-        public AlbumPageModel<T> All<T>(int page, int entitesPerPage)
+        public AlbumPageModel<T> All<T>(int page, int entitesPerPage, string userId = null)
         {
             var albums = this.context.Albums
-                   .Where(a => a.Privacy == Privacy.Public && a.AlbumMusics.Count > 0)
-                   .To<T>();
-            return new AlbumPageModel<T>()
+              .Where(a => a.AlbumMusics.Count > 0);
+            if (!string.IsNullOrEmpty(userId))
             {
-                Albums = albums
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetDataPagesCount(albums.Count(), entitesPerPage),
-            };
-        }
+                albums = albums.Where(s => s.UserId == userId);
+            }
+            else
+            {
+                albums = albums.Where(m => m.Privacy == Privacy.Public);
+            }
 
-        public AlbumPageModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
-        {
-            var albums = this.context.Albums
-              .Where(a => a.UserId == userId
-                   && a.AlbumMusics.Count > 0)
-              .OrderByDescending(p => p.CreatedOn)
+            var albumsT = albums.OrderByDescending(p => p.CreatedOn)
               .To<T>();
-
             return new AlbumPageModel<T>()
             {
-                Albums = albums
+                Albums = albumsT
                     .GetPage(page, entitesPerPage)
                     .ToList(),
                 CurrentPage = page,

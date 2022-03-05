@@ -10,11 +10,9 @@
 
     public interface IAlbumService
     {
-        AlbumPageModel<T> All<T>(int page, int entitesPerPage);
+        AlbumPageModel<T> All<T>(int page, int entitesPerPage, string userId = null);
 
         AlbumPageModel<T> Filter<T>(int page, int entitesPerPage, AlbumFilterInputModel model, string userId = null);
-
-        AlbumPageModel<T> AllOwned<T>(int page, int entitesPerPage, string userId);
 
         IList<T> GetOwnedForAddingMusic<T>(string musicId, string userId);
 
