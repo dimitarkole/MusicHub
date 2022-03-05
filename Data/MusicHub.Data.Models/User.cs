@@ -27,6 +27,7 @@ namespace MusicHub.Data.Models
             this.Licenses = new HashSet<License>();
             this.VerificationCodes = new HashSet<VerificationCode>();
             this.PaySubscriptions = new HashSet<PaySubscription>();
+            this.Albums = new HashSet<Album>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -56,6 +57,8 @@ namespace MusicHub.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         public virtual ICollection<Music> Musics { get; set; }
+
+        public virtual ICollection<Album> Albums { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }
 

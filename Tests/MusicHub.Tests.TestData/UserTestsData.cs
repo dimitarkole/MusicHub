@@ -83,16 +83,16 @@ namespace MusicHub.Tests.TestData
 
         public static List<User> Users => new List<User>()
         {
-            new User() { Id ="testUserId1", FirstName = "First Name1", LastName = "Last Name1", UserName= "UserName1", ImageUrl = "image", Roles = new List<UserRole>() },
-            new User() { Id ="testUserId2", FirstName = "First Name2", LastName = "Last Name2",  UserName= "UserName2", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId3", FirstName = "First Name3", LastName = "Last Name3",  UserName= "UserName3", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId4", FirstName = "First Name4", LastName = "Last Name4",  UserName= "UserName4", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId5", FirstName = "First Name5", LastName = "Last Name5",  UserName= "UserName5", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId6", FirstName = "First Name6", LastName = "Last Name6",  UserName= "UserName6", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId7", FirstName = "First Name6", LastName = "Last Name6",  UserName= "UserName7", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId8", FirstName = "First Name6", LastName = "Last Name6",  UserName= "UserName8", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId9", FirstName = "First Name6", LastName = "Last Name6",  UserName= "UserName9", ImageUrl = "image", Roles = new List<UserRole>()},
-            new User() { Id ="testUserId10", FirstName = "First Name10", LastName = "Last Name10",  UserName= "UserName10", ImageUrl = "image", Roles = new List<UserRole>()},
+            new User() { Id = "testUserId1", Email = "testUser1@abv.bg", FirstName = "First Name1", LastName = "Last Name1", UserName = "UserName1", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId2", Email = "testUser2@abv.bg", FirstName = "First Name2", LastName = "Last Name2", UserName = "UserName2", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId3", Email = "testUser3@abv.bg", FirstName = "First Name3", LastName = "Last Name3", UserName = "UserName3", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId4", Email = "testUser4@abv.bg", FirstName = "First Name4", LastName = "Last Name4", UserName = "UserName4", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId5", Email = "testUser5@abv.bg", FirstName = "First Name5", LastName = "Last Name5", UserName = "UserName5", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId6", Email = "testUser6@abv.bg", FirstName = "First Name6", LastName = "Last Name6", UserName = "UserName6", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId7", Email = "testUser7@abv.bg", FirstName = "First Name7", LastName = "Last Name6", UserName = "UserName7", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId8", Email = "testUser8@abv.bg", FirstName = "First Name8", LastName = "Last Name6", UserName = "UserName8", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId9", Email = "testUser9@abv.bg", FirstName = "First Name9", LastName = "Last Name6", UserName = "UserName9", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
+            new User() { Id = "testUserId10", Email = "testUser10@abv.bg", FirstName = "First Name10", LastName = "Last Name10", UserName = "UserName10", ImageUrl = "image", Roles = new List<UserRole>(), IsDeleted = false, Albums = new List<Album>(), Musics = new List<Music>(), Playlists = new List<Playlist>() },
         };
 
         public static List<UserRole> UserRoles => new List<UserRole>()

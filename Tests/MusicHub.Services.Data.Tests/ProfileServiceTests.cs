@@ -345,12 +345,10 @@
         {
             var profileService = await this.CreateProfileService();
             var toggleSettingId = UserTestsData.ToggleSettingId;
-
             var expected = !this.context.UserSettings
                 .Where(us => us.Id == toggleSettingId)
                 .FirstOrDefault()
                 .Enabled;
-
             await profileService.ToggleSetting(toggleSettingId);
             var result = this.context.UserSettings
                 .Where(us => us.Id == toggleSettingId)
@@ -360,12 +358,12 @@
         }
 
         [Fact]
-        public async Task GetUsersInfo__WithValidData_ShouldReturnFalse()
+        public async Task GetUsersInfo_WithValidData_ShouldReturnFalse()
         {
             var profileService = await this.CreateProfileService();
             var userIds = UserTestsData.UsersIds.ToArray();
 
-            var expected = context.Users
+            var expected = this.context.Users
                 .Where(u => userIds.Contains(u.Id))
                 .To<UserDetailsViewModel>()
                 .ToList();

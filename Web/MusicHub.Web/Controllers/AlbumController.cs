@@ -39,7 +39,7 @@
         [Authorize]
         // [Permission(PermissionType.AlbumCreator)]
         public ActionResult<AlbumPageModel<AlbumViewModel>> GetOwn(int page)
-           => this.Ok(this.albumService.AllOwned<AlbumViewModel>(page, PaginationData.AlbumsPerPage, this.userManager.GetUserId(this.User)));
+           => this.Ok(this.albumService.All<AlbumViewModel>(page, PaginationData.AlbumsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Is own album.</summary>
         /// <returns>true/false.</returns>
