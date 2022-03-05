@@ -9,11 +9,19 @@
 
     public static class AlbumMusicTestsData
     {
-        public static AlbumMusicCreateInputModel CreateModel => new AlbumMusicCreateInputModel()
+        public static AlbumMusicCreateInputModel CreateModelWithOwnedMusic => new AlbumMusicCreateInputModel()
         {
-            MusicId = Musics[0].Id,
+            MusicId = Musics.Where(m => m.UserId == UserId).FirstOrDefault().Id,
             AlbumId = Albums[0].Id,
         };
+
+        public static AlbumMusicCreateInputModel CreateModelWithNotOwnedMusic => new AlbumMusicCreateInputModel()
+        {
+            MusicId = Musics.Where(m => !(m.UserId == UserId)).FirstOrDefault().Id,
+            AlbumId = Albums[0].Id,
+        };
+
+        public static string UserId => Users[0].Id;
 
         public static string AlbumId => Albums[0].Id;
 
