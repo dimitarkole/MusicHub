@@ -22,7 +22,7 @@
         public async Task CreateAlbumMusic_WithValidData_ShouldWorkCorrect()
         {
             var albumMusicService = await this.CreateService(new List<AlbumMusic>());
-            var model = AlbumMusicTestsData.CreateModel;
+            var model = AlbumMusicTestsData.CreateModelWithOwnedMusic;
             var musicsInAlbum = this.context.AlbumMusics
               .Where(am => am.AlbumId == model.AlbumId);
             var expectedPosition = musicsInAlbum.Count() == 0 ? 0 : musicsInAlbum.Max(pm => pm.Position) + 1;

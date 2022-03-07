@@ -16,7 +16,7 @@ export class PlaylistMusicsService {
   }
 
   delete(songId: string) {
-    return this.http.delete(`${this.route}/DeletePlaylistSong/${songId}`);
+    return this.http.delete(`${this.route}/Delete/${songId}`);
   }
 
   all(playlistId: string, page: number) {
