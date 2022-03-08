@@ -21,13 +21,13 @@
                 .FirstOrDefault()
                 .Id;
             var users = dbContext.Users
-                  .Where(u => u.Roles.Any(r => r.Role.Permissions.Any(p => p.Permission.Type == PermissionType.PlaylistCreator)))
+                  .Where(u => u.Roles.Any(r => r.Role.Permissions.Any(p => p.Permission.Type == PermissionType.AlbumCreator)))
                   .ToArray();
             foreach (var album in albums)
             {
                 var random = new Random();
                 var userId = users[random.Next(0, users.Count())].Id;
-                if (!dbContext.Playlists.Any(e => e.Name == album.Name))
+                if (!dbContext.Albums.Any(e => e.Name == album.Name))
                 {
                     album.UserId = userId;
                     await dbContext.Albums.AddAsync(album);

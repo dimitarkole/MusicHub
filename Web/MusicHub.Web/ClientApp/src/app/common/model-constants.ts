@@ -8,6 +8,10 @@ export const modelConstants = {
     nameMinLength: 2,
     nameMaxLength: 100,
   },
+  album: {
+    nameMinLength: 2,
+    nameMaxLength: 100,
+  },
   product: {
     nameMinLength: 2,
     nameMaxLength: 100,

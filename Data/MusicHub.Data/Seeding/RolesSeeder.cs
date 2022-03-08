@@ -64,6 +64,7 @@
                 return permissions
                     .Where(p => p.Type == PermissionType.DataAnalisator
                         || p.Type == PermissionType.MusicCreator
+                        || p.Type == PermissionType.AlbumCreator
                         || p.Type == PermissionType.PlaylistCreator
                         || p.Type == PermissionType.CommentCreator
                         || p.Type == PermissionType.User)
@@ -74,6 +75,7 @@
                 return permissions
                     .Where(p => p.Type == PermissionType.LicenseCreator
                         || p.Type == PermissionType.PlaylistCreator
+                        || p.Type == PermissionType.AlbumCreator
                         || p.Type == PermissionType.CommentCreator
                         || p.Type == PermissionType.MusicCreator
                         || p.Type == PermissionType.User)

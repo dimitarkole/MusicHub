@@ -36,6 +36,9 @@ import { LikedMusicsListComponent } from './musics/components/liked-musics-list/
 import { PlayedMusicsListsComponent } from './musics/components/played-musics-lists/played-musics-lists.component';
 import { PlaylistResolver } from './core/resolvers/playlist.resolver';
 import { PlaylistPlayComponent } from './playlists/components/playlist-play/playlist-play.component';
+import { AlbumsListComponent } from './albums/components/albums-list/albums-list.component';
+import { AlbumsOwnListComponent } from './albums/components/albums-own-list/albums-own-list.component';
+import { AlbumPlayComponent } from './albums/components/album-play/album-play.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -86,6 +89,26 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: 'albums', children: [
+      { path: '', component: AlbumsListComponent },
+      {
+        path: 'own',
+        component: AlbumsOwnListComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.PlaylistCreator)
+      },
+      {
+        path: 'play/:id',
+        component: AlbumPlayComponent,
+        resolve:
+        {
+          playlist: PlaylistResolver
+        },
+      },
+    ]
+  },
+
   {
     path: 'musics', children: [
       { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },

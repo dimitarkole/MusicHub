@@ -1,0 +1,109 @@
+<div class="row">
+  <!-- song Image -->
+  <div class="col-lg-7">
+
+    <div class="player-stage">
+      <img src="{{'../../../../../assets/resources/song/images/' + playMusic.imageUrl}}" class="playsong-img" alt="" />
+      <audio controls class="play-song" id="player" (onended)="changeMusic()">
+      </audio>
+
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{{playMusic.name}}</h3>
+        <small>Category: {{playMusic.categoryName}}</small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
+        <p>{{playMusic.createdOn | date : 'MMMM d, yyyy'}}</p>
+      </div>
+
+      <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddToSong()" *ngIf="isAuth">
+        + Add to
+      </button>
+      <app-music-reaction [music]="playMusic" class="col-md-3 main-music-information"></app-music-reaction>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-2">
+        <app-user-avatar [imageUrl]="playMusic.user?.imageUrl" [type]="'medium'">
+        </app-user-avatar>
+      </div>
+
+      <div class="col-md-9">
+        <div class="row">
+          <h3 class="col-md-7">
+            <a routerLink="{{'/profile/view/' + playMusic.user?.id}}" class="row ">
+              <br />
+              {{playMusic.user.userName}}
+            </a>
+          </h3>
+          <app-follow-create class="col-md-5" [userId]="playMusic.user?.id"></app-follow-create>
+        </div>
+        <br>
+        <p>
+          {{playMusic.description}}
+        </p>
+      </div>
+    </div>
+    <hr />
+    <app-comment-list [musicId]="playMusic.id" class="col-md-12"></app-comment-list>
+  </div>
+  <div class="col-md-5">
+    <div class="playlist-aria">
+      <div class="col-md-12">
+        <h3>
+          {{album.name.substring(0, 30)}}
+        </h3>
+        <small>Created by: {{album.user?.userName.substring(0, 30)}}</small>
+        <hr />
+      </div>
+
+      <div class="col-md-12 playlist-songs" id="albumMusics" (scroll)="onScrollAlbumMusics()">
+        <div class="row" *ngFor="let albumMusic of albumMusicsPagination.albumMusics; index as j">
+          <img src="{{'../../../../../assets/resources/song/images/' + albumMusic.music.imageFilePath}}" alt="logo" class="col-md-2">
+          <div class="col-md-7">
+            {{albumMusic.music.name?.substring(0, 30)}} <br />
+            <small>
+              {{albumMusic.music.user?.username}}
+            </small>
+          </div>
+
+          <div class="song_play_button col-md-1" aria-hidden="true" (click)="changePlayMusic(albumMusic.music.id)">
+          </div>
+
+          <div class="col-sm-1" *ngIf="isOwn">
+            <div class="dropdown">
+              <button class="btn" type="button"
+                      id="dropdownSettingsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg width="1em" height="1em" viewBox="0 0 16 16"
+                     class="bi bi-three-dots-vertical" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                </svg>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownSettingsButton">
+                <button class="dropdown-item" href="#" (click)="openDeleteMusic(albumMusic.id)">
+                  Remove music
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <br />
+        <br />
+      </div>
+      <app-music-suggestions-list *ngIf="playMusic.id" [musicId]="playMusic.id" class="col-md-12"></app-music-suggestions-list>
+    </div>
+  </div>
+</div>

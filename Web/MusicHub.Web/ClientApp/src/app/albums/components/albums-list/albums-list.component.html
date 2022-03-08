@@ -1,0 +1,12 @@
+<app-albums-list-template [albums]="albumPagination.albums" [type]="''">
+
+</app-albums-list-template>
+
+
+<div *ngIf="isSearching && albumPagination.albums.length == 0" class="text-center error-message">
+  <app-no-search-results></app-no-search-results>
+</div>
+
+<div *ngIf="albumPagination.currentPage == albumPagination.numberOfPages" class="text-center error-message">
+  <app-no-more-result></app-no-more-result>
+</div>

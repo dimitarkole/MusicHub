@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="featured_list">
+      <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+          <div class="jp-playlist">
+            <div class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
+              <div class="col-md-3" *ngFor="let album of albums; index as i">
+                <app-album-small-details [album]="album" [type]="type">
+
+                </app-album-small-details>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -47,6 +47,7 @@ import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';*/
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AlbumsModule } from './albums/albums.module';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     RolesModule,
     ProfileModule,
     AuthsModule,
+    AlbumsModule,
 
     StoreModule.forRoot({}, {
       runtimeChecks: {

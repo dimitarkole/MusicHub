@@ -16,6 +16,10 @@ export const globalConstants = {
     imageFolderPathToUpload: "../../../assets/resources/playlists/",
     defauldImage: "playlistDefaultImage.jpg",
   },
+  album: {
+    imageFolderPathToUpload: "../../../assets/resources/albums/",
+    defauldImage: "albumDefaultImage.jpg",
+  },
   pagination: {
     defaultPage: 1,
     itemsPerPage: 12,
