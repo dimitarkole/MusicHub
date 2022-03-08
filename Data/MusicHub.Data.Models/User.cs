@@ -4,10 +4,9 @@ namespace MusicHub.Data.Models
     using System;
     using System.Collections.Generic;
 
+    using Microsoft.AspNetCore.Identity;
     using MusicHub.Common;
     using MusicHub.Data.Common.Models;
-
-    using Microsoft.AspNetCore.Identity;
 
     public class User : IdentityUser, IAuditInfo
     {
@@ -28,6 +27,7 @@ namespace MusicHub.Data.Models
             this.VerificationCodes = new HashSet<VerificationCode>();
             this.PaySubscriptions = new HashSet<PaySubscription>();
             this.Albums = new HashSet<Album>();
+            this.PlayLaterMusics = new HashSet<PlayLaterMusic>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -77,5 +77,7 @@ namespace MusicHub.Data.Models
         public ICollection<VerificationCode> VerificationCodes { get; set; }
 
         public ICollection<PaySubscription> PaySubscriptions { get; set; }
+
+        public ICollection<PlayLaterMusic> PlayLaterMusics { get; set; }
     }
 }

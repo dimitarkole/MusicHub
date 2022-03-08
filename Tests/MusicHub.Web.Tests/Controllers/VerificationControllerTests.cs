@@ -106,7 +106,7 @@ namespace MusicHub.Web.Tests.Controllers
 
             var verificationCode = verificationCodes
                 .Where(vc => vc.UserId == userId
-                  && vc.IsUsed == true)
+                  && vc.IsUsed == false)
                 .OrderByDescending(vc => vc.CreatedOn)
                 .To<VerificationCodeViewModel>()
                 .FirstOrDefault();
