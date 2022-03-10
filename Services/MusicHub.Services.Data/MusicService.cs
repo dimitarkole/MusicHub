@@ -142,7 +142,6 @@
         {
             Music music = this.context.Musics.Find(id);
             model.To<Music>(music);
-
             this.context.Musics.Update(music);
             await this.context.SaveChangesAsync();
         }
