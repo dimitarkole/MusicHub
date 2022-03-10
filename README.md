@@ -3,7 +3,7 @@ Online platform where users could upload their musics.
 
 ## Awards
 * NTIT - National Autumn Tournament in Information Technology "John Atanasoff" - 7th place in "Web Applications" / НТИТ - Национален есенен турнир по информационни технологии „Джон Атанасов“ – седмо място в направление „Интернет приложения“ 🏆
-* 7th place in the National Olympiad in Information Technology / Седмо място на Националната олимпиада по информационни технологии
+* 7th place in the National Olympiad in Information Technology / Седмо място на Националната олимпиада по информационни технологии [Check here](https://edusoft.fmi.uni-sofia.bg/archive/it2021/protocols/%D0%9D%D0%9E%D0%98%D0%A2_2021_%D0%A0%D0%B0%D0%B7%D0%BF%D1%80%D0%B5%D0%B4%D0%B5%D0%BB%D0%B5%D0%BD%D0%B8_web_11-12_%D1%81%D0%B0%D0%B9%D1%82.pdf)
 
 ## Description
 Many people have fun listening to music. So, I decided to help them by making a website where users could upload their songs as well as listen to other users' songs and rate them. The system is easy to use, with an intuitive interface and easy-to-understand features. The result for the end customer is more frequent pleasant moments by listening to good music, which can be organized into various playlists and categories.
