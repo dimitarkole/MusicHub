@@ -608,6 +608,35 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("Permissions");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.PlayLaterMusic", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MusicId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Position")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PlayLaterMusics");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PlayedMusic", b =>
                 {
                     b.Property<string>("Id")
@@ -1001,7 +1030,7 @@ namespace MusicHub.Data.Migrations
             modelBuilder.Entity("MusicHub.Data.Models.Album", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Albums")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -1184,6 +1213,21 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.PlayLaterMusic", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.Music", "Music")
+                        .WithMany("PlayLaterMusics")
+                        .HasForeignKey("MusicId");
+
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("PlayLaterMusics")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Music");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PlayedMusic", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Music", "Music")
@@ -1327,6 +1371,8 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("PlayedMusics");
 
+                    b.Navigation("PlayLaterMusics");
+
                     b.Navigation("PlaylistMusics");
                 });
 
@@ -1361,6 +1407,8 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.User", b =>
                 {
+                    b.Navigation("Albums");
+
                     b.Navigation("Claims");
 
                     b.Navigation("Comments");
@@ -1380,6 +1428,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("PaySubscriptions");
 
                     b.Navigation("PlayedMusics");
+
+                    b.Navigation("PlayLaterMusics");
 
                     b.Navigation("Playlists");
 

@@ -59,6 +59,7 @@
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;
             public const int PlayedMusicsPerPage = 12;
+            public const int PlayLaterMusicsPerPage = 12;
             public const int NotificationPerPage = 10;
             public const int CommentsPerPage = 12;
             public const int PlaylistsPerPage = 12;

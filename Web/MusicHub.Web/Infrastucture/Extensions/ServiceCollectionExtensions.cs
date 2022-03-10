@@ -146,6 +146,7 @@
                 .AddTransient<IAlbumMusicService, AlbumMusicService>()
                 .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
+                .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
 

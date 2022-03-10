@@ -71,6 +71,8 @@
 
         public virtual DbSet<PlayedMusic> PlayedMusics { get; set; }
 
+        public virtual DbSet<PlayLaterMusic> PlayLaterMusics { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
