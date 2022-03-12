@@ -1,0 +1,84 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <div class="row form-group">
+      <div class="col-md-6">
+        <h2>
+          Search licenses:
+        </h2>
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-2">
+        <a routerLink="/license/create" class="login100-form-btn">
+          New license
+        </a>
+      </div>
+    </div>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="name" type="text" placeholder="Music name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'CreatedOnDesc'" default>Time: newly music first</option>
+              <option [value]="'CreatedOnAsc'">Time: oldly music first</option>
+              <option [value]="'NameAsc'">Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+
+      </div>
+      <div class="col-md-2">
+        <button [disabled]="searchForm.invalid" type="submit"
+                class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr class="row">
+      <th class="col-md-1">#</th>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-1">Status</th>
+      <th class="col-md-2">User name</th>
+      <th class="col-md-2">Count of license files</th>
+      <th class="col-md-2">Created on</th>
+      <th class="col-md-2">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let license of licensePagination.licenses; index as i" class="row">
+      <td class="col-md-1">{{ i + 1 }}</td>
+      <td class="col-md-2"> {{license.name}}</td>
+      <td class="col-md-1"> {{getSatus(license.status)}}</td>
+      <td class="col-md-2"> {{license.user.userName}}</td>
+      <td class="col-md-2"> {{license.licenseFilesCount}}</td>
+      <td class="col-md-2"> {{license.createdOn | date : 'dd/MM/yyyy'}}</td>
+
+      <td class="col-md-2 table-operation-coll">
+        <a class="btn " routerLink="/license/request/{{license.id}}">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />

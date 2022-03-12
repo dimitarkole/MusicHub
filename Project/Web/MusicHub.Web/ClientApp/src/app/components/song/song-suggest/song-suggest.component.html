@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>Similar musics:</h2>
+    <hr />
+  </div>
+
+  <div class="col-md-12">
+    <div class="featured_list">
+      <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+          <div class="jp-playlist">
+            <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
+              <li class="jp-playlist-current col-md-6" *ngFor="let song of suggestSongs; index as j">
+                <div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-1">
+                      </div>
+
+                      <div class="col-sm-8">
+                        <div class="featured_album">
+                          {{song.name?.substring(0, 18)}}
+                        </div>
+                        <div class="featured_title">
+                          <small>{{song.user?.username}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="featured_song_image">
+                  <img src="{{'../../../../../assets/resources/song/images/' + song.imageFilePath}}" alt="logo" height="150" width="250">
+                </div>
+                <div class="album_play_button" aria-hidden="true" routerLink="/home/play/{{song.id}}">
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

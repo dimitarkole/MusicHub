@@ -1,0 +1,95 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <h2>
+      Search lisened music:
+    </h2>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="name" type="text" placeholder="Music name">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Category</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="categoryId">
+              <option [value]="defaultCategoryId">Each category</option>
+              <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'CreatedOnDesc'" default>Time: newly music first</option>
+              <option [value]="'CreatedOnAsc'">Time: oldly music first</option>
+              <option [value]="'NameAsc'">Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-2">
+        <button [disabled]="searchForm.invalid" type="submit"
+                class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="featured_list">
+      <div id="jp_container_2" class="jp-audio" role="application" aria-label="media player">
+        <div class="jp-type-playlist">
+          <div class="jp-playlist">
+            <ul class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
+              <li class="jp-playlist-current col-md-3" *ngFor="let listenedSong of listenedSongPagination.songViewHistory; index as j">
+                <div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-sm-1">
+                      </div>
+
+                      <div class="col-sm-8">
+                        <div class="featured_album">
+                          {{listenedSong.song.name?.substring(0, 25)}}
+                        </div>
+                        <div class="featured_title">
+                          <small>{{listenedSong.song.user?.username}}</small>
+                          <small>Litened on: {{listenedSong.createdOn | date : 'd/m/yyyy'}}</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="featured_song_image">
+                  <img src="{{'../../assets/resources/song/images/' + listenedSong.song.imageFilePath}}" alt="logo" class="song_image">
+                </div>
+                <div class="album_play_button" aria-hidden="true" routerLink="/home/play/{{listenedSong.song.id}}">
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br />

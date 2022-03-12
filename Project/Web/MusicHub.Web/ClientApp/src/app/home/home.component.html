@@ -1,0 +1,59 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <h2>
+      Search music:
+    </h2>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="name" type="text" placeholder="Song music">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Category</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="categoryId">
+              <option [value]="defaultCategoryId">Each category</option>
+              <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'CreatedOnDesc'" default>Time: newly music first</option>
+              <option [value]="'CreatedOnAsc'">Time: oldly music first</option>
+              <option [value]="'NameAsc'">Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+
+      </div>
+      <div class="col-md-2">
+        <button [disabled]="searchForm.invalid" type="submit"
+                class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+
+<app-song-list-template [songs]="songPagination.songs" [type]="''">
+
+</app-song-list-template>

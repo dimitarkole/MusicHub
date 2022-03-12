@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20201111102045_CommentReactionConfiguration.cs" />
+    <Compile Remove="Migrations\20201111102045_CommentReactionConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20201111104203_CommentReactionConfiguration.cs" />
+    <Compile Remove="Migrations\20201111104203_CommentReactionConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20201111114408_CommentReactionConfiguration.cs" />
+    <Compile Remove="Migrations\20201111114408_CommentReactionConfiguration.Designer.cs" />
+    <Compile Remove="Migrations\20201204204450_TableFollowersReorganisation.cs" />
+    <Compile Remove="Migrations\20201204204450_TableFollowersReorganisation.Designer.cs" />
+    <Compile Remove="Migrations\20201205204153_FollowTableReorg.cs" />
+    <Compile Remove="Migrations\20201205204153_FollowTableReorg.Designer.cs" />
+    <Compile Remove="Migrations\20210101172750_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101172750_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101173207_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101173207_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101185005_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101185005_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101185656_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101185656_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101193438_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101193438_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101193820_SongConfigurationTwo.cs" />
+    <Compile Remove="Migrations\20210101193820_SongConfigurationTwo.Designer.cs" />
+    <Compile Remove="Migrations\20210101213256_Configuration.cs" />
+    <Compile Remove="Migrations\20210101213256_Configuration.Designer.cs" />
+    <Compile Remove="Migrations\20210101222830_Configuration.cs" />
+    <Compile Remove="Migrations\20210101222830_Configuration.Designer.cs" />
+    <Compile Remove="Migrations\20210101223115_Configuration.cs" />
+    <Compile Remove="Migrations\20210101223115_Configuration.Designer.cs" />
+    <Compile Remove="Migrations\20210101224546_Configuration.cs" />
+    <Compile Remove="Migrations\20210101224546_Configuration.Designer.cs" />
+    <Compile Remove="Migrations\20210102114419_Configutation.cs" />
+    <Compile Remove="Migrations\20210102114419_Configutation.Designer.cs" />
+    <Compile Remove="Migrations\20210102114829_Configutation.cs" />
+    <Compile Remove="Migrations\20210102114829_Configutation.Designer.cs" />
+    <Compile Remove="Migrations\20210102123454_Configutation.cs" />
+    <Compile Remove="Migrations\20210102123454_Configutation.Designer.cs" />
+    <Compile Remove="Migrations\20210102124647_Configutation.cs" />
+    <Compile Remove="Migrations\20210102124647_Configutation.Designer.cs" />
+    <Compile Remove="Migrations\20210105193807_Configuration2.cs" />
+    <Compile Remove="Migrations\20210105193807_Configuration2.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.5" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.164" PrivateAssets="all">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\MusicHub.Common\MusicHub.Common.csproj" />
+    <ProjectReference Include="..\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
+    <ProjectReference Include="..\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
+  </ItemGroup>
+
+</Project>

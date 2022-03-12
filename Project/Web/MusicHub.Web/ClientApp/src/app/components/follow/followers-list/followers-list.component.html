@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Followers ({{allFollowers.length}})</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="col-md-5">
+    <div class="row follow-aria">
+      <div class="col-md-12 follow-scroll">
+        <div class="row" *ngFor="let follower of followPagination.follow; index as j">
+          <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="logo" class="col-md-2">
+          <a routerLink="{{'/profile/view/' + follower.following.id}}" class="col-md-5 "  (click)="modal.dismiss('Cross click')">
+            {{follower.following.userName?.substring(0, 30)}} <br />
+          </a>
+          <app-followed-create class="col-md-5" [userId]="follower.following.id"></app-followed-create>
+          <div class="col-md-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="d-flex justify-content-center">
+          <ngb-pagination class="text-center" [collectionSize]="allFollowers.length"
+                          (pageChange)="getFollowersPerPage($event)" [(page)]="page"
+                          [maxSize]="10" [rotate]="true" [boundaryLinks]="true">
+          </ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

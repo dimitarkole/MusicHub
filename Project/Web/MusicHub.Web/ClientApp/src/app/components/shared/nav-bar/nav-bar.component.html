@@ -1,0 +1,168 @@
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="header_content d-flex flex-row align-items-center justify-content-center">
+          <mat-toolbar-row class="side-bar text-white">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+              <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+            </button>
+          </mat-toolbar-row>
+          <!-- Logo -->
+          <div class="logo">
+            <a href="#" class="d-flex flex-row align-items-end justify-content-start">
+              <img src="../../../../assets/images/icon_2.png" alt="Alternate Text" class="logo_bars" />
+              <!--<span class="logo_bars d-flex flex-row align-items-end justify-content-between">
+              <span></span><span></span><span></span><span></span><span></span></span> -->
+              <span class="logo_text">MusicHub</span>
+            </a>
+          </div>
+
+          <!-- Main Navigation -->
+          <nav class="main_nav">
+            <ul class="d-flex flex-row align-items-center justify-content-start">
+              <li><a routerLink="/">Musics</a></li>
+              <li><a routerLink="/home/playlists">Playlists</a></li>
+            </ul>
+          </nav>
+
+          <!-- User area -->
+          <div class="custum_dropdown_menu_header d-flex flex-row align-items-center justify-content-start" *ngIf="isAuth">
+            <nav class="main_nav">
+              <ul class="d-flex flex-row align-items-start justify-content-start row">
+                <!-- Dropdown -->
+                <li>
+                  <a class="dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    {{username}}
+                  </a>
+
+                  <!-- admin items -->
+                  <div class="dropdown-menu">
+                    <div class="dropdown-item">
+                      <a routerLink="/myProfile" class="row text-dark">
+                        <small>Wellcom,</small>
+                        {{username}}
+                      </a>
+
+                    </div>
+                    <div class="dropdown-item" *ngIf="isAdmin">
+                      <a routerLink="/category/create" class="row ">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_addCategory.png') no-repeat;"></i>
+                        <div class="col-md-10 text-dark">
+                          Add categories
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="dropdown-item" *ngIf="isAdmin">
+                      <a routerLink="/category" class="row ">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_allCategory.png') no-repeat;"></i>
+                        <div class="col-md-10 text-dark">
+                          All categories
+                        </div>
+                      </a>
+                    </div>
+
+                    <!-- user items -->
+                    <div class="dropdown-item" *ngIf="role==='User'">
+                      <a routerLink="/song/create" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_addSong.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          Add music
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="dropdown-item" *ngIf="role==='User'">
+                      <a routerLink="/song/own" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_ownSongs.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          My musics
+                        </div>
+                      </a>
+                    </div>
+
+                    <div class="dropdown-item" *ngIf="role==='User'">
+                      <a routerLink="/playlist/own" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_ownSongs.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          My Playlist
+                        </div>
+                      </a>
+                    </div>
+
+
+
+                    <!-- logout -->
+                    <div class="dropdown-item">
+                      <a (click)="logout()" class="row text-dark">
+                        <i class="col-md-2" style="background: url('../../../../assets/images/icon_logout.png') no-repeat;"></i>
+                        <div class="col-md-9">
+                          Logout
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="log_reg d-flex flex-row align-items-center justify-content-start" *ngIf="!isAuth">
+            <nav class="main_nav">
+              <ul class="d-flex flex-row align-items-start justify-content-start row">
+                <li><a routerLink="/login">Login</a></li>
+                <li><a routerLink="/signup">Register</a></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<mat-sidenav-container class="example-container">
+  <mat-sidenav #drawer mode="side" role="navigation" class="side-bar" >
+    <mat-nav-list>
+      <br />
+      <br />
+      <br />
+      <a mat-list-item routerLink='/home/listenedSongs' class="row dropdown-item text-dark">
+        <img src="../../../../assets/images/icon_ownSongs.png" alt="" class="col-md-3" />
+        <div class="col-md-9">
+          Listened musics
+        </div>
+      </a>
+      <a mat-list-item routerLink='/home/likedSongs' class="row dropdown-item text-dark">
+        <img src="../../../../assets/images/icon_ownSongs.png" alt="" class="col-md-3" />
+        <div class="col-md-9">
+          Liked music
+        </div>
+      </a>
+
+      <a mat-list-item routerLink='/license/own' class="row dropdown-item text-dark" *ngIf="role==='User'">
+        <img src="../../../../assets/images/icon_ownSongs.png" alt="" class="col-md-3" />
+        <div class="col-md-9">
+          My licenses
+        </div>
+      </a>
+      <a mat-list-item routerLink='/license/all' class="row dropdown-item text-dark" *ngIf="isAdmin">
+        <img src="../../../../assets/images/icon_ownSongs.png" alt="" class="col-md-3" />
+        <div class="col-md-9">
+          All licenses
+        </div>
+      </a>
+   
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="container">
+      <br />
+      <br />
+      <br />
+      <br />
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

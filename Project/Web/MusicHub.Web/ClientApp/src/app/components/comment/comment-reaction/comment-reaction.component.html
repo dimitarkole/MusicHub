@@ -1,0 +1,24 @@
+﻿<div *ngIf="!isAuth">
+    <a routerLink="/login" class="btn glyphicon glyphicon-thumbs-up" aria-hidden="true"></a>
+    <span>{{comment.likesCount}}</span>
+    <a routerLink="/login" class="btn glyphicon glyphicon-thumbs-down" aria-hidden="true"></a>
+    <span>{{comment.dislikesCount}}</span>
+</div>
+
+<div *ngIf="isAuth">
+  <button class="btn glyphicon glyphicon-thumbs-up" *ngIf="reaction.reaction==0" aria-hidden="true" (click)="likeComment()"></button>
+  <button class="btn fa fa-size fa-thumbs-up reacted" *ngIf="reaction.reaction==1" aria-hidden="true" (click)="unReactionComment(reaction.id,'like')"></button>
+  <button class="btn glyphicon glyphicon-thumbs-up" *ngIf="reaction.reaction==2" aria-hidden="true" (click)="unDislikeComment(reaction.id)"></button>
+
+
+  <span>{{comment.likesCount}}</span>
+
+  <button class="btn glyphicon glyphicon-thumbs-down" *ngIf="reaction.reaction==0" aria-hidden="true" (click)="dislikeComment()"></button>
+  <button class="btn fa fa-size fa-thumbs-down reacted" *ngIf="reaction.reaction==2" aria-hidden="true" (click)="unReactionComment(reaction.id, 'dislike')"></button>
+  <button class="btn glyphicon glyphicon-thumbs-down" *ngIf="reaction.reaction==1" aria-hidden="true" (click)="unLikeComment(reaction.id)"></button>
+
+  <span>{{comment.dislikesCount}}</span>
+
+  <br />
+</div>
+

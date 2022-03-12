@@ -1,0 +1,31 @@
+﻿<h3 class="text-dark">Comments ({{commentPagination.comments.length}})</h3>
+<form (ngSubmit)="formHandler()" [formGroup]="commentForm" class="row">
+  <div class="form-group col-md-12">
+    <div class="row">
+      <div class=" col-md-12">
+        <textarea class="form-control" formControlName="text" type="text" rows="5"
+                  placeholder="White your commment here"></textarea>
+        <span class="text-danger" *ngIf="text.touched && text.hasError('required')">The comment is required!</span>
+        <span class="text-danger" *ngIf="text.hasError('minlength')">The comment must contain minimum {{commentMinLength}} characters!</span>
+        <span class="text-danger" *ngIf="text.hasError('maxlength')">The comment must contain maximum {{commentMaxLength}} characters!</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class=" col-md-9">
+      </div>
+
+      <div class="col-md-3">
+        <br>
+        <button [disabled]="commentForm.invalid" type="submit" class="login100-form-btn">Comment</button>
+      </div>
+    </div>
+  </div>
+</form>
+<hr />
+<div class="row">
+  <div class="col-md-12">
+    <div class="blog-comment">
+      <app-comment-info [comment]="comment" class="col-md-12" *ngFor="let comment of commentPagination.comments"></app-comment-info>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="row">
+  <!-- song Image -->
+  <div class="col-lg-7">
+
+    <div class="player-stage">
+      <img src="{{'../../../../../assets/resources/song/images/' + playSong.imageFilePath}}" class="playsong-img" alt="" />
+      <audio controls class="play-song" id="player" (onended)="changeSong()">
+      </audio>
+
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{{playSong.name}}</h3>
+        <small>Category: {{playSong.categoryName}}</small>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-7">
+        <p>{{playSong.createdOn | date : 'MMMM d, yyyy'}}</p>
+      </div>
+
+      <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddToSong()" *ngIf="isAuth">
+        + Add to
+      </button>
+
+      <app-song-reaction [song]="playSong" class="col-md-3"></app-song-reaction>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-2">
+        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" class="avatar" alt="" />
+      </div>
+
+      <div class="col-md-9">
+        <div class="row">
+          <div class="col-md-9">
+            <h4>
+              <a routerLink="{{'/profile/view/' + playSong.user?.id}}" class="row ">
+                {{playSong.user.userName}}
+              </a>
+            </h4>
+          </div>
+          <button class="col-md-3 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddToSong()" *ngIf="isAuth">
+            Follow
+          </button>
+        </div>
+        <div class="row">
+          <p>
+            {{playSong.text}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <app-comment-list [songId]="playSong.id" class="col-md-12"></app-comment-list>
+  </div>
+  <!-- song Content -->
+  <div class="col-md-5">
+    <div class="playlist-aria">
+      <div class="col-md-12">
+        <h3>
+          {{playlist.name.substring(0, 30)}}
+        </h3>
+        <small>Created by: {{playlist.user?.userName.substring(0, 30)}}</small>
+        <hr />
+      </div>
+
+      <div class="col-md-12 playlist-songs" id="playlistSongs" (scroll)="onScrollPlaylistSongs()">
+        <div class="row" *ngFor="let playlistSong of playlistSongsPagination.playlistSongs; index as j">
+          <img src="{{'../../../../../assets/resources/song/images/' + playlistSong.song.imageFilePath}}" alt="logo" class="col-md-2">
+          <div class="col-md-7">
+            {{playlistSong.song.name?.substring(0, 30)}} <br />
+
+            <small>
+              {{playlistSong.song.user?.username}}
+            </small>
+          </div>
+
+          <div class="song_play_button col-md-1" aria-hidden="true" (click)="changePlaySong(playlistSong.song.id)">
+          </div>
+
+          <div class="col-sm-1" *ngIf="isOwn">
+            <div class="dropdown">
+              <button class="btn" type="button"
+                      id="dropdownSettingsButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <svg width="1em" height="1em" viewBox="0 0 16 16"
+                     class="bi bi-three-dots-vertical" fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                </svg>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownSettingsButton">
+                <button class="dropdown-item" href="#" (click)="openDeleteSong(playlistSong.id)">
+                  Remove song
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <hr />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <br />
+        <br />
+      </div>
+      <app-song-suggest *ngIf="playSong.id" [songId]="playSong.id" class="col-md-12"></app-song-suggest>
+    </div>
+  </div>
+</div>

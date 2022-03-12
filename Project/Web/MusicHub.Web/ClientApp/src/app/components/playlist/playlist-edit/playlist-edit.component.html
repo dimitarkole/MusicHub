@@ -1,0 +1,26 @@
+﻿<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Edit playlist</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (ngSubmit)="OnSubmit()" [formGroup]="playlistForm">
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Playlist</label>
+      <input class="form-control" formControlName="name" type="text" placeholder="Playlist name">
+      <span class="text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+      <span class="text-danger" *ngIf="name.hasError('minlength')">
+        Playlist name must contain {{nameMinLength}} characters!
+      </span>
+      <span class="text-danger" *ngIf="name.hasError('maxlength')">
+        Playlist name must be at most {{nameMinLength}} characters!
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">No</button>
+    <button [disabled]="playlistForm.invalid" type="submit" class="btn btn-danger">Yes</button>
+  </div>
+</form>
+

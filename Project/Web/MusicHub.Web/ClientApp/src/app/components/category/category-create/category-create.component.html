@@ -1,0 +1,16 @@
+﻿<div class="d-flex justify-content-center">
+  <form class="w-50" (ngSubmit)="formHandler()" [formGroup]="categoryForm">
+    <div class="form-group">
+      <label>Name</label>
+      <input class="form-control" formControlName="name" type="text" placeholder="Category name">
+      <span class="text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+      <span class="text-danger" *ngIf="name.hasError('minlength')">
+        Category name must contain {{nameMinLength}} characters!
+      </span>
+      <span class="text-danger" *ngIf="name.hasError('maxlength')">
+        Category name must be at most {{nameMaxLength}} characters!
+      </span>
+    </div>
+    <button [disabled]="categoryForm.invalid" type="submit" class="btn btn-primary">Add</button>
+  </form>
+</div>

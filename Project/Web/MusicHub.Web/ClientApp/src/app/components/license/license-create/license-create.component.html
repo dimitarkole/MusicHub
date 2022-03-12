@@ -1,0 +1,57 @@
+<h2>
+  Add new license
+</h2>
+<hr />
+<form class="row" (ngSubmit)="submit()" [formGroup]="licenseForm">
+  <div class="col-md-12">
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">License Name</div>
+      <div class="col-md-10">
+        <input class="form-control" formControlName="name" type="text" placeholder="License name">
+        <span class="help-block text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+        <span class="help-block text-danger" *ngIf="name.hasError('minlength')">
+          The license name must contain {{nameMinLength}} characters!
+        </span>
+        <span class="help-block text-danger" *ngIf="name.hasError('maxlength')">
+          The license name must be at most {{nameMaxLength}} characters!
+        </span>
+      </div>
+    </div>
+
+  <div class="row form-group">
+    <!-- Text input-->
+    <div class="col-md-2 control-label">License images</div>
+    <div class="col-md-10">
+      <div formArrayName="uploadfiles" class="row">
+        <div *ngFor="let imageUrl of imageUrls; let i=index" class="col-md-3">
+          <div class="image-area pw_img">
+            <img [src]="imageUrl" alt="Preview" class="img-responsive">
+            <button class="remove-image" href="#" style="display: inline;" (click)="removeFile(i)">&#215;</button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="image-area pw_img">
+            <button type="button" class="img-responsive add-new-image" (click)="image.click()">
+              <h2>+</h2>
+            </button>
+          </div>
+        </div>
+      </div>
+      <input type="file" #image accept="image/*" (change)="handleFileInput($event.target.files)" style="display:none;">
+    </div>
+  </div>
+
+  <div class="row form-group">
+    <!-- Text input-->
+    <div class="col-md-10 control-label"></div>
+    <div class="col-md-2">
+      <!--[disabled]="licenseForm.invalid"-->
+      <button type="submit"
+              class="login100-form-btn">
+        Add
+      </button>
+    </div>
+  </div>
+  </div>
+</form>

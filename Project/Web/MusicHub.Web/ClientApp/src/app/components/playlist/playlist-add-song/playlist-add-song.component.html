@@ -1,0 +1,21 @@
+﻿<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Adding song to playlist</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form (ngSubmit)="OnSubmit()" [formGroup]="playlistForm">
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Playlists</label>
+      <select class="form-control" formControlName="playlistId">
+        <option value="default" disabled selected>Select playlist</option>
+        <option *ngFor="let playlist of playlists | async" [value]="playlist.id">{{playlist.name}}</option>
+      </select>
+      <span class="text-danger" *ngIf="playlistId.touched && (playlistId.hasError('required') || playlistId.hasError('pattern'))">Select playlist!</span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-danger">Add</button>
+  </div>
+</form>

@@ -1,0 +1,7 @@
+﻿div, p{
+  color: black;
+  font-size:16px;
+}
+.ul-point {
+  list-style-type:disc
+}

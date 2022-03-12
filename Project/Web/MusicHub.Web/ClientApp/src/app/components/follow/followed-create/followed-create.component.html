@@ -1,0 +1,24 @@
+﻿<div *ngIf="!isAuth">
+  <a class="login100-form-btn" routerLink="/login">
+    Follow
+  </a>
+</div>
+<div *ngIf="isAuth">
+  <form class="row" (ngSubmit)="submitUnfollow()" [formGroup]="followForm" *ngIf="isFollow">
+    <div class="col-md-12">
+      <button type="submit"
+              class="login100-form-btn">
+        Unfollow
+      </button>
+    </div>
+  </form>
+
+  <form class="row" (ngSubmit)="submitFollow()" [formGroup]="followForm" *ngIf="!isFollow">
+    <div class="col-md-12">
+      <button type="submit"
+              class="login100-form-btn">
+        Follow
+      </button>
+    </div>
+  </form>
+</div>

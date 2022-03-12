@@ -1,0 +1,142 @@
+<h2>
+  Edit music
+</h2>
+<hr />
+<form class="row" (ngSubmit)="submit()" [formGroup]="songForm">
+  <div class="col-md-5">
+    <div class="form-group">
+      <div class="row form-group">
+        <!-- Text input-->
+        <div class="col-md-2 control-label">Image</div>
+        <div class="col-md-10">
+          <button type="button" class="btn btn-secondary" (click)="image.click()">Upload image</button>
+          &nbsp;<button type="button" class="btn btn-secondary" (click)="useDefaultPicture()">Default image</button>
+
+          <input type="file" #image accept="image/*" (change)="handleImageFileInput($event.target.files)" style="display:none;">
+          <span class="text-danger" *ngIf="imageFilePath.hasError('required')">
+            The music must have image!
+          </span>
+        </div>
+      </div>
+      <img src="../../../../assets/resources/song/images/{{imageUrl}}" style="height:380px; width:570px" *ngIf="isChangeImage==false || imageFilePath.value=='songDefaultImage.jpg'">
+      <img src="{{imageUrl}}" style="height:380px; width:570px" *ngIf="isChangeImage && imageFilePath.value !='songDefaultImage.jpg'">
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Audio</div>
+      <div class="col-md-10">
+        <button type="button" class="btn btn-secondary" (click)="audio.click()">Upload audio</button>
+
+        <span class="control-label" *ngIf="audioFilePath.value != null">
+          Successful chosen file
+        </span>
+        <input type="file" #audio accept="audio/*" (change)="handleAudioFileInput($event.target.files)" style="display:none;">
+        <span class="text-danger" *ngIf="audioFilePath.hasError('required')">
+          The music must have audio file!
+        </span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Music Name</div>
+      <div class="col-md-10">
+        <input class="form-control" formControlName="name" type="text" placeholder="Music name">
+        <span class="help-block text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+        <span class="help-block text-danger" *ngIf="name.hasError('minlength')">
+          The music name must contain {{nameMinLength}} characters!
+        </span>
+        <span class="help-block text-danger" *ngIf="name.hasError('maxlength')">
+          The music name must be at most {{nameMaxLength}} characters!
+        </span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Category</div>
+      <div class="col-md-10">
+        <select class="form-control" formControlName="categoryId" [value]='categoryId'>
+          <option value="default" disabled selected>Select category</option>
+          <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+        </select>
+        <span class="text-danger" *ngIf="categoryId.touched && (categoryId.hasError('required') || categoryId.hasError('pattern'))">The category is required!</span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Distribution</div>
+      <div class="col-md-10">
+        <select class="form-control" formControlName="musicLicenseType">
+          <option *ngFor="let musicLicenseTypeVar of musicLicenseTypes"
+                  [value]="musicLicenseTypeVar">
+            {{musicLicenseTypesMapping[musicLicenseTypeVar]}}
+          </option>
+        </select>
+        <span class="text-danger" *ngIf="musicLicenseType.hasError('requared')">
+          The description must be characters!
+        </span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Linceses</div>
+      <div class="col-md-10">
+        <label *ngFor="let license of licenses$" class="form-control">
+          <input type="checkbox" checklist-model="license.name" checklist-value="license.id" [checked]="isLicenseChecked(license)" (click)="addLicense(license.id)"> {{license.name}}<br />
+        </label>
+        <!--
+        <span class="text-danger" *ngIf="licenseId.touched && (licenseId.hasError('required') || licenseId.hasError('pattern'))">The category is required!</span>
+      -->
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Visibility</div>
+      <div class="col-md-10">
+        <select class="form-control" formControlName="visibleStatus">
+          <option *ngFor="let visibleStatusVar of visibleStatus"
+                  [value]="visibleStatusVar">
+            {{visibleStatusMapping[visibleStatusVar]}}
+          </option>
+        </select>
+        <span class="text-danger" *ngIf="visibleStatusForm.hasError('requared')">
+          The description must be characters!
+        </span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-2 control-label">Description</div>
+      <div class="col-md-10">
+        <textarea class="form-control" formControlName="text" type="text"
+                  placeholder="Text" rows="8"></textarea>
+        <span class="text-danger" *ngIf="text.touched && text.hasError('required')">The text is required!</span>
+        <span class="text-danger" *ngIf="text.hasError('minlength')">
+          The description must contain {{textMinLength}} characters!
+        </span>
+        <span class="text-danger" *ngIf="text.hasError('maxlength')">
+          The description must be at most {{textMaxLength}} characters!
+        </span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <!-- Text input-->
+      <div class="col-md-10 control-label"></div>
+      <div class="col-md-2">
+        <button [disabled]="songForm.invalid" type="submit"
+                class="login100-form-btn">
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

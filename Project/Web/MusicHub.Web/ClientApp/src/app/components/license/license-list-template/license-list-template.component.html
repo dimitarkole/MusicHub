@@ -1,0 +1,33 @@
+<table class="table table-striped">
+  <thead>
+    <tr class="row">
+      <th class="col-md-1">#</th>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-1">Status</th>
+      <th class="col-md-2">Count of license songs</th>
+      <th class="col-md-2">Count of license files</th>
+      <th class="col-md-2">Created on</th>
+      <th class="col-md-2">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let license of licenses; index as i" class="row">
+      <td class="col-md-1">{{ i + 1 }}</td>
+      <td class="col-md-2"> {{license.name}}</td>
+      <td class="col-md-1"> {{getSatus(license.status)}}</td>
+      <td class="col-md-2"> {{license.songLicensesCount}}</td>
+      <td class="col-md-2"> {{license.licenseFilesCount}}</td>
+      <td class="col-md-2"> {{license.createdOn | date : 'dd/MM/yyyy'}}</td>
+
+      <td class="col-md-2 table-operation-coll">
+        <button class="btn" (click)="openDelete(license.id)">
+          <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        <button class="btn" (click)="openEdit(license)">
+          <span class="glyphicon glyphicon-pencil"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br />

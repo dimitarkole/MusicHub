@@ -1,0 +1,55 @@
+﻿<div class="modal-header">
+  <h4 class="modal-title" id="modal-title">Edit profile</h4>
+  <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="userEditForm" (ngSubmit)="OnSubmit()">
+  <div class="modal-body">
+    <div class="form-group">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your first name">
+            <input class="input100" type="text" name="firstName" placeholder="First name" formControlName="firstName">
+            <div class="form-label text-danger text-right" *ngIf="firstName.touched && firstName.hasError('required')">
+              The first name is required!
+            </div>
+            <div class="text-danger" *ngIf="firstName.touched && firstName.hasError('minLength')">
+              Your first name name must contain {{firstNameMinLength}} characters!
+            </div>
+
+            <div class="text-danger" *ngIf="firstName.touched && firstName.hasError('maxlength')">
+              Your first name name must contain {{firstNameMaxLength}} characters!
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your last name">
+            <input class="input100" type="text" name="lastName" placeholder="lastName" formControlName="lastName">
+            <div class="form-label text-danger text-right" *ngIf="lastName.touched && lastName.hasError('required')">
+              The last name is required!
+            </div>
+            <div class="text-danger" *ngIf="lastName.touched && lastName.hasError('minLength')">
+              Your last name name must contain {{lastNameMinLength}} characters!
+            </div>
+            <div class="text-danger" *ngIf="lastName.touched && lastName.hasError('maxlength')">
+              Your first name name must contain {{lastNameMaxLength}} characters!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter your birthday">
+        <input class="input100" type="date" name="birthday" placeholder="Birthday" formControlName="birthday" [ngModel]="birthday.value | date:'yyyy-MM-dd'" >
+        <div class="form-label text-danger text-right" *ngIf="birthday.touched && birthday.hasError('required')">
+          The birthday is required!
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">No</button>
+    <button type="submit" class="btn btn-danger" [disabled]="userEditForm.invalid">Save</button>
+  </div>
+</form>

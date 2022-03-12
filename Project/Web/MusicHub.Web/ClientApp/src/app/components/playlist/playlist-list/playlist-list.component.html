@@ -1,0 +1,70 @@
+<div class="row jumbotron jumbotron-fluid">
+  <div class="col-md-12">
+    <div class="row form-group">
+      <div class="col-md-6">
+        <h2>
+          Search own playlists:
+        </h2>
+      </div>
+      <div class="col-md-4">
+      </div>
+      <div class="col-md-2">
+        <button (click)="openCreate()" class="login100-form-btn">
+          New playlist
+        </button>
+      </div>
+    </div>
+    <hr />
+    <form class="row" (ngSubmit)="submit()" [formGroup]="searchForm">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Name</div>
+          <div class="col-md-10">
+            <input class="form-control" formControlName="name" type="text" placeholder="Playlist name">
+          </div>
+        </div>
+      </div>
+      <!--<div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-2 control-label">Category</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="categoryId">
+              <option [value]="defaultCategoryId">Each category</option>
+              <option *ngFor="let category of categories$ | async" [value]="category.id">{{category.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      -->
+      <div class="col-md-6">
+        <div class="row form-group">
+          <!-- Text input-->
+          <div class="col-md-2 control-label">Sorting</div>
+          <div class="col-md-10">
+            <select class="form-control" formControlName="orderMethod">
+              <option [value]="'CreatedOnDesc'" default>Time: newly song first</option>
+              <option [value]="'CreatedOnAsc'">Time: oldly song first</option>
+              <option [value]="'NameAsc'">Name: A-Z</option>
+              <option [value]="'NameDesc'">Name: Z-A</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-10">
+      </div>
+
+      <div class="col-md-2">
+        <button type="submit" class="login100-form-btn">
+          Search
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+
+<app-playlist-list-template [playlists]="playlistPagination.playlists" [type]="'own'">
+
+</app-playlist-list-template>

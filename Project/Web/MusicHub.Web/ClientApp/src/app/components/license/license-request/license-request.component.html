@@ -1,0 +1,81 @@
+<!-- Sign up form -->
+<!-- Sign up card -->
+<div class="card person-card">
+  <div class="card-body">
+    <h2 id="who_message" class="card-title">License request</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">License info</h2>
+        <div class="form-group">
+          <label for="email" class="col-form-label">License name</label>
+          <div class="form-group">
+            <label class="col-form-label">{{license.name}}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email" class="col-form-label">Status</label>
+          <div class="form-group">
+            <label class="col-form-label">{{getSatus(license.status)}}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="tel" class="col-form-label">License files</label>
+          <div class="col-form-label">
+            <label class="col-form-label" *ngIf="!license.uploadfiles">
+              This licese do not have any atached files!
+            </label>
+
+            <div class="row">
+              <div *ngFor="let imageUrl of license.uploadfiles; let i=index" class="col-md-3">
+                <div class="image-area pw_img">
+                  <img [src]="imageUrl" alt="Preview" class="img-responsive">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title">User information!</h2>
+        <div class="row">
+          <div class="col-md-3">
+
+          </div>
+          <div class="col-md-9">
+            <div class="form-group">
+              <label for="password" class="col-form-label">User name</label>
+              <div class="form-group">
+                <label class="col-form-label">{{license.user.userName}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-2">
+
+          </div>
+          <button type="button" class="btn btn-success btn-lg btn-block col-md-3" (click)="approve()">Approve</button>
+          <div class="col-md-2">
+
+          </div>
+          <button type="button" class="btn btn-danger btn-lg btn-block col-md-3" (click)="reject()">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
