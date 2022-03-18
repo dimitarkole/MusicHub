@@ -48,6 +48,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';*/
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AlbumsModule } from './albums/albums.module';
+import { PlayLaterMusicsModule } from './play-later-musics/play-later-musics.module';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { AlbumsModule } from './albums/albums.module';
     ProfileModule,
     AuthsModule,
     AlbumsModule,
+    PlayLaterMusicsModule,
 
     StoreModule.forRoot({}, {
       runtimeChecks: {

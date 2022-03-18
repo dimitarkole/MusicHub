@@ -1,0 +1,29 @@
+<form class="container" (ngSubmit)="submit()" [formGroup]="searchForm">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="row form-group">
+        <input class="form-control" formControlName="name" type="text" placeholder="Playlist name">
+      </div>
+    </div>
+    <div class="col-md-5">
+      <select class="form-control" formControlName="orderMethod">
+        <option [value]="'CreatedOnDesc'" default>Time: newly song first</option>
+        <option [value]="'CreatedOnAsc'">Time: oldly song first</option>
+        <option [value]="'NameAsc'">Name: A-Z</option>
+        <option [value]="'NameDesc'">Name: Z-A</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="login100-form-btn">
+        Search
+      </button>
+    </div>
+  </div>
+</form>
+<div class="playlists" *ngFor="let playlist of playlistPagination.playlists" (scroll)="onScrollPlaylists()" id="playlists">
+  <app-add-music-to-playlist [playlist]="playlist" [musicId]="musicId"></app-add-music-to-playlist>
+</div>
+
+<div *ngIf="playlistPagination.playlists.length==0">
+  <app-no-more-result></app-no-more-result>
+</div>

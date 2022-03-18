@@ -28,10 +28,6 @@ export class PlaylistService {
     return this.http.get<boolean>(`${this.route}/IsOwned/${id}`);
   }
 
-  getOwnForAddingSong(songId: string) {
-    return this.http.get<Playlist[]>(`${this.route}/GetOwnForAddingSong/${songId}`);
-  }
-
   create(playlist: Playlist) {
     return this.http.post(this.route, playlist);
   }

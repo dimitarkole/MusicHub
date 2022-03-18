@@ -1,12 +1,12 @@
 <div class="player-stage">
-  <img src="{{musicImageFolder + music.imageUrl}}" class="img" alt="" />
+  <app-music-image [musicImage]="music.imageUrl" [size]="'large'"></app-music-image>
   <audio controls class="play-song" id="player">
   </audio>
 </div>
 <br />
 <div class="row">
   <div class="col-md-12">
-    <h3>{{music.name}}</h3>
+    <span class="music-name">{{music.name}}</span><br />
     <small>Category: {{music.categoryName}}</small>
   </div>
 </div>
@@ -16,10 +16,26 @@
     <p>{{music.createdOn | date : 'MMMM d, yyyy'}}</p>
   </div>
 
-  <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddToSong()" *ngIf="isAuth">
+  <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" (click)="openAddMusic()" *ngIf="isAuth">
+    + Add to
+  </button>
+  <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" routerLink="/signin" *ngIf="!isAuth">
     + Add to
   </button>
   <app-music-reaction [music]="music" class="col-md-3 main-music-information"></app-music-reaction>
+</div>
+
+<div *ngIf="isAdding">
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab" aria-controls="playlists" aria-selected="true">Playlists</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="playlists" role="tabpanel" aria-labelledby="home-tab">
+      <app-add-music-to-playlists [musicId]="music.id"></app-add-music-to-playlists>
+    </div>
+  </div>
 </div>
 <hr />
 
@@ -46,4 +62,5 @@
   </div>
 </div>
 <hr />
+
 <app-comment-list [musicId]="music.id" class="col-md-12"></app-comment-list>

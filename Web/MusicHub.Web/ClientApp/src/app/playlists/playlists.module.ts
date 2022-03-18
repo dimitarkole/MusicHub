@@ -48,7 +48,7 @@ const routes: Routes = [
     PlaylistsOwnListComponent,
     PlaylistSmallDetailsComponent,
     PlaylistImageComponent,
-    PlaylistPlayComponent
+    PlaylistPlayComponent,
   ],
   exports: [
     PlaylistDeleteComponent,

@@ -46,3 +46,8 @@ img {
   height: 375px;
   width: 100%;
 }
+
+.music-name{
+    font-weight: bold;
+    color: black;
+}

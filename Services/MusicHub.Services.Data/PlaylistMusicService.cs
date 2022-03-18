@@ -10,9 +10,9 @@
     using MusicHub.Data;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PlaylistModels;
-    using MusicHub.Services.Interfaces;
 
     public class PlaylistMusicService : IPlaylistMusicService
     {
@@ -45,6 +45,12 @@
             };
         }
 
+        public T GetPlaylistMusicId<T>(PlaylistMusicCreateInputModel model)
+            => this.context.PlaylistMusics.Where(pm => pm.MusicId == model.MusicId
+                        && pm.PlaylistId == model.PlaylistId)
+                    .FirstOrDefault()
+                    .To<T>();
+
         public async Task Create(PlaylistMusicCreateInputModel model)
         {
             var playlistMusic = model.To<PlaylistMusic>();
@@ -61,6 +67,10 @@
             this.context.PlaylistMusics.Remove(removePlaylistMusic);
             await this.context.SaveChangesAsync();
         }
+
+        public bool IsAddedToPlaylist(IsAddedToPlaylistCheckInputModel model)
+            => this.context.PlaylistMusics.Any(pm => pm.PlaylistId == model.PlaylistId
+                    && pm.MusicId == model.MusicId);
 
         public string GetPlaylistIdByPlaylistMusicId(string id)
             => this.context.PlaylistMusics.Where(pm => pm.Id == id)

@@ -17,8 +17,12 @@
 
         Task Delete(string id);
 
+        bool IsAddedToPlaylist(IsAddedToPlaylistCheckInputModel model);
+
         Task Update(PlaylistMusicEditInputModel model, string id);
 
         string GetPlaylistIdByPlaylistMusicId(string id);
+
+        T GetPlaylistMusicId<T>(PlaylistMusicCreateInputModel model);
     }
 }
