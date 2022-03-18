@@ -1594,8 +1594,6 @@ section {
 
 .featured_list {
   width: calc(100% + 30px);
-  left: -15px;
-  margin-top: 82px;
 }
 
   .featured_list > div > div > div > div > div {
@@ -1623,27 +1621,11 @@ section {
     align-items: start;
     background: rgba(0,0,0,0.66);
     z-index: 1;
-    padding-left: 90px;
   }
-.featured_album_info {
-  position: absolute;
-  left: 65%;
-  bottom: 0;
-  width: 35%;
-  height: 166.7%;
-  top: -130px;
-  display: flex;
-  background: rgba(0,0,0,0.66);
-  color: white;
-  text-align: center;
-  padding: 10%;
-  padding-top: 20%;
-  font-size: 18px;
-}
+
 
 .featured_song_info {
   position: absolute;
-  left: 45px;
   bottom: 0;
   width: 100%-45px;
   height: 60%;
@@ -1690,8 +1672,6 @@ section {
 
 .album_play_button {
   position: absolute;
-  left: 35px;
-  bottom: 16px;
   width: 45px;
   height: 45px;
   border-radius: 50%;
@@ -1983,7 +1963,7 @@ section {
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  padding: 10px;
+  padding: 5px;
 }
 
 .glyphicon-asterisk:before {

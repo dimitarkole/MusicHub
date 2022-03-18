@@ -16,11 +16,13 @@
     {
         public string Id { get; set; }
 
+        public string MusicId { get; set; }
+
         public string Text { get; set; }
 
         public CommentUserViewModel User { get; set; }
 
-        public virtual ICollection<CommentViewModel> CommentsChildren { get; set; }
+        public virtual int CommentsChildrenCount { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

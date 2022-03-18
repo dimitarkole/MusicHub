@@ -10,7 +10,7 @@
 
     public class PlaylistMusicViewModel : IMapFrom<PlaylistMusic>
     {
-        public virtual string Id { get; set; }
+        public string Id { get; set; }
 
         public MusicViewModel Music { get; set; }
     }

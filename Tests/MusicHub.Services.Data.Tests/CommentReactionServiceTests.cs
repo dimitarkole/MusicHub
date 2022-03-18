@@ -45,7 +45,6 @@
         {
             var commentReactions = CommentReactionTestsData.CommentReactions();
             var commentReactionService = await this.CreateCommentReactionService(commentReactions);
-
             var userId = commentReactions[0].UserId;
             var commentReactionsId = commentReactions[0].Id;
 

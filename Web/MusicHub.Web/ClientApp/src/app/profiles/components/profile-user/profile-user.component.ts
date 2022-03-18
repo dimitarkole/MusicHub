@@ -62,20 +62,6 @@ export class ProfileUserComponent implements OnInit {
 
   private preparedPage() {
     this.user = this.route.snapshot.data.user;
-    if (this.user == null) {
-      this.profileService.MyProfile().subscribe(data => {
-        this.user = data;
-        this.user.id = data.id;
-        this.authService.isProfileMine(this.user.id).subscribe(data => {
-          this.isMyProfile = data;
-        });
-      })
-    }
-
-    this.authService.isProfileMine(this.user.id).subscribe(data => {
-      this.isMyProfile = data;
-    });
-
     this.searchForm = this.formBuilder.group({
       name: [
         null,
@@ -86,10 +72,31 @@ export class ProfileUserComponent implements OnInit {
       orderMethod: [
         "CreatedOnDesc"
       ],
-      userId: this.user.id,
+      userId: "",
     });
-    this.getMusicsPerPage();
-    this.getPlaylistsPerPage();
+
+    if (this.user == null) {
+      this.profileService.MyProfile().subscribe(data => {
+        this.user = data;
+        this.user.id = data.id;
+        this.userId.setValue(data.id);
+        this.authService.isProfileMine(this.user.id).subscribe(data => {
+          this.isMyProfile = data;
+        });
+
+        this.getMusicsPerPage();
+        this.getPlaylistsPerPage();
+      })
+    }
+    else {
+      this.userId.setValue(this.user.id);
+      this.authService.isProfileMine(this.user.id).subscribe(data => {
+        this.isMyProfile = data;
+      });
+
+      this.getMusicsPerPage();
+      this.getPlaylistsPerPage();
+    }
   }
 
   openFollowing() {
@@ -157,6 +164,10 @@ export class ProfileUserComponent implements OnInit {
     return this.searchForm.get('name');
   }
 
+  get userId(): AbstractControl {
+    return this.searchForm.get('userId');
+  }
+
   get categoryId(): AbstractControl {
     return this.searchForm.get('categoryId');
   }
@@ -195,7 +206,7 @@ export class ProfileUserComponent implements OnInit {
 
   private createMusicFilterModel() {
     let music: Music = this.searchForm.value;
-    music.userId = this.user.id;
+    music.userId = this.userId.value;
     music.orderMethod = CreateOrderMethod(this.orderMethod.value);
     if (music.categoryId == this.defaultCategoryId) {
       music.categoryId = null;
@@ -206,7 +217,7 @@ export class ProfileUserComponent implements OnInit {
 
   private createPlaylistFilterModel() {
     let playlist: Playlist = this.searchForm.value;
-    playlist.userId = this.user.id;
+    playlist.userId = this.userId.value;
     playlist.orderMethod = CreateOrderMethod(this.orderMethod.value);
     return playlist;
   }

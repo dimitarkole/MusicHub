@@ -24,6 +24,10 @@ import { RolesDetailsComponent } from './components/roles-details/roles-details.
 import { RoleDeleteComponent } from './components/role-delete/role-delete.component';
 import { RoleEditComponent } from './components/role-edit/role-edit.component';
 import { RoleAnalysisComponent } from './components/role-analysis/role-analysis.component';
+import { MatDialogModule } from '@angular/material';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ChartModule } from '../charts/charts.module';
+import { RolesRoutingModule } from './roles-routing.module';
 
 const routes: Routes = [
 ];
@@ -37,13 +41,26 @@ const routes: Routes = [
     RoleEditComponent,
     RoleAnalysisComponent
   ],
+  exports: [
+    RolesListComponent,
+    RoleCreateComponent,
+    RolesDetailsComponent,
+    RoleDeleteComponent,
+    RoleEditComponent,
+    RoleAnalysisComponent
+  ],
   entryComponents: [
+    RoleCreateComponent,
+    RolesDetailsComponent,
+    RoleDeleteComponent,
+    RoleEditComponent,
   ],
 
   imports: [
-    MatSidenavModule,
     BrowserModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
@@ -53,6 +70,10 @@ const routes: Routes = [
     MatButtonModule,
     MatIconModule,
     MatListModule,
+    MatDialogModule,
+    FormsModule,
+    ChartModule,
+    RolesRoutingModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -63,4 +84,4 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent]
 })
-export class PlaylistsModule { }
+export class RolesModule { }

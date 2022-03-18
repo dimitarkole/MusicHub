@@ -72,7 +72,7 @@ namespace MusicHub.Services.Data.Tests
               .Where(c => c.MusicId == musicId)
               .OrderByDescending(c => c.CreatedOn)
               .To<CommentViewModel>();
-            var expected = new CommentsAllViewModel<CommentViewModel>()
+            var expected = new CommentPageModel<CommentViewModel>()
             {
                 Comments = comments
                     .GetPage(page, entitesPerPage)

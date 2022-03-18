@@ -142,8 +142,11 @@
                 //.AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
+                .AddTransient<IAlbumService, AlbumService>()
+                .AddTransient<IAlbumMusicService, AlbumMusicService>()
                 .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
+                .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
 
@@ -151,6 +154,7 @@
            this IServiceCollection services)
            => services
                 .AddTransient<ICategoryAnalysisService, CategoryAnalysisService>()
+                .AddTransient<IOwnMusicAnalysisService, OwnMusicAnalysisService>()
                 .AddTransient<IRoleAnalysisService, RoleAnalysisService>();
 
         public static IServiceCollection AddSwagger(this IServiceCollection services)

@@ -65,13 +65,13 @@
 
         public Task Renew(string id) => UpdateIsDeleted(id, false);
 
-        public UserAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public UserPageModel<T> All<T>(int page, int entitesPerPage)
         {
             var users = this.context.Users.Where(u => !u.IsDeleted)
                 .OrderBy(u => u.UserName)
                 .To<T>();
 
-            return new UserAllViewModel<T>()
+            return new UserPageModel<T>()
             {
                 Users = users
                     .GetPage(page, entitesPerPage)
@@ -87,7 +87,7 @@
             .To<T>()
             .FirstOrDefault();
 
-        public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery)
+        public UserPageModel<UserViewModel> Search(int page, int entitesPerPage, string searchQuery)
         {
             var users = this.context.Users
                 .Where(u => !u.IsDeleted)
@@ -96,7 +96,7 @@
                 .OrderBy(u => u.UserName)
                 .To<UserViewModel>();
 
-            return new UserAllViewModel<UserViewModel>()
+            return new UserPageModel<UserViewModel>()
             {
                 Users = users
                     .GetPage(page, entitesPerPage)
@@ -106,7 +106,7 @@
             };
         }
 
-        public UserAllViewModel<UserViewModel> Search(int page, int entitesPerPage, UserFilter model)
+        public UserPageModel<UserViewModel> Search(int page, int entitesPerPage, UserFilter model)
         {
             IQueryable<User> users = this.context.Users.Where(u => !u.IsDeleted);
 
@@ -132,7 +132,7 @@
 
             users = this.OrederSearch(model.OrderMethod, users);
 
-            return new UserAllViewModel<UserViewModel>()
+            return new UserPageModel<UserViewModel>()
             {
                 Users = users
                     .To<UserViewModel>()

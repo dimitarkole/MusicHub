@@ -34,12 +34,20 @@
         }
 
         /// <summary>Get comment.</summary>
-        /// <param name="id">The id of comment.</param>
+        /// <param name="id">The id of music.</param>
         /// <param name="page">The page of comments.</param>
         /// <returns>Ok(CommentsAllViewModel<CommentViewModel>).</returns>
         [HttpGet("{id}/{page}")]
-        public ActionResult<CommentsAllViewModel<CommentViewModel>> Get(string id, int page)
+        public ActionResult<CommentPageModel<CommentViewModel>> Get(string id, int page)
            => this.Ok(this.commentService.All<CommentViewModel>(page, PaginationData.CommentsPerPage, id));
+
+        /// <summary>Get comment.</summary>
+        /// <param name="id">The id of comment.</param>
+        /// <param name="page">The page of comments.</param>
+        /// <returns>Ok(CommentsAllViewModel<CommentViewModel>).</returns>
+        [HttpGet(nameof(GetChildrenComments) + "/{id}/{page}")]
+        public ActionResult<CommentPageModel<CommentViewModel>> GetChildrenComments(string id, int page)
+           => this.Ok(this.commentService.GetChildrenComments<CommentViewModel>(page, PaginationData.CommentsPerPage, id));
 
         /// <summary>Get is own comment.</summary>
         /// <param name="id">The id of comment.</param>
@@ -77,10 +85,10 @@
         /// <para>Text - text of children comment.</para>
         /// </param>
         /// <returns>Ok.</returns>
-        [HttpPut(nameof(CreateChildrenCommentar) + "/{parentCommentId}")]
+        [HttpPost(nameof(CreateChildrenComment) + "/{parentCommentId}")]
         [Authorize]
         [Permission(PermissionType.User)]
-        public async Task<IActionResult> CreateChildrenCommentar(CommentChildrenCreatreInputModel model, string parentCommentId)
+        public async Task<IActionResult> CreateChildrenComment(CommentChildrenCreatreInputModel model, string parentCommentId)
         {
             if (!this.ModelState.IsValid)
             {

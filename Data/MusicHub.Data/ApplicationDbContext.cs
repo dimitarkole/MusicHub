@@ -37,6 +37,8 @@
 
         public virtual DbSet<Notification> Notifications { get; set; }
 
+        public virtual DbSet<NotificationClaim> NotificationClaims { get; set; }
+
         public virtual DbSet<Comment> Comments { get; set; }
 
         public virtual DbSet<CommentReaction> CommentReactions { get; set; }
@@ -48,6 +50,10 @@
         public virtual DbSet<SubscriptionClaim> SubscriptionClaims { get; set; }
 
         public virtual DbSet<Playlist> Playlists { get; set; }
+
+        public virtual DbSet<Album> Albums { get; set; }
+
+        public virtual DbSet<AlbumMusic> AlbumMusics { get; set; }
 
         public virtual DbSet<VerificationCode> VerificationCodes { get; set; }
 
@@ -64,6 +70,8 @@
         public virtual DbSet<LicenseFile> LicenseFiles { get; set; }
 
         public virtual DbSet<PlayedMusic> PlayedMusics { get; set; }
+
+        public virtual DbSet<PlayLaterMusic> PlayLaterMusics { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -91,7 +99,7 @@
 
         private void ApplyAuditInfoRules()
         {
-            IEnumerable<EntityEntry> changedEntries = ChangeTracker
+            IEnumerable<EntityEntry> changedEntries = this.ChangeTracker
                 .Entries()
                 .Where(e =>
                     e.Entity is IAuditInfo &&

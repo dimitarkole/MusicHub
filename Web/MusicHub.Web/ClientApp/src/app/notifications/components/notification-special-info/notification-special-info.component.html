@@ -1,0 +1,8 @@
+<app-user-avatar [imageUrl]="userImageUrl" [type]="'small'" *ngIf="type == 'userAvatar'">
+</app-user-avatar>
+<a class="text-truncate text-dark" routerLink="{{'/profile/view/' + claim.content}}" *ngIf="type == 'username'">
+  <small>{{username}}</small>
+</a>
+<a class="text-truncate text-dark" routerLink="{{'/musics/play/' + claim.content}}" *ngIf="type == 'musicName'">
+  <small>{{musicName}}</small>
+</a>

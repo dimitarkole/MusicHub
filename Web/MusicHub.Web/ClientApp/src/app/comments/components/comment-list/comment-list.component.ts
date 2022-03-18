@@ -6,6 +6,12 @@ import { CommentPagination } from '../../models/commentPagination';
 import Comment from '../../models/comment';
 import { CommentService } from '../../services/comment.service';
 import { globalConstants } from '../../../common/global-constants';
+import { ProfileService } from '../../../profiles/services/profile.service';
+import { NotificationService } from '../../../notifications/services/notification.service';
+import { MusicService } from '../../../musics/services/music.service';
+import Notification from '../../../notifications/models/notification';
+import { NotificationClaimType } from '../../../notifications/models/notificationClaimType';
+import { NotificationType } from '../../../notifications/models/notificationType';
 
 @Component({
   selector: 'app-comment-list',
@@ -24,6 +30,9 @@ export class CommentListComponent implements OnInit {
   constructor(//private modalService: NgbModal,
     private commentService: CommentService,
     private formBuilder: FormBuilder,
+    private musicService: MusicService,
+    private prifileService: ProfileService,
+    private notificationService: NotificationService,
     private router: Router) {
   }
 
@@ -61,13 +70,31 @@ export class CommentListComponent implements OnInit {
     let comment: Comment = this.commentForm.value;
     comment.musicId = this.musicId;
 
-    this.commentService.create(comment)
-      .subscribe(_ => {
+    this.commentService.create(comment).subscribe(_ => {
         this.commentPagination.currentPage = 0;
         this.commentPagination.comments = [];
         this.getCommentsPerPage();
+        this.musicService.getById(this.musicId).subscribe(m => {
+          this.prifileService.MyProfile().subscribe(u => {
+            var notification: Notification = {
+              content: " comment your music ",
+              userId: m.user.id,
+              claims: [
+                {
+                  content: u.id,
+                  type: NotificationClaimType.UserId,
+                },
+                {
+                  content: m.id,
+                  type: NotificationClaimType.MusicId,
+                }
+              ],
+              type: NotificationType.NewComment
+            };
+            this.notificationService.create(notification).subscribe(_ => _);
+          });
+        });
       });
-
     this.commentForm.reset();
   }
 
@@ -102,5 +129,4 @@ export class CommentListComponent implements OnInit {
       });
     }
   }
-
 }

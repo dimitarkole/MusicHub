@@ -21,17 +21,21 @@ export class CommentService {
   getByMusicId(id: string, page: number) {
     return this.http.get<CommentPagination>(`${this.routeCommentController}/${id}/${page}`);
   }
+  
+  getChildrenComments(parentCommentId: string, page: number) {
+    return this.http.get<CommentPagination>(`${this.routeCommentController}/GetChildrenComments/${parentCommentId}/${page}`);
+  }
 
   create(comment: Comment) {
     return this.http.post(this.routeCommentController + '/post', comment);
   }
 
   isOwn(id: string) {
-    return this.http.get<boolean>(`${this.routeCommentController}/IsOwn/${id}`);
+    return this.http.get<boolean>(`${this.routeCommentController}/IsOwned/${id}`);
   }
 
-  createChildrenComment(comment: Comment) {
-    return this.http.post(this.routeCommentController + '/postChildrenCommentar', comment);
+  createChildrenComment(parentCommentId: string, comment: Comment) {
+    return this.http.post(this.routeCommentController + '/CreateChildrenComment/' + parentCommentId, comment);
   }
 
   edit(comment: Comment) {

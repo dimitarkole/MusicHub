@@ -1,0 +1,79 @@
+<form (ngSubmit)="OnSubmit()" [formGroup]="analysisForm" class="row">
+  <div class="col-md-3">
+    <div>
+      From
+    </div>
+    <input class="input100" type="date" placeholder="Created From" formControlName="createdOnFrom">
+  </div>
+
+  <div class="col-md-3">
+    <div>
+      To
+    </div>
+    <input class="input100" type="date" placeholder="Created To" formControlName="createdOnTo">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      Months before
+    </div>
+    <input class="input100" type="number" placeholder="Months before" formControlName="countOfMonthsBefore">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      Count of categories
+    </div>
+    <input class="input100" type="number" placeholder="Count of categories" formControlName="countOfSeries">
+  </div>
+
+  <div class="col-md-2">
+    <div>
+      <br />
+    </div>
+    <button class="form-btn text-white input100" type="submit">Update</button>
+  </div>
+</form>
+
+<div class="row">
+  <div class="col-md-6">
+    <app-music-hub-pie-chart [chart]="getCreatedMusicByCategoriesCountsAllTime">
+    </app-music-hub-pie-chart>
+  </div>
+
+
+  <div class="col-md-6">
+    <app-music-hub-line-chart [chart]="getTopCreatedMusicByCategoriesCountForMonths">
+    </app-music-hub-line-chart>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-10">
+    <h2>Count of playing music for last month</h2>
+  </div>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr class="row">
+      <th class="col-md-1">#</th>
+      <th class="col-md-2">Image</th>
+      <th class="col-md-6">Name</th>
+      <th class="col-md-3">Count of playing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let music of topPlayedMusics.musics; index as i" class="row">
+      <td class="col-md-1">{{ i + 1 }}</td>
+      <td class="col-md-2"><app-music-image [musicImage]="music.imageUrl" [size]="'small'"></app-music-image></td>
+      <td class="col-md-6">{{music.name}}</td>
+      <td class="col-md-3">{{ music.playedMusicsCount }}</td>
+    </tr>
+  </tbody>
+
+</table>
+<div class="d-flex justify-content-center">
+  <ngb-pagination [collectionSize]="10" (pageChange)="getTopPlayedMusicsPerPage($event)" [(page)]="topPlayedMusics.page" [maxSize]="10" [rotate]="true" [boundaryLinks]="true">
+  </ngb-pagination>
+</div>
+<br />

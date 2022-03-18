@@ -35,7 +35,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Get(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual=>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -85,7 +85,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -110,7 +110,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -135,7 +135,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -160,7 +160,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -185,7 +185,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -211,7 +211,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.SuggestMusics(page, musicId))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.SuggestMusicPerPage;
@@ -238,7 +238,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetPlaylists(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<PlaylistsAllViewModel<PlaylistViewModel>>()
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -266,7 +266,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.PlaylistFilter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<PlaylistsAllViewModel<PlaylistViewModel>>()
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -294,7 +294,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.PlaylistFilter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<PlaylistsAllViewModel<PlaylistViewModel>>()
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;

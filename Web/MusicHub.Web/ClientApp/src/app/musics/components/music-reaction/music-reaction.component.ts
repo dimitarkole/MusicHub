@@ -2,6 +2,11 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/cor
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import Notification from '../../../notifications/models/notification';
+import { NotificationClaimType } from '../../../notifications/models/notificationClaimType';
+import { NotificationType } from '../../../notifications/models/notificationType';
+import { NotificationService } from '../../../notifications/services/notification.service';
+import { ProfileService } from '../../../profiles/services/profile.service';
 import { Reaction } from '../../../shared/models/reaction';
 import { ReactionInfo } from '../../../shared/models/reactionInfo';
 import { Music } from '../../models/music';
@@ -22,6 +27,8 @@ export class MusicReactionComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private prifileSerivice: ProfileService,
+    private notificationService: NotificationService,
     private musicReactionService: MusicReactionService,
     public authService: AuthService) {
     this.isAuth = authService.isAuth;
@@ -40,7 +47,6 @@ export class MusicReactionComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setReaction();
-    console.log(this.music);
     this.reactionForm = this.formBuilder.group({
       musicId: this.music.id,
       reaction: null,
@@ -55,6 +61,24 @@ export class MusicReactionComponent implements OnInit, OnChanges {
       .subscribe(_ => {
         this.music.countLikes++;
         this.setReaction();
+        this.prifileSerivice.MyProfile().subscribe(u => {
+          var notification: Notification = {
+            content: " like your music ",
+            userId: this.music.user.id,
+            claims: [
+              {
+                content: this.music.id,
+                type: NotificationClaimType.MusicId,
+              },
+              {
+                content: u.id,
+                type: NotificationClaimType.UserId,
+              }
+            ],
+            type: NotificationType.LikeMusic
+          };
+          this.notificationService.create(notification).subscribe(_ => _);
+        });
       });
   }
 
@@ -113,7 +137,7 @@ export class MusicReactionComponent implements OnInit, OnChanges {
 
   setReaction() {
     this.musicReactionService.isMusicReacted(this.musicIdGet).subscribe(data => {
-      this.reaction = data
+      this.reaction = data;
     });
   }
 }

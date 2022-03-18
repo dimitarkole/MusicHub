@@ -26,6 +26,12 @@
                 .OnDelete(DeleteBehavior.Cascade);
 
             appMusic
+               .HasMany(e => e.AlbumMusics)
+               .WithOne(e => e.Music)
+               .HasForeignKey(e => e.MusicId)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            appMusic
                 .HasMany(e => e.MusicReactions)
                 .WithOne(e => e.Music)
                 .HasForeignKey(e => e.MusicId)

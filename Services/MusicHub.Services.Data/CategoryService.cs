@@ -27,12 +27,12 @@
             this.paginationService = paginationService;
         }
 
-        public CategoriesAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public CategoryPageModel<T> All<T>(int page, int entitesPerPage)
         {
             var categories = this.context.Categories
                     .OrderBy(c => c.Name)
                     .To<T>();
-            return new CategoriesAllViewModel<T>()
+            return new CategoryPageModel<T>()
             {
                 Categories = categories
                     .GetPage(page, entitesPerPage)
@@ -42,7 +42,7 @@
             };
         }
 
-        public CategoriesAllViewModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter)
+        public CategoryPageModel<T> Filter<T>(int page, int entitesPerPage, CategoryFilterInputModel filter)
         {
             IQueryable<Category> categories = this.context.Categories;
             if (filter.Name != null)
@@ -53,7 +53,7 @@
             var categoriesT = categories.OrderBy(c => c.Name)
                     .To<T>();
 
-            return new CategoriesAllViewModel<T>()
+            return new CategoryPageModel<T>()
             {
                 Categories = categoriesT
                     .GetPage(page, entitesPerPage)

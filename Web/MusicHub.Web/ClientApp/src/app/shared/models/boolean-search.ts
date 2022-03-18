@@ -5,16 +5,17 @@ export interface BooleanSearchInput {
 }
 
 export enum BooleanSearchEntity {
-	Musics = 1,
-	Playlists = 2,
+  Musics = 1,
+  Playlists = 2,
   Categories = 3,
   Users = 4,
-	LikedMusics = 5,
+  LikedMusics = 5,
   PlayedMusics = 6,
+  Albums = 7,
 }
 
 export interface BooleanSearchEntryMetadata {
-	name: string;
+  name: string;
   description: string;
   permission: PermissionType;
 }

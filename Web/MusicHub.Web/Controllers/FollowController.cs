@@ -35,7 +35,7 @@
         /// <returns>Ok(FollowViewModel).</returns>
         [Authorize]
         [HttpGet(nameof(GetOwnFollowing) + "/{page}")]
-        public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetOwnFollowing(int page)
+        public ActionResult<FollowingPageModel<FollowingViewModel>> GetOwnFollowing(int page)
          => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowingsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own followers users.</summary>
@@ -50,7 +50,7 @@
         /// <param name="id">Id - user id.</param>
         /// <returns>Ok(FollowViewModel).</returns>
         [HttpGet(nameof(GetFollowing) + "/{id}/{page}")]
-        public ActionResult<FollowingsAllViewModel<FollowingViewModel>> GetFollowing(string id, int page)
+        public ActionResult<FollowingPageModel<FollowingViewModel>> GetFollowing(string id, int page)
             => this.Ok(this.followService.AllFollowing<FollowingViewModel>(page, PaginationData.FollowingsPerPage, id));
 
         /// <summary>Get followers users.</summary>
@@ -58,7 +58,7 @@
         /// <param name="page"></param>
         /// <returns>Ok(FollowViewModel).</returns>
         [HttpGet(nameof(GetFollowers) + "/{id}/{page}")]
-        public ActionResult<FollowingsAllViewModel<FollowerViewModel>> GetFollowers(string id, int page)
+        public ActionResult<FollowPageModel<FollowerViewModel>> GetFollowers(string id, int page)
             => this.Ok(this.followService.AllFollowers<FollowerViewModel>(page, PaginationData.FollowersPerPage, id));
 
         /// <summary>Create follow.</summary>
@@ -107,15 +107,15 @@
             return this.Ok();
         }
 
-        [HttpPost(nameof(FilterFollowers) + "/{id}")]
+        [HttpPost(nameof(FilterFollowers) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<IEnumerable<FollowingViewModel>> FilterFollowers(int page, FollowFilterInputModel model)
-            => this.Ok(this.followService.FilterFollowers<FollowingViewModel>(page, PaginationData.FollowingsPerPage, model, this.userManager.GetUserId(this.User)));
+        public ActionResult<FollowPageModel<FollowerViewModel>> FilterFollowers(string id, int page, FollowFilterInputModel model)
+            => this.Ok(this.followService.FilterFollowers<FollowerViewModel>(page, PaginationData.FollowingsPerPage, model, id));
 
-        [HttpPost(nameof(FilterFollowings) + "/{id}")]
+        [HttpPost(nameof(FilterFollowings) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<FollowingsAllViewModel<FollowerViewModel>> FilterFollowings(int page, FollowFilterInputModel model)
-            => this.Ok(this.followService.FilterFollowings<FollowerViewModel>(page, PaginationData.FollowingsPerPage, model, this.userManager.GetUserId(this.User)));
+        public ActionResult<FollowingPageModel<FollowingViewModel>> FilterFollowings(string id, int page, FollowFilterInputModel model)
+            => this.Ok(this.followService.FilterFollowings<FollowingViewModel>(page, PaginationData.FollowingsPerPage, model, id));
 
         /// <summary>Check is follow user comment.</summary>
         /// <param name="id">Id- folloed user Id.</param>
@@ -123,7 +123,7 @@
         [HttpGet(nameof(IsFollowing) + "/{id}")]
         [Authorize]
         public ActionResult<bool> IsFollowing(string id)
-            => this.Ok(this.followService.IsFollowing(id, this.userManager.GetUserId(this.User)));
+            => this.Ok(this.followService.IsFollowing(this.userManager.GetUserId(this.User), id));
 
         /// <summary>Get Following data.</summary>
         /// <param name="id">Id- follow Id.</param>
@@ -132,9 +132,9 @@
         [HttpGet(nameof(GetFollowingId) + "/{id}")]
         public ActionResult<string> GetFollowingId(string id)
         {
-            if (!this.followService.IsFollowing(id, this.userManager.GetUserId(this.User)))
+            if (!this.followService.IsFollowing(this.userManager.GetUserId(this.User), id))
             {
-                return null;
+                return this.Ok(new { Id = string.Empty });
             }
 
             var result = this.followService.GetFollow<FollowerViewModel>(this.userManager.GetUserId(this.User), id).Id;

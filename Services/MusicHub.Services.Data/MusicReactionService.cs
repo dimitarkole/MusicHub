@@ -30,7 +30,7 @@
             this.paginationService = paginationService;
         }
 
-        public LikedMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string userId)
+        public LikedMusicPageModel<T> All<T>(int page, int entitesPerPage, string userId)
         {
             var likedMusics = this.context.MusicReactions
               .Where(s => s.UserId == userId
@@ -38,7 +38,7 @@
               .OrderByDescending(s => s.CreatedOn)
               .To<T>();
 
-            return new LikedMusicsAllViewModel<T>()
+            return new LikedMusicPageModel<T>()
             {
                 LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)
@@ -63,7 +63,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public LikedMusicsAllViewModel<T> Filter<T>(int page, int entitesPerPage, string userId, MusicFilter filter)
+        public LikedMusicPageModel<T> Filter<T>(int page, int entitesPerPage, string userId, MusicFilter filter)
         {
             var likedMusics = this.context.MusicReactions
                 .Where(s => s.UserId == userId
@@ -72,7 +72,7 @@
             likedMusics = FilteringMusics(filter, likedMusics);
             likedMusics = OrederSearchMusics(filter.OrderMethod, likedMusics);
 
-            return new LikedMusicsAllViewModel<T>()
+            return new LikedMusicPageModel<T>()
             {
                 LikedMusics = likedMusics
                     .GetPage(page, entitesPerPage)

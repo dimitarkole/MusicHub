@@ -13,4 +13,5 @@ export default interface Playlist {
   imageUrl: string,
   orderMethod: OrderMethod,
   privacy: PrivacyStatus,
+  isMusicAddedToPlaylist?: string,
 }

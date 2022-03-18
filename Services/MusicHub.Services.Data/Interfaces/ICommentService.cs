@@ -10,7 +10,9 @@
 
     public interface ICommentService
     {
-        CommentsAllViewModel<T> All<T>(int page, int entitesPerPage, string musicId);
+        CommentPageModel<T> All<T>(int page, int entitesPerPage, string musicId);
+
+        CommentPageModel<T> GetChildrenComments<T>(int page, int entitesPerPage, string parentCommentId);
 
         Task Create(CommentCreatreInputModel model, string userId);
 

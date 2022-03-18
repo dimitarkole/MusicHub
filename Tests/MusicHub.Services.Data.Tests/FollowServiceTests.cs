@@ -40,7 +40,7 @@ namespace MusicHub.Services.Data.Tests
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
-            Assert.True(followService.IsOwned(follow.Id, follow.FollowingId));
+            Assert.True(followService.IsOwned(follow.Id, follow.FollowerId));
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace MusicHub.Services.Data.Tests
             var follows = FollowTestsData.Follows();
             var followService = await this.CreateFollowService(follows);
             var follow = follows[0];
-            Assert.True(followService.IsFollowing(follow.FollowingId, follow.FollowerId));
+            Assert.True(followService.IsFollowing(follow.FollowerId, follow.FollowingId));
         }
 
         [Fact]
@@ -164,14 +164,14 @@ namespace MusicHub.Services.Data.Tests
             this.CheckFilterFollowers(page, filter, userId, actual);
         }
 
-        private void CheckFilterFollowers(int page, FollowFilterInputModel filter, string userId, FollowersAllViewModel<FollowerViewModel> actual)
+        private void CheckFilterFollowers(int page, FollowFilterInputModel filter, string userId, FollowPageModel<FollowerViewModel> actual)
         {
             var followers = this.context.Follows
                             .Where(f => f.FollowingId == userId);
             followers = this.FilteringFollowers(filter, followers);
             followers = this.OrederFollows(filter.OrderMethod, followers);
             var followersT = followers.To<FollowerViewModel>();
-            var expected = new FollowersAllViewModel<FollowerViewModel>()
+            var expected = new FollowPageModel<FollowerViewModel>()
             {
                 Followers = followersT
                     .GetPage(page, this.EntitesPerPage)
@@ -183,7 +183,7 @@ namespace MusicHub.Services.Data.Tests
             expected.Should().BeEquivalentTo(actual);
         }
 
-        private void CheckFilterFollowings(int page, FollowFilterInputModel filter, string userId, FollowingsAllViewModel<FollowingViewModel> actual)
+        private void CheckFilterFollowings(int page, FollowFilterInputModel filter, string userId, FollowingPageModel<FollowingViewModel> actual)
         {
             var followings = this.context.Follows
                    .Where(f => f.FollowerId == userId);
@@ -192,7 +192,7 @@ namespace MusicHub.Services.Data.Tests
             followings = this.OrederFollowings(filter.OrderMethod, followings);
             var followersT = followings.To<FollowingViewModel>();
 
-            var expected = new FollowingsAllViewModel<FollowingViewModel>()
+            var expected = new FollowingPageModel<FollowingViewModel>()
             {
                 Followings = followersT
                     .GetPage(page, this.EntitesPerPage)

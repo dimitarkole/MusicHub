@@ -39,7 +39,7 @@
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
         [HttpGet(nameof(GetOwn) + "/{page}")]
         [Permission(PermissionType.MusicCreator)]
-        public ActionResult<MusicsAllViewModel<MusicViewModel>> GetOwn(int page)
+        public ActionResult<MusicPageModel<MusicViewModel>> GetOwn(int page)
             => this.Ok(this.musicService.AllOwn<MusicViewModel>(page, PaginationData.MusicsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Filter own Musics.</summary>
@@ -54,7 +54,7 @@
         [HttpPost(nameof(Filter) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.MusicCreator)]
-        public ActionResult<MusicsAllViewModel<MusicViewModel>> Filter(int page, MusicFilter model)
+        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, MusicFilter model)
           => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, model, this.userManager.GetUserId(this.User)));
 
         /// <summary>Add Music in data.</summary>

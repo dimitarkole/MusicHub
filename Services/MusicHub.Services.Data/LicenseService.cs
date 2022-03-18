@@ -28,14 +28,14 @@ namespace MusicHub.Services.Data
             this.paginationService = paginationService;
         }
 
-        public LicenseAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public LicensePageModel<T> All<T>(int page, int entitesPerPage)
         {
             var licenses = this.context.Licenses
                 .OrderByDescending(l => l.Status == LicenseStatus.WaitToBeView)
                 .ThenByDescending(l => l.CreatedOn)
                 .To<T>();
 
-            return new LicenseAllViewModel<T>()
+            return new LicensePageModel<T>()
             {
                 Licenses = licenses
                     .GetPage(page, entitesPerPage)
@@ -45,7 +45,7 @@ namespace MusicHub.Services.Data
             };
         }
 
-        public LicenseAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
+        public LicensePageModel<T> AllOwned<T>(int page, int entitesPerPage, string userId)
         {
             var licenses = this.context.Licenses
                 .Where(l => l.UserId == userId)
@@ -54,7 +54,7 @@ namespace MusicHub.Services.Data
                 .ThenByDescending(l => l.Name)
                 .To<T>();
 
-            return new LicenseAllViewModel<T>()
+            return new LicensePageModel<T>()
             {
                 Licenses = licenses
                     .GetPage(page, entitesPerPage)
@@ -112,7 +112,7 @@ namespace MusicHub.Services.Data
             await this.context.SaveChangesAsync();
         }
 
-        public LicenseAllViewModel<T> Filter<T>(int page, int entitesPerPage, LicenseFilter filter, string userId = null)
+        public LicensePageModel<T> Filter<T>(int page, int entitesPerPage, LicenseFilter filter, string userId = null)
         {
             IQueryable<License> licenses = this.context.Licenses;
             if (!string.IsNullOrEmpty(userId))
@@ -123,7 +123,7 @@ namespace MusicHub.Services.Data
             licenses = this.FilteringLicenses(filter, licenses);
 
             licenses = this.OrederSearchMusics(filter.OrderMethod, licenses);
-            return new LicenseAllViewModel<T>()
+            return new LicensePageModel<T>()
             {
                 Licenses = licenses
                         .To<T>()

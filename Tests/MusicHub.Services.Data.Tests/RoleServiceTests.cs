@@ -83,7 +83,7 @@
                  .OrderBy(r => r.Name)
                  .To<RoleViewModel>();
 
-            var expected = new RolesAllViewModel<RoleViewModel>()
+            var expected = new RolePageModel<RoleViewModel>()
             {
                 Roles = roles
                     .GetPage(page, entitesPerPage)
@@ -124,7 +124,7 @@
             roles = this.FilteringData(filter, roles);
             roles = this.OrederSearchData(filter.OrderMethod, roles);
 
-            var expected = new RolesAllViewModel<RoleViewModel>()
+            var expected = new RolePageModel<RoleViewModel>()
             {
                 Roles = roles
                     .GetPage(page, entitesPerPage)
