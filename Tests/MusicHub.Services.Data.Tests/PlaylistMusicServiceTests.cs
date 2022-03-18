@@ -70,6 +70,41 @@
         }
 
         [Fact]
+        public async Task GetPlaylistMusicId_WithValidData_ShouldWorkCorrect()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistMusic = playlistMusics[0];
+            var model = new PlaylistMusicCreateInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            var actual = playlistMusicService.GetPlaylistMusicId<PlaylistMusicViewModel>(model);
+            var expected = playlistMusic.To<PlaylistMusicViewModel>();
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        [Fact]
+        public async Task IsAddedToPlaylist_WithValidData_ShouldReturnTrue()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistMusic = playlistMusics[0];
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            Assert.True(playlistMusicService.IsAddedToPlaylist(model));
+        }
+
+        [Fact]
+        public async Task IsAddedToPlaylist_WithValidData_ShouldReturnFalse()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistId = playlistMusics[0].PlaylistId;
+            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+                .FirstOrDefault()
+                .MusicId;
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
+            Assert.False(playlistMusicService.IsAddedToPlaylist(model));
+        }
+
+        [Fact]
         public async Task UpdateLastPosition_WithValidData_ShouldeReturnPublic()
         {
             var playlistMusicService = await this.CreatePlaylistMusicService(PlaylistMusicTestsData.PlaylistMusics());

@@ -6,7 +6,7 @@ export const globalConstants = {
     defauldImage: "MusicDefaultImage.jpg",
     imageFolderPath: "musics/images/",
     audioFolderPathUpload: "/assets/resources/musics/audio/",
-    audioFolderPath: "musics/аudio/",
+    audioFolderPath: "/assets/resources/musics/аudio/",
     nameMinLength: 1,
     nameMaxLength: 100,
     descriptionMinLength: 10,

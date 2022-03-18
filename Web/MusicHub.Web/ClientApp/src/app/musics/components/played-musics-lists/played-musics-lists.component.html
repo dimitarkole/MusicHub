@@ -15,7 +15,7 @@
                     </div>
                   </div>
                   <div class="featured_image">
-                    <img src="{{defauleMusicImagePath}}" alt="logo" class="song_image" /><!-- *ngIf="music.imageUrl==''">-->
+                    <app-music-image [musicImage]="playedMusic.music.imageUrl" [size]="'medium'"></app-music-image>
                   </div>
                   <div class="album_play_button" routerLink="/home/play/{{playedMusic.music.id}}">
                   </div>

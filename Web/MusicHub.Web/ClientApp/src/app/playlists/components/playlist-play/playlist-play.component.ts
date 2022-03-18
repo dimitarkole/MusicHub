@@ -72,10 +72,9 @@ export class PlaylistPlayComponent implements OnInit {
 
   onScrollPlaylistMusics() {
     //In chrome and some browser scroll is given to body tag
-    var playlistSongsElement = document.getElementById("playlistMusics");
-
-    let pos = (playlistSongsElement.scrollTop || playlistSongsElement.scrollTop) + playlistSongsElement.offsetHeight;
-    let max = playlistSongsElement.scrollHeight;
+    var playlistMusicsElement = document.getElementById("playlistMusics");
+    let pos = (playlistMusicsElement.scrollTop || playlistMusicsElement.scrollTop) + playlistMusicsElement.offsetHeight;
+    let max = playlistMusicsElement.scrollHeight;
     // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
     if (pos > max * globalConstants.pagination.updateProcent) {
       //Do your action here
@@ -84,10 +83,8 @@ export class PlaylistPlayComponent implements OnInit {
   }
 
   private getPlaylistsMusicsPerPage(): void {
-
     var page = this.playlistMusicsPagination.currentPage + 1;
     if (page <= this.playlistMusicsPagination.numberOfPages) {
-
       this.playlistMusicsPagination.currentPage = page;
       this.playlistMusicsService.all(this.playlistId, page).subscribe(data => {
         this.playlistMusicsPagination.numberOfPages = data.numberOfPages;

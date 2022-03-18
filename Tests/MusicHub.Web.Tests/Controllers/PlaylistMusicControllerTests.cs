@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 using static MusicHub.Common.GlobalConstants;
+using MusicHub.Services.Mapping;
 
 namespace MusicHub.Web.Tests.Controllers
 {
@@ -147,6 +148,99 @@ namespace MusicHub.Web.Tests.Controllers
 
             Assert.True(From.Services<ApplicationDbContext>().PlaylistMusics
                 .Any(m => m.Id == playlistMusicId));
+        }
+
+        [Fact]
+        public void IsAddedToPlaylist_WithDataInTheDb_ShouldReturnTrue()
+        {
+            var musics = PlaylistMusicTestsData.Musics;
+            var users = PlaylistMusicTestsData.Users;
+            var playlists = PlaylistMusicTestsData.Playlists;
+            var categories = PlaylistMusicTestsData.Categories;
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusic = playlistMusics[0];
+            var userId = PlaylistMusicTestsData.Users[0].Id;
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            MyController<PlaylistMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(playlists)
+                .WithData(playlistMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+              .Calling(c => c.IsAddedToPlaylist(model))
+              .ShouldReturn()
+              .Ok(result => result
+                    .WithModelOfType<bool>()
+                    .Passing(actual =>
+                    {
+                        Assert.True(actual);
+                    }));
+        }
+
+        [Fact]
+        public void IsAddedToPlaylist_WithDataInTheDb_ShouldReturnFalse()
+        {
+            var musics = PlaylistMusicTestsData.Musics;
+            var users = PlaylistMusicTestsData.Users;
+            var playlists = PlaylistMusicTestsData.Playlists;
+            var categories = PlaylistMusicTestsData.Categories;
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var userId = PlaylistMusicTestsData.Users[0].Id;
+            var playlistId = playlistMusics[0].PlaylistId;
+            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+                .FirstOrDefault()
+                .MusicId;
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
+            MyController<PlaylistMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(playlists)
+                .WithData(playlistMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+              .Calling(c => c.IsAddedToPlaylist(model))
+              .ShouldReturn()
+              .Ok(result => result
+                    .WithModelOfType<bool>()
+                    .Passing(actual =>
+                    {
+                        Assert.False(actual);
+                    }));
+        }
+
+        [Fact]
+        public void GetPlaylistMusicId_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        {
+            var users = PlaylistMusicTestsData.Users;
+            var musics = PlaylistMusicTestsData.Musics;
+            var playlists = PlaylistMusicTestsData.Playlists;
+            var categories = PlaylistMusicTestsData.Categories;
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var userId = PlaylistTestsData.CreateUserId;
+            var playlistMusic = playlistMusics[0];
+            var model = new PlaylistMusicCreateInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            MyController<PlaylistMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(playlists)
+                .WithData(playlistMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.GetPlaylistMusicId(model))
+                .ShouldReturn()
+                .Ok(result => result
+                    .WithModelOfType<PlaylistMusicViewModel>()
+                    .Passing(actual =>
+                    {
+                        Assert.Equal(playlistMusic.Id, actual.Id);
+                    }));
         }
     }
 }

@@ -18,7 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { JwtInterceptor } from '../core/interceptors/jwt.interceptor';
 import { AppComponent } from '../app.component';
-import { MatDialogModule } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MusicsListTemplateComponent } from './components/musics-list-template/musics-list-template.component';
 import { MusicsOwnListComponent } from './components/musics-own-list/musics-own-list.component';
 import { MusicCreateComponent } from './components/music-create/music-create.component';
@@ -40,6 +40,10 @@ import { SharedModule } from '../shared/shared.module';
 import { ChartModule } from '../charts/charts.module';
 import { MusicResolver } from '../core/resolvers/music.resolver';
 import { AuthorizeGuard } from '../core/guards/auth.guard';
+import { MusicAddToComponent } from './components/music-add-to/music-add-to.component';
+import { AddMusicToPlaylistComponent } from './components/add-music-to-playlist/add-music-to-playlist.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { AddMusicToPlaylistsComponent } from './components/add-music-to-playlists/add-music-to-playlists.component';
 
 const routes: Routes = [
   {
@@ -103,6 +107,9 @@ const routes: Routes = [
     OwnMusicsAnalysisComponent,
     MusicImageComponent,
     MusicSmallDetailsComponent,
+    MusicAddToComponent,
+    AddMusicToPlaylistComponent,
+    AddMusicToPlaylistsComponent
   ],
   exports: [
     MusicsListTemplateComponent,
@@ -121,12 +128,17 @@ const routes: Routes = [
     MusicSmallDetailsComponent,
   ],
   entryComponents: [
+    MusicDeleteComponent,
+    AddMusicToPlaylistComponent
   ],
 
   imports: [
-    MatSidenavModule,
+    CommonModule,
     BrowserModule,
+    NgxChartsModule,
     BrowserAnimationsModule,
+    MatSidenavModule,
+    AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
@@ -136,10 +148,10 @@ const routes: Routes = [
     MatIconModule,
     MatListModule,
     MatDialogModule,
+    RouterModule.forChild(routes),
     SharedModule,
     CommentModule,
     ChartModule,
-    RouterModule.forChild(routes),
   ],
   providers: [
     //{ provide: AppInsightsServiceService },
@@ -147,6 +159,8 @@ const routes: Routes = [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     //{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} }
   ],
   bootstrap: [AppComponent]
 })

@@ -39,6 +39,8 @@ import { PlaylistPlayComponent } from './playlists/components/playlist-play/play
 import { AlbumsListComponent } from './albums/components/albums-list/albums-list.component';
 import { AlbumsOwnListComponent } from './albums/components/albums-own-list/albums-own-list.component';
 import { AlbumPlayComponent } from './albums/components/album-play/album-play.component';
+import { PlayLaterMusicsListComponent } from './play-later-musics/components/play-later-musics-list/play-later-musics-list.component';
+import { OwnMusicsAnalysisComponent } from './musics/components/own-musics-analysis/own-musics-analysis.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
@@ -108,7 +110,6 @@ const routes: Routes = [
       },
     ]
   },
-
   {
     path: 'musics', children: [
       { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
@@ -119,6 +120,7 @@ const routes: Routes = [
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.MusicCreator)
       },
+      { path: 'own/analysis', component: OwnMusicsAnalysisComponent, canActivate: [AuthorizeGuard] },
       {
         path: 'create',
         component: MusicCreateComponent,
@@ -143,6 +145,11 @@ const routes: Routes = [
           music: MusicResolver
         },
       },
+    ]
+  },
+  {
+    path: 'playLater', children: [
+      { path: '', component: PlayLaterMusicsListComponent, canActivate: [AuthorizeGuard] },
     ]
   },
   {
