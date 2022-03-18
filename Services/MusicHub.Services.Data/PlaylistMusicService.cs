@@ -10,9 +10,9 @@
     using MusicHub.Data;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.PlaylistModels;
-    using MusicHub.Services.Interfaces;
 
     public class PlaylistMusicService : IPlaylistMusicService
     {
@@ -27,7 +27,7 @@
             this.paginationService = paginationService;
         }
 
-        public PlaylistMusicsAllViewModel<T> All<T>(int page, int entitesPerPage, string id)
+        public PlaylistMusicsPageModel<T> All<T>(int page, int entitesPerPage, string id)
         {
 
             var playlistMusics = this.context.PlaylistMusics
@@ -35,7 +35,7 @@
               .OrderByDescending(p => p.Position)
               .To<T>();
 
-            return new PlaylistMusicsAllViewModel<T>()
+            return new PlaylistMusicsPageModel<T>()
             {
                 PlaylistMusics = playlistMusics
                     .GetPage(page, entitesPerPage)
@@ -45,12 +45,18 @@
             };
         }
 
+        public T GetPlaylistMusicId<T>(PlaylistMusicCreateInputModel model)
+            => this.context.PlaylistMusics.Where(pm => pm.MusicId == model.MusicId
+                        && pm.PlaylistId == model.PlaylistId)
+                    .FirstOrDefault()
+                    .To<T>();
+
         public async Task Create(PlaylistMusicCreateInputModel model)
         {
             var playlistMusic = model.To<PlaylistMusic>();
             var musicsInPlaylist = this.context.PlaylistMusics
               .Where(pm => pm.PlaylistId == model.PlaylistId);
-            playlistMusic.Position = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position);
+            playlistMusic.Position = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position) + 1;
             await this.context.PlaylistMusics.AddAsync(playlistMusic);
             await this.context.SaveChangesAsync();
         }
@@ -61,6 +67,10 @@
             this.context.PlaylistMusics.Remove(removePlaylistMusic);
             await this.context.SaveChangesAsync();
         }
+
+        public bool IsAddedToPlaylist(IsAddedToPlaylistCheckInputModel model)
+            => this.context.PlaylistMusics.Any(pm => pm.PlaylistId == model.PlaylistId
+                    && pm.MusicId == model.MusicId);
 
         public string GetPlaylistIdByPlaylistMusicId(string id)
             => this.context.PlaylistMusics.Where(pm => pm.Id == id)

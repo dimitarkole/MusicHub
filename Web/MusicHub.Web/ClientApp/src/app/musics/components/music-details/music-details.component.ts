@@ -1,9 +1,12 @@
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { globalConstants } from '../../../common/global-constants';
 import { AuthService } from '../../../core/services/auth.service';
 import { Music } from '../../models/music';
+import { AddMusicToPlaylistComponent } from '../add-music-to-playlist/add-music-to-playlist.component';
+import { MusicDeleteComponent } from '../music-delete/music-delete.component';
 
 @Component({
   selector: 'app-music-details',
@@ -16,10 +19,12 @@ export class MusicDetailsComponent implements OnInit {
   musicImageFolder: string = globalConstants.music.imageFolderPath;
   musicAudioFolder: string = globalConstants.music.audioFolderPath;
   musicId: string;
+  isAdding: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
+    public matDialog: MatDialog,
     private route: ActivatedRoute,
     public authService: AuthService) {
     this.isAuth = authService.isAuth;
@@ -36,7 +41,7 @@ export class MusicDetailsComponent implements OnInit {
 
   private preparedPage() {
     let player = <HTMLAudioElement>document.getElementById("player");
-    player.src = globalConstants.music.audioFolderPath + this.music.audioUrl;
+    player.src = this.musicAudioFolder + this.music.audioUrl;
     player.play();
   }
 
@@ -44,12 +49,7 @@ export class MusicDetailsComponent implements OnInit {
     this.preparedPage();
   }
 
-  /*openAddToSong() {
-    let modal = this.modalService.open(PlaylistAddSongComponent);
-    modal.componentInstance.song = this.song;
-    modal.result.then(_ => {
-    }).catch(err => {
-      console.log(err);
-    })
-  }*/
+  openAddMusic() {
+    this.isAdding = !this.isAdding;
+  }
 }

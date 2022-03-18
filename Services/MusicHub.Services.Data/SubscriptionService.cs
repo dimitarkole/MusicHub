@@ -29,12 +29,12 @@
             this.paginationService = paginationService;
         }
 
-        public SubscriptionsAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public SubscriptionPageModel<T> All<T>(int page, int entitesPerPage)
         {
             var subscriptions = this.context.Subscriptions
                     .OrderBy(s => s.Name)
                     .To<T>();
-            return new SubscriptionsAllViewModel<T>()
+            return new SubscriptionPageModel<T>()
             {
                 Subscriptions = subscriptions
                     .GetPage(page, entitesPerPage)
@@ -61,7 +61,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public SubscriptionsAllViewModel<T> Filter<T>(int page, int entitesPerPage, SubscriptionFilter filter)
+        public SubscriptionPageModel<T> Filter<T>(int page, int entitesPerPage, SubscriptionFilter filter)
         {
             IQueryable<Subscription> subscriptions = this.context.Subscriptions
                      .OrderBy(s => s.Name);
@@ -75,7 +75,7 @@
                 subscriptions = subscriptions.Where(s => s.Type == filter.Type);
             }
 
-            return new SubscriptionsAllViewModel<T>()
+            return new SubscriptionPageModel<T>()
             {
                 Subscriptions = subscriptions
                     .To<T>()

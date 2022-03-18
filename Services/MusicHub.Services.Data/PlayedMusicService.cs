@@ -27,14 +27,14 @@
             this.paginationService = paginationService;
         }
 
-        public PlayedMusicAllViewModel<T> All<T>(int page, int entitesPerPage, string userId)
+        public PlayedMusicPageModel<T> All<T>(int page, int entitesPerPage, string userId)
         {
             var playedMusics = this.context.PlayedMusics
                 .Where(s => s.UserId == userId)
                 .OrderByDescending(s => s.CreatedOn)
                 .To<T>();
 
-            return new PlayedMusicAllViewModel<T>()
+            return new PlayedMusicPageModel<T>()
             {
                 PlayedMusics = playedMusics
                     .GetPage(page, entitesPerPage)
@@ -60,7 +60,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public PlayedMusicAllViewModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId)
+        public PlayedMusicPageModel<T> Filter<T>(int page, int entitesPerPage, PlayedMusicFilterInputModels filter, string userId)
         {
 
             IQueryable<PlayedMusic> playedMusics = this.context.PlayedMusics
@@ -74,7 +74,7 @@
             }
 
             var playedMusicT = playedMusics.To<T>();
-            return new PlayedMusicAllViewModel<T>()
+            return new PlayedMusicPageModel<T>()
             {
                 PlayedMusics = playedMusicT
                     .GetPage(page, entitesPerPage)

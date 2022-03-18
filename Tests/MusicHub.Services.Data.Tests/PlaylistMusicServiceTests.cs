@@ -23,13 +23,10 @@
         {
             var playlistMusicService = await this.CreatePlaylistMusicService(new List<PlaylistMusic>());
             var model = PlaylistMusicTestsData.CreateModel;
-
             var musicsInPlaylist = this.context.PlaylistMusics
               .Where(pm => pm.PlaylistId == model.PlaylistId);
-            var expectedPosition = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position);
-
+            var expectedPosition = musicsInPlaylist.Count() == 0 ? 0 : musicsInPlaylist.Max(pm => pm.Position) + 1;
             await playlistMusicService.Create(model);
-
             Assert.True(this.context.PlaylistMusics.Any(pm => pm.MusicId == model.MusicId
                 && pm.PlaylistId == model.PlaylistId
                 && pm.Position == expectedPosition));
@@ -49,7 +46,7 @@
                 .OrderByDescending(p => p.Position)
                 .To<PlaylistMusicViewModel>();
 
-            var expected = new PlaylistMusicsAllViewModel<PlaylistMusicViewModel>()
+            var expected = new PlaylistMusicsPageModel<PlaylistMusicViewModel>()
             {
                 PlaylistMusics = playlistMusics
                     .GetPage(page, entitesPerPage)
@@ -68,10 +65,43 @@
         {
             var playlistMusicService = await this.CreatePlaylistMusicService(PlaylistMusicTestsData.PlaylistMusics());
             var playlistMusicId = PlaylistMusicTestsData.DeletePlaylistMusicId;
-
             await playlistMusicService.Delete(playlistMusicId);
-
             Assert.False(this.context.PlayedMusics.Any(pm => pm.Id == playlistMusicId));
+        }
+
+        [Fact]
+        public async Task GetPlaylistMusicId_WithValidData_ShouldWorkCorrect()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistMusic = playlistMusics[0];
+            var model = new PlaylistMusicCreateInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            var actual = playlistMusicService.GetPlaylistMusicId<PlaylistMusicViewModel>(model);
+            var expected = playlistMusic.To<PlaylistMusicViewModel>();
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        [Fact]
+        public async Task IsAddedToPlaylist_WithValidData_ShouldReturnTrue()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistMusic = playlistMusics[0];
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = playlistMusic.MusicId, PlaylistId = playlistMusic.PlaylistId };
+            Assert.True(playlistMusicService.IsAddedToPlaylist(model));
+        }
+
+        [Fact]
+        public async Task IsAddedToPlaylist_WithValidData_ShouldReturnFalse()
+        {
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
+            var playlistId = playlistMusics[0].PlaylistId;
+            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+                .FirstOrDefault()
+                .MusicId;
+            var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
+            Assert.False(playlistMusicService.IsAddedToPlaylist(model));
         }
 
         [Fact]
@@ -87,13 +117,11 @@
 
             var expected = this.ChangePlaylistMusicPostion(playlistMusicId, playlistMusicNewPosition);
             await playlistMusicService.Update(model, playlistMusicId);
-
             var playlistMusic = this.context.PlaylistMusics.Find(playlistMusicId);
             var playlistId = playlistMusic.PlaylistId;
             var actual = this.context.PlaylistMusics
                 .Where(pm => pm.PlaylistId == playlistId)
                 .ToList();
-
             expected.Should().BeEquivalentTo(actual);
         }
 
@@ -110,13 +138,11 @@
 
             var expected = this.ChangePlaylistMusicPostion(playlistMusicId, playlistMusicNewPosition);
             await playlistMusicService.Update(model, playlistMusicId);
-
             var playlistMusic = this.context.PlaylistMusics.Find(playlistMusicId);
             var playlistId = playlistMusic.PlaylistId;
             var actual = this.context.PlaylistMusics
                 .Where(pm => pm.PlaylistId == playlistId)
                 .ToList();
-
             expected.Should().BeEquivalentTo(actual);
         }
 

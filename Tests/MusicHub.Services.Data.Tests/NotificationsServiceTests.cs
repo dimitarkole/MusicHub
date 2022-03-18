@@ -61,11 +61,11 @@
 
             var allNotifications = this.context.Notifications
                 .Where(n => n.UserId == userId && !n.Seen)
-                .OrderBy(n => n.Seen == false)
+                .OrderBy(n => n.Seen)
                 .ThenByDescending(n => n.CreatedOn)
                 .To<NotificationViewModel>();
 
-            var expected = new NotificationAllViewModel<NotificationViewModel>()
+            var expected = new NotificationPageModel<NotificationViewModel>()
             {
                 Notifications = allNotifications
                     .GetPage(page, entitesPerPage)

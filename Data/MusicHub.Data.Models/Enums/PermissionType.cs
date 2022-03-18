@@ -25,13 +25,15 @@
         MusicCreator = 8,
         [Display(Name = "License creator - create, edit and delete license")]
         LicenseCreator = 9,
-        [Display(Name = "Playlist creator - create, edit and delete playlist and add/remove music from playlist")]
+        [Display(Name = "Playlist creator - create, edit and delete playlist and add/remove music to playlist")]
         PlaylistCreator = 10,
         [Display(Name = "Comment creator - create, edit and delete comment")]
         CommentCreator = 11,
         [Display(Name = "User - play musics and playlists")]
         User = 12,
         [Display(Name = "SubscriptionManager - managing with subscriptions")]
-        SubscriptionManager = 12,
+        SubscriptionManager = 13,
+        [Display(Name = "Album creator - create, edit and delete album and add/remove music to album")]
+        AlbumCreator = 14,
     }
 }

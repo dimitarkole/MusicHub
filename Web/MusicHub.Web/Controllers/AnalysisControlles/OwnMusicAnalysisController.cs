@@ -39,7 +39,7 @@
             => this.Ok(this.ownMusicAnalysis.GetTopCreatedMusicByCategoriesCountForMonths(this.userManager.GetUserId(this.User), filter));
 
         [HttpGet(nameof(GetTopPlayedMusicsAllTime) + "/{page}")]
-        public ActionResult<MusicsAllViewModel<TopPlayedMusicViewModel>> GetTopPlayedMusicsAllTime(int page)
+        public ActionResult<MusicPageModel<TopPlayedMusicViewModel>> GetTopPlayedMusicsAllTime(int page)
             => this.Ok(this.ownMusicAnalysis.GetTopPlayedMusicsAllTime<TopPlayedMusicViewModel>(page, OwnMusicAnalysis.PlayedMusicsCount, this.userManager.GetUserId(this.User)));
     }
 }

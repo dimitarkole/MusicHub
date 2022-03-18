@@ -1,4 +1,4 @@
-﻿namespace MusicHub.Web.Controllers
+﻿    namespace MusicHub.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -40,7 +40,7 @@
         [HttpGet(nameof(GetOwn) + "/{page}")]
         [Authorize]
        // [Permission(PermissionType.PlaylistCreator)]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> GetOwn(int page)
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> GetOwn(int page)
            => this.Ok(this.playlistService.AllOwned<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, this.userManager.GetUserId(this.User)));
 
         /// <summary>Is own playlist.</summary>
@@ -135,7 +135,7 @@
         [HttpPost(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.PlaylistCreator)]
-        public ActionResult<PlaylistsAllViewModel<PlaylistViewModel>> FilterOwn(int page, PlaylistFilterInputModel filter)
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> FilterOwn(int page, PlaylistFilterInputModel filter)
             => this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, filter, this.userManager.GetUserId(this.User)));
     }
 }

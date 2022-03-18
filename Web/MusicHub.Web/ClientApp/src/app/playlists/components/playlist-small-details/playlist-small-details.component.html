@@ -21,7 +21,7 @@
 
       <div class="{{type=='own'? 'col-md-7' : 'col-md-9'}} ">
         <div class="row">
-          <a class="col-md-12 text-truncate text-white" routerLink="/musics/play/{{playlist.id}}">
+          <a class="col-md-12 text-truncate text-white" routerLink="/playlists/play/{{playlist.id}}">
             {{playlist.name}}
           </a>
           <a routerLink="{{'/profile/view/' + playlist.user?.id}}"

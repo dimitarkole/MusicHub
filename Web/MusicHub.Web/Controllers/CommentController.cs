@@ -38,7 +38,7 @@
         /// <param name="page">The page of comments.</param>
         /// <returns>Ok(CommentsAllViewModel<CommentViewModel>).</returns>
         [HttpGet("{id}/{page}")]
-        public ActionResult<CommentsAllViewModel<CommentViewModel>> Get(string id, int page)
+        public ActionResult<CommentPageModel<CommentViewModel>> Get(string id, int page)
            => this.Ok(this.commentService.All<CommentViewModel>(page, PaginationData.CommentsPerPage, id));
 
         /// <summary>Get comment.</summary>
@@ -46,7 +46,7 @@
         /// <param name="page">The page of comments.</param>
         /// <returns>Ok(CommentsAllViewModel<CommentViewModel>).</returns>
         [HttpGet(nameof(GetChildrenComments) + "/{id}/{page}")]
-        public ActionResult<CommentsAllViewModel<CommentViewModel>> GetChildrenComments(string id, int page)
+        public ActionResult<CommentPageModel<CommentViewModel>> GetChildrenComments(string id, int page)
            => this.Ok(this.commentService.GetChildrenComments<CommentViewModel>(page, PaginationData.CommentsPerPage, id));
 
         /// <summary>Get is own comment.</summary>

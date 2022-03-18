@@ -226,7 +226,7 @@
             return playlists;
         }
 
-        private void CheckFilterData(PlaylistsAllViewModel<PlaylistViewModel> actual, int page, PlaylistService playlistService, int entitesPerPage, PlaylistFilterInputModel filter, string userId = null)
+        private void CheckFilterData(PlaylistPageModel<PlaylistViewModel> actual, int page, PlaylistService playlistService, int entitesPerPage, PlaylistFilterInputModel filter, string userId = null)
         {
             IQueryable<Playlist> playlists = this.context.Playlists
                     .Where(p => p.Privacy == Privacy.Public
@@ -239,7 +239,7 @@
 
             playlists = this.FilteringPlaylists(filter, playlists);
             playlists = this.OrederSearchPlaylist(filter.OrderMethod, playlists);
-            var expected = new PlaylistsAllViewModel<PlaylistViewModel>()
+            var expected = new PlaylistPageModel<PlaylistViewModel>()
             {
                 Playlists = playlists
                     .GetPage(page, entitesPerPage)

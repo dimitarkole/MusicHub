@@ -2,10 +2,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { MusicService } from '../../../musics/services/music.service';
+import { NotificationService } from '../../../notifications/services/notification.service';
+import { ProfileService } from '../../../profiles/services/profile.service';
 import { Reaction } from '../../../shared/models/reaction';
 import { ReactionInfo } from '../../../shared/models/reactionInfo';
 import Comment from '../../models/comment';
 import { CommentReactionService } from '../../services/comment-reaction.service';
+import Notification from '../../../notifications/models/notification';
+import { NotificationClaimType } from '../../../notifications/models/notificationClaimType';
+import { NotificationType } from '../../../notifications/models/notificationType';
 
 @Component({
   selector: 'app-comment-reaction',
@@ -13,15 +19,18 @@ import { CommentReactionService } from '../../services/comment-reaction.service'
   styleUrls: ['./comment-reaction.component.css']
 })
 export class CommentReactionComponent implements OnInit {
-
   @Input() comment: Comment
   reactionForm: FormGroup;
   reaction: ReactionInfo;
   isAuth: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private musicService: MusicService,
+    private prifileService: ProfileService,
+    private notificationService: NotificationService,
     private commentReactionService: CommentReactionService,
     public authService: AuthService) {
     this.isAuth = authService.isAuth;
@@ -48,6 +57,27 @@ export class CommentReactionComponent implements OnInit {
       .subscribe(_ => {
         this.comment.likesCount++;
         this.setReaction();
+        this.musicService.getById(this.comment.musicId).subscribe(m => {
+          this.prifileService.MyProfile().subscribe(u => {
+            var notification: Notification = {
+              content: " likes your comment on the music ",
+              userId: m.user.id,
+              claims: [
+                {
+                  content: u.id,
+                  type: NotificationClaimType.UserId,
+                },
+                {
+                  content: m.id,
+                  type: NotificationClaimType.MusicId,
+                }
+              ],
+              type: NotificationType.NewComment
+            };
+
+            this.notificationService.create(notification).subscribe(_ => {});
+          });
+        });
       });
   }
 
@@ -110,5 +140,4 @@ export class CommentReactionComponent implements OnInit {
       this.reaction = data
     });
   }
-
 }

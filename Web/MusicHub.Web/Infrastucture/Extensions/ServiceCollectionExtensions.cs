@@ -142,8 +142,11 @@
                 //.AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
+                .AddTransient<IAlbumService, AlbumService>()
+                .AddTransient<IAlbumMusicService, AlbumMusicService>()
                 .AddTransient<ISubscriptionService, SubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
+                .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
         //.AddTransient<IAzureStorageService, AzureStorageService>()
 

@@ -12,9 +12,9 @@ namespace MusicHub.Services.Data.Interfaces
     {
         ICollection<T> All<T>();
 
-        RolesAllViewModel<T> All<T>(int page, int entitesPerPage);
+        RolePageModel<T> All<T>(int page, int entitesPerPage);
 
-        RolesAllViewModel<T> Filter<T>(int page, int entitesPerPage, RoleFilter filter);
+        RolePageModel<T> Filter<T>(int page, int entitesPerPage, RoleFilter filter);
 
         Task<string> Create(RoleCreateInputModel model);
 

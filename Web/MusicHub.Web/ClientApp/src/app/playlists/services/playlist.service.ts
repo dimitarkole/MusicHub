@@ -25,11 +25,7 @@ export class PlaylistService {
   }
 
   isOwn(id: string) {
-    return this.http.get<boolean>(`${this.route}/IsOwn/${id}`);
-  }
-
-  getOwnForAddingSong(songId: string) {
-    return this.http.get<Playlist[]>(`${this.route}/GetOwnForAddingSong/${songId}`);
+    return this.http.get<boolean>(`${this.route}/IsOwned/${id}`);
   }
 
   create(playlist: Playlist) {

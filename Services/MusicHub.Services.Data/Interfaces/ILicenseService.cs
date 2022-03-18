@@ -10,15 +10,15 @@
 
     public interface ILicenseService
     {
-        LicenseAllViewModel<T> All<T>(int page, int entitesPerPage);
+        LicensePageModel<T> All<T>(int page, int entitesPerPage);
 
         ICollection<T> AllFiles<T>(string licenseId);
 
-        LicenseAllViewModel<T> AllOwned<T>(int page, int entitesPerPage, string userId);
+        LicensePageModel<T> AllOwned<T>(int page, int entitesPerPage, string userId);
 
         ICollection<T> AllOwnedApproved<T>(string userId);
 
-        LicenseAllViewModel<T> Filter<T>(int page, int entitesPerPage, LicenseFilter filter, string userId = null);
+        LicensePageModel<T> Filter<T>(int page, int entitesPerPage, LicenseFilter filter, string userId = null);
 
         Task<string> Create(LicenseCreateInputModel model, string userId);
 

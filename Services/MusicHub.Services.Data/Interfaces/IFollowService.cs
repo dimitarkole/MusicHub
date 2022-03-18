@@ -9,13 +9,13 @@ namespace MusicHub.Services.Data.Interfaces
 {
     public interface IFollowService
     {
-        FollowersAllViewModel<T> AllFollowers<T>(int page, int entitesPerPage, string userId);
+        FollowPageModel<T> AllFollowers<T>(int page, int entitesPerPage, string userId);
 
-        FollowingsAllViewModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId);
+        FollowingPageModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId);
 
-        FollowersAllViewModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
+        FollowPageModel<T> FilterFollowers<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
 
-        FollowingsAllViewModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
+        FollowingPageModel<T> FilterFollowings<T>(int page, int entitesPerPage, FollowFilterInputModel filter, string userId);
 
         Task Create(FollowCreateInputModel model, string userId);
 

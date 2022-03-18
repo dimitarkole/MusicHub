@@ -45,7 +45,7 @@ namespace MusicHub.Web.Controllers
 
         [Authorize]
         [HttpGet(nameof(GetAll) + "/{page}")]
-        public ActionResult<NotificationAllViewModel<NotificationViewModel>> GetAll(int page)
+        public ActionResult<NotificationPageModel<NotificationViewModel>> GetAll(int page)
         {
             var entitesPerPage = PaginationData.NotificationPerPage;
             return this.Ok(this.notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, this.User.GetUserId()));

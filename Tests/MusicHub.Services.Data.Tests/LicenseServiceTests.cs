@@ -47,7 +47,7 @@ namespace MusicHub.Services.Data.Tests
                 .ThenByDescending(l => l.CreatedOn)
                 .To<LicenseLargeViewModel>();
 
-            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            var expected = new LicensePageModel<LicenseLargeViewModel>()
             {
                 Licenses = licenseLargeViewModel
                     .GetPage(page, this.EntitesPerPage)
@@ -76,7 +76,7 @@ namespace MusicHub.Services.Data.Tests
                 .ThenByDescending(l => l.Name)
                 .To<LicenseLargeViewModel>();
 
-            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            var expected = new LicensePageModel<LicenseLargeViewModel>()
             {
                 Licenses = licenseLargeViewModel
                     .GetPage(page, this.EntitesPerPage)
@@ -429,7 +429,7 @@ namespace MusicHub.Services.Data.Tests
             return paginationService.CalculatePagesCount(entityCount, entitesPerPage);
         }
 
-        private void CheckFilterResult(int page, LicenseAllViewModel<LicenseLargeViewModel> actual, LicenseService licenseService, LicenseFilter filter, string userId = null)
+        private void CheckFilterResult(int page, LicensePageModel<LicenseLargeViewModel> actual, LicenseService licenseService, LicenseFilter filter, string userId = null)
         {
             IQueryable<License> licenses = this.context.Licenses;
             if (!string.IsNullOrEmpty(userId))
@@ -440,7 +440,7 @@ namespace MusicHub.Services.Data.Tests
             licenses = this.FilteringLicenses(filter, licenses);
 
             licenses = this.OrederSearchMusics(filter.OrderMethod, licenses);
-            var expected = new LicenseAllViewModel<LicenseLargeViewModel>()
+            var expected = new LicensePageModel<LicenseLargeViewModel>()
             {
                 Licenses = licenses
                         .To<LicenseLargeViewModel>()

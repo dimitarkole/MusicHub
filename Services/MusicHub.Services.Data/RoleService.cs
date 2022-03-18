@@ -36,13 +36,13 @@
                 .To<T>()
                 .ToList();
 
-        public RolesAllViewModel<T> All<T>(int page, int entitesPerPage)
+        public RolePageModel<T> All<T>(int page, int entitesPerPage)
         {
             var roles = this.context.Roles
                   .OrderBy(r => r.Name)
                   .To<T>();
 
-            return new RolesAllViewModel<T>()
+            return new RolePageModel<T>()
             {
                 Roles = roles
                     .GetPage(page, entitesPerPage)
@@ -76,12 +76,12 @@
             await this.context.SaveChangesAsync();
         }
 
-        public RolesAllViewModel<T> Filter<T>(int page, int entitesPerPage, RoleFilter filter)
+        public RolePageModel<T> Filter<T>(int page, int entitesPerPage, RoleFilter filter)
         {
             IQueryable<Role> roles = this.context.Roles;
             roles = this.FilteringData(filter, roles);
             roles = this.OrederSearchData(filter.OrderMethod, roles);
-            return new RolesAllViewModel<T>()
+            return new RolePageModel<T>()
             {
                 Roles = roles
                     .To<T>()

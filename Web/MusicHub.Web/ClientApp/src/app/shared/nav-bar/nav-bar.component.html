@@ -89,6 +89,15 @@
                   </a>
                 </div>
 
+                <div class="dropdown-item" *ngIf="hasPermition('AlbumCreator')">
+                  <a routerLink="/albums/own" class="row text-dark">
+                    <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
+                    <div class="col-md-9">
+                      My albums
+                    </div>
+                  </a>
+                </div>
+
                 <div class="dropdown-item" *ngIf="hasPermition('MusicCreator')">
                   <a routerLink="/musics/own" class="row text-dark">
                     <i class="col-md-2" style="background: url('../../../../assets/images/icon_addMusic.png') no-repeat;"></i>
@@ -177,6 +186,14 @@
           <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
           <div class="col-md-9">
             Liked music
+          </div>
+        </a>
+      </div>
+      <div class="dropdown-item" *ngIf="hasPermition('User')">
+        <a mat-list-item routerLink='/playLater' class="row dropdown-item text-dark">
+          <img src="../../../../assets/images/icon_ownMusics.png" alt="" class="col-md-3" />
+          <div class="col-md-9">
+            Play later music
           </div>
         </a>
       </div>

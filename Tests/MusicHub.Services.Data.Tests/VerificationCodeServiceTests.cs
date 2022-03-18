@@ -33,7 +33,9 @@ namespace MusicHub.Services.Data.Tests
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
-            var userId = verificationCodes[0].UserId;
+            var userId = verificationCodes.Where(vc => vc.IsUsed == false)
+                .FirstOrDefault()
+                .UserId;
             var lastActiveVerificationCode = this.context.VerificationCodes
                 .Where(vc => vc.UserId == userId && vc.IsUsed == false)
                 .OrderByDescending(vc => vc.CreatedOn)
@@ -114,7 +116,6 @@ namespace MusicHub.Services.Data.Tests
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
             var varificationId = verificationCodes[0].UserId;
-            var type = Common.VerificationType.ChangePassword;
             var actual = verificationCodeService.GetById<VerificationCodeViewModel>(varificationId);
             var expected = this.context.VerificationCodes
                 .Where(vc => vc.Id == varificationId)
@@ -129,7 +130,9 @@ namespace MusicHub.Services.Data.Tests
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
-            var userId = verificationCodes[0].UserId;
+            var userId = verificationCodes.Where(vc => vc.IsUsed == false)
+                .FirstOrDefault()
+                .UserId;
             var verificationCode = verificationCodes
                 .Where(vc => vc.UserId == userId
                     && vc.IsUsed == false)

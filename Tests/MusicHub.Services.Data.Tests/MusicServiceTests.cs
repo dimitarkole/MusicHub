@@ -19,7 +19,6 @@
 
     public class MusicServiceTests : BaseTestClass
     {
-
         [Fact]
         public async Task CreateMusic_WithValidData_ShouldWorkCorrect()
         {
@@ -104,7 +103,7 @@
                    .ThenBy(m => m.Name)
                    .To<MusicViewModel>();
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -228,7 +227,7 @@
                                .Where(s => s.UserId == userId)
                                .OrderByDescending(s => s.CreatedOn)
                                .To<MusicViewModel>();
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -277,7 +276,7 @@
                 .ThenByDescending(s => s.CreatedOn)
                 .ThenByDescending(s => s.PlayedMusics.Count);
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = suggestMusics
                        .To<MusicViewModel>()
@@ -292,24 +291,26 @@
             expected.Should().BeEquivalentTo(actual);
         }
 
-        private void CheckFilter(MusicsAllViewModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
+        private void CheckFilter(MusicPageModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics
                   .Where(m => m.Privacy == Privacy.Public)
                   .OrderByDescending(m => m.CreatedOn);
 
-            if (userId != null)
+            if (!string.IsNullOrEmpty(userId))
             {
                 musics = musics.Where(m => m.UserId == userId);
             }
-
-            if (filter != new MusicFilter())
+            else
             {
-                musics = this.FilteringMusics(filter, musics);
-                musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+                musics = musics.Where(m => m.Privacy == Privacy.Public);
             }
 
-            var expected = new MusicsAllViewModel<MusicViewModel>()
+            musics = this.FilteringMusics(filter, musics);
+
+            musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+
+            var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
@@ -330,6 +331,11 @@
 
         private IQueryable<Music> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Music> musics)
         {
+            musics = musics.OrderByDescending(m => (m.PlayedMusics.Count / 2)
+                + ((m.MusicReactions.Count(r => r.Reaction == Reaction.Like)
+                - m.MusicReactions.Count(r => r.Reaction == Reaction.Dislike)) * 2)
+                + m.Comments.Count());
+            /*
             if (orderMethod == OrderMethod.CreatedOnAsc)
             {
                 musics = musics.OrderBy(s => s.CreatedOn);
@@ -345,7 +351,7 @@
             else if (orderMethod == OrderMethod.NameDesc)
             {
                 musics = musics.OrderByDescending(s => s.Name);
-            }
+            }  */
 
             return musics;
         }

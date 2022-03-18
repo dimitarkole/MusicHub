@@ -1,0 +1,68 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Create an album</h3>
+    <hr />
+  </header>
+  <form (ngSubmit)="OnSubmit()" [formGroup]="albumForm" class="container">
+    <section id="modal-body" class="row">
+      <div class="col-md-6">
+        <div class="row form-group">
+          <div class="col-md-6">
+            <button type="button" class="login100-form-btn" (click)="image.click()">Upload image</button>
+          </div>
+          <div class="col-md-6">
+            <button type="button" class="login100-form-btn" (click)="useDefaultPicture()">Default image</button>
+
+            <input type="file" #image accept="image/*" (change)="handleImageFileInput($event.target.files)" style="display:none;">
+          </div>
+          <div class="text-danger col-md-12" *ngIf="imageUrl.hasError('required') || imageUrl.hasError('requiredFileType')">
+            Upload image file!
+          </div>
+        </div>
+        <div class="row form-group" *ngIf="!(imageUrl.hasError('required') || imageUrl.hasError('requiredFileType'))">
+          <img [src]="imageUrl.value" class="col-md-12" style="height:300px; width:99%">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label>Album name</label>
+        <input class="form-control" formControlName="name" type="text" placeholder="Album name">
+        <span class="text-danger" *ngIf="name.touched && name.hasError('required')">The name is required!</span>
+        <span class="text-danger" *ngIf="name.hasError('minlength')">
+          Album name must contain {{nameMinLength}} characters!
+        </span>
+        <span class="text-danger" *ngIf="name.hasError('maxlength')">
+          Album name must be at most {{nameMinLength}} characters!
+        </span>
+        <div class="col-md-4 control-label">Privacy</div>
+        <span class="text-danger" *ngIf="privacy.touched && privacy.hasError('required')">The privacy is required!</span>
+        <div class="form-group">
+          <div class="col-md-10">
+            <div *ngFor="let privacyStatusVar of privacyStatus">
+              <label>
+                <input type="radio" value="{{privacyStatusVar}}" formControlName="privacy" class="control-label">
+                <span>{{privacyStatusMapping[privacyStatusVar]}}</span>
+              </label>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </section>
+    <footer id="modal-footer">
+      <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-2">
+          <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+        </div>
+
+        <div class="col-md-2">
+          <button class="form-btn text-white" mat-raised-button [mat-dialog-close]="true" id="modal-action-button" type="submit" [disabled]="albumForm.invalid">Save</button>
+        </div>
+      </div>
+    </footer>
+  </form>
+</div>

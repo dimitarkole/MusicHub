@@ -29,6 +29,9 @@ import { ChartModule } from '../charts/charts.module';
 import { SharedModule } from '../shared/shared.module';
 import { PlaylistSmallDetailsComponent } from './components/playlist-small-details/playlist-small-details.component';
 import { PlaylistImageComponent } from './components/playlist-image/playlist-image.component';
+import { PlaylistPlayComponent } from './components/playlist-play/playlist-play.component';
+import { MusicsModule } from '../musics/musics.module';
+import { CommentModule } from '../comments/comments.module';
 
 const routes: Routes = [
   { path: '', component: PlaylistsListComponent },//, canActivate: [PermissionsGuard], data: withPermission(PermissionType.CategoryAdministrator)},
@@ -44,7 +47,8 @@ const routes: Routes = [
     PlaylistsListComponent,
     PlaylistsOwnListComponent,
     PlaylistSmallDetailsComponent,
-    PlaylistImageComponent
+    PlaylistImageComponent,
+    PlaylistPlayComponent,
   ],
   exports: [
     PlaylistDeleteComponent,
@@ -76,6 +80,9 @@ const routes: Routes = [
     MatDialogModule,
     ChartModule,
     SharedModule,
+
+    MusicsModule,
+    CommentModule,
   ],
   providers: [
     //{ provide: AppInsightsServiceService },

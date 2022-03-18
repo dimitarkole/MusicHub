@@ -58,7 +58,7 @@
         /// <param name="page">The page of playlist Music.</param>
         /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
         [HttpGet(nameof(Get) + "/{id}/{page}")]
-        public ActionResult<PlaylistMusicsAllViewModel<PlaylistMusicViewModel>> Get(string id, int page)
+        public ActionResult<PlaylistMusicsPageModel<PlaylistMusicViewModel>> Get(string id, int page)
             => this.Ok(this.playlistMusicService.All<PlaylistMusicViewModel>(page, PaginationData.PlaylistsMusicsPerPage, id));
 
         /// <summary>Delete playlist Music in data.</summary>
@@ -78,5 +78,23 @@
             await this.playlistMusicService.Delete(id);
             return this.Ok();
         }
+
+        /// <summary>Is music added to playlist.</summary>
+        /// <param name="playlistId">PlaylistId - playlist id.</param>
+        /// <param name="MusicId">MusicId - playlist id.</param>
+        /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
+        [Authorize]
+        [HttpPost(nameof(IsAddedToPlaylist))]
+        public ActionResult<bool> IsAddedToPlaylist(IsAddedToPlaylistCheckInputModel model)
+            => this.Ok(this.playlistMusicService.IsAddedToPlaylist(model));
+
+        /// <summary>Is music added to playlist.</summary>
+        /// <param name="playlistId">PlaylistId - playlist id.</param>
+        /// <param name="MusicId">MusicId - playlist id.</param>
+        /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
+        [Authorize]
+        [HttpPost(nameof(GetPlaylistMusicId))]
+        public ActionResult<PlaylistMusicViewModel> GetPlaylistMusicId(PlaylistMusicCreateInputModel model)
+            => this.Ok(this.playlistMusicService.GetPlaylistMusicId<PlaylistMusicViewModel>(model));
     }
 }

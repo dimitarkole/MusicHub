@@ -6,7 +6,7 @@ export const globalConstants = {
     defauldImage: "MusicDefaultImage.jpg",
     imageFolderPath: "musics/images/",
     audioFolderPathUpload: "/assets/resources/musics/audio/",
-    audioFolderPath: "musics/аudio/",
+    audioFolderPath: "/assets/resources/musics/аudio/",
     nameMinLength: 1,
     nameMaxLength: 100,
     descriptionMinLength: 10,
@@ -15,6 +15,10 @@ export const globalConstants = {
   playlist: {
     imageFolderPathToUpload: "../../../assets/resources/playlists/",
     defauldImage: "playlistDefaultImage.jpg",
+  },
+  album: {
+    imageFolderPathToUpload: "../../../assets/resources/albums/",
+    defauldImage: "albumDefaultImage.jpg",
   },
   pagination: {
     defaultPage: 1,

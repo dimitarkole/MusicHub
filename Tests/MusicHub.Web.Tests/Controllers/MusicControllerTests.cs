@@ -37,7 +37,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.GetOwn(page))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -65,7 +65,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -94,7 +94,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Filter(page, filter))
                 .ShouldReturn()
                 .Ok(result => result
-                    .WithModelOfType<MusicsAllViewModel<MusicViewModel>>()
+                    .WithModelOfType<MusicPageModel<MusicViewModel>>()
                     .Passing(actual =>
                     {
                         var entitesPerPage = PaginationData.MusicsPerPage;
@@ -220,7 +220,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithClaim(ClaimTypes.NameIdentifier, userId))
                 .Calling(c => c.Delete(deleteMusicId))
                 .ShouldReturn()
-                .Forbid();
+                .Forbid();  
 
             Assert.True(From.Services<ApplicationDbContext>().Musics
                 .Any(m => m.Id == deleteMusicId));

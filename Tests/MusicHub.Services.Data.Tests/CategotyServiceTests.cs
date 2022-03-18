@@ -60,7 +60,7 @@
                 .To<CategoryViewModel>()
                 .ToList();
 
-            var expected = new CategoriesAllViewModel<CategoryViewModel>()
+            var expected = new CategoryPageModel<CategoryViewModel>()
             {
                 Categories = categories
                     .GetPage(page, entitesPerPage)
@@ -91,7 +91,7 @@
                 categories = categories.Where(c => c.Name.Contains(filter.Name));
             }
 
-            var expected = new CategoriesAllViewModel<CategoryViewModel>()
+            var expected = new CategoryPageModel<CategoryViewModel>()
             {
                 Categories = categories
                     .To<CategoryViewModel>()
