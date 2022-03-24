@@ -1,4 +1,4 @@
-<app-playlist-image [playlistImage] ="playlist.imageUrl" [size] ="'medium'"></app-playlist-image>
+<app-playlist-image [playlistImage]="playlist.imageUrl" [size]="'medium'"></app-playlist-image>
 <!-- *ngIf="music.imageUrl==''">-->
 <div class="text-white music-info">
   <div class="row">
@@ -12,13 +12,11 @@
       </div>
     </div>
   </div>
-    <div class="row">
+    <div class="row album_info">
       <div class="col-md-3">
         <a class="album_play_button" routerLink="/playlists/play/{{playlist.id}}">
         </a>
       </div>
-
-
       <div class="{{type=='own'? 'col-md-7' : 'col-md-9'}} ">
         <div class="row">
           <a class="col-md-12 text-truncate text-white" routerLink="/playlists/play/{{playlist.id}}">
