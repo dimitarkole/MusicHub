@@ -1900,6 +1900,14 @@ section {
     margin-right: 18px;
   }
 
+.music-info {
+  margin-top: -65px;
+  padding: 10px;
+  padding-right: 45px;
+  background-color: rgba(0,0,0,0.66);
+}
+
+
   .footer_social ul li {
     width: 46px;
     height: 46px;
