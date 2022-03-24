@@ -27,7 +27,6 @@ import { ChartModule } from '../charts/charts.module';
 import { SharedModule } from '../shared/shared.module';
 import { MusicsModule } from '../musics/musics.module';
 import { CommentModule } from '../comments/comments.module';
-import { PlayLaterDetailsComponent } from './components/play-later-details/play-later-details.component';
 
 
 
@@ -36,8 +35,7 @@ import { PlayLaterDetailsComponent } from './components/play-later-details/play-
     PlayLaterMusicCreateComponent,
     PlayLaterMusicsListComponent,
     PlayLaterMusicDeleteComponent,
-    PlayLaterMusicPlayComponent,
-    PlayLaterDetailsComponent
+    PlayLaterMusicPlayComponent
   ],
   entryComponents: [
     PlayLaterMusicDeleteComponent,

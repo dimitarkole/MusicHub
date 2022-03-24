@@ -44,8 +44,6 @@ import { MusicAddToComponent } from './components/music-add-to/music-add-to.comp
 import { AddMusicToPlaylistComponent } from './components/add-music-to-playlist/add-music-to-playlist.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AddMusicToPlaylistsComponent } from './components/add-music-to-playlists/add-music-to-playlists.component';
-import { LikedMusicDetailsComponent } from './components/liked-music-details/liked-music-details.component';
-import { PlayedMusicDetailsComponent } from './components/played-music-details/played-music-details.component';
 
 const routes: Routes = [
   {
@@ -111,9 +109,7 @@ const routes: Routes = [
     MusicSmallDetailsComponent,
     MusicAddToComponent,
     AddMusicToPlaylistComponent,
-    AddMusicToPlaylistsComponent,
-    LikedMusicDetailsComponent,
-    PlayedMusicDetailsComponent
+    AddMusicToPlaylistsComponent
   ],
   exports: [
     MusicsListTemplateComponent,
