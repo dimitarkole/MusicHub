@@ -28,6 +28,7 @@ namespace MusicHub.Data.Models
             this.PaySubscriptions = new HashSet<PaySubscription>();
             this.Albums = new HashSet<Album>();
             this.PlayLaterMusics = new HashSet<PlayLaterMusic>();
+            this.NotificationSettings = new HashSet<NotificationSetting>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -79,5 +80,7 @@ namespace MusicHub.Data.Models
         public ICollection<PaySubscription> PaySubscriptions { get; set; }
 
         public ICollection<PlayLaterMusic> PlayLaterMusics { get; set; }
+
+        public ICollection<NotificationSetting> NotificationSettings { get; set; }
     }
 }

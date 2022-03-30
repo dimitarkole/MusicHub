@@ -73,6 +73,8 @@
 
         public virtual DbSet<PlayLaterMusic> PlayLaterMusics { get; set; }
 
+        public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
