@@ -139,6 +139,7 @@
                 .AddTransient<IPermissionsService, PermissionsService>()
                 .AddTransient<IMegaStorageService, MegaStorageService>()
                 .AddTransient<IRoleService, RoleService>()
+                .AddTransient<INotificationSettingsService, NotificationSettingsService>()
                 //.AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()

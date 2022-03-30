@@ -562,6 +562,33 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("NotificationClaims");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationSetting", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NotificationSettings");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.Property<string>("Id")
@@ -1198,6 +1225,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Notification");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationSetting", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("NotificationSettings")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Subscription", "Subscription")
@@ -1424,6 +1460,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("MusicReactions");
 
                     b.Navigation("Musics");
+
+                    b.Navigation("NotificationSettings");
 
                     b.Navigation("PaySubscriptions");
 
