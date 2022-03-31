@@ -114,6 +114,38 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
+        public void CreatePlayedMusic_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var musics = PlayedMusicTestsData.Musics;
+            var playedMusics = PlayedMusicTestsData.PlayedMusics();
+            var categories = PlayedMusicTestsData.Categories;
+            var userId = playedMusics[0].UserId;
+            var model = PlayedMusicTestsData.CreateEmptyModel;
+            MyController<PlayedMusicController>
+                .Instance()
+                .WithData(categories)
+                .WithData(musics)
+                .WithData(playedMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.MusicId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The MusicId field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().PlayedMusics
+                .Any(pm => pm.MusicId == model.MusicId
+                    && pm.UserId == userId));
+        }
+
+        [Fact]
         public void DeletePlayedMusic_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
             var musics = PlayedMusicTestsData.Musics;

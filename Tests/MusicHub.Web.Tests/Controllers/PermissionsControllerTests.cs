@@ -213,6 +213,35 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
+
+        [Fact]
+        public void CreatePermission_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var users = PermissionTestsData.Users;
+            var userId = users[0].Id;
+            var model = PermissionTestsData.CreateEmptyModel;
+            MyController<PermissionsController>
+                .Instance()
+                .WithData(users)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Description))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Description field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Permissions
+                .Any(p => p.Description == model.Description
+                    && p.Type == model.Type));
+        }
+
         [Fact]
         public void EditPermission_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
@@ -235,6 +264,38 @@ namespace MusicHub.Web.Tests.Controllers
                           .Any(p => p.Id == permissionId
                               && p.Description == model.Description
                               && p.Type == model.Type));
+        }
+
+        [Fact]
+        public void EditPermission_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var permissions = PermissionTestsData.Permissions();
+            var users = PermissionTestsData.Users;
+            var userId = users[0].Id;
+            var model = PermissionTestsData.UpdateEmptyModel;
+            var permissionId = permissions[0].Id;
+            MyController<PermissionsController>
+                .Instance()
+                .WithData(permissions)
+                .WithData(users)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Put(permissionId, model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Description))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Description field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Permissions
+                         .Any(p => p.Id == permissionId
+                             && p.Description == model.Description
+                             && p.Type == model.Type));
         }
 
         [Fact]

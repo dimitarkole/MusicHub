@@ -17,6 +17,7 @@ using MusicHub.Services.Mapping;
 using MusicHub.Common.Extensions;
 using static MusicHub.Common.GlobalConstants;
 using MusicHub.Services;
+using MusicHub.Data;
 
 namespace MusicHub.Web.Tests.Controllers
 {
@@ -55,40 +56,40 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void CreateChildrenComment_WhitIncurrectData_ShouldReturnBadRequest()
+        public void CreateChildComment_WhitIncurrectData_ShouldReturnBadRequest()
         {
             var comments = CommentTestsData.GetComments;
             var parentCommentId = comments[0].Id;           
             var model = CommentTestsData.CreateChildIncurrectModel;
             MyController<CommentController>
-           .Instance()
-           .WithData(comments)
-           .Calling(c => c.CreateChildrenComment(model, parentCommentId))
-           .ShouldReturn()
-           .BadRequest(result => result
-                .WithErrorOfType<List<string>>()
-                .Passing(actual =>
-                {
-                    if (string.IsNullOrWhiteSpace(model.Text))
+               .Instance()
+               .WithData(comments)
+               .Calling(c => c.CreateChildComment(model, parentCommentId))
+               .ShouldReturn()
+               .BadRequest(result => result
+                    .WithErrorOfType<List<string>>()
+                    .Passing(actual =>
                     {
-                        Assert.Contains($"The Text field is required.", actual);
-                    }
-                }));
+                        if (string.IsNullOrWhiteSpace(model.Text))
+                        {
+                            Assert.Contains($"The Text field is required.", actual);
+                        }
+                    }));
         }
 
-       /* [Fact]
+        [Fact]
         public void CreateChildrenComment_WhitCurrectData_ShouldReturnOk()
         {
             var comments = CommentTestsData.GetComments;
             var parentCommentId = comments[0].Id;
             var model = CommentTestsData.CreateChildModel;
             MyController<CommentController>
-           .Instance()
-           .WithData(comments)
-           .Calling(c => c.CreateChildrenCommentar(model, parentCommentId))
-           .ShouldReturn()
-           .Ok();
-        } */
+               .Instance()
+               .WithData(comments)
+               .Calling(c => c.CreateChildComment(model, parentCommentId))
+               .ShouldReturn()
+               .Ok();
+        } 
 
         [Fact]
         public void EditComment_WhitCurrectData_ShouldReturnOk()
@@ -104,6 +105,10 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Put(comment.Id, model))
                 .ShouldReturn()
                 .Ok();
+
+            Assert.True(From.Services<ApplicationDbContext>().Comments
+              .Any(m => m.Id == comment.Id
+                  && m.ModifiedOn != null));
         }
 
         [Fact]
@@ -128,6 +133,10 @@ namespace MusicHub.Web.Tests.Controllers
                             Assert.Contains($"The Text field is required.", actual);
                         }
                     }));
+
+            Assert.True(From.Services<ApplicationDbContext>().Comments
+                .Any(m => m.Id == comment.Id
+                    && m.ModifiedOn == null));
         }
 
         [Fact]
@@ -151,6 +160,10 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Put(commentId, model))
                 .ShouldReturn()
                 .Forbid();
+
+            Assert.True(From.Services<ApplicationDbContext>().Comments
+              .Any(m => m.Id == comment.Id
+                  && m.ModifiedOn == null));
         }
 
         [Fact]

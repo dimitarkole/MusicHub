@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MusicHub.Data;
 using MusicHub.Data.Models;
 using MusicHub.Tests.TestData;
 using MusicHub.Web.Controllers;
@@ -42,6 +43,10 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Put(commentReaction.Id, model))
                 .ShouldReturn()
                 .Ok();
+
+            Assert.True(From.Services<ApplicationDbContext>().CommentReactions
+              .Any(m => m.Id == commentReaction.Id
+                  && m.ModifiedOn != null));
         }
 
         [Fact]

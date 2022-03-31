@@ -644,7 +644,7 @@ namespace MusicHub.Web.Tests.Controllers
 
             Assert.False(From.Services<ApplicationDbContext>().Notifications
              .Any(n => n.Id == notificationId && n.Seen == true));
-        } */
+        } 
 
         [Fact]
         public void Settings_WithDataInTheDb_ShouldReturnOkWithCorrectData()

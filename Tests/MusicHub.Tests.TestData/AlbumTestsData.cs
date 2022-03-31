@@ -18,10 +18,24 @@
             Privacy = Privacy.Protected,
         };
 
+        public static AlbumCreateInputModel CreateEmptyModel => new AlbumCreateInputModel()
+        {
+            Name = "",
+            ImageUrl = "",
+            Privacy = Privacy.Protected,
+        };
+
         public static AlbumEditInputModel UpdateModel => new AlbumEditInputModel()
         {
             Name = "simple album name",
             ImageUrl = "Image url.jpg",
+            Privacy = Privacy.Protected,
+        };
+
+        public static AlbumEditInputModel UpdateEmptyModel => new AlbumEditInputModel()
+        {
+            Name = "",
+            ImageUrl = "",
             Privacy = Privacy.Protected,
         };
 

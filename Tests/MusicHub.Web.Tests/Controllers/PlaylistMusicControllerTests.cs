@@ -85,6 +85,47 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
+        public void CreatePlaylistMusic_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var users = PlaylistMusicTestsData.Users;
+            var musics = PlaylistMusicTestsData.Musics;
+            var playlists = PlaylistMusicTestsData.Playlists;
+            var categories = PlaylistMusicTestsData.Categories;
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var userId = PlaylistMusicTestsData.Users[0].Id;
+            var model = PlaylistMusicTestsData.CreateEmptyModel;
+
+            MyController<PlaylistMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(playlists)
+                .WithData(playlistMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Create(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.PlaylistId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The PlaylistId field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.MusicId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The MusicId field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().PlaylistMusics
+                 .Any(p => p.PlaylistId == model.PlaylistId
+                     && p.MusicId == model.MusicId));
+        }
+
+        [Fact]
         public void DeletetPlaylistMusic_WithDataInTheDb_ShouldReturnOk()
         {
             var users = PlaylistMusicTestsData.Users;

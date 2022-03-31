@@ -131,6 +131,53 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
+        public void CreateMusics_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var categories = MusicTestsData.Categories;
+            var model = MusicTestsData.CreateEmptyModel;
+            var userId = MusicTestsData.CreateUserId;
+            MyController<MusicController>
+                .Instance()
+                .WithData(categories)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.CategoryId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The CategoryId field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.ImageUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The ImageUrl field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.AudioUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The AudioUrl field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.Description))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Description field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Musics
+                .Any(m => m.CategoryId == model.CategoryId
+                    && m.Name == model.Name
+                    && m.ImageUrl == model.ImageUrl
+                    && m.AudioUrl == model.AudioUrl
+                    && m.Description == model.Description));
+        }
+
+        [Fact]
         public void EditMusic_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
             var categories = MusicTestsData.Categories;
@@ -153,6 +200,55 @@ namespace MusicHub.Web.Tests.Controllers
             Assert.True(From.Services<ApplicationDbContext>().Musics
                 .Any(m => m.Id == editMusicId
                     && m.ModifiedOn != null));
+        }
+
+        [Fact]
+        public void EditMusic_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var categories = MusicTestsData.Categories;
+            var musics = MusicTestsData.GetMusics;
+            var users = MusicTestsData.Users;
+            var model = MusicTestsData.UpdateEmptyModel;
+            var userId = MusicTestsData.CreateUserId;
+            var editMusicId = MusicTestsData.UpdateMusicId;
+            MyController<MusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Put(editMusicId, model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.CategoryId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The CategoryId field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.ImageUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The ImageUrl field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.AudioUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The AudioUrl field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.Description))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Description field is required")).Any());
+                    }
+                }));
+
+            Assert.True(From.Services<ApplicationDbContext>().Musics
+                .Any(m => m.Id == editMusicId
+                    && m.ModifiedOn == null));
         }
 
         [Fact]

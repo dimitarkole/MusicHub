@@ -18,6 +18,11 @@
             Name = "role name",
         };
 
+        public static RoleCreateInputModel CreateEptyModel => new RoleCreateInputModel()
+        {
+            Name = "",
+        };
+
         public static RoleFilter FilterModel => new RoleFilter()
         {
             Name = "role name",
@@ -32,6 +37,11 @@
         public static RoleEditInputModel UpdateModel => new RoleEditInputModel()
         {
             Name = "edited role name",
+        };
+
+        public static RoleEditInputModel UpdateEmptyModel => new RoleEditInputModel()
+        {
+            Name = "",
         };
 
         public static List<Role> GetRoles => new List<Role>() {

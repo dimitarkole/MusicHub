@@ -294,7 +294,5 @@ namespace MusicHub.Web.Tests.Controllers
                   && ns.UserId == userId
                   && ns.Enabled == model.Enabled));
         }*/
-
-
     }
 }

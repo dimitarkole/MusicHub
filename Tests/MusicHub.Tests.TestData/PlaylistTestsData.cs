@@ -18,12 +18,27 @@
             Privacy = Privacy.Protected,
         };
 
+        public static PlaylistCreateInputModel CreateEmptyModel => new PlaylistCreateInputModel()
+        {
+            Name = "",
+            ImageUrl = "",
+            Privacy = Privacy.Protected,
+        };
+
         public static PlaylistEditInputModel UpdateModel => new PlaylistEditInputModel()
         {
             Name = "simple playlist name",
             ImageUrl = "Image url.jpg",
             Privacy = Privacy.Protected,
         };
+
+        public static PlaylistEditInputModel UpdateEmptyModel => new PlaylistEditInputModel()
+        {
+            Name = "",
+            ImageUrl = "",
+            Privacy = Privacy.Protected,
+        };
+
 
         public static string GetOwnedForAddingMusicMusicId => Musics[0].Id;
 

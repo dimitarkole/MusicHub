@@ -14,6 +14,7 @@
     using MusicHub.Common;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.PlaylistModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -46,7 +47,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.playlistMusicService.Create(model);

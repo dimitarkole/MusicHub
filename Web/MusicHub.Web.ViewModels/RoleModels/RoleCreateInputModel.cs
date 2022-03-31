@@ -15,6 +15,7 @@
         /// <summary>
         /// Gets or sets the name for this role.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         [NotMapped]

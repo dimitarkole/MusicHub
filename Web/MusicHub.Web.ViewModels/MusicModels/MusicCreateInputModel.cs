@@ -18,6 +18,7 @@
         [MaxLength(MusicConstants.NameMaxLength)]
         public string Name { get; set; }
 
+        [Required]
         public string CategoryId { get; set; }
 
         [Required]
@@ -25,8 +26,10 @@
         [MaxLength(MusicConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
         public string AudioUrl { get; set; }
 
         public Privacy Privacy { get; set; }

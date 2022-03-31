@@ -16,7 +16,7 @@
 
         Task Create(CommentCreatreInputModel model, string userId);
 
-        Task CreateChildrenComment(CommentChildrenCreatreInputModel model, string parentCommentId, string userId);
+        Task CreateChildComment(CommentChildrenCreatreInputModel model, string parentCommentId, string userId);
 
         Task Update(string id, CommentEditInputModel model);
 

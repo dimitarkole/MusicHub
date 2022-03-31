@@ -67,7 +67,7 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task CreateChildrenComment(CommentChildrenCreatreInputModel model, string parentCommentId, string userId)
+        public async Task CreateChildComment(CommentChildrenCreatreInputModel model, string parentCommentId, string userId)
         {
             Comment parentComment = this.context.Comments.Find(parentCommentId);
             string musicId = parentComment.MusicId;
