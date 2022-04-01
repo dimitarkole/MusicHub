@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using MusicHub.Data.Models;
@@ -10,10 +11,13 @@
 
     public class AlbumEditInputModel : IMapTo<Album>
     {
+        [Required]
         public string Name { get; set; }
 
+        [Required]
         public string ImageUrl { get; set; }
 
+        [Required]
         public Privacy Privacy { get; set; }
     }
 }

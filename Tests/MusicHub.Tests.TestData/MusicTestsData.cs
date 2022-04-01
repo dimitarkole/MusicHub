@@ -20,6 +20,16 @@ namespace MusicHub.Tests.TestData
             Description = "this is test description",
         };
 
+        public static MusicCreateInputModel CreateEmptyModel => new MusicCreateInputModel()
+        {
+            Name = "",
+            CategoryId = "",
+            ImageUrl = "",
+            AudioUrl = "",
+            Privacy = Privacy.Private,
+            Description = "",
+        };
+
         public static MusicEditModel UpdateModel => new MusicEditModel()
         {
             Name = "music name edit",
@@ -28,6 +38,16 @@ namespace MusicHub.Tests.TestData
             AudioUrl = "audio path edit.mp3",
             Privacy = Privacy.Protected,
             Description = "this is test description edit",
+        };
+
+        public static MusicEditModel UpdateEmptyModel => new MusicEditModel()
+        {
+            Name = "",
+            CategoryId = "",
+            ImageUrl = "",
+            AudioUrl = "",
+            Privacy = Privacy.Private,
+            Description = "",
         };
 
         public static string UpdateMusicId => GetMusics[0].Id;

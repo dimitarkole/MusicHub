@@ -15,6 +15,12 @@ namespace MusicHub.Tests.TestData
             PlaylistId = Playlists[0].Id
         };
 
+        public static PlaylistMusicCreateInputModel CreateEmptyModel => new PlaylistMusicCreateInputModel()
+        {
+            MusicId = "",
+            PlaylistId = ""
+        };
+
         public static string PlaylistId => Playlists[0].Id;
 
         public static string DeletePlaylistMusicId => PlaylistMusics()[0].Id;

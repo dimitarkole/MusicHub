@@ -40,7 +40,7 @@ namespace MusicHub.Services.Data.Tests
             var userId = CommentTestsData.CreateUserId;
             var parentCommentId = CommentTestsData.CreateParentCommentId;
 
-            await commentService.CreateChildrenComment(model, parentCommentId, userId);
+            await commentService.CreateChildComment(model, parentCommentId, userId);
 
             Assert.True(this.context.Comments.Any(c => c.Text == model.Text
                 && c.ParentCommentId == parentCommentId

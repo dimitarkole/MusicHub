@@ -16,9 +16,21 @@ namespace MusicHub.Tests.TestData
             Type = PermissionType.CategoryAdministrator,
         };
 
+        public static PermissionCreateInputModel CreateEmptyModel => new PermissionCreateInputModel()
+        {
+            Description = "",
+            Type = PermissionType.CategoryAdministrator,
+        };
+
         public static PermissionEditInputModel UpdateModel => new PermissionEditInputModel()
         {
             Description = "some description 1",
+            Type = PermissionType.FindAndReplaceUsers,
+        };
+
+        public static PermissionEditInputModel UpdateEmptyModel => new PermissionEditInputModel()
+        {
+            Description = "",
             Type = PermissionType.FindAndReplaceUsers,
         };
 

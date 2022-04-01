@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Text;
 
@@ -14,6 +15,7 @@
         /// <summary>
         /// Gets or sets the name for this role.
         /// </summary>
+        [Required]
         public string Name { get; set; }
 
         [NotMapped]

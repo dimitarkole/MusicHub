@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicHub.Data.Models;
 using MusicHub.Services.Data.Interfaces;
+using MusicHub.Web.Infrastucture.Extensions;
 using MusicHub.Web.ViewModels.VerificationCodeModels;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace MusicHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.verificationCodeService.Create(model);

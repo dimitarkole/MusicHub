@@ -2,22 +2,33 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using MusicHub.Data.Models;
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Mapping;
+    using static MusicHub.Common.ModelConstants;
 
     public class MusicEditModel : IMapTo<Music>// , IHaveCustomMappings
     {
+        [Required]
+        [MinLength(MusicConstants.NameMinLength)]
+        [MaxLength(MusicConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        public string ImageUrl { get; set; }
-
+        [Required]
         public string CategoryId { get; set; }
 
+        [Required]
+        [MinLength(MusicConstants.DescriptionMinLength)]
+        [MaxLength(MusicConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
+        [Required]
+        public string ImageUrl { get; set; }
+
+        [Required]
         public string AudioUrl { get; set; }
 
         public Privacy Privacy { get; set; }
@@ -28,7 +39,7 @@
 
         public string RecordLabel { get; set; }
 
-        public DateTime ReleaseDate { get; set; }
+        public DateTime? ReleaseDate { get; set; }
 
         public string Barcode { get; set; }
 
@@ -69,6 +80,5 @@
         public bool NoDerivativeWorks { get; set; }
 
         public bool ShareALike { get; set; }
-
     }
 }

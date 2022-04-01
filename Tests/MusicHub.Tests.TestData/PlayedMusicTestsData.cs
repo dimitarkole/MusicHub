@@ -11,7 +11,12 @@ namespace MusicHub.Tests.TestData
     {
         public static PlayedMusicCreateInputModel CreateModel => new PlayedMusicCreateInputModel()
         {
-            MusicId = MusicTestsData.GetMusics[0].Id
+            MusicId = MusicTestsData.GetMusics[0].Id,
+        };
+
+        public static PlayedMusicCreateInputModel CreateEmptyModel => new PlayedMusicCreateInputModel()
+        {
+            MusicId = "",
         };
 
         public static List<User> Users => UserTestsData.Users;

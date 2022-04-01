@@ -7,6 +7,7 @@ using MusicHub.Tests.TestData;
 using MusicHub.Web.Controllers;
 using MusicHub.Web.ViewModels.AlbumMusicModels;
 using MyTested.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Xunit;
@@ -76,6 +77,45 @@ namespace MusicHub.Web.Tests.Controllers
             Assert.True(From.Services<ApplicationDbContext>().AlbumMusics
                               .Any(am => am.MusicId == model.MusicId
                                   && am.AlbumId == model.AlbumId));
+        }
+
+        [Fact]
+        public void CreateAlbumMusic_WithEmtyModel_ShouldReturnBadRequest()
+        {
+            var users = AlbumMusicTestsData.Users;
+            var musics = AlbumMusicTestsData.Musics;
+            var album = AlbumMusicTestsData.Albums;
+            var categories = AlbumMusicTestsData.Categories;
+            var userId = AlbumMusicTestsData.Users[0].Id;
+            var model = AlbumMusicTestsData.CreateEmptyModel;
+
+            MyController<AlbumMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(album)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Create(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.AlbumId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The AlbumId field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.MusicId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The MusicId field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().AlbumMusics
+                                    .Any(am => am.AlbumId == model.AlbumId
+                                        && am.MusicId == model.MusicId));
         }
 
         [Fact]

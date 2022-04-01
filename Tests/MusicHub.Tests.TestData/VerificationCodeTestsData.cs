@@ -20,6 +20,12 @@ namespace MusicHub.Tests.TestData
             UserId = UserId,
         };
 
+        public static VerificationCodeCreateInputModel CreateEmptyModel => new VerificationCodeCreateInputModel()
+        {
+            Type = VerificationType.ChangePassword,
+            UserId = "",
+        };
+
         public static List<VerificationCode> VerificationCodes()
         {
             var result = new List<VerificationCode>();

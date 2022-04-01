@@ -94,6 +94,33 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
+        public void CreateVerificationCode_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var model = VerificationCodeTestsData.CreateEmptyModel;
+            var userId = VerificationCodeTestsData.UserId;
+            MyController<VerificationController>
+                .Instance()
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.UserId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The UserId field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().VerificationCodes
+             .Any(vc => vc.UserId == model.UserId 
+                && vc.Type == model.Type
+                && vc.Code == model.Code));
+        }
+
+        [Fact]
         public void CheckCode_WithDataInTheDb_ShouldReturnOkWithTrue()
         {
             var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
