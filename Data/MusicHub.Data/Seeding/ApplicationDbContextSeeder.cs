@@ -37,6 +37,7 @@
                               new AlbumsSeeder(),
                               new AlbumMusicsSeeder(),
                               new PlayLaterMusicsSeeder(),
+                              new ReportMusicSeeder(),
                           };
 
             foreach (var seeder in seeders)
