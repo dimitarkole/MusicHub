@@ -65,6 +65,8 @@
 
         public virtual DbSet<License> Licenses { get; set; }
 
+        public virtual DbSet<ReportMusic> ReportMusics { get; set; }
+
         public virtual DbSet<MusicLicense> MusicLicenses { get; set; }
 
         public virtual DbSet<LicenseFile> LicenseFiles { get; set; }
@@ -82,7 +84,8 @@
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
-        public override int SaveChanges() => this.SaveChanges(true);
+        public override int SaveChanges()
+            => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

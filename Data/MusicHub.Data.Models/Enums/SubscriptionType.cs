@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace MusicHub.Data.Models.Enums
+﻿namespace MusicHub.Data.Models.Enums
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
     public enum SubscriptionType
     {
         [Display(Name = "All")]
