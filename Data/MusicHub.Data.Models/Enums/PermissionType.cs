@@ -35,5 +35,7 @@
         SubscriptionManager = 13,
         [Display(Name = "Album creator - create, edit and delete album and add/remove music to album")]
         AlbumCreator = 14,
+        [Display(Name = "Reported music viewer - view all reported music")]
+        ReportedMusicViewer = 15,
     }
 }

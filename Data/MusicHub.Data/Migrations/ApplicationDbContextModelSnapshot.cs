@@ -749,6 +749,41 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("PlaylistMusics");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.ReportMusic", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MusicId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReportMusics");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.Role", b =>
                 {
                     b.Property<string>("Id")
@@ -1306,6 +1341,23 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Playlist");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.ReportMusic", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.Music", "Music")
+                        .WithMany("ReportMusics")
+                        .HasForeignKey("MusicId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("ReportMusics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Music");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.RolePermission", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Permission", "Permission")
@@ -1410,6 +1462,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("PlayLaterMusics");
 
                     b.Navigation("PlaylistMusics");
+
+                    b.Navigation("ReportMusics");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Notification", b =>
@@ -1470,6 +1524,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("PlayLaterMusics");
 
                     b.Navigation("Playlists");
+
+                    b.Navigation("ReportMusics");
 
                     b.Navigation("Roles");
 
