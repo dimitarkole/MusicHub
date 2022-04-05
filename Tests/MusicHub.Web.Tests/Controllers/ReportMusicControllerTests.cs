@@ -48,7 +48,6 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
-
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
@@ -162,7 +161,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<ReportPageModel<ReportViewModel>>()
                     .Passing(actual =>
                     {
-                        var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+                        var entitesPerPage = PaginationData.ReportsPerPage;
                         var service = new ReportMusicService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
                         var expected = service.All<ReportViewModel>(musicId, page, entitesPerPage);
                         expected.Should().BeEquivalentTo(actual);
@@ -193,7 +192,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<ReportPageModel<ReportViewModel>>()
                     .Passing(actual =>
                     {
-                        var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+                        var entitesPerPage = PaginationData.ReportsPerPage;
                         var service = new ReportMusicService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
                         var expected = service.Filter<ReportViewModel>(musicId, filter, page, entitesPerPage);
                         expected.Should().BeEquivalentTo(actual);
@@ -224,7 +223,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<ReportPageModel<ReportViewModel>>()
                     .Passing(actual =>
                     {
-                        var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+                        var entitesPerPage = PaginationData.ReportsPerPage;
                         var service = new ReportMusicService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
                         var expected = service.Filter<ReportViewModel>(musicId, filter, page, entitesPerPage);
                         expected.Should().BeEquivalentTo(actual);
@@ -255,7 +254,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<ReportPageModel<ReportViewModel>>()
                     .Passing(actual =>
                     {
-                        var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+                        var entitesPerPage = PaginationData.ReportsPerPage;
                         var service = new ReportMusicService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
                         var expected = service.Filter<ReportViewModel>(musicId, filter, page, entitesPerPage);
                         expected.Should().BeEquivalentTo(actual);

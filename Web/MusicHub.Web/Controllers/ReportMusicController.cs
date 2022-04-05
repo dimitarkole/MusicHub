@@ -63,7 +63,7 @@
         [Authorize]
         [Permission(PermissionType.ReportedMusicViewer)]
         public ActionResult<ReportPageModel<ReportViewModel>> GetAllReported(string id, int page)
-          => this.Ok(this.reportMusicService.All<ReportViewModel>(id, page, PaginationData.ReportedMusicsPerPage));
+          => this.Ok(this.reportMusicService.All<ReportViewModel>(id, page, PaginationData.ReportsPerPage));
 
         /// <summary>Filter reported reported.</summary>
         /// <param name="page">The page of reported.</param>
@@ -73,7 +73,7 @@
         [Authorize]
         [Permission(PermissionType.ReportedMusicViewer)]
         public ActionResult<ReportPageModel<ReportViewModel>> FilterReported(string id, int page, ReportFilter filter)
-          => this.Ok(this.reportMusicService.Filter<ReportViewModel>(id, filter, page, PaginationData.ReportedMusicsPerPage));
+          => this.Ok(this.reportMusicService.Filter<ReportViewModel>(id, filter, page, PaginationData.ReportsPerPage));
 
         /// <summary>Add report music in database.</summary>
         /// <param name="model">Input data.</param>
