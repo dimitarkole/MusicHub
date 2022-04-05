@@ -14,9 +14,24 @@
             MusicId = MusicTestsData.GetMusics[0].Id,
         };
 
+        public static PlayLaterMusicCreateInputModel CreateEmptyModel => new PlayLaterMusicCreateInputModel()
+        {
+            MusicId = "",
+        };
+
+        public static PlayLaterMusicEditInputModel EditModel => new PlayLaterMusicEditInputModel()
+        {
+            Position = 1,
+        };
+
+        public static PlayLaterMusicEditInputModel EditEmptyModel => new PlayLaterMusicEditInputModel()
+        {
+            Position = -2,
+        };
+
         public static List<User> Users => UserTestsData.Users;
 
-        public static PlayLaterMusicFilterInputModels filterModel => new PlayLaterMusicFilterInputModels()
+        public static PlayLaterMusicFilterInputModels FilterModel => new PlayLaterMusicFilterInputModels()
         {
             Name = "1",
         };

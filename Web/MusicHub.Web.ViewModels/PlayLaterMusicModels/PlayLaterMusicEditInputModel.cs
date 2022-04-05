@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Configuration;
     using System.Text;
 
     using MusicHub.Data.Models;
@@ -9,6 +11,7 @@
 
     public class PlayLaterMusicEditInputModel : IMapTo<PlayLaterMusic>
     {
+        [Range(0, Int32.MaxValue)]
         public int Position { get; set; }
     }
 }
