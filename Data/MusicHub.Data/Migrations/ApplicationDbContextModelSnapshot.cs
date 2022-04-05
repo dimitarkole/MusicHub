@@ -766,6 +766,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("MusicId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 

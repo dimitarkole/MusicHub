@@ -55,6 +55,8 @@
         {
             public const int CategoriesPerPage = 10;
             public const int MusicsPerPage = 12;
+            public const int ReportedMusicsPerPage = 12;
+            public const int ReportsPerPage = 12;
             public const int SubscriptionsPerPage = 10;
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;

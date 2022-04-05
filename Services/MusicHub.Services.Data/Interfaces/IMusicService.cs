@@ -1,14 +1,20 @@
-﻿using MusicHub.Web.ViewModels.MusicModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicHub.Services.Data.Interfaces
+﻿namespace MusicHub.Services.Data.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using MusicHub.Web.ViewModels.MusicModels;
+    using MusicHub.Web.ViewModels.ReportMusicModels;
+
     public interface IMusicService
     {
+        ReportMusicPageModel<T> AllReportedMusic<T>(int page, int entitesPerPage);
+
+        ReportMusicPageModel<T> FilterReported<T>(ReportMusicFilter filter, int page, int entitesPerPage);
+
         MusicPageModel<T> All<T>(int page, int entitesPerPage);
 
         MusicPageModel<T> SuggestMusics<T>(int page, int entitesPerPage, string musicId);

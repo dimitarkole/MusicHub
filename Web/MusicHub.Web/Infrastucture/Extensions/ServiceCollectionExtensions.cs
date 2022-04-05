@@ -138,6 +138,7 @@
                 .AddTransient<IMusicReactionService, MusicReactionService>()
                 .AddTransient<IPermissionsService, PermissionsService>()
                 .AddTransient<IMegaStorageService, MegaStorageService>()
+                .AddTransient<IReportMusicService, ReportMusicService>()
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<INotificationSettingsService, NotificationSettingsService>()
                 //.AddTransient<IQueryBuilder, QueryBuilder>()

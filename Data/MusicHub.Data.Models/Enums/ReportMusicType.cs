@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace MusicHub.Data.Models.Enums
+﻿namespace MusicHub.Data.Models.Enums
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Text;
+
     public enum ReportMusicType
     {
-        SexualContent = 0,
-        ViolentOrRepulsiveContent = 1,
-        InstillingHatredOrOffensiveContent = 2,
-        HarassmentOrAbuseContent = 3,
-        InjuryOrDangerousActions = 4,
-        ChildAabuse = 5,
-        PromotesTerrorism = 6,
-        SpamOrMisleadingContent = 7,
-        ItViolatesMyRights = 8,
-        ProblemWithCaptions = 9,
+        NoType = 0,
+        SexualContent = 1,
+        ViolentOrRepulsiveContent = 2,
+        InstillingHatredOrOffensiveContent = 3,
+        HarassmentOrAbuseContent = 4,
+        InjuryOrDangerousActions = 5,
+        ChildAabuse = 6,
+        PromotesTerrorism = 7,
+        SpamOrMisleadingContent = 8,
+        ItViolatesMyRights = 9,
+        ProblemWithCaptions = 10,
     }
 }
