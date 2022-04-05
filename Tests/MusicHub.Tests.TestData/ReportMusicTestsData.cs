@@ -19,6 +19,13 @@
             Type = ReportMusicType.HarassmentOrAbuseContent,
         };
 
+        public static ReportMusicCreateInputModel CreateEmptyModel => new ReportMusicCreateInputModel()
+        {
+            Description = "",
+            MusicId = "",
+            Type = ReportMusicType.HarassmentOrAbuseContent,
+        };
+
         public static string UserId => Users[0].Id;
 
         public static List<User> Users => UserTestsData.Users;
