@@ -91,7 +91,7 @@
                     .Where(s => s.UserId == userId)
                     .OrderByDescending(s => s.CreatedOn);
             var entitesPerPage = PaginationData.PlayLaterMusicsPerPage;
-            var filter = PlayLaterMusicTestsData.filterModel;
+            var filter = PlayLaterMusicTestsData.FilterModel;
             var actual = playLaterMusicService.Filter<PlayLaterMusicViewModel>(page, entitesPerPage, filter, userId);
 
             this.CheckFilterModel(page, userId, entitesPerPage, filter, actual);
