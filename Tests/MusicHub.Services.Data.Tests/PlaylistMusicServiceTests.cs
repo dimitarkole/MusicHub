@@ -11,7 +11,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Tests.TestData;
     using MusicHub.Web.ViewModels.MusicModels;
-    using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Web.ViewModels.PlaylistMusicModels;
     using Xunit;
 
     using static MusicHub.Common.GlobalConstants;

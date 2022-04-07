@@ -15,7 +15,7 @@
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture.Extensions;
-    using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Web.ViewModels.PlaylistMusicModels;
 
     using static MusicHub.Common.GlobalConstants;
 

@@ -1,4 +1,4 @@
-﻿namespace MusicHub.Web.ViewModels.PlaylistModels
+﻿namespace MusicHub.Web.ViewModels.PlaylistMusicModels
 {
     using System;
     using System.Collections.Generic;

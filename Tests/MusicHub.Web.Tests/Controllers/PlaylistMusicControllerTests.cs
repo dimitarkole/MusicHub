@@ -5,7 +5,7 @@ using MusicHub.Services.Data;
 using MusicHub.Services.Interfaces;
 using MusicHub.Tests.TestData;
 using MusicHub.Web.Controllers;
-using MusicHub.Web.ViewModels.PlaylistModels;
+using MusicHub.Web.ViewModels.PlaylistMusicModels;
 using MyTested.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

@@ -159,7 +159,6 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
         }
 
-
         [Fact]
         public void CheckCode_CodeIsUsed_WithDataInTheDb_ShouldReturnOkWithFalse()
         {
