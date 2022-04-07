@@ -1,5 +1,5 @@
 ﻿using MusicHub.Data.Models;
-using MusicHub.Web.ViewModels.PlaylistModels;
+using MusicHub.Web.ViewModels.PlaylistMusicModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
