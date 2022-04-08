@@ -19,5 +19,9 @@ namespace MusicHub.Data.Models.Enums
         LikeComment = 4,
         [Display(Name = "LikePlaylist - notification when somebody like user's playlist")]
         LikePlaylist = 5,
+        [Display(Name = "LikePlaylist - notification when somebody like user's playlist")]
+        NewComment = 6,
+        [Display(Name = "LikePlaylist - notification when somebody like user's playlist")]
+        ResponseComment = 7,
     }
 }

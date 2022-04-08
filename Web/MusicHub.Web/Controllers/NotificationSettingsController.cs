@@ -15,11 +15,11 @@
     using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.NotificationSetingModels;
 
-    public class NotificationSettingController : ApiController
+    public class NotificationSettingsController : ApiController
     {
         private readonly INotificationSettingsService notificationSettingsService;
 
-        public NotificationSettingController(
+        public NotificationSettingsController(
             INotificationSettingsService notificationSettingsService,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
@@ -39,14 +39,14 @@
         /// <summary>Get user's notification setting by type.</summary>
         /// <returns>Ok(NotificationSettingsViewModel).</returns>
         [Authorize]
-        [HttpGet(nameof(GetByType))]
+        [HttpPost(nameof(GetByType))]
         public ActionResult<NotificationSettingsViewModel> GetByType(NotificationSettingsTypeInputModel model)
           => this.Ok(this.notificationSettingsService.GetByType<NotificationSettingsViewModel>(model.Type, this.User.GetUserId()));
 
         /// <summary>Get user's notification settings by type.</summary>
         /// <returns>Ok(bool).</returns>
         [Authorize]
-        [HttpGet(nameof(IsEnabled))]
+        [HttpPost(nameof(IsEnabled))]
         public ActionResult<bool> IsEnabled(NotificationSettingsTypeInputModel model)
           => this.Ok(this.notificationSettingsService.IsEnabled(model.Type, this.User.GetUserId()));
 

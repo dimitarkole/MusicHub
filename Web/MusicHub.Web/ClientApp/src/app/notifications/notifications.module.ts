@@ -22,6 +22,7 @@ import { NotificationsListComponent } from './components/notifications-list/noti
 import { NotificationSpecialInfoComponent } from './components/notification-special-info/notification-special-info.component';
 import { UsersModule } from '../users/users.module';
 import { SharedModule } from '../shared/shared.module';
+import { NotificationSettingsListComponent } from './components/notification-settings-list/notification-settings-list.component';
 
 const routes: Routes = [
 ];
@@ -29,11 +30,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     NotificationsListComponent,
-    NotificationSpecialInfoComponent
+    NotificationSpecialInfoComponent,
+    NotificationSettingsListComponent
   ],
   exports: [
     NotificationsListComponent,
-    NotificationSpecialInfoComponent
+    NotificationSpecialInfoComponent,
+    NotificationSettingsListComponent
   ],
   entryComponents: [
   ],

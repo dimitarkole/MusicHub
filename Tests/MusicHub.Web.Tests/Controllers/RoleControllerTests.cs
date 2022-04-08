@@ -263,7 +263,7 @@ namespace MusicHub.Web.Tests.Controllers
             var users = RoleTestsData.Users;
             var permissions = RoleTestsData.Permissions;
             var userId = PlaylistTestsData.CreateUserId;
-            var model = RoleTestsData.UpdateModel;
+            var model = RoleTestsData.UpdateEmptyModel;
             var roleId = RoleTestsData.UpdateRoleId;
             MyController<RoleController>
                 .Instance()
