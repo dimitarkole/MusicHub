@@ -22,7 +22,7 @@ namespace MusicHub.Web.Tests.Controllers
             var users = NotificationSettingTestsData.Users;
             var notificationSettings = NotificationSettingTestsData.NotificationSettings();
             var userId = NotificationSettingTestsData.CreateUserId;
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -48,7 +48,7 @@ namespace MusicHub.Web.Tests.Controllers
             var notificationSettings = NotificationSettingTestsData.NotificationSettings();
             var userId = notificationSettings[0].UserId;
             var notificationSettingType = new NotificationSettingsTypeInputModel() { Type = notificationSettings[0].Type };
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -81,7 +81,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Type,
             };
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -112,7 +112,7 @@ namespace MusicHub.Web.Tests.Controllers
                 Type = type
             };
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -134,7 +134,7 @@ namespace MusicHub.Web.Tests.Controllers
             var users = NotificationSettingTestsData.Users;
             var model = NotificationSettingTestsData.CreateModel;
             var userId = NotificationSettingTestsData.CreateUserId;
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithUser(user => user
@@ -172,7 +172,7 @@ namespace MusicHub.Web.Tests.Controllers
 
             var model = new NotificationSettingEditInputModel() { Enabled = !notificationSettings.Where(ns => ns.Id == notificationSettingId).FirstOrDefault().Enabled };
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -199,7 +199,7 @@ namespace MusicHub.Web.Tests.Controllers
 
             var model = new NotificationSettingEditInputModel() { Enabled = !notificationSettings.Where(ns => ns.Id == notificationSettingId).FirstOrDefault().Enabled };
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
@@ -224,7 +224,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .FirstOrDefault()
                 .Id;
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                .Instance()
                .WithData(users)
                .WithData(notificationSettings)
@@ -248,7 +248,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .FirstOrDefault()
                 .Id;
 
-            MyController<NotificationSettingController>
+            MyController<NotificationSettingsController>
                 .Instance()
                 .WithData(users)
                 .WithData(notificationSettings)
