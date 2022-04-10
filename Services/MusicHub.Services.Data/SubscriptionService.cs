@@ -75,6 +75,7 @@
                 subscriptions = subscriptions.Where(s => s.Type == filter.Type);
             }
 
+            subscriptions = this.OrederSearchSubscription(filter.OrderMethod, subscriptions);
             return new SubscriptionPageModel<T>()
             {
                 Subscriptions = subscriptions
@@ -121,7 +122,7 @@
             this.context.SubscriptionClaims.AddRange(subscriptionClaims);
         }
 
-        private IQueryable<Subscription> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Subscription> subscriptions)
+        private IQueryable<Subscription> OrederSearchSubscription(OrderMethod orderMethod, IQueryable<Subscription> subscriptions)
         {
              if (orderMethod == OrderMethod.CreatedOnAsc)
              {
