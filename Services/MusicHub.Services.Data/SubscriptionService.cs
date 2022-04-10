@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
+    using MusicHub.Common;
     using MusicHub.Common.Extensions;
     using MusicHub.Data;
     using MusicHub.Data.Models;
@@ -95,7 +95,7 @@
         public async Task Update(string id, SubscriptionEditInputModel model)
         {
             var subscription = this.context.Subscriptions.Find(id);
-            model.To<Subscription>(model);
+            model.To<Subscription>(subscription);
             this.RemoveOldSubcriprionClaim(id);
             await this.context.SaveChangesAsync();
             this.AddSubcriprionClaim(subscription.Id, model.SubcriptionClaims);
@@ -119,6 +119,36 @@
             }
 
             this.context.SubscriptionClaims.AddRange(subscriptionClaims);
+        }
+
+        private IQueryable<Subscription> OrederSearchMusics(OrderMethod orderMethod, IQueryable<Subscription> subscriptions)
+        {
+             if (orderMethod == OrderMethod.CreatedOnAsc)
+             {
+                subscriptions = subscriptions.OrderBy(s => s.CreatedOn);
+             }
+             else if (orderMethod == OrderMethod.CreatedOnDesc)
+             {
+                subscriptions = subscriptions.OrderByDescending(s => s.CreatedOn);
+             }
+             else if (orderMethod == OrderMethod.NameAsc)
+             {
+                subscriptions = subscriptions.OrderBy(s => s.Name);
+             }
+             else if (orderMethod == OrderMethod.NameDesc)
+             {
+                subscriptions = subscriptions.OrderByDescending(s => s.Name);
+             }
+             else if (orderMethod == OrderMethod.PriceAsc)
+             {
+                subscriptions = subscriptions.OrderBy(s => s.Price);
+             }
+             else if (orderMethod == OrderMethod.PriceDesc)
+             {
+                subscriptions = subscriptions.OrderByDescending(s => s.Price);
+             }
+
+             return subscriptions;
         }
 
         private int GetDataPagesCount(int entityCount, int entitesPerPage)

@@ -29,5 +29,9 @@
         UnseenFirst = 9,
         [Display(Name = "Entities whose are seen")]
         SeenFirst = 10,
+        [Display(Name = "Order enitys by price asc")]
+        PriceAsc = 6,
+        [Display(Name = "Order enitys by price desc")]
+        PriceDesc = 7,
     }
 }

@@ -20,7 +20,7 @@
 
     public class NotificationsServiceTests : BaseTestClass
     {
-        /*[Fact]
+        [Fact]
         public async Task Create_WithValidData_ShouldWorkCorrectly()
         {
             var notificationsService = await CreateNotificationsService(new List<Notification>());
