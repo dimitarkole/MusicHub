@@ -18,6 +18,8 @@ namespace MusicHub.Services.Data.Interfaces
 
         T GetById<T>(string id);
 
+        bool IsOwned(string id, string userId);
+
         Task Update(string id, PaySubscriptionEditModel model);
     }
 }

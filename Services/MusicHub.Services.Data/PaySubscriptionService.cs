@@ -83,6 +83,10 @@
                 .To<T>()
                 .FirstOrDefault();
 
+        public bool IsOwned(string id, string userId)
+            => this.context.PaySubscriptions
+            .Any(a => a.Id == id && a.UserId == userId);
+
         public async Task Update(string id, PaySubscriptionEditModel model)
         {
             var paySubscripton = this.context.PaySubscriptions
