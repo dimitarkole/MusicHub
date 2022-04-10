@@ -141,16 +141,17 @@
                 .AddTransient<IReportMusicService, ReportMusicService>()
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<INotificationSettingsService, NotificationSettingsService>()
-                //.AddTransient<IQueryBuilder, QueryBuilder>()
+                // .AddTransient<IQueryBuilder, QueryBuilder>()
                 .AddTransient<IBooleanSearchService, BooleanSearchService>()
                 .AddTransient<ILicenseService, LicenseService>()
                 .AddTransient<IAlbumService, AlbumService>()
                 .AddTransient<IAlbumMusicService, AlbumMusicService>()
                 .AddTransient<ISubscriptionService, SubscriptionService>()
+                .AddTransient<IPaySubscriptionService, PaySubscriptionService>()
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IEmailSender, SendGridEmailSender>();
-        //.AddTransient<IAzureStorageService, AzureStorageService>()
+                // .AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddApplicationAnalysisServices(
            this IServiceCollection services)

@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class RolePageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class RolePageModel<T> : PageModel
     {
         public IEnumerable<T> Roles { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

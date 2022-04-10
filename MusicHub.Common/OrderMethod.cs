@@ -33,5 +33,9 @@
         PriceAsc = 6,
         [Display(Name = "Order enitys by price desc")]
         PriceDesc = 7,
+        [Display(Name = "Order enitys by date")]
+        DateAsc = 6,
+        [Display(Name = "Order enitys by date")]
+        DateDesc = 7,
     }
 }

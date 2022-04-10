@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class LicensePageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class LicensePageModel<T> : PageModel
     {
         public IEnumerable<T> Licenses { get; set; }
 

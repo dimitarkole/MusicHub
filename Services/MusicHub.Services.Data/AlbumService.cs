@@ -129,7 +129,8 @@
             {
                 albums = albums.Where(s => s.UserId == filter.UserId);
             }
-            else if (!string.IsNullOrEmpty(filter.Name))
+
+            if (!string.IsNullOrEmpty(filter.Name))
             {
                 albums = albums.Where(p => p.Name.ToLower().Contains(filter.Name.ToLower()));
             }

@@ -135,8 +135,8 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
 
             Assert.True(From.Services<ApplicationDbContext>().Comments
-                .Any(m => m.Id == comment.Id
-                    && m.ModifiedOn == null));
+              .Any(m => m.Id == comment.Id
+                  && m.ModifiedOn == null));
         }
 
         [Fact]
@@ -160,7 +160,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Calling(c => c.Put(commentId, model))
                 .ShouldReturn()
                 .Forbid();
-
+            
             Assert.True(From.Services<ApplicationDbContext>().Comments
               .Any(m => m.Id == comment.Id
                   && m.ModifiedOn == null));
