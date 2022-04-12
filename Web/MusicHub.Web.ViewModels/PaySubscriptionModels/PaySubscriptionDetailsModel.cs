@@ -1,17 +1,18 @@
-﻿using MusicHub.Data.Models;
-using MusicHub.Services.Mapping;
-using MusicHub.Web.ViewModels.SubscriptionModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Web.ViewModels.PaySubscriptionModels
+﻿namespace MusicHub.Web.ViewModels.PaySubscriptionModels
 {
-    public class PaySubscriptionDetailsModel : IMapTo<PaySubscription>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using MusicHub.Data.Models;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Web.ViewModels.SubscriptionModels;
+
+    public class PaySubscriptionDetailsModel : IMapFrom<PaySubscription>
     {
         public string SubscriptionId { get; set; }
 
-        public virtual PaySubscriptionDetailsModel Subscription { get; set; }
+        public SubscriptionViewModel Subscription { get; set; }
 
         public DateTime ValidFrom { get; set; }
 

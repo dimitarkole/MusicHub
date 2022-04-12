@@ -79,7 +79,7 @@
 
         public T GetById<T>(string id)
             => this.context.PaySubscriptions
-                .Where(a => a.Id == id)
+                .Where(ps => ps.Id == id)
                 .To<T>()
                 .FirstOrDefault();
 
@@ -91,7 +91,7 @@
         {
             var paySubscripton = this.context.PaySubscriptions
                 .FirstOrDefault(a => a.Id == id);
-            model.To<Album>(paySubscripton);
+            model.To<PaySubscription>(paySubscripton);
             this.context.PaySubscriptions.Update(paySubscripton);
             await this.context.SaveChangesAsync();
         }
