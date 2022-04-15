@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class PermissionPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class PermissionPageModel<T> : PageModel
     {
         public IEnumerable<T> Permissions { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

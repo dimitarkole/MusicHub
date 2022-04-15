@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class UserPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class UserPageModel<T> : PageModel
     {
         public IEnumerable<T> Users { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

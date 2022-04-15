@@ -4,13 +4,11 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class PlayedMusicPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class PlayedMusicPageModel<T> : PageModel
     {
 
         public IEnumerable<T> PlayedMusics { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

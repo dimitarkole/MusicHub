@@ -87,7 +87,7 @@ namespace MusicHub.Tests.TestData
         public static List<PlaylistMusic> PlaylistMusics()
         {
             var result = new List<PlaylistMusic>();
-            var random = new Random();
+            var random = new Random(0);
             var musics = Musics;
             var playlists = Playlists;
             var count = 1;

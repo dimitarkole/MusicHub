@@ -2,12 +2,10 @@
 {
     using System.Collections.Generic;
 
-    public class CommentPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class CommentPageModel<T> : PageModel
     {
         public IEnumerable<T> Comments { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

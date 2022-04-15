@@ -231,9 +231,13 @@ namespace MusicHub.Web.Tests.Controllers
             var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
             var userId = PlaylistMusicTestsData.Users[0].Id;
             var playlistId = playlistMusics[0].PlaylistId;
-            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+            var musicIdsInCurrectPlaylist = playlistMusics.Where(pm => pm.PlaylistId == playlistId)
+                 .Select(pm => pm.MusicId)
+                 .ToList();
+            var musicId = PlaylistMusicTestsData.Musics
+                .Where(m => !musicIdsInCurrectPlaylist.Contains(m.Id))
                 .FirstOrDefault()
-                .MusicId;
+                .Id;
             var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
             MyController<PlaylistMusicController>
                 .Instance()

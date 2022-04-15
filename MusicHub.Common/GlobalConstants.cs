@@ -58,6 +58,7 @@
             public const int ReportedMusicsPerPage = 12;
             public const int ReportsPerPage = 12;
             public const int SubscriptionsPerPage = 10;
+            public const int PaySubscriptionsPerPage = 10;
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;
             public const int PlayedMusicsPerPage = 12;
