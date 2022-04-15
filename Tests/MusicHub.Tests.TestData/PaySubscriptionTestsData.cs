@@ -16,12 +16,16 @@
             ValidTo = DateTime.Now.AddMonths(6),
         };
 
+        public static PaySubscriptionCreateInputModel CreateEmptyModel => new PaySubscriptionCreateInputModel();
+
         public static PaySubscriptionEditModel UpdateModel => new PaySubscriptionEditModel()
         {
             SubscriptionId = Subscriptions[0].Id,
             ValidFrom = DateTime.Now,
             ValidTo = DateTime.Now.AddMonths(6),
         };
+
+        public static PaySubscriptionEditModel UpdateEmptyModel => new PaySubscriptionEditModel();
 
         public static string UserId => Users[0].Id;
 
@@ -34,6 +38,8 @@
         public static List<User> Users => UserTestsData.Users;
 
         public static List<Subscription> Subscriptions => SubscriptionTestsData.Subscriptions;
+
+        public static List<SubscriptionClaim> SubscriptionClaims => SubscriptionTestsData.SubscriptionsClaims();
 
         public static List<PaySubscription> PaySubscriptions()
         {
@@ -75,16 +81,19 @@
                     }
                     while (true);
 
-                    var subscriptionId = Subscriptions[rnd.Next(0, subscriptionsCount)].Id;
+                    var randomSubcriptionIndex = rnd.Next(0, subscriptionsCount);
+                    var subscriptionId = Subscriptions[randomSubcriptionIndex].Id;
                     var userPaySubscription = new PaySubscription()
                     {
                         Id = "PaySubscription " + id,
                         SubscriptionId = subscriptionId,
                         UserId = userId,
                         ValidFrom = validFrom,
+                        ModifiedOn = null,
                         ValidTo = validTo,
                     };
 
+                    userPaySubscription.ModifiedOn = null;
                     result.Add(userPaySubscription);
                     id++;
                 }

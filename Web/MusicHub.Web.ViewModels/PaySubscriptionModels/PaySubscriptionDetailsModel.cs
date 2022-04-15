@@ -12,7 +12,7 @@
     {
         public string SubscriptionId { get; set; }
 
-        public SubscriptionViewModel Subscription { get; set; }
+        // public virtual SubscriptionViewModel Subscription { get; set; }
 
         public DateTime ValidFrom { get; set; }
 

@@ -115,14 +115,17 @@ namespace MusicHub.Web.Tests.Controllers
         public void EditComment_WhitIncurrectData_ShouldReturnBadRequest()
         {
             var comments = CommentTestsData.GetComments;
-            var comment = comments[0];
+            var userId = comments[0].UserId;
+            var commentId = comments[0].Id;
             var model = CommentTestsData.UpdateIncurrectModel;
+
             MyController<CommentController>
                 .Instance()
                 .WithData(comments)
+                .WithData(CommentTestsData.Users)
                 .WithUser(user => user
-                    .WithClaim(ClaimTypes.NameIdentifier, comment.UserId))
-                .Calling(c => c.Put(comment.Id, model))
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Put(commentId, model))
                 .ShouldReturn()
                 .BadRequest(result => result
                     .WithErrorOfType<List<string>>()
@@ -135,8 +138,8 @@ namespace MusicHub.Web.Tests.Controllers
                     }));
 
             Assert.True(From.Services<ApplicationDbContext>().Comments
-              .Any(m => m.Id == comment.Id
-                  && m.ModifiedOn == null));
+              .Any(c => c.Id == commentId
+                  && c.ModifiedOn == null));
         }
 
         [Fact]
@@ -144,7 +147,7 @@ namespace MusicHub.Web.Tests.Controllers
         {
             var comments = CommentTestsData.GetComments;
             var comment = comments[0];
-            var commentId = comments[0].Id;
+            var commentId = comment.Id;
             var model = CommentTestsData.UpdateModel;
             var userId = comments
                 .Where(c => c.UserId != comment.UserId)
@@ -162,7 +165,7 @@ namespace MusicHub.Web.Tests.Controllers
                 .Forbid();
             
             Assert.True(From.Services<ApplicationDbContext>().Comments
-              .Any(m => m.Id == comment.Id
+              .Any(m => m.Id == commentId
                   && m.ModifiedOn == null));
         }
 

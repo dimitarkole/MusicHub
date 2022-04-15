@@ -40,6 +40,14 @@
         public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> Get(int page)
             => this.Ok(this.paySubscriptionService.All<PaySubscriptionViewModel>(page, PaginationData.PaySubscriptionsPerPage));
 
+        /// <summary>Get by id PaySubscription.</summary>
+        /// <param name="id">The page of PaySubscription.</param>
+        /// <returns>Ok(PaySubscriptionDetailsModel).</returns>
+        [HttpGet(nameof(GetById) + "/{id}")]
+        [Permission(PermissionType.UserAdministration)]
+        public ActionResult<PaySubscriptionDetailsModel> GetById(string id)
+            => this.Ok(this.paySubscriptionService.GetById<PaySubscriptionDetailsModel>(id));
+
         /// <summary>Get own PaySubscription.</summary>
         /// <param name="page">The page of PaySubscription.</param>
         /// <returns>Ok(PaySubscriptionPageModel<PaySubscriptionViewModel>).</returns>
@@ -57,7 +65,7 @@
 
         /// <summary>Filter own PaySubscription.</summary>
         /// <returns>Ok(PaySubscriptionPageModel<PaySubscriptionViewModel>).</returns>
-        [HttpPost(nameof(Filter) + "/{page}")]
+        [HttpPost(nameof(FilterOwn) + "/{page}")]
         public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> FilterOwn(int page, PaySubscriptionFilter filter)
           => this.Ok(this.paySubscriptionService.Filter<PaySubscriptionViewModel>(page, PaginationData.PaySubscriptionsPerPage, filter, this.userManager.GetUserId(this.User)));
 
@@ -90,12 +98,12 @@
             }
 
             var userId = this.userManager.GetUserId(this.User);
+            await this.paySubscriptionService.Update(id, model);
             if (!this.paySubscriptionService.IsOwned(id, userId))
             {
                 return this.Forbid();
             }
 
-            await this.paySubscriptionService.Update(id, model);
             return this.Ok();
         }
     }

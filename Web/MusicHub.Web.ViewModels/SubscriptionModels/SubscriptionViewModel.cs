@@ -18,6 +18,6 @@ namespace MusicHub.Web.ViewModels.SubscriptionModels
 
         public SubscriptionType Type { get; set; }
 
-        public ICollection<SubscriptionClaimViewModel> SubcriptionClaims { get; set; }
+        public virtual ICollection<SubscriptionClaimViewModel> SubcriptionClaims { get; set; }
     }
 }

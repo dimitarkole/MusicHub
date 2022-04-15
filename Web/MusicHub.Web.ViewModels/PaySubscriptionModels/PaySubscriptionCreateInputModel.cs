@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using MusicHub.Data.Models;
@@ -9,10 +10,13 @@
 
     public class PaySubscriptionCreateInputModel : IMapTo<PaySubscription>
     {
+        [Required]
         public string SubscriptionId { get; set; }
 
+        [Required]
         public DateTime ValidFrom { get; set; }
 
+        [Required]
         public DateTime ValidTo { get; set; }
     }
 }
