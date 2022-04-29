@@ -14,7 +14,7 @@
 
         SubscriptionPageModel<T> Filter<T>(int page, int entitesPerPage, SubscriptionFilter filter);
 
-        Task Create(SubscriptionCreateInputModel model);
+        Task<string> Create(SubscriptionCreateInputModel model);
 
         T GetById<T>(string id);
 

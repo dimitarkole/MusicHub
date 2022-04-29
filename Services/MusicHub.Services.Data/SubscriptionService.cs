@@ -44,13 +44,14 @@
             };
         }
 
-        public async Task Create(SubscriptionCreateInputModel model)
+        public async Task<string> Create(SubscriptionCreateInputModel model)
         {
             var subscription = model.To<Subscription>();
             await this.context.Subscriptions.AddAsync(subscription);
             await this.context.SaveChangesAsync();
             this.AddSubcriprionClaim(subscription.Id, model.SubcriptionClaims);
             await this.context.SaveChangesAsync();
+            return subscription.Id;
         }
 
         public async Task Delete(string id)
