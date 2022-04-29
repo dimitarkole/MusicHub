@@ -20,14 +20,12 @@
             var from = new EmailAddress(Email.SystemEmail, SystemName);
             var to = new EmailAddress(toMail);
             messageBody = messageBody.MakeSringToMessageWithTemplate();
-
             var msg = MailHelper.CreateSingleEmail(
                 from,
                 to,
                 subject,
                 messageBody,
                 messageBody);
-
             await client.SendEmailAsync(msg);
         }
 

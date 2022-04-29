@@ -32,7 +32,22 @@
             },
         };
 
+        public static SubscriptionEditInputModel UpdateModelEmptyModel => new SubscriptionEditInputModel()
+        {
+            Name = "",
+            Price = 3,
+            Type = SubscriptionType.MusicCreator,
+            SubcriptionClaims = new List<SubscriptionClaimCreateInputModel>()
+            {
+                new SubscriptionClaimCreateInputModel() { Description = "simple description" },
+            },
+        };
+
         public static string SubscriptionId => Subscriptions[0].Id;
+
+        public static List<User> Users => UserTestsData.Users;
+
+        public static string UserId => UserTestsData.Users[0].Id;
 
         public static SubscriptionFilter FilterModel => new SubscriptionFilter()
         {

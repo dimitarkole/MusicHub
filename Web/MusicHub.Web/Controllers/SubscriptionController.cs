@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
     using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.SubscriptionModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -47,12 +49,11 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
-            var userId = this.userManager.GetUserId(this.User);
-            await this.subscriptionService.Create(model);
-            return this.Ok();
+            var subscriptionId = await this.subscriptionService.Create(model);
+            return this.StatusCode(StatusCodes.Status201Created, new { subscriptionId = subscriptionId });
         }
 
         [Authorize]
@@ -62,7 +63,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.subscriptionService.Update(id, model);
