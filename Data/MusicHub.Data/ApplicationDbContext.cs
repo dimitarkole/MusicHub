@@ -63,6 +63,8 @@
 
         public virtual DbSet<Follow> Follows { get; set; }
 
+        public virtual DbSet<Bell> Bells { get; set; }
+
         public virtual DbSet<License> Licenses { get; set; }
 
         public virtual DbSet<ReportMusic> ReportMusics { get; set; }
