@@ -15,9 +15,9 @@
             this.CreatedOn = DateTime.UtcNow;
         }
 
-        public string BeelerId { get; set; } // User Id
+        public string BellerId { get; set; } // User Id
 
-        public virtual User Beeler { get; set; }
+        public virtual User Beller { get; set; }
 
         public string BellingId { get; set; } // Belling user Id
 
