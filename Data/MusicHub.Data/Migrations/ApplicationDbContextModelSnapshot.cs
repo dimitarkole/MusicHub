@@ -177,6 +177,30 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("AlbumMusics");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.Bell", b =>
+                {
+                    b.Property<string>("BellingId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BeelerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BellingId", "BeelerId");
+
+                    b.HasIndex("BeelerId");
+
+                    b.ToTable("Bells");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.Category", b =>
                 {
                     b.Property<string>("Id")
@@ -1121,6 +1145,25 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Music");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.Bell", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "Beeler")
+                        .WithMany("Bellings")
+                        .HasForeignKey("BeelerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MusicHub.Data.Models.User", "Belling")
+                        .WithMany("Bellers")
+                        .HasForeignKey("BellingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Beeler");
+
+                    b.Navigation("Belling");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.Comment", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Music", "Music")
@@ -1504,6 +1547,10 @@ namespace MusicHub.Data.Migrations
             modelBuilder.Entity("MusicHub.Data.Models.User", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Bellers");
+
+                    b.Navigation("Bellings");
 
                     b.Navigation("Claims");
 

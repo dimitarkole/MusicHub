@@ -23,6 +23,8 @@ namespace MusicHub.Data.Models
             this.PlayedMusics = new HashSet<PlayedMusic>();
             this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
+            this.Bellers = new HashSet<Bell>();
+            this.Bellings = new HashSet<Bell>();
             this.Licenses = new HashSet<License>();
             this.VerificationCodes = new HashSet<VerificationCode>();
             this.PaySubscriptions = new HashSet<PaySubscription>();
@@ -75,6 +77,10 @@ namespace MusicHub.Data.Models
         public ICollection<Follow> Followers { get; set; }
 
         public ICollection<Follow> Followings { get; set; }
+
+        public ICollection<Bell> Bellers { get; set; }
+
+        public ICollection<Bell> Bellings { get; set; }
 
         public ICollection<VerificationCode> VerificationCodes { get; set; }
 
