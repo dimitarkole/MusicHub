@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using MusicHub.Web.Infrastucture.Extensions;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.DependencyInjection;
+    using MusicHub.Web.Infrastucture.Extensions;
 
     public static class ApiBehaviorConfiguration
     {

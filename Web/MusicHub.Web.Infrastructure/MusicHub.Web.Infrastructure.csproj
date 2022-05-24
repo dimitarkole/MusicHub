@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -13,9 +13,47 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\MusicHub.Data.Common\MusicHub.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\MusicHub.Data.Models\MusicHub.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\MusicHub.Data\MusicHub.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services.Data.Analysis\MusicHub.Services.Data.Analysis.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services.Data\MusicHub.Services.Data.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services.Messaging\MusicHub.Services.Messaging.csproj" />
+    <ProjectReference Include="..\..\Services\MusicHub.Services\MusicHub.Services.csproj" />
+    <ProjectReference Include="..\..\Tests\MusicHub.Services.Data.Tests\MusicHub.Services.Data.Tests.csproj" />
+    <ProjectReference Include="..\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.17.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.1" />
+		<PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+		<PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.113" />
+		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.1" />
+		<PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312" PrivateAssets="all">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.0.7" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.0.7" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.0.7" />
+		<PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+	</ItemGroup>
 
 </Project>
