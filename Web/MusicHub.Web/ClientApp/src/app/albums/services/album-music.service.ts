@@ -22,4 +22,12 @@ export class AlbumMusicService {
   all(albumId: string, page: number) {
     return this.http.get<AlbumMusicsPagination>(`${this.route}/Get/${albumId}/${page}`);
   }
+
+  getAlbumMusicId(albumMusic: AlbumMusic) {
+    return this.http.post<AlbumMusic>(`${this.route}/GetAlbumMusicId`, albumMusic);
+  }
+
+  isAddedToAlbum(albumMusic: AlbumMusic) {
+    return this.http.post<boolean>(`${this.route}/IsAddedToAlbum`, albumMusic);
+  }
 }

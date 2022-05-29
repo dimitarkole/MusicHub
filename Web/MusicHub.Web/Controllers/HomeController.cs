@@ -48,9 +48,8 @@
         /// <para>OrderMethod - order method.</para>
         /// </param>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
-        [HttpPost]
-        [Route(nameof(Filter) + "/{page}")]
-        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, MusicFilter filter)
+        [HttpGet(nameof(Filter) + "/{page}")]
+        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, [FromQuery]MusicFilter filter)
             => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, filter));
 
         /// <summary>Get music by id.</summary>

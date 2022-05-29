@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { BooleanSearchEntity, BooleanSearchInput } from '../../shared/models/boolean-search';
@@ -22,14 +22,14 @@ export class MusicService {
 
     let entityName = BooleanSearchEntity[booleanSearchEntity];
     let finalQuery = query.query.substring(query.query.indexOf(' ')).trim();
-    console.log(finalQuery);
+    //console.log(finalQuery);
 
     return this.http.post<TModel>(this.routeHomeController + "/" + entityName, { query: finalQuery });
   }
 
 
   allFilter(page: number, music: Music) {
-    return this.http.post<MusicPagination>(`${this.routeHomeController}/Filter/${page}`, music);
+    return this.http.get<MusicPagination>(`${this.routeHomeController}/Filter/${page}`, { params: this.setQueryString(music) });
   }
 
   suggestMusics(musicId: string, page: number) {
@@ -40,8 +40,12 @@ export class MusicService {
     return this.http.get<MusicPagination>(`${this.routeMusicController}/GetOwn/${page}`);
   }
 
+  isOwned(id: string) {
+    return this.http.get<boolean>(`${this.routeMusicController}/IsOwned/${id}`);
+  }
+
   allOwnFilter(page: number, music: Music) {
-    return this.http.post<MusicPagination>(`${this.routeMusicController}/Filter/${page}`, music);
+    return this.http.get<MusicPagination>(`${this.routeMusicController}/Filter/${page}`, {params:{ music: JSON.stringify(music) }});
   }
 
   create(music: Music) {
@@ -58,5 +62,18 @@ export class MusicService {
 
   delete(id: string) {
     return this.http.delete(`${this.routeMusicController}/${id}`);
+  }
+
+  setQueryString(params: object) {
+    let httpParams = new HttpParams();
+    if (params) {
+      for (const key of Object.keys(params)) {
+        if (params[key])
+        {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      }
+    }
+    return httpParams;
   }
 }
