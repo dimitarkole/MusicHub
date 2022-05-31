@@ -53,7 +53,7 @@
         /// <returns>Ok(PaySubscriptionPageModel<PaySubscriptionViewModel>).</returns>
         [HttpGet(nameof(Filter) + "/{page}")]
         [Permission(PermissionType.UserAdministration)]
-        public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> Filter(int page, PaySubscriptionFilter filter)
+        public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> Filter(int page, [FromQuery] PaySubscriptionFilter filter)
             => this.Ok(this.paySubscriptionService.Filter<PaySubscriptionViewModel>(page, PaginationData.PaySubscriptionsPerPage, filter));
 
         /// <summary>Get own PaySubscription.</summary>
@@ -65,15 +65,14 @@
 
         /// <summary>Filter own PaySubscription.</summary>
         /// <returns>Ok(PaySubscriptionPageModel<PaySubscriptionViewModel>).</returns>
-        [HttpPost(nameof(FilterOwn) + "/{page}")]
-        public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> FilterOwn(int page, PaySubscriptionFilter filter)
+        [HttpGet(nameof(FilterOwn) + "/{page}")]
+        public ActionResult<PaySubscriptionPageModel<PaySubscriptionViewModel>> FilterOwn(int page, [FromQuery] PaySubscriptionFilter filter)
           => this.Ok(this.paySubscriptionService.Filter<PaySubscriptionViewModel>(page, PaginationData.PaySubscriptionsPerPage, filter, this.userManager.GetUserId(this.User)));
 
         /// <summary>Add Music in data.</summary>
         /// <param name="model">Input data.</param>
         /// <returns>Status201Created.</returns>
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Post(PaySubscriptionCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -88,7 +87,6 @@
 
         /// <summary>Edit PaySubscription data.</summary>
         /// <returns>Ok().</returns>
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, PaySubscriptionEditModel model)
         {

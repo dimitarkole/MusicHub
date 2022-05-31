@@ -130,10 +130,10 @@
         /// <para>CategoryId - id of category of alnum.</para>
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(AlbumPageModel<AlbumViewModel>).</returns>
-        [HttpPost(nameof(FilterOwn) + "/{page}")]
+        [HttpGet(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.AlbumCreator)]
-        public ActionResult<AlbumPageModel<AlbumViewModel>> FilterOwn(int page, AlbumFilterInputModel filter)
+        public ActionResult<AlbumPageModel<AlbumViewModel>> FilterOwn(int page, [FromQuery] AlbumFilterInputModel filter)
             => this.Ok(this.albumService.Filter<AlbumViewModel>(page, PaginationData.AlbumsPerPage, filter, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get albums.</summary>
@@ -160,8 +160,8 @@
         /// <para>OrderMethod - order method.</para>
         /// </param>
         /// <returns>Ok(AlbumPageModel<AlbumViewModel>).</returns>
-        [HttpPost(nameof(AlbumsFilter) + "/{page}")]
-        public ActionResult<AlbumPageModel<AlbumViewModel>> AlbumsFilter(int page, AlbumFilterInputModel model)
+        [HttpGet(nameof(AlbumsFilter) + "/{page}")]
+        public ActionResult<AlbumPageModel<AlbumViewModel>> AlbumsFilter(int page, [FromQuery] AlbumFilterInputModel model)
             => this.Ok(this.albumService.Filter<AlbumViewModel>(page, PaginationData.AlbumsPerPage, model));
     }
 }

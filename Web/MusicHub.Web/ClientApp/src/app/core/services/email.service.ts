@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import Email from '../../shared/models/email';
 
 @Injectable({
@@ -13,7 +14,7 @@ export class EmailService {
   ) { }
 
   SendEmail(email: Email) {
-    return this.http.post(this.route, email);
+    return this.http.get(this.route, { params: setQueryString(email) });
   }
 
   SendEmailWithCodeForChangingPassword(id: string) {
@@ -23,5 +24,4 @@ export class EmailService {
   SendSuccessfulChangedPasswordEmail(id: string) {
     return this.http.get(`${this.route}/SendSuccessfulChangedPasswordEmail/${id}`);
   }
-  
 }

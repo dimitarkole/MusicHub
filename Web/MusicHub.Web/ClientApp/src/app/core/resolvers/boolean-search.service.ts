@@ -6,6 +6,7 @@ import { formatDate } from '@angular/common';
 import { BooleanSearchEntity, BooleanSearchEntryMetadata, BooleanSearchInput } from '../../shared/models/boolean-search';
 import { dateTimeFormats, globalConstants } from '../../common/global-constants';
 import { PermissionType } from '../../shared/models/permissionType';
+import { setQueryString } from '../../common/QueryString';
 
 @Injectable({
 	providedIn: 'root'
@@ -19,20 +20,16 @@ export class BooleanSearchService {
 
     let entityName = BooleanSearchEntity[booleanSearchEntity];
     let finalQuery = query.query.substring(query.query.indexOf(' ')).trim();
-
-    return this.http.post<TModel>("Search/" + entityName + "/"+ page, { query: finalQuery });
+    return this.http.get<TModel>("Search/" + entityName + "/" + page, { params: { query : finalQuery} });
   }
-
-	getBooleanSearchDocumentation(): Map<string, BooleanSearchEntryMetadata[]> {
-
-		let map = new Map<string, BooleanSearchEntryMetadata[]>();
+  
+  getBooleanSearchDocumentation(): Map<string, BooleanSearchEntryMetadata[]> {
+	let map = new Map<string, BooleanSearchEntryMetadata[]>();
     map.set('tables', this.getTables());
-
-		map.set('musics', this.getMusics());
+	map.set('musics', this.getMusics());
     map.set('playlists', this.getPlaylists());
     map.set('users', this.getUsersDocumentation());
-
-		return map;
+	return map;
   }
 
   getTables(): BooleanSearchEntryMetadata[] {

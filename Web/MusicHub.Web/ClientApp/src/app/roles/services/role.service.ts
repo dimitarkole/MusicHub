@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import { Role } from '../../shared/models/role';
 import { RolePagination } from '../models/rolePagination';
 
@@ -24,7 +25,7 @@ export class RoleService {
   }
 
   filter(page: number, role: Role) {
-    return this.http.post<RolePagination>(`${this.route}/Filter/${page}`, role);
+    return this.http.get<RolePagination>(`${this.route}/Filter/${page}`, { params: setQueryString(role) });
   }
 
   create(role: Role) {

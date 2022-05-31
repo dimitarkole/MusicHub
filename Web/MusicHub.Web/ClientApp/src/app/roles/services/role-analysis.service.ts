@@ -4,6 +4,7 @@ import { ChartData } from '../../charts/models/chartData';
 import { ChartDataFilter } from '../../charts/models/chartDataFilter';
 import { LineChart } from '../../charts/models/lineChart';
 import { PieChart } from '../../charts/models/pieChart ';
+import { setQueryString } from '../../common/QueryString';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +23,11 @@ export class RoleAnalysisService {
   }
 
   getRolesByUsersForMonths(filter: ChartDataFilter) {
-    return this.http.post<LineChart>(`${this.route}/GetRolesByUsersForMonths`, filter);
+    return this.http.get<LineChart>(`${this.route}/GetRolesByUsersForMonths`, { params: setQueryString(filter) });
   }
 
   getRolesByAverageCountOfUsersForWeek(filter: ChartDataFilter) {
-    return this.http.post<LineChart>(`${this.route}/GetRolesByAverageCountOfUsersForWeek`, filter);
+    return this.http.get<LineChart>(`${this.route}/GetRolesByAverageCountOfUsersForWeek`, { params: setQueryString(filter) });
   }
 
   getRolesByUsersLastWeek() {

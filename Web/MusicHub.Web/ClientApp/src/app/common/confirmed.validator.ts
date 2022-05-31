@@ -25,6 +25,7 @@ export const minLengthArray = (min: number) => {
     return { MinLengthArray: true };
   }
 }
+
 export function dateValidator() {
   return (control: AbstractControl): { [key: string]: any } | null => {
     const today = new Date().getTime();

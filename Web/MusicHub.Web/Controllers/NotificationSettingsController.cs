@@ -15,6 +15,7 @@
     using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.NotificationSetingModels;
 
+    [Authorize]
     public class NotificationSettingsController : ApiController
     {
         private readonly INotificationSettingsService notificationSettingsService;
@@ -31,30 +32,26 @@
 
         /// <summary>Get user's notification settings.</summary>
         /// <returns>Ok(IEnumerable<NotificationSettingsViewModel>).</returns>
-        [Authorize]
         [HttpGet(nameof(Get))]
         public ActionResult<IEnumerable<NotificationSettingsViewModel>> Get()
           => this.Ok(this.notificationSettingsService.All<NotificationSettingsViewModel>(this.User.GetUserId()));
 
         /// <summary>Get user's notification setting by type.</summary>
         /// <returns>Ok(NotificationSettingsViewModel).</returns>
-        [Authorize]
-        [HttpPost(nameof(GetByType))]
-        public ActionResult<NotificationSettingsViewModel> GetByType(NotificationSettingsTypeInputModel model)
+        [HttpGet(nameof(GetByType))]
+        public ActionResult<NotificationSettingsViewModel> GetByType([FromQuery] NotificationSettingsTypeInputModel model)
           => this.Ok(this.notificationSettingsService.GetByType<NotificationSettingsViewModel>(model.Type, this.User.GetUserId()));
 
         /// <summary>Get user's notification settings by type.</summary>
         /// <returns>Ok(bool).</returns>
-        [Authorize]
-        [HttpPost(nameof(IsEnabled))]
-        public ActionResult<bool> IsEnabled(NotificationSettingsTypeInputModel model)
+        [HttpGet(nameof(IsEnabled))]
+        public ActionResult<bool> IsEnabled([FromQuery] NotificationSettingsTypeInputModel model)
           => this.Ok(this.notificationSettingsService.IsEnabled(model.Type, this.User.GetUserId()));
 
         /// <summary>Add notification setting in data.</summary>
         /// <param name="model">Input data.</param>
         /// <returns>Status201Created.</returns>
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> Post(NotificationSettingCreateInputModel model)
         {
             if (!this.ModelState.IsValid)
@@ -71,7 +68,6 @@
         /// <param name="id">Id - Id of notification settings.</param>
         /// <param name="model">Input data.</param>
         /// <returns>Ok().</returns>
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(string id, NotificationSettingEditInputModel model)
         {
@@ -93,7 +89,6 @@
         /// <summary>Delete notification settings in data.</summary>
         /// <param name="id">Id - Id of notification settings.</param>
         /// <returns>Ok.</returns>
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

@@ -63,8 +63,8 @@ namespace MusicHub.Web.Controllers
 
         /// <summary>Is currect verification code.</summary>
         /// <returns>true/false.</returns>
-        [HttpPost(nameof(CheckCode) + "/{id}")]
-        public ActionResult<bool> CheckCode(string id, VerificationCodeCheckInputModel model)
+        [HttpGet(nameof(CheckCode) + "/{id}")]
+        public ActionResult<bool> CheckCode(string id, [FromQuery] VerificationCodeCheckInputModel model)
             => this.Ok(this.verificationCodeService.IsVerificationCodeCorrect(id, model));
     }
 }

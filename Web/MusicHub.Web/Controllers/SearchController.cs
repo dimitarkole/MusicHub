@@ -50,8 +50,8 @@
             this.paginationService = paginationService;
         }
 
-        [HttpPost(nameof(Musics) + "/{page}")]
-        public IActionResult Musics(int page, BooleanSearchInputModel model)
+        [HttpGet(nameof(Musics) + "/{page}")]
+        public IActionResult Musics(int page, [FromQuery] BooleanSearchInputModel model)
         {
             var filter = new MusicFilter()
             {
@@ -62,8 +62,8 @@
             return this.Ok(this.musicService.Filter<MusicViewModel>(page, entitesPerPage, filter));
         }
 
-        [HttpPost(nameof(Playlists) + "/{page}")]
-        public IActionResult Playlists(int page, BooleanSearchInputModel model)
+        [HttpGet(nameof(Playlists) + "/{page}")]
+        public IActionResult Playlists(int page, [FromQuery] BooleanSearchInputModel model)
         {
             var filter = new PlaylistFilterInputModel()
             {
@@ -74,31 +74,28 @@
             return this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, entitesPerPage, filter));
         }
 
-        [HttpPost(nameof(Categories) + "/{page}")]
-        public IActionResult Categories(int page, BooleanSearchInputModel model)
+        [HttpGet(nameof(Categories) + "/{page}")]
+        public IActionResult Categories(int page, [FromQuery] BooleanSearchInputModel model)
         {
             var filter = new CategoryFilterInputModel()
             {
                 Name = model.Query,
             };
 
-            var entitesPerPage = PaginationData.PlaylistsPerPage;
+            var entitesPerPage = PaginationData.CategoriesPerPage;
             return this.Ok(this.categoryService.Filter<CategoryViewModel>(page, entitesPerPage, filter));
         }
 
-        [HttpPost(nameof(Users) + "/{page}")]
-        public IActionResult Users(int page, BooleanSearchInputModel model)
+        [HttpGet(nameof(Users) + "/{page}")]
+        public IActionResult Users(int page, [FromQuery] BooleanSearchInputModel model)
         {
             var filter = new UserFilter()
             {
                 UserName = model.Query,
             };
 
-            var entitesPerPage = PaginationData.PlaylistsPerPage;
+            var entitesPerPage = PaginationData.UsersPerPage;
             return this.Ok(this.profileService.Search(page, entitesPerPage, filter));
         }
-
-        private int GetDataPagesCount(int entityCount, int entitesPerPage)
-                => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
     }
 }
