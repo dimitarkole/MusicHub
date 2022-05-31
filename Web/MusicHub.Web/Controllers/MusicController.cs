@@ -127,5 +127,10 @@
             await this.musicService.Delete(id);
             return this.Ok();
         }
+
+        [Authorize]
+        [HttpGet(nameof(IsOwned) + "/{id}")]
+        public ActionResult<bool> IsOwned(string id)
+            => this.Ok(this.musicService.IsOwned(id, this.userManager.GetUserId(this.User)));
     }
 }

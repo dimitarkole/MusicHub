@@ -1,0 +1,6 @@
+<input type="checkbox" value="{{album.id}}" name="{{album.id}}"
+       [checked]="isChecked" (change)="checkValue($event)" />
+<label for="{{album.name}}">
+  {{album.name}}
+  <span class="text-success" *ngIf="isSuccess">Success</span>
+</label>
