@@ -42,8 +42,8 @@
         public ActionResult<LikedMusicPageModel<LikedMusicViewModel>> GetLikedMusics(int page)
             => this.Ok(this.musicReactionService.All<LikedMusicViewModel>(page, PaginationData.LikedMusicsPerPage, this.userManager.GetUserId(this.User)));
 
-        [HttpPost(nameof(FilterLikedMusics) + "/{page}")]
-        public ActionResult<LikedMusicPageModel<LikedMusicViewModel>> FilterLikedMusics(int page, MusicFilter filter)
+        [HttpGet(nameof(FilterLikedMusics) + "/{page}")]
+        public ActionResult<LikedMusicPageModel<LikedMusicViewModel>> FilterLikedMusics(int page, [FromQuery] MusicFilter filter)
             => this.Ok(this.musicReactionService.Filter<LikedMusicViewModel>(page, PaginationData.LikedMusicsPerPage, this.userManager.GetUserId(this.User), filter));
 
         [HttpGet(nameof(GetOwnReaction) + "/{id}")]

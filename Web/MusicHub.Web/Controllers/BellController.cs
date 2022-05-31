@@ -97,14 +97,14 @@
             return this.Ok();
         }
 
-        [HttpPost(nameof(FilterBellers) + "/{id}/{page}")]
+        [HttpGet(nameof(FilterBellers) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<BellerPageModel<BellerViewModel>> FilterBellers(string id, int page, BellFilterInputModel model)
+        public ActionResult<BellerPageModel<BellerViewModel>> FilterBellers(string id, int page, [FromQuery] BellFilterInputModel model)
             => this.Ok(this.bellService.FilterBellers<BellerViewModel>(page, PaginationData.BellsPerPage, model, id));
 
-        [HttpPost(nameof(FilterBellings) + "/{id}/{page}")]
+        [HttpGet(nameof(FilterBellings) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<BellingPageModel<BellingViewModel>> FilterBellings(string id, int page, BellFilterInputModel model)
+        public ActionResult<BellingPageModel<BellingViewModel>> FilterBellings(string id, int page, [FromQuery] BellFilterInputModel model)
             => this.Ok(this.bellService.FilterBellings<BellingViewModel>(page, PaginationData.BellsPerPage, model, id));
 
         /// <summary>Check is bell user.</summary>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import AlbumMusic from '../models/albumMusic';
 import { AlbumMusicsPagination } from '../models/albumtMusicsPagination';
 
@@ -24,10 +25,10 @@ export class AlbumMusicService {
   }
 
   getAlbumMusicId(albumMusic: AlbumMusic) {
-    return this.http.post<AlbumMusic>(`${this.route}/GetAlbumMusicId`, albumMusic);
+    return this.http.get<AlbumMusic>(`${this.route}/GetAlbumMusicId`, { params: setQueryString(albumMusic) });
   }
 
   isAddedToAlbum(albumMusic: AlbumMusic) {
-    return this.http.post<boolean>(`${this.route}/IsAddedToAlbum`, albumMusic);
+    return this.http.get<boolean>(`${this.route}/IsAddedToAlbum`, { params: setQueryString(albumMusic) });
   }
 }

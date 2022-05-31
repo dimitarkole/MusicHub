@@ -85,8 +85,8 @@
         /// <param name="MusicId">MusicId - playlist id.</param>
         /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
         [Authorize]
-        [HttpPost(nameof(IsAddedToPlaylist))]
-        public ActionResult<bool> IsAddedToPlaylist(IsAddedToPlaylistCheckInputModel model)
+        [HttpGet(nameof(IsAddedToPlaylist))]
+        public ActionResult<bool> IsAddedToPlaylist([FromQuery] IsAddedToPlaylistCheckInputModel model)
             => this.Ok(this.playlistMusicService.IsAddedToPlaylist(model));
 
         /// <summary>Is music added to playlist.</summary>
@@ -94,8 +94,8 @@
         /// <param name="MusicId">MusicId - playlist id.</param>
         /// <returns>Ok(PlaylistMusicsAllViewModel<PlaylistMusicViewModel>).</returns>
         [Authorize]
-        [HttpPost(nameof(GetPlaylistMusicId))]
-        public ActionResult<PlaylistMusicViewModel> GetPlaylistMusicId(PlaylistMusicCreateInputModel model)
+        [HttpGet(nameof(GetPlaylistMusicId))]
+        public ActionResult<PlaylistMusicViewModel> GetPlaylistMusicId([FromQuery] PlaylistMusicCreateInputModel model)
             => this.Ok(this.playlistMusicService.GetPlaylistMusicId<PlaylistMusicViewModel>(model));
     }
 }

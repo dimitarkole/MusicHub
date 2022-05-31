@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import { NotificationPagination } from '../models/notificationPagination';
 import NotificationSetting from '../models/notificationSetting';
 
@@ -19,11 +20,11 @@ export class NotificationSettingsService {
   }
 
   getByType(notificationSettingType: NotificationSetting) {
-    return this.http.post<NotificationSetting>(`${this.route}/GetByType`, notificationSettingType);
+    return this.http.get<NotificationSetting>(`${this.route}/GetByType`, { params: setQueryString(notificationSettingType) });
   }
 
   isEnabled(notificationSettingType: NotificationSetting) {
-    return this.http.post<boolean>(`${this.route}/IsEnabled`, notificationSettingType);
+    return this.http.get<boolean>(`${this.route}/IsEnabled`, { params: setQueryString(notificationSettingType) });
   }
 
   edit(id:string, notificationSetting: NotificationSetting) {

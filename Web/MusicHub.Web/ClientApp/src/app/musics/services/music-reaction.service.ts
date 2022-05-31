@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import { ReactionInfo } from '../../shared/models/reactionInfo';
 import { LikedMusicPagination } from '../models/likedMusicPagination';
 import { Music } from '../models/music';
@@ -17,7 +18,7 @@ export class MusicReactionService {
   }
 
   filterLikedMusic(page: number, music: Music) {
-    return this.http.post<LikedMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, music);
+    return this.http.get<LikedMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, { params: setQueryString(music) });
   }
 
   createReaction(reaction: Music) {

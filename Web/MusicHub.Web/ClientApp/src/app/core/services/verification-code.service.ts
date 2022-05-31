@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import VerificationCode from '../../shared/models/verificationCode';
 
 @Injectable({
@@ -23,6 +24,6 @@ export class VerificationCodeService {
   }
 
   checkCode(userId: string ,verificationCode: VerificationCode) {
-    return this.http.post<boolean>(`${this.route}/CheckCode/${userId}`, verificationCode);
+    return this.http.get<boolean>(`${this.route}/CheckCode/${userId}`, { params: setQueryString(verificationCode) });
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import User from '../../shared/models/user';
 
 @Injectable({
@@ -23,15 +24,14 @@ export class ProfileService {
   }
 
   changePassword(user: User) {
-    return this.http.post(`${this.route}/ChangePassword`, user);
+    return this.http.put(`${this.route}/ChangePassword`, user);
   }
 
   changePasswordWithoutAuth(userId: string, user: User) {
-    console.log(user);
-    return this.http.post(`${this.route}/ChangePasswordWithoutAuth/${userId}`, user);
+    return this.http.put(`${this.route}/ChangePasswordWithoutAuth/${userId}`, user);
   }
 
   AdvancedSearch(user: User, page: number) {
-    return this.http.post<User[]>(`${this.route}/AdvancedSearch/${page}`, user);
+    return this.http.get<User[]>(`${this.route}/AdvancedSearch/${page}`, { params: setQueryString(user) });
   }
 }

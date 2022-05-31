@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { setQueryString } from '../../common/QueryString';
 import { BooleanSearchEntity, BooleanSearchInput } from '../../shared/models/boolean-search';
 import { Music } from '../models/music';
 import { MusicPagination } from '../models/musicPagination';
@@ -20,7 +21,7 @@ export class PlayedMusicService {
   }
 
   filter(page: number, music: Music) {
-    return this.http.post<PlayedMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, music);
+    return this.http.get<PlayedMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, { params: setQueryString(music) });
   }
 
   delete(id: string) {

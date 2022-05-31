@@ -76,9 +76,9 @@
         public ActionResult<ICollection<RoleViewModel>> GetAll()
            => this.Ok(this.roleService.All<RoleViewModel>());
 
-        [HttpPost]
+        [HttpGet]
         [Route(nameof(Filter) + "/{page}")]
-        public ActionResult<RolePageModel<RoleViewModel>> Filter(int page, RoleFilter filter)
+        public ActionResult<RolePageModel<RoleViewModel>> Filter(int page, [FromQuery] RoleFilter filter)
           => this.Ok(this.roleService.Filter<RoleViewModel>(page, PaginationData.RolesPerPage, filter));
 
         [HttpGet("{id}")]

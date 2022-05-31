@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import Playlist from '../models/playlist';
 import { PlaylistPagination } from '../models/playlistPagination';
 
@@ -41,10 +42,10 @@ export class PlaylistService {
   }
 
   allFilter(page: number, playlist: Playlist) {
-    return this.http.post<PlaylistPagination>(`${this.routeHomeController}/PlaylistFilter/${page}`, playlist);
+    return this.http.get<PlaylistPagination>(`${this.routeHomeController}/PlaylistFilter/${page}`, { params: setQueryString(playlist) });
   }
 
   allFilterOwn(page: number, playlist: Playlist) {
-    return this.http.post<PlaylistPagination>(`${this.route}/FilterOwn/${page}`, playlist);
+    return this.http.get<PlaylistPagination>(`${this.route}/FilterOwn/${page}`, { params: setQueryString(playlist) });
   }
 }

@@ -49,10 +49,10 @@
         /// <param name="page">The page of Musics.</param>
         /// <param name="filter">Filter data.
         /// <returns>Ok(ReportMusicPageModel<ReportMusicViewModel>).</returns>
-        [HttpPost(nameof(FilterReportedMusic) + "/{page}")]
+        [HttpGet(nameof(FilterReportedMusic) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.ReportedMusicViewer)]
-        public ActionResult<ReportMusicPageModel<ReportMusicViewModel>> FilterReportedMusic(int page, ReportMusicFilter filter)
+        public ActionResult<ReportMusicPageModel<ReportMusicViewModel>> FilterReportedMusic(int page, [FromQuery] ReportMusicFilter filter)
           => this.Ok(this.musicService.FilterReported<ReportMusicViewModel>(filter, page, PaginationData.ReportedMusicsPerPage));
 
         /// <summary>Get all reported.</summary>
@@ -69,10 +69,10 @@
         /// <param name="page">The page of reported.</param>
         /// <param name="filter">Filter data.
         /// <returns>Ok(ReportPageModel<ReportViewModel>).</returns>
-        [HttpPost(nameof(FilterReported) + "/{id}/{page}")]
+        [HttpGet(nameof(FilterReported) + "/{id}/{page}")]
         [Authorize]
         [Permission(PermissionType.ReportedMusicViewer)]
-        public ActionResult<ReportPageModel<ReportViewModel>> FilterReported(string id, int page, ReportFilter filter)
+        public ActionResult<ReportPageModel<ReportViewModel>> FilterReported(string id, int page, [FromQuery] ReportFilter filter)
           => this.Ok(this.reportMusicService.Filter<ReportViewModel>(id, filter, page, PaginationData.ReportsPerPage));
 
         /// <summary>Add report music in database.</summary>

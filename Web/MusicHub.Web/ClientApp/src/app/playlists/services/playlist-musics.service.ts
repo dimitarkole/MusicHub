@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import Playlist from '../models/playlist';
 import PlaylistMusic from '../models/playlistMusic';
 import { PlaylistMusicsPagination } from '../models/playlistMusicsPagination';
@@ -17,7 +18,7 @@ export class PlaylistMusicsService {
   }
 
   getPlaylistMusicId(playlistMusic: PlaylistMusic) {
-    return this.http.post<PlaylistMusic>(`${this.route}/GetPlaylistMusicId`, playlistMusic);
+    return this.http.get<PlaylistMusic>(`${this.route}/GetPlaylistMusicId`, { params: setQueryString(playlistMusic) });
   }
 
   delete(playlisMusicId: string) {
@@ -29,6 +30,6 @@ export class PlaylistMusicsService {
   }
 
   isAddedToPlaylist(playlistMusic: PlaylistMusic) {
-    return this.http.post<boolean>(`${this.route}/IsAddedToPlaylist`, playlistMusic);
+    return this.http.post<boolean>(`${this.route}/IsAddedToPlaylist`, { params: setQueryString(playlistMusic) });
   }
 }  

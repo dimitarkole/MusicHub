@@ -38,8 +38,8 @@
         public ActionResult<SubscriptionPageModel<SubscriptionViewModel>> Get(int page)
          => this.Ok(this.subscriptionService.All<SubscriptionViewModel>(page, PaginationData.SubscriptionsPerPage));
 
-        [HttpPost(nameof(Filter) + "/{page}")]
-        public ActionResult<SubscriptionPageModel<SubscriptionViewModel>> Filter(int page, SubscriptionFilter model)
+        [HttpGet(nameof(Filter) + "/{page}")]
+        public ActionResult<SubscriptionPageModel<SubscriptionViewModel>> Filter(int page, [FromQuery] SubscriptionFilter model)
           => this.Ok(this.subscriptionService.Filter<SubscriptionViewModel>(page, PaginationData.SubscriptionsPerPage, model));
 
         [HttpPost]

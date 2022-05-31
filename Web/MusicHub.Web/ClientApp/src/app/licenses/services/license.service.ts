@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import License from '../models/license';
 import LicenseFile from '../models/licenseFile';
 import { LicensePagination } from '../models/licensePagination';
@@ -30,11 +31,11 @@ export class LicenseService {
   }
 
   filterAll(page: number, license: License) {
-    return this.http.post<LicensePagination>(`${this.route}/Filter/${page}`, license);
+    return this.http.get<LicensePagination>(`${this.route}/Filter/${page}`, { params: setQueryString(license) });
   }
 
   filterOwn(page: number, license: License) {
-    return this.http.post<LicensePagination>(`${this.route}/FilterOwn/${page}`, license);
+    return this.http.get<LicensePagination>(`${this.route}/FilterOwn/${page}`, { params: setQueryString(license) });
   }
 
   create(license: License) {
@@ -54,8 +55,6 @@ export class LicenseService {
   }
 
   createFile(licenseFile: LicenseFile) {
-    console.log("licenseFile");
-    console.log(licenseFile);
     return this.http.post(`${this.route}/PostFiles`, licenseFile);
   }
 

@@ -107,14 +107,14 @@
             return this.Ok();
         }
 
-        [HttpPost(nameof(FilterFollowers) + "/{id}/{page}")]
+        [HttpGet(nameof(FilterFollowers) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<FollowPageModel<FollowerViewModel>> FilterFollowers(string id, int page, FollowFilterInputModel model)
+        public ActionResult<FollowPageModel<FollowerViewModel>> FilterFollowers(string id, int page, [FromQuery] FollowFilterInputModel model)
             => this.Ok(this.followService.FilterFollowers<FollowerViewModel>(page, PaginationData.FollowingsPerPage, model, id));
 
-        [HttpPost(nameof(FilterFollowings) + "/{id}/{page}")]
+        [HttpGet(nameof(FilterFollowings) + "/{id}/{page}")]
         [Authorize]
-        public ActionResult<FollowingPageModel<FollowingViewModel>> FilterFollowings(string id, int page, FollowFilterInputModel model)
+        public ActionResult<FollowingPageModel<FollowingViewModel>> FilterFollowings(string id, int page, [FromQuery] FollowFilterInputModel model)
             => this.Ok(this.followService.FilterFollowings<FollowingViewModel>(page, PaginationData.FollowingsPerPage, model, id));
 
         /// <summary>Check is follow user comment.</summary>

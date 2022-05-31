@@ -48,8 +48,8 @@
         /// <para>MessageBody - massage of email.</para>
         /// </param>
         /// <returns>Ok().</returns>
-        [HttpPost(nameof(SendEmail))]
-        public async Task<IActionResult> SendEmail(EmailInputModel model)
+        [HttpGet(nameof(SendEmail))]
+        public async Task<IActionResult> SendEmail([FromQuery] EmailInputModel model)
         {
             await this.emailSender.SendEmailAsync(model);
             return this.Ok();

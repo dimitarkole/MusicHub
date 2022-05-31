@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ChartDataFilter } from '../../charts/models/chartDataFilter';
 import { LineChart } from '../../charts/models/lineChart';
 import { PieChart } from '../../charts/models/pieChart ';
+import { setQueryString } from '../../common/QueryString';
 import { Music } from '../models/music';
 import { MusicPagination } from '../models/musicPagination';
 
@@ -19,7 +20,7 @@ export class OwnMusicsAnalysisService {
   }
 
   getTopCreatedMusicByCategoriesCountForMonths(filter: ChartDataFilter) {
-    return this.http.post<LineChart>(`${this.route}/GetTopCreatedMusicByCategoriesCountForMonths`, filter);
+    return this.http.get<LineChart>(`${this.route}/GetTopCreatedMusicByCategoriesCountForMonths`, { params: setQueryString(filter) });
   }
 
   getTopPlayedMusicsAllTime(page: number) {
