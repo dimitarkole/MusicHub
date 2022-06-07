@@ -34,8 +34,8 @@
         public ActionResult<PieChartViewModel> GetCreatedMusicByCategoriesCountsAllTime()
              => this.Ok(this.ownMusicAnalysis.GetCreatedMusicByCategoriesCountsAllTime(this.userManager.GetUserId(this.User)));
 
-        [HttpPost(nameof(GetTopCreatedMusicByCategoriesCountForMonths))]
-        public ActionResult<LineChartViewModel> GetTopCreatedMusicByCategoriesCountForMonths(ChartFilterData filter)
+        [HttpGet(nameof(GetTopCreatedMusicByCategoriesCountForMonths))]
+        public ActionResult<LineChartViewModel> GetTopCreatedMusicByCategoriesCountForMonths([FromQuery] ChartFilterData filter)
             => this.Ok(this.ownMusicAnalysis.GetTopCreatedMusicByCategoriesCountForMonths(this.userManager.GetUserId(this.User), filter));
 
         [HttpGet(nameof(GetTopPlayedMusicsAllTime) + "/{page}")]

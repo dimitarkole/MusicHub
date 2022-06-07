@@ -21,6 +21,116 @@ namespace MusicHub.Web.Tests.Controllers
 {
     public class PlaylistControllerTests
     {
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void GetAllPlaylists_WithDataInTheDb_ShouldReturnOkWithCorrectData(int page)
+        {
+            var playlists = PlaylistTestsData.Playlists;
+            var musics = PlaylistTestsData.Musics;
+            var categories = PlaylistTestsData.Categories;
+
+            MyController<PlaylistController>
+                .Instance()
+                .WithData(playlists)
+                .WithData(musics)
+                .WithData(categories)
+                .Calling(c => c.GetPlaylists(page))
+                .ShouldReturn()
+                .Ok(result => result
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
+                    .Passing(actual =>
+                    {
+                        var entitesPerPage = PaginationData.MusicsPerPage;
+                        var service = new PlaylistService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
+                        var expected = service.All<PlaylistViewModel>(page, entitesPerPage);
+                        expected.Should().BeEquivalentTo(actual);
+                    }));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void FilterPlaylists_WithDataInTheDb_ShouldReturnOkWithCorrectData(int page)
+        {
+            var playlists = PlaylistTestsData.Playlists;
+            var musics = PlaylistTestsData.Musics;
+            var categories = PlaylistTestsData.Categories;
+            var filter = PlaylistTestsData.FilterModel;
+
+            MyController<PlaylistController>
+                .Instance()
+                .WithData(playlists)
+                .WithData(musics)
+                .WithData(categories)
+                .Calling(c => c.PlaylistFilter(page, filter))
+                .ShouldReturn()
+                .Ok(result => result
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
+                    .Passing(actual =>
+                    {
+                        var entitesPerPage = PaginationData.MusicsPerPage;
+                        var service = new PlaylistService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
+                        var expected = service.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
+                        expected.Should().BeEquivalentTo(actual);
+                    }));
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void FilterPlaylistsWithUserId_WithDataInTheDb_ShouldReturnOkWithCorrectData(int page)
+        {
+            var playlists = PlaylistTestsData.Playlists;
+            var musics = PlaylistTestsData.Musics;
+            var categories = PlaylistTestsData.Categories;
+            var filter = PlaylistTestsData.FilterModelWithUserId;
+
+            MyController<PlaylistController>
+                .Instance()
+                .WithData(playlists)
+                .WithData(musics)
+                .WithData(categories)
+                .Calling(c => c.PlaylistFilter(page, filter))
+                .ShouldReturn()
+                .Ok(result => result
+                    .WithModelOfType<PlaylistPageModel<PlaylistViewModel>>()
+                    .Passing(actual =>
+                    {
+                        var entitesPerPage = PaginationData.MusicsPerPage;
+                        var service = new PlaylistService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
+                        var expected = service.Filter<PlaylistViewModel>(page, entitesPerPage, filter);
+                        expected.Should().BeEquivalentTo(actual);
+                    }));
+        }
+
+
+        [Fact]
+        public void GetPlaylistById_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        {
+            var playlists = PlaylistTestsData.Playlists;
+            var musics = PlaylistTestsData.Musics;
+            var categories = PlaylistTestsData.Categories;
+            var playlistId = playlists[0].Id;
+
+            MyController<PlaylistController>
+                .Instance()
+                .WithData(playlists)
+                .WithData(musics)
+                .WithData(categories)
+                .Calling(c => c.GetPlaylit(playlistId))
+                .ShouldReturn()
+                .Ok(result => result
+                    .WithModelOfType<PlaylistPlayModel>()
+                    .Passing(actual =>
+                    {
+                        var service = new PlaylistService(From.Services<ApplicationDbContext>(), From.Services<IPaginationService>());
+                        var expected = service.GetById<PlaylistPlayModel>(playlistId);
+                        expected.Should().BeEquivalentTo(actual);
+                    }));
+        }
+
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
