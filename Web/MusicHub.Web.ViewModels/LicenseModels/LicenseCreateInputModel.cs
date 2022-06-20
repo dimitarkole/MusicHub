@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using MusicHub.Data.Models;
@@ -10,6 +11,7 @@
 
     public class LicenseCreateInputModel : IMapTo<License>
     {
+        [Required]
         public string Name { get; set; }
 
         public LicenseStatus Status { get; set; }

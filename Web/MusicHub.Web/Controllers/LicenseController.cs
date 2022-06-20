@@ -15,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.LicenseModels;
 
     using static MusicHub.Common.GlobalConstants;
@@ -46,7 +47,7 @@
         /// <param name="page">The page of license.</param>
         /// <returns>Ok(LicenseAllViewModel<LicenceViewModel>).</returns>
         [HttpGet(nameof(GetFiles) + "/{licenseId}")]
-        public ActionResult<LicensePageModel<LicenceFileViewModel>> GetFiles(string licenseId)
+        public ActionResult<List<LicenceFileViewModel>> GetFiles(string licenseId)
             => this.Ok(this.licenseService.AllFiles<LicenceFileViewModel>(licenseId));
 
         /// <summary>Get own licenses.</summary>
@@ -63,8 +64,8 @@
         [HttpGet(nameof(GetOwnApproved))]
         [Authorize]
         [Permission(PermissionType.LicenseCreator)]
-        public ActionResult<LicensePageModel<LicenceSmallViewModel>> GetOwnApproved()
-            => this.Ok(this.licenseService.AllOwnedApproved<LicenceSmallViewModel>(this.userManager.GetUserId(this.User)));
+        public ActionResult<List<LicenseSmallViewModel>> GetOwnApproved()
+            => this.Ok(this.licenseService.AllOwnedApproved<LicenseSmallViewModel>(this.userManager.GetUserId(this.User)));
 
         /// <summary>Get own licenses.</summary>
         /// <param name="page">The page of licenses.</param>
@@ -81,8 +82,8 @@
         [HttpGet(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.LicenseCreator)]
-        public ActionResult<LicensePageModel<LicenceSmallViewModel>> FilterOwn(int page, [FromQuery] LicenseFilter licenseFilter)
-            => this.Ok(this.licenseService.Filter<LicenceSmallViewModel>(page, PaginationData.LicensesPerPage, licenseFilter, this.userManager.GetUserId(this.User)));
+        public ActionResult<LicensePageModel<LicenseSmallViewModel>> FilterOwn(int page, [FromQuery] LicenseFilter licenseFilter)
+            => this.Ok(this.licenseService.Filter<LicenseSmallViewModel>(page, PaginationData.LicensesPerPage, licenseFilter, this.userManager.GetUserId(this.User)));
 
         /// <summary>Get music by id.</summary>
         /// <param name="id">Id of music.</param>
@@ -101,12 +102,12 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             var userId = this.userManager.GetUserId(this.User);
             var licenseId = await this.licenseService.Create(model, userId);
-            return this.StatusCode(StatusCodes.Status201Created, licenseId);
+            return this.StatusCode(StatusCodes.Status201Created, new { licenseId = licenseId });
         }
 
         /// <summary>Edit license data.</summary>
@@ -121,12 +122,12 @@
             var userId = this.userManager.GetUserId(this.User);
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             if (!this.licenseService.IsOwned(id, userId))
             {
-                return this.StatusCode(StatusCodes.Status406NotAcceptable);
+                return this.Forbid();
             }
 
             await this.licenseService.Update(id, model);
@@ -145,7 +146,7 @@
             var userId = this.userManager.GetUserId(this.User);
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.licenseService.ChangeStatus(id, model);
@@ -179,11 +180,11 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
-            await this.licenseService.CreateFile(model);
-            return this.StatusCode(StatusCodes.Status201Created);
+            var licenseFileId = await this.licenseService.CreateFile(model);
+            return this.StatusCode(StatusCodes.Status201Created, new { licenseFileId = licenseFileId });
         }
 
         /// <summary>Delete license file in data.</summary>
