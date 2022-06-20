@@ -15,6 +15,7 @@
     using MusicHub.Data.Models.Enums;
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Web.Infrastucture;
+    using MusicHub.Web.Infrastucture.Extensions;
     using MusicHub.Web.ViewModels.LicenseMusicModels;
 
     public class LicenseMusicController : ApiController
@@ -47,11 +48,11 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
-            await this.licenseMusicService.Create(model);
-            return this.StatusCode(StatusCodes.Status201Created);
+            var licenseMusicId = await this.licenseMusicService.Create(model);
+            return this.StatusCode(StatusCodes.Status201Created, new { licenseMusicId = licenseMusicId });
         }
 
         /// <summary>Delete music license in data.</summary>

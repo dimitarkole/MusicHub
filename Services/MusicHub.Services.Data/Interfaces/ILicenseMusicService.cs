@@ -12,7 +12,7 @@
     {
         List<T> All<T>(string musicId);
 
-        Task Create(LicenseMusicCreateModel model);
+        Task<string> Create(LicenseMusicCreateModel model);
 
         Task Delete(string id);
 
