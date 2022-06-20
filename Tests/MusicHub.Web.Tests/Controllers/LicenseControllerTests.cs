@@ -399,7 +399,7 @@ namespace LicenseHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void EditMusic_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        public void EditLicense_WithDataInTheDb_ShouldReturnOkWithCorrectData()
         {
             var licenses = LicenseTestsData.Licenses();
             var users = LicenseTestsData.Users;
@@ -534,6 +534,29 @@ namespace LicenseHub.Web.Tests.Controllers
 
             Assert.False(From.Services<ApplicationDbContext>().LicenseFiles
                 .Any(l => l.FileUrl == model.FileUrl));
+        }
+
+        [Fact]
+        public void ChangeStatus_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        {
+            var licenses = LicenseTestsData.Licenses();
+            var users = LicenseTestsData.Users;
+            var userId = licenses[0].UserId;
+            var editLicenseId = licenses[0].Id;
+            var model = LicenseTestsData.ChangeStatusModel;
+            MyController<LicenseController>
+                .Instance()
+                .WithData(users)
+                .WithData(licenses)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.ChangeStatus(editLicenseId, model))
+                .ShouldReturn()
+                .Ok();
+
+            Assert.True(From.Services<ApplicationDbContext>().Licenses
+                .Any(m => m.Id == editLicenseId
+                    && m.ModifiedOn != null));
         }
     }
 }
