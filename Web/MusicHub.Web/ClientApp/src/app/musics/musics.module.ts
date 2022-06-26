@@ -48,6 +48,7 @@ import { LikedMusicDetailsComponent } from './components/liked-music-details/lik
 import { PlayedMusicDetailsComponent } from './components/played-music-details/played-music-details.component';
 import { AddMusicToAlbumComponent } from './components/add-music-to-album/add-music-to-album.component';
 import { AddMusicToAlbumsComponent } from './components/add-music-to-albums/add-music-to-albums.component';
+import { MusicReportsModule } from '../music-report/music-report.module';
 
 const routes: Routes = [
   {
@@ -160,6 +161,7 @@ const routes: Routes = [
     SharedModule,
     CommentModule,
     ChartModule,
+    MusicReportsModule
   ],
   providers: [
     //{ provide: AppInsightsServiceService },

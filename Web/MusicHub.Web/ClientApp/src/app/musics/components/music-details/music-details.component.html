@@ -12,7 +12,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-7">
+  <div class="col-md-5">
     <p>{{music.createdOn | date : 'MMMM d, yyyy'}}</p>
   </div>
 
@@ -22,10 +22,17 @@
   <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" routerLink="/signin" *ngIf="!isAuth">
     + Add to
   </button>
+
+  <button class="col-md-2 main-song-information" (click)="openReportMusic()" *ngIf="isAuth">
+    Report
+  </button>
+  <button class="col-md-2 btn add-to-playlist-bnt main-song-information login100-form-btn" routerLink="/signin" *ngIf="!isAuth">
+    Report
+  </button>
   <app-music-reaction [music]="music" class="col-md-3 main-music-information"></app-music-reaction>
 </div>
 
-<div *ngIf="isAdding">
+<!--<div *ngIf="isAdding">
   <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#playlists">Playlists</a></li>
     <li *ngIf="isMusicOwned"><a data-toggle="tab" href="#albums">Albums</a></li>
@@ -66,3 +73,4 @@
   <hr />
 
   <app-comment-list [musicId]="music.id" class="col-md-12"></app-comment-list>
+  -->

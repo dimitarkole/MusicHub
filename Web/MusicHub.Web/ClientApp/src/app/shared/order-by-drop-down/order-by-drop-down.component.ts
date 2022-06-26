@@ -14,7 +14,7 @@ export class OrderByDropDownComponent implements OnInit {
   }
 
   changeOrderMehtod(orderMethod) {
-    console.log(orderMethod)
+   // console.log(orderMethod)
     this.orderMethod.emit(orderMethod);
   }
 }
