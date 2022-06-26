@@ -8,6 +8,7 @@ import { MusicService } from '../../services/music.service';
 import { Music } from '../../models/music';
 import { AddMusicToPlaylistComponent } from '../add-music-to-playlist/add-music-to-playlist.component';
 import { MusicDeleteComponent } from '../music-delete/music-delete.component';
+import { MusicReportCreateComponent } from '../../../music-report/components/music-report-create/music-report-create.component';
 
 @Component({
   selector: 'app-music-details',
@@ -35,16 +36,15 @@ export class MusicDetailsComponent implements OnInit {
       this.isAuth = this.authService.isAuth;
     });
 
-  this.musicSevice.isOwned(this.musicId).subscribe(r => {
-    this.isMusicOwned = r;
-  });
+    this.musicSevice.isOwned(this.musicId).subscribe(r => {
+      this.isMusicOwned = r;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.route.params.subscribe(routeParams => {
       this.preparedPage();
     });
-
   }
 
   private preparedPage() {
@@ -63,5 +63,16 @@ export class MusicDetailsComponent implements OnInit {
 
   openAddMusic() {
     this.isAdding = !this.isAdding;
+  }
+
+  openReportMusic() {
+    const dialogConfig = new MatDialogConfig();
+    // The user can't close the dialog by clicking outside its body
+    dialogConfig.id = "modal-component";
+    dialogConfig.width = "600px";
+    dialogConfig.data = this.music.id;
+    const modalDialog = this.matDialog.open(MusicReportCreateComponent, dialogConfig);
+    modalDialog.afterClosed().subscribe(result => {
+    });
   }
 }
