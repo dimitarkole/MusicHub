@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Xunit;
 using MusicHub.Services.Mapping;
+using MusicHub.Services;
 
 namespace MusicHub.Web.Tests.Controllers
 {
@@ -36,7 +37,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<VerificationCodeViewModel>()
                     .Passing(actual =>
                     {
-                        var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
+                        var service = new VerificationCodeService(From.Services<ApplicationDbContext>(), new PaginationService());
                         var expected = service.GetById<VerificationCodeViewModel>(verificationCodeId);
                         expected.Should().BeEquivalentTo(actual);
                     }));
@@ -66,7 +67,7 @@ namespace MusicHub.Web.Tests.Controllers
                     .WithModelOfType<VerificationCodeViewModel>()
                     .Passing(actual =>
                     {
-                        var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
+                        var service = new VerificationCodeService(From.Services<ApplicationDbContext>(), new PaginationService());
                         var expected = service.GetActivatedVerificationCode<VerificationCodeViewModel>(userId);
                         expected.Should().BeEquivalentTo(actual);
                     }));
@@ -123,7 +124,7 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void CheckCode_WithDataInTheDb_ShouldReturnOkWithTrue()
         {
-            var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
+            var service = new VerificationCodeService(From.Services<ApplicationDbContext>(), new PaginationService());
             var users = VerificationCodeTestsData.Users;
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var userId = verificationCodes
@@ -162,7 +163,7 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void CheckCode_CodeIsUsed_WithDataInTheDb_ShouldReturnOkWithFalse()
         {
-            var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
+            var service = new VerificationCodeService(From.Services<ApplicationDbContext>(), new PaginationService());
             var users = VerificationCodeTestsData.Users;
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var userId = verificationCodes
@@ -200,7 +201,7 @@ namespace MusicHub.Web.Tests.Controllers
         [Fact]
         public void CheckCode_CodeIsIncurrenct_WithDataInTheDb_ShouldReturnOkWithFalse()
         {
-            var service = new VerificationCodeService(From.Services<ApplicationDbContext>());
+            var service = new VerificationCodeService(From.Services<ApplicationDbContext>(), new PaginationService());
             var users = VerificationCodeTestsData.Users;
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
             var userId = verificationCodes

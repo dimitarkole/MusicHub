@@ -522,7 +522,6 @@
             await this.context.MusicLicenses.AddRangeAsync(new List<MusicLicense>());
             await this.context.SaveChangesAsync();
             var service = new MusicService(this.context, new PaginationService());
-
             return service;
         }
     }

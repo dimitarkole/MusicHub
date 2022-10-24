@@ -14,7 +14,7 @@ using System.Security.Claims;
 using Xunit;
 using static MusicHub.Common.GlobalConstants;
 
-namespace LicenseHub.Web.Tests.Controllers
+namespace MusicHub.Web.Tests.Controllers
 {
     public class LicenseControllerTests
     {

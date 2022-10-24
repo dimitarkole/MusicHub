@@ -40,7 +40,7 @@ namespace MusicHub.Tests.TestData
         public static List<Follow> Follows()
         {
             var result = new List<Follow>();
-            var random = new Random();
+            var random = new Random(0);
             var count = 1;
             foreach (var user in Users)
             {

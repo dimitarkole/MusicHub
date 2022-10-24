@@ -1,4 +1,4 @@
-﻿    namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
     using System;
     using System.Collections.Generic;

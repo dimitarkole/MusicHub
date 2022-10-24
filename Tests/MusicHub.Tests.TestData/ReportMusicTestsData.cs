@@ -37,7 +37,7 @@
         public static List<ReportMusic> GetReportMusic()
         {
             var result = new List<ReportMusic>();
-            var random = new Random();
+            var random = new Random(0);
             var musics = Musics.ToArray();
             var users = Users.ToList();
             int count = 0;

@@ -124,6 +124,7 @@
             {
                 await this.CreateRolePermission(model.PermissionIds, role.Id);
             }
+
             await this.context.SaveChangesAsync();
         }
 

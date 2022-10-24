@@ -17,7 +17,7 @@ namespace MusicHub.Services.Data.Tests
         [Fact]
         public async Task CreateVerificationCode_WithValidData_ShouldWorkCorrect()
         {
-            var verificationCodeService = await this.CreateVerificationCodeService(new List<VerificationCode>());
+            var verificationCodeService = await this.CreateService(new List<VerificationCode>());
             var model = VerificationCodeTestsData.CreateModel;
 
             await verificationCodeService.Create(model);
@@ -32,7 +32,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task IsVerificationCodeCorrect_WithValidData_ShouldReturnTrue()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var userId = verificationCodes.Where(vc => vc.IsUsed == false)
                 .FirstOrDefault()
                 .UserId;
@@ -56,7 +56,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task IsVerificationCodeCorrect_CodeIsNotOwn_WithValidData_ShouldReturnFalse()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var userId = verificationCodes[0].UserId;
             var lastActiveVerificationCode = this.context.VerificationCodes
                 .Where(vc => !(vc.UserId == userId) && vc.IsUsed == false)
@@ -78,7 +78,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task GetActivatedVerificationCode_WithValidData_ShouldReturnData()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var userId = verificationCodes[0].UserId;
 
             var actual = verificationCodeService.GetActivatedVerificationCode<VerificationCodeViewModel>(userId);
@@ -95,7 +95,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task GetActivatedVerificationCodeWithVerificationType_WithValidData_ShouldReturnData()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var userId = verificationCodes[0].UserId;
             var type = Common.VerificationType.ChangePassword;
             var actual = verificationCodeService.GetActivatedVerificationCode<VerificationCodeViewModel>(userId, type);
@@ -114,7 +114,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task GetById_WithValidData_ShouldReturnData()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var varificationId = verificationCodes[0].UserId;
             var actual = verificationCodeService.GetById<VerificationCodeViewModel>(varificationId);
             var expected = this.context.VerificationCodes
@@ -129,7 +129,7 @@ namespace MusicHub.Services.Data.Tests
         public async Task SetVerificationCodeIsUsed_WithValidData_ShouldReturnData()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var userId = verificationCodes.Where(vc => vc.IsUsed == false)
                 .FirstOrDefault()
                 .UserId;
@@ -150,22 +150,20 @@ namespace MusicHub.Services.Data.Tests
         public async Task DeleteVerificationCode_WithValidData_ShouldWorkCorrect()
         {
             var verificationCodes = VerificationCodeTestsData.VerificationCodes();
-            var verificationCodeService = await this.CreateVerificationCodeService(verificationCodes);
+            var verificationCodeService = await this.CreateService(verificationCodes);
             var verificationCodeId = verificationCodes[0].Id;
             await verificationCodeService.Delete(verificationCodeId);
 
             Assert.False(this.context.VerificationCodes.Any(c => c.Id == verificationCodeId));
         }
 
-        private async Task<VerificationCodeService> CreateVerificationCodeService(List<VerificationCode> verificationCodes)
+        private async Task<VerificationCodeService> CreateService(List<VerificationCode> verificationCodes)
         {
             var users = VerificationCodeTestsData.Users;
             await this.context.Users.AddRangeAsync(users);
             await this.context.VerificationCodes.AddRangeAsync(verificationCodes);
             await this.context.SaveChangesAsync();
-            var service = new VerificationCodeService(this.context);
-
-            return service;
+            return new VerificationCodeService(this.context, new PaginationService());
         }
     }
 }
