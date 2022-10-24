@@ -9,16 +9,15 @@ import { PlaylistPagination } from '../models/playlistPagination';
 })
 export class PlaylistService {
   private route: string = 'Playlist';
-  private routeHomeController: string = 'Home';
 
   constructor(private http: HttpClient) { }
 
   getById(id: string) {
-    return this.http.get<Playlist>(`${this.routeHomeController}/GetPlaylit/${id}`);
+    return this.http.get<Playlist>(`${this.route}/GetPlaylit/${id}`);
   }
 
   get(page: number) {
-    return this.http.get<PlaylistPagination>(`${this.routeHomeController}/GetPlaylists/${page}`);
+    return this.http.get<PlaylistPagination>(`${this.route}/GetPlaylists/${page}`);
   }
 
   allOwn(page: number) {
@@ -42,7 +41,7 @@ export class PlaylistService {
   }
 
   allFilter(page: number, playlist: Playlist) {
-    return this.http.get<PlaylistPagination>(`${this.routeHomeController}/PlaylistFilter/${page}`, { params: setQueryString(playlist) });
+    return this.http.get<PlaylistPagination>(`${this.route}/PlaylistFilter/${page}`, { params: setQueryString(playlist) });
   }
 
   allFilterOwn(page: number, playlist: Playlist) {

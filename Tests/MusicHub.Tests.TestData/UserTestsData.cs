@@ -131,7 +131,7 @@ namespace MusicHub.Tests.TestData
                     Id = id,
                     Type = type,
                     Description = description,
-                    Roles = new List<RolePermission>()
+                    Roles = new List<RolePermission>(),
                 });
 
                 id++;

@@ -9,6 +9,7 @@
     using MusicHub.Data;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.Users;
     using MusicHub.Web.ViewModels.VerificationCodeModels;
@@ -18,10 +19,14 @@
     public class VerificationCodeService : IVerificationCodeService
     {
         private readonly ApplicationDbContext context;
+        private readonly IPaginationService paginationService;
 
-        public VerificationCodeService(ApplicationDbContext context)
+        public VerificationCodeService(
+            ApplicationDbContext context,
+            IPaginationService paginationService)
         {
             this.context = context;
+            this.paginationService = paginationService;
         }
 
         public bool IsVerificationCodeCorrect(string userId, VerificationCodeCheckInputModel model)
