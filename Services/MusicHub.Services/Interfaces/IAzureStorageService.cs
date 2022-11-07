@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicHub.Services.Data.Interfaces
+namespace MusicHub.Services.Interfaces
 {
     public interface IAzureStorageService
     {

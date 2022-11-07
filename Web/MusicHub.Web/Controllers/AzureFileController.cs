@@ -12,6 +12,7 @@
     using Microsoft.Extensions.Logging;
     using MusicHub.Data.Models;
     using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Web.ViewModels.FileModels;
 
     using static MusicHub.Common.GlobalConstants;
