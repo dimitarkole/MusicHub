@@ -9,7 +9,7 @@
 
     using Microsoft.AspNetCore.Http;
     using Microsoft.WindowsAzure.Storage.Blob;
-    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
     using MusicHub.Web.ViewModels.FileModels;
 
     public class AzureStorageService : IAzureStorageService

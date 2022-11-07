@@ -1,6 +1,6 @@
 ﻿using MusicHub.Common.Settings;
 using MusicHub.Data;
-using MusicHub.Services.Data.Interfaces;
+using MusicHub.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,18 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using MusicHub.Web.ViewModels.Users;
 using System.DirectoryServices.AccountManagement;
-using System.DirectoryServices;
 
 namespace MusicHub.Services.Data
 {
     public class ActiveDirectoryService : IActiveDirectoryService
     {
-        private readonly ApplicationDbContext context;
         private readonly ActiveDirectorySettings settings;
 
-        public ActiveDirectoryService(ApplicationDbContext context, ActiveDirectorySettings settings)
+        public ActiveDirectoryService(ActiveDirectorySettings settings)
         {
-            this.context = context;
             this.settings = settings;
         }
 
