@@ -339,7 +339,7 @@ namespace MusicHub.Services.Data.Tests
         {
             var licenses = LicenseTestsData.Licenses();
             var licenseService = await this.CreateLicenseService(licenses);
-            var licenseId = this.context.LicenseFiles.FirstOrDefault().Id;
+            var licenseId = this.context.LicenseFiles.FirstOrDefault().LicensеId;
 
             var expected = this.context.LicenseFiles
                 .Where(lf => lf.LicensеId == licenseId)
@@ -375,7 +375,7 @@ namespace MusicHub.Services.Data.Tests
         private List<LicenseFile> GenerateLicenseFiles(List<License> licenses)
         {
             var result = new List<LicenseFile>();
-            var random = new Random();
+            var random = new Random(0);
             var count = 1;
             const int maxLicenseFileCount = 10;
             foreach (var license in licenses)

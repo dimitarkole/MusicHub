@@ -229,22 +229,22 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void IsFollowing_WhitCurrectData_ShouldReturnFalse()
+        public void IsFollowing_WhitCorrectData_ShouldReturnFalse()
         {
             var users = FollowTestsData.Users;
             var follows = FollowTestsData.Follows();
-            var userId = users[0].Id;
-            var followingId = follows
+            var userId = follows[0].FollowingId;
+            var followId = follows
                 .Where(f => f.FollowerId != userId)
                 .FirstOrDefault()
-                .FollowingId;
+                .FollowerId;
             MyController<FollowController>
                 .Instance()
                 .WithData(users)
                 .WithData(follows)
                 .WithUser(user => user
                     .WithClaim(ClaimTypes.NameIdentifier, userId))
-                .Calling(c => c.IsFollowing(followingId))
+                .Calling(c => c.IsFollowing(followId))
                 .ShouldReturn()
                 .Ok(result => result
                     .WithModelOfType<bool>()
