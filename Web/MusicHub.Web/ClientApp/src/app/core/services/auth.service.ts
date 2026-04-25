@@ -172,7 +172,7 @@ export class AuthService {
 	}
 
 	create(data: any): Observable<any> {
-		return this.http.get(this.createLocalUserPath, data);
+		return this.http.post(this.createLocalUserPath, data);
 	}
 
 	searchNoFilter(data) {

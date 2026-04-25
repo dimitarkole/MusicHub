@@ -151,7 +151,8 @@
                 .AddTransient<IVerificationCodeService, VerificationCodeService>()
                 .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IBellService, BellService>()
-                .AddTransient<IEmailSender, SendGridEmailSender>();
+                //.AddTransient<IEmailSender, SendGridEmailSender>();
+                .AddTransient<IEmailSender, EmailSender>();
                 // .AddTransient<IAzureStorageService, AzureStorageService>()
 
         public static IServiceCollection AddApplicationAnalysisServices(

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "echo Starting... && ng serve",
+    "start": "echo Starting... & set \"NODE_OPTIONS=\" & ng serve --host 0.0.0.0",
     "build": "ng build",
     "build-prod": "ng build --prod=true",
     "build-qa": "ng build --configuration=qa",
@@ -13,7 +13,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^8.2.14",
+    "@angular/animations": "^8.2.13",
     "@angular/cdk": "^8.2.3",
     "@angular/common": "~8.2.5",
     "@angular/compiler": "~8.2.5",

@@ -54,6 +54,8 @@ namespace MusicHub.Data.Models
         // Deletable entity
         public bool IsDeleted { get; set; }
 
+        public virtual bool TwoFactorEnabled { get; set; }
+
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<License> Licenses { get; set; }

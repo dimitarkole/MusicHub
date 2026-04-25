@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   isLoggedIn: boolean;
   title: string;
   cookieMessage: string="This web site uses cookies to ensure you get the best experience on our websitte.";
-  cookieDismiss: string= "Got id";
+  cookieDismiss: string= "Got it";
   cookieLinkText: string= "Lear";
 
   constructor(private authService: AuthService){

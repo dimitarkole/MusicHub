@@ -183,7 +183,7 @@
 
             var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
 
-            var result = await this.userManager.ResetPasswordAsync(user, token, model.Password );
+            var result = await this.userManager.ResetPasswordAsync(user, token, model.Password);
             return result.ToActionResult();
         }
 
@@ -223,7 +223,7 @@
                     EmailSubjects.ConfirmEmail,
                     htmlContent);
 
-                return this.Ok();
+                return this.Ok(new { userId = user.Id });
             }
             else
             {

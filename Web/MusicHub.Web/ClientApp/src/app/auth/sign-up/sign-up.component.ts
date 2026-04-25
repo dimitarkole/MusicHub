@@ -52,7 +52,7 @@ export class SignUpComponent implements OnInit {
 
   signUp() {
     let newUser: User = this.signUpForm.value;
-    this.authService.create(newUser)
+    /*this.authService.create(newUser)
       .subscribe(_ => {
         this.successfulCredentials = true;
         setTimeout(function () { this.successfulCredentials = false }, 2000);
@@ -61,6 +61,19 @@ export class SignUpComponent implements OnInit {
         err => {
           this.wrongCredentials = true;
           setTimeout(function () { this.wrongCredentials = false }, 2000);
+        });*/
+
+    this.authService.create(newUser)
+      .subscribe((res: any) => {
+        this.successfulCredentials = true;
+        const userId = res.userId;
+
+        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['/confirm-email', userId]);
+        });
+      },
+        err => {
+          this.wrongCredentials = true;
         });
   }
 

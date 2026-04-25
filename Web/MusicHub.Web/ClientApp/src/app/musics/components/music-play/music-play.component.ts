@@ -41,7 +41,7 @@ export class MusicPlayComponent implements OnInit {
     });
     this.music = this.route.snapshot.data.music;
     this.musicId = this.music.id;
-    alert(this.musicId)
+    //alert(this.musicId)
     if (this.isAuth) {
       this.playedMusicForm.get('musicId').setValue(this.musicId);
       let playedMusic: PlayedMusic = this.playedMusicForm.value;

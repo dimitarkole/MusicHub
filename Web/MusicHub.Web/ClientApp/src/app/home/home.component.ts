@@ -99,6 +99,6 @@ export class HomeComponent implements OnInit {
   }
 
   selectedOrderMehtod(orderMethod: string) {
-    alert("Here" + orderMethod);
+   // alert("Here" + orderMethod);
   }
 }
