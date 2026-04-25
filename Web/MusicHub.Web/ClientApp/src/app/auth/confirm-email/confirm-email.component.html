@@ -1,31 +1,27 @@
-<h3 class="text-center">
-  Email verification
-</h3>
-<div *ngIf="successfulCredentials">
-  <div class="row">
-    <div class="col-md-4">
-    </div>
-    <img src="../../../assets/images/confim_email.png" alt="Alternate Text" class="col-md-4" />
+<h3 class="text-center">Email verification</h3>
+
+<div class="text-center" *ngIf="!successfulCredentials">
+
+  <p>Enter the code we sent to your email</p>
+
+  <input type="text"
+         [(ngModel)]="code"
+         class="form-control w-25 mx-auto"
+         placeholder="Enter code" />
+
+  <button class="btn btn-primary mt-3" (click)="confirm()">
+    Confirm
+  </button>
+
+  <div class="text-danger mt-2" *ngIf="wrongCode">
+    Wrong verification code
   </div>
-  <div class="row">
-    <div class="col-md-4">
-    </div>
-    <h4 class="col-md-4">
-      Thanks {{user.userName}},<br>
-      your email is verified.<br>
-      You could use your profile.
-    </h4>
-  </div>
-  <div class="row">
-    <div class="col-md-4">
-    </div>
-    <div class="col-md-4">
-      {{user.email}}
-    </div>
-  </div>
+
 </div>
 
-<div *ngIf="!successfulCredentials" class="text-center">
-    There is a problem with email verification.<br>
-    Wrong email or verification code.
+<div *ngIf="successfulCredentials" class="text-center">
+  <h4>
+    Thanks {{user?.userName}},<br>
+    your email is verified.
+  </h4>
 </div>

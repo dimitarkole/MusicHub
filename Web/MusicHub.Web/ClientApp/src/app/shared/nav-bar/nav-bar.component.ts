@@ -74,7 +74,7 @@ export class NavBarComponent implements OnInit {
   updateSearch() {
     if (this.type.value == "Musics") {
       var href = this.router.url;
-      alert(href);
+      //alert(href);
 
       this.router.navigate([""], { queryParams: { searchQuery: this.search.value, type: this.type.value } });
     }

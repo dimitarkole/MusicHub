@@ -80,13 +80,13 @@ export class ForgottenPasswordComponent implements OnInit {
     verificationCodeInfo.type = VerificationType.ChangePassword;
     this.verificationCodeService.checkCode(this.user.id, verificationCodeInfo)
       .subscribe(check => {
-        alert("check=" + check);
+        //alert("check=" + check);
         if (check == true) {
           let user: User = this.changePasswordForm.value;
           this.profileService.changePasswordWithoutAuth(this.user.id, user)
             .subscribe(_ => {
               this.successfulCredentials = true;
-              alert("successfulCredentials=" + this.successfulCredentials);
+              //alert("successfulCredentials=" + this.successfulCredentials);
               this.emailService.SendEmailWithCodeForChangingPassword(this.user.id).subscribe();
             });
         }

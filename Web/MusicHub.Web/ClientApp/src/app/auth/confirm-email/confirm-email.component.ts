@@ -12,25 +12,38 @@ import { VerificationType } from '../../shared/models/verificationType';
 })
 export class ConfirmEmailComponent implements OnInit {
   user: User;
-  successfulCredentials: boolean = false;
+  successfulCredentials = false;
+  wrongCode = false;
+
+  code: string;
+  userId: string;
 
   constructor(
     private route: ActivatedRoute,
-    public authService: AuthService) { }
+    public authService: AuthService
+  ) { }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(queryParams => {
-      var model: VerificationCode = { code: queryParams.code, type: VerificationType.ConfirmEmail };
-      this.user = this.route.snapshot.data.user;
-      console.log(model);
-      this.authService.confirmEmail(this.user.id, model).subscribe(() => {
+    this.userId = this.route.snapshot.paramMap.get('id');
+  }
+
+  confirm() {
+    const model: VerificationCode = {
+      code: this.code,
+      type: VerificationType.ConfirmEmail
+    };
+
+    this.authService.confirmEmail(this.userId, model)
+      .subscribe((res: any) => {
         this.successfulCredentials = true;
-      },
-        err => {
-          this.successfulCredentials = false;
-          setTimeout(function () { this.wrongCredentials = false }, 2000);
+
+        if (res && res.token) {
+          this.authService.setToken(res.token);
+          this.authService.initializeAuthenticationState();
         }
-      );
-    });
+
+      }, err => {
+        this.wrongCode = true;
+      });
   }
 }

@@ -31,7 +31,7 @@ export const ReportMusicTypeMapping: Record<ReportMusicType, string> = {
 };
 
 export function CreateReportMusicType(reportMusicType: number) {
-  alert(reportMusicType);
+  //alert(reportMusicType);
   if (reportMusicType == 0) return ReportMusicType.NoType;
   else if (reportMusicType == 1) return ReportMusicType.SexualContent;
   else if (reportMusicType == 2) return ReportMusicType.ViolentOrRepulsiveContent;
