@@ -31,6 +31,7 @@
     public class UsersController : ApiController
     {
         private readonly IProfileService profileService;
+        private readonly IUserLoginHistoryService userLoginHistoryService;
         private readonly IVerificationCodeService verificationCodeService;
         private readonly IEmailSender emailSender;
 
@@ -40,12 +41,14 @@
             UserManager<User> userManager,
             IEmailSender emailSender,
             SignInManager<User> signInManager,
-            ILogger<LogoutModel> logger)
+            ILogger<LogoutModel> logger,
+            IUserLoginHistoryService userLoginHistoryService = null)
             : base(userManager, signInManager, logger)
         {
             this.profileService = profileService;
             this.verificationCodeService = verificationCodeService;
             this.emailSender = emailSender;
+            this.userLoginHistoryService = userLoginHistoryService;
         }
 
         // [Authorize]
@@ -112,12 +115,15 @@
             }
 
             var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
-
             if (jwtToken == null)
             {
                 return this.BadRequest("Username or password is incorrect.");
             }
 
+            var user = await this.userManager.FindByNameAsync(model.Username);
+            var ipAddress = this.HttpContext.Connection.RemoteIpAddress?.ToString();
+            var userAgent = this.Request.Headers["User-Agent"].ToString();
+            await this.userLoginHistoryService.HandleLoginAsync(user, ipAddress, userAgent);
             return new JsonResult(jwtToken);
         }
 

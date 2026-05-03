@@ -41,6 +41,7 @@
             public const string ConfirmEmail = "Please confirm your email address";
             public const string ChangePassword = "Change password";
             public const string SuccessfulChangedPassword = "Successful changed cassword";
+            public const string NewIPLoginDetected = "New IP login detected";
         }
 
         public static class Roles
@@ -76,6 +77,7 @@
             public const int UsersPerPage = 10;
             public const int FollowingsPerPage = 10;
             public const int FollowersPerPage = 10;
+            public const int UserLoginHistoryPerPage = 10;
         }
 
         public static class MegaStorageData

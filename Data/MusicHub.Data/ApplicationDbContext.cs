@@ -79,6 +79,8 @@
 
         public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
 
+        public virtual DbSet<UserLoginHistory> UserLoginHistories { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
