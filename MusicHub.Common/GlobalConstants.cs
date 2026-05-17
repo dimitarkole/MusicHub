@@ -42,6 +42,7 @@
             public const string ChangePassword = "Change password";
             public const string SuccessfulChangedPassword = "Successful changed cassword";
             public const string NewIPLoginDetected = "New IP login detected";
+            public const string TwoFactorLogin = "Please confirm your tho factor verification login";
         }
 
         public static class Roles

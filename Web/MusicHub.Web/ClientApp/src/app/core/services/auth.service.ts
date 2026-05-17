@@ -18,6 +18,7 @@ import LoginResponse from '../../shared/models/user';
 import { UserPagination } from '../../users/models/userPagination';
 import VerificationCode from '../../shared/models/verificationCode';
 import { setQueryString } from '../../common/QueryString';
+import { SignInModel } from '../../auth/models/SignInModel';
 
 @Injectable({
   providedIn: 'root'
@@ -93,7 +94,11 @@ export class AuthService {
 
 
   login(username: string, password: string) {
-    return this.http.get(`${this.route}/Login`, { params: { username: username, password: password } });
+    return this.http.get<SignInModel>(`${this.route}/Login`, { params: { username: username, password: password } });
+  }
+
+  verifyTwoFactor(userId: string, model: any) {
+    return this.http.put(`${this.route}/VerifyTwoFactor/${userId}`, model);
   }
 
   getByEmail(user: User) {
