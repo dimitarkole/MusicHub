@@ -81,6 +81,8 @@
 
         public virtual DbSet<UserLoginHistory> UserLoginHistories { get; set; }
 
+        public virtual DbSet<UserIpRule> UserIpRules { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");

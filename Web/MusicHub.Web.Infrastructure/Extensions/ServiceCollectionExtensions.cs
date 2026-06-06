@@ -152,6 +152,7 @@
                 .AddTransient<IPlayLaterMusicService, PlayLaterMusicService>()
                 .AddTransient<IBellService, BellService>()
                 .AddTransient<IUserLoginHistoryService, UserLoginHistoryService>()
+                .AddTransient<IUserIpRuleService, UserIpRuleService>()
                 //.AddTransient<IEmailSender, SendGridEmailSender>();
                 .AddTransient<IEmailSender, EmailSender>();
                 // .AddTransient<IAzureStorageService, AzureStorageService>()
