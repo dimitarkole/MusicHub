@@ -11,7 +11,7 @@
     using MusicHub.Services.Mapping;
     using MusicHub.Tests.TestData;
     using MusicHub.Web.ViewModels.MusicModels;
-    using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Web.ViewModels.PlaylistMusicModels;
     using Xunit;
 
     using static MusicHub.Common.GlobalConstants;
@@ -97,9 +97,13 @@
             var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
             var playlistMusicService = await this.CreatePlaylistMusicService(playlistMusics);
             var playlistId = playlistMusics[0].PlaylistId;
-            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+            var musicIdsInCurrectPlaylist = playlistMusics.Where(pm => pm.PlaylistId == playlistId)
+                .Select(pm => pm.MusicId)
+                .ToList();
+            var musicId = PlaylistMusicTestsData.Musics
+                .Where(m => !musicIdsInCurrectPlaylist.Contains(m.Id))
                 .FirstOrDefault()
-                .MusicId;
+                .Id;
             var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
             Assert.False(playlistMusicService.IsAddedToPlaylist(model));
         }

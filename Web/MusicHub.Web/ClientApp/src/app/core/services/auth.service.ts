@@ -17,6 +17,8 @@ import { PermissionType } from '../../shared/models/permissionType';
 import LoginResponse from '../../shared/models/user';
 import { UserPagination } from '../../users/models/userPagination';
 import VerificationCode from '../../shared/models/verificationCode';
+import { setQueryString } from '../../common/QueryString';
+import { SignInModel } from '../../auth/models/SignInModel';
 
 @Injectable({
   providedIn: 'root'
@@ -41,8 +43,6 @@ export class AuthService {
 	private mailTypePath = 'EmailTypes';
 	private addressTypePath = 'AddressTypes';
 	private createContactPath = 'Contacts';
-	private getMattersPath = 'Case/GetMatters';
-	private editContactPath = 'Contacts';
 	private getUsersClassificationsPath = 'Users/Classifications';
 	private getFullNames = 'Users/GetFullNames';
   private rolesPath = 'Roles';
@@ -50,10 +50,6 @@ export class AuthService {
   private permissionsPath = 'Users/HasPermission';
   private getPermissionsPath = 'Permissions/GetOwnPermissions';
 	private initialsPath = 'Users/GetInitials';
-	private calendarEventPath = 'Events';
-	private getItemTypesPath = 'Events/ItemTypes';
-	private getStatusPath = 'Events/Statuses';
-	private getEventTypePath = 'EventTypes';
 	private getInitialsPath = 'Users/GetInitials';
 	private userFiltersPath = 'Filters/Users';
   public isAuth = false;
@@ -98,15 +94,19 @@ export class AuthService {
 
 
   login(username: string, password: string) {
-    return this.http.post(`${this.route}/Login`, { username, password });
+    return this.http.get<SignInModel>(`${this.route}/Login`, { params: { username: username, password: password } });
+  }
+
+  verifyTwoFactor(userId: string, model: any) {
+    return this.http.put(`${this.route}/VerifyTwoFactor/${userId}`, model);
   }
 
   getByEmail(user: User) {
-    return this.http.post<User>(`${this.route}/GetByEmail`, user);
+    return this.http.get<User>(`${this.route}/GetByEmail`, { params: setQueryString(user) });
   }
 
   resendConfirmEmail(email: string) {
-    return this.http.post(`${this.route}/resendConfirmEmail`, { email});
+    return this.http.get(`${this.route}/resendConfirmEmail`, { params: { emal: email } });
   }
 
   saveUserData(data: LoginResponse) {
@@ -131,7 +131,7 @@ export class AuthService {
 	}
 
 	advancedFilter(page: number, filter: UserFilter): Observable<any> {
-    return this.http.post(this.route + `/AdvancedSearch/${page}`, filter);
+    return this.http.get(this.route + `/AdvancedSearch/${page}`, { params: setQueryString(filter) });
   }
 
   confirmEmail(userId: string, model: VerificationCode) {
@@ -176,16 +176,12 @@ export class AuthService {
 		return localStorage.getItem('userId');
 	}
 
-	getCalendarEvent(id) {
-		return this.http.get(this.calendarEventPath + '/' + id);
-	}
-
 	create(data: any): Observable<any> {
 		return this.http.post(this.createLocalUserPath, data);
 	}
 
 	searchNoFilter(data) {
-		return this.http.post(this.searchPath, data);
+		return this.http.get(this.searchPath, data);
 	}
 
 	createContact(data) {
@@ -202,10 +198,6 @@ export class AuthService {
 
 	getPermissions(): Observable<Array<Permission>> {
     return this.http.get<Array<Permission>>(this.getPermissionsPath)
-	}
-
-	editContact(data, id) {
-		return this.http.put(this.editContactPath + '/' + id, data);
 	}
 
 	edit(id: string, data: any): Observable<any> {
@@ -233,7 +225,7 @@ export class AuthService {
 	}
 
 	updateProfileImage(imageObj): Observable<any> {
-		return this.http.post(this.getUsersPath + '/UploadProfileImage', imageObj);
+    return this.http.put(this.getUsersPath + '/UploadProfileImage', imageObj);
 	}
 
 	deleteUser(id) {
@@ -241,7 +233,7 @@ export class AuthService {
 	}
 
 	filterResult(filter) {
-		return this.http.post(this.filterPath, filter);
+    return this.http.put(this.filterPath, filter);
 	}
 
 	filter(page:number, filters) {
@@ -274,28 +266,12 @@ export class AuthService {
 		return obj;
 	}
 
-	getMatters() {
-		return this.http.get(this.getMattersPath);
-	}
-UserClassification
   getUserClassifications(): Observable<UserClassification[]> {
 		return this.http.get<UserClassification[]>(this.getUsersClassificationsPath);
 	}
 
 	getUserFullNames(): Observable<UserFullName[]> {
 		return this.http.get<UserFullName[]>(this.getFullNames);
-	}
-
-	getEventStatuses() {
-		return this.http.get(this.getStatusPath);
-	}
-
-	getEventTypes() {
-		return this.http.get(this.getEventTypePath);
-	}
-
-	createEvent(data) {
-		return this.http.post(this.calendarEventPath, data);
 	}
 
 	sendUserFilter(data) {

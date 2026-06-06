@@ -361,8 +361,7 @@
         public async Task GetUsersInfo_WithValidData_ShouldReturnFalse()
         {
             var profileService = await this.CreateProfileService();
-            var userIds = UserTestsData.UsersIds.ToArray();
-
+            var userIds = this.context.Users.Where(u => !u.IsDeleted).Select(u => u.Id).ToList();
             var expected = this.context.Users
                 .Where(u => userIds.Contains(u.Id))
                 .To<UserDetailsViewModel>()

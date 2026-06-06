@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Web.ViewModels.MusicReactionModels
+﻿namespace MusicHub.Web.ViewModels.MusicReactionModels
 {
-    public class LikedMusicPageModel<T>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class LikedMusicPageModel<T> : PageModel
     {
         public IEnumerable<T> LikedMusics { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

@@ -1,0 +1,56 @@
+<div class="row">
+  <h3 class="col-md-12">
+    Notification settings
+  </h3>
+  <div class="col-md-12">
+    Choose when and how to receive notifications<br />
+    Select the targeted and email notifications you want to receive<br />
+  </div>
+</div>
+<br />
+<div class="row">
+  <h5 class="col-md-12">
+    Followers
+  </h5>
+  <div class="col-md-4">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="newFollower" (change)="changeNewFollowers()" [checked]="isNewFollowersChecked">
+      <label class="form-check-label" for="newFollower">New followers</label><br>
+      <span>Notify me of new followers</span>
+    </div>
+  </div>
+  <h5 class="col-md-12">
+    Musics
+  </h5>
+  <div class="col-md-4">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="likeMusic" (change)="changeLikeMusic()" [checked] ="isLikeMusicChecked">
+      <label class="form-check-label" for="likeMusic">Like music</label><br>
+      <span>Notify me when somebody like my music</span>
+    </div>
+  </div>
+  <h5 class="col-md-12">
+    Comment
+  </h5>
+  <div class="col-md-4">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="newComment"  (change)="changeComment()"  [checked]="isNewCommentChecked">
+      <label class="form-check-label" for="newComment">New comment</label><br>
+      <span>Notify me when somebody comment my music</span>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="likeComment"  (change)="changeLikeComment()"  [checked]="isLikeMusicCommentChecked">
+      <label class="form-check-label" for="likeComment">Like comment</label><br>
+      <span>Notify me when somebody like my comment</span>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="form-check">
+      <input type="checkbox" class="form-check-input" id="responseComment" (change)="changeResponseComment()" [checked]="isResponseCommentChecked">
+      <label class="form-check-label" for="responseComment">Response comment</label><br>
+      <span>Notify me when somebody like my comment</span>
+    </div>
+  </div>
+</div>

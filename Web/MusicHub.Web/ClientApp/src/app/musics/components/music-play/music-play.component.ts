@@ -1,3 +1,4 @@
+import { OnChanges } from '@angular/core';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -40,7 +41,7 @@ export class MusicPlayComponent implements OnInit {
     });
     this.music = this.route.snapshot.data.music;
     this.musicId = this.music.id;
-   
+    //alert(this.musicId)
     if (this.isAuth) {
       this.playedMusicForm.get('musicId').setValue(this.musicId);
       let playedMusic: PlayedMusic = this.playedMusicForm.value;

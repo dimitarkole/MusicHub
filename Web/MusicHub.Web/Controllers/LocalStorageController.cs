@@ -60,8 +60,8 @@
         /// <para>Path - folder path.</para>
         /// </param>
         /// <returns>Ok(fileName).</returns>
-        [HttpPost(nameof(Delete))]
-        public IActionResult Delete(DeleteFileInputModel model)
+        [HttpDelete(nameof(Delete))]
+        public IActionResult Delete([FromQuery] DeleteFileInputModel model)
         {
             this.DeleteFile(model.FileName, model.Path);
             return this.Ok();

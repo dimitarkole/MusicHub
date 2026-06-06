@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Web.ViewModels.PlaylistMusicModels;
 
     public interface IPlaylistMusicService
     {

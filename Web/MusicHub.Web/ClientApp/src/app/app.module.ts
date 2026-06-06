@@ -21,7 +21,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { environment } from '../environments/environment';
-import { SimpleModule } from '../simple/simple.module';
 
 import { SimpleChartComponent } from './simple-chart/simple-chart.component';
 import { MatDialogModule } from '@angular/material';

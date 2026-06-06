@@ -1,4 +1,4 @@
-﻿    namespace MusicHub.Web.Controllers
+﻿namespace MusicHub.Web.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -33,6 +33,34 @@
         {
             this.playlistService = playlistService;
         }
+
+        /// <summary>Get palylists.</summary>
+        /// <param name="page">The page of palylists.</param>
+        /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
+        [HttpGet(nameof(GetPlaylists) + "/{page}")]
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> GetPlaylists(int page)
+            => this.Ok(this.playlistService.All<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage));
+
+        /// <summary>Get playlist by id.</summary>
+        /// <param name="id">The id of palylists.</param>
+        /// <returns>Ok(PlaylistPlayModel).</returns>
+        [HttpGet(nameof(GetPlaylit) + "/{id}")]
+        public ActionResult<PlaylistPlayModel> GetPlaylit(string id)
+           => this.Ok(this.playlistService.GetById<PlaylistPlayModel>(id));
+
+        /// <summary>Filter playlists.</summary>
+        /// <param name="page">The page of music.</param>
+        /// <param name="filter">Filter data.
+        /// <para>Name - name of playlist.</para>
+        /// <para>Username - name of user who created playlist.</para>
+        /// <para>UserId - id of user who created playlist.</para>
+        /// <para>CategoryId - id of category of playlist.</para>
+        /// <para>OrderMethod - order method.</para>
+        /// </param>
+        /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
+        [HttpGet(nameof(PlaylistFilter) + "/{page}")]
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> PlaylistFilter(int page, [FromQuery] PlaylistFilterInputModel model)
+            => this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, model));
 
         /// <summary>Get own playlists.</summary>
         /// <param name="page">The page of playlists.</param>
@@ -132,10 +160,10 @@
         /// <para>CategoryId - id of category of playlist.</para>
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(PlaylistsAllViewModel<PlaylistViewModel>).</returns>
-        [HttpPost(nameof(FilterOwn) + "/{page}")]
+        [HttpGet(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.PlaylistCreator)]
-        public ActionResult<PlaylistPageModel<PlaylistViewModel>> FilterOwn(int page, PlaylistFilterInputModel filter)
+        public ActionResult<PlaylistPageModel<PlaylistViewModel>> FilterOwn(int page, [FromQuery] PlaylistFilterInputModel filter)
             => this.Ok(this.playlistService.Filter<PlaylistViewModel>(page, PaginationData.PlaylistsPerPage, filter, this.userManager.GetUserId(this.User)));
     }
 }

@@ -23,11 +23,17 @@ namespace MusicHub.Data.Models
             this.PlayedMusics = new HashSet<PlayedMusic>();
             this.Followings = new HashSet<Follow>();
             this.Followers = new HashSet<Follow>();
+            this.Bellers = new HashSet<Bell>();
+            this.Bellings = new HashSet<Bell>();
             this.Licenses = new HashSet<License>();
             this.VerificationCodes = new HashSet<VerificationCode>();
             this.PaySubscriptions = new HashSet<PaySubscription>();
             this.Albums = new HashSet<Album>();
             this.PlayLaterMusics = new HashSet<PlayLaterMusic>();
+            this.NotificationSettings = new HashSet<NotificationSetting>();
+            this.ReportMusics = new HashSet<ReportMusic>();
+            this.UserLoginHistories = new HashSet<UserLoginHistory>();
+            this.UserIpRules = new HashSet<UserIpRule>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -49,6 +55,8 @@ namespace MusicHub.Data.Models
 
         // Deletable entity
         public bool IsDeleted { get; set; }
+
+        public virtual bool TwoFactorEnabled { get; set; }
 
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
@@ -74,10 +82,22 @@ namespace MusicHub.Data.Models
 
         public ICollection<Follow> Followings { get; set; }
 
+        public ICollection<Bell> Bellers { get; set; }
+
+        public ICollection<Bell> Bellings { get; set; }
+
         public ICollection<VerificationCode> VerificationCodes { get; set; }
 
         public ICollection<PaySubscription> PaySubscriptions { get; set; }
 
         public ICollection<PlayLaterMusic> PlayLaterMusics { get; set; }
+
+        public ICollection<NotificationSetting> NotificationSettings { get; set; }
+
+        public ICollection<ReportMusic> ReportMusics { get; set; }
+
+        public ICollection<UserLoginHistory> UserLoginHistories { get; set; }
+
+        public ICollection<UserIpRule> UserIpRules { get; set; }
     }
 }

@@ -236,6 +236,79 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
+        public void CreateAlbum_WithEmtyModel_ShouldBadRequest()
+        {
+            var musics = AlbumTestsData.Musics;
+            var categories = AlbumTestsData.Categories;
+            var model = AlbumTestsData.CreateEmptyModel;
+            var userId = AlbumTestsData.CreateUserId;
+            MyController<AlbumController>
+                .Instance()
+                .WithData(musics)
+                .WithData(categories)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any() );
+                    }
+                    if (string.IsNullOrEmpty(model.ImageUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The ImageUrl field is required")).Any() );
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Albums
+                                    .Any(a => a.Name == model.Name
+                                        && a.UserId == userId
+                                        && a.Privacy == model.Privacy
+                                        && a.ImageUrl == model.ImageUrl));
+        }
+
+        [Fact]
+        public void EditAlbum_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var musics = AlbumTestsData.Musics;
+            var album = AlbumTestsData.Albums;
+            var categories = AlbumTestsData.Categories;
+            var model = AlbumTestsData.UpdateEmptyModel;
+            var albumId = AlbumTestsData.IsOwnedAlbumTrueAlbumId;
+            var userId = AlbumTestsData.IsOwnedAlbumTrueUserId;
+            MyController<AlbumController>
+                .Instance()
+                .WithData(musics)
+                .WithData(album)
+                .WithData(categories)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Put(albumId, model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.ImageUrl))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The ImageUrl field is required")).Any());
+                    }
+                }));
+
+            Assert.True(From.Services<ApplicationDbContext>().Albums
+             .Any(m => m.Id == albumId
+                 && m.ModifiedOn == null));
+        }
+
+        [Fact]
         public void EditAlbum_WithDataInTheDb_ShouldReturnOk()
         {
             var musics = AlbumTestsData.Musics;

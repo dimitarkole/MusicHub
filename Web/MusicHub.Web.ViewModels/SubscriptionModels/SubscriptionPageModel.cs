@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Web.ViewModels.SubscriptionModels
+﻿namespace MusicHub.Web.ViewModels.SubscriptionModels
 {
-    public class SubscriptionPageModel<T>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class SubscriptionPageModel<T> : PageModel
     {
         public IEnumerable<T> Subscriptions { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

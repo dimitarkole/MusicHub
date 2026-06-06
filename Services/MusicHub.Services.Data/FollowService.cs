@@ -51,8 +51,7 @@
 
         public bool IsOwned(string id, string userId)
            => this.context.Follows
-                .Any(f =>
-                    f.Id == id
+                .Any(f => f.Id == id
                     && f.FollowerId == userId);
 
         public FollowingPageModel<T> AllFollowing<T>(int page, int entitesPerPage, string userId)
@@ -61,7 +60,6 @@
                 .Where(f => f.FollowerId == userId)
                 .To<T>()
                 .ToList();
-
             return new FollowingPageModel<T>()
             {
                 Followings = followings
@@ -77,7 +75,6 @@
             var followers = this.context.Follows
                 .Where(f => f.FollowingId == userId)
                 .To<T>();
-
             return new FollowPageModel<T>()
             {
                 Followers = followers
@@ -92,11 +89,9 @@
         {
             var followings = this.context.Follows
                .Where(f => f.FollowerId == userId);
-
             followings = this.FilteringFollowings(filter, followings);
             followings = this.OrederFollowings(filter.OrderMethod, followings);
             var followersT = followings.To<T>();
-
             return new FollowingPageModel<T>()
             {
                 Followings = followersT
@@ -126,8 +121,7 @@
 
         public T GetFollow<T>(string followerUserId, string followingId)
            => this.context.Follows
-                    .Where(f =>
-                        f.FollowerId == followerUserId
+                    .Where(f => f.FollowerId == followerUserId
                         && f.FollowingId == followingId)
                     .To<T>()
                     .FirstOrDefault();

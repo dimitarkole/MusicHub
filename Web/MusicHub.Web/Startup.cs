@@ -52,7 +52,7 @@
                 .AddCors(options => options.AddPolicy("AllowWebApp", builder => builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:4200", "http://localhost:5000", "https://localhost:4200", "https://localhost:5000")))
+                    .WithOrigins("http://0.0.0.0:5000","http://localhost:4200", "http://localhost:5000", "https://localhost:4200", "https://localhost:5000")))
                 .AddSwagger()
                 .AddControllers();
 
@@ -106,7 +106,7 @@
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "ClientApp";
-
+                spa.Options.StartupTimeout = new System.TimeSpan(0, 15, 0);
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");

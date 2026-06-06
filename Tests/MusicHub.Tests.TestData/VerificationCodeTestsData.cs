@@ -20,22 +20,28 @@ namespace MusicHub.Tests.TestData
             UserId = UserId,
         };
 
+        public static VerificationCodeCreateInputModel CreateEmptyModel => new VerificationCodeCreateInputModel()
+        {
+            Type = VerificationType.ChangePassword,
+            UserId = "",
+        };
+        
         public static List<VerificationCode> VerificationCodes()
         {
             var result = new List<VerificationCode>();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var random = new Random(0);
             int id = 1;
             foreach (var user in Users)
             {
-                var random = new Random();
                 var length = 6;
-                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 var code = new string(Enumerable.Repeat(chars, length)
                   .Select(s => s[random.Next(s.Length)]).ToArray());
                 var isUsed = random.Next(0, 2) >= 1;
                 var verificationType = random.Next(0, 2) >= 0 ? VerificationType.ConfirmEmail: VerificationType.ChangePassword;
                 var verificationCode = new VerificationCode()
                 {
-                    Id = "VerificationCodeId" + id,
+                    // Id = "VerificationCodeId" + id,
                     UserId = user.Id,
                     Code = code,
                     IsUsed = isUsed,

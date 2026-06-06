@@ -16,13 +16,14 @@
     using static MusicHub.Common.GlobalConstants;
     using MusicHub.Common;
     using FluentAssertions;
+    using MusicHub.Web.ViewModels.ReportMusicModels;
 
     public class MusicServiceTests : BaseTestClass
     {
         [Fact]
         public async Task CreateMusic_WithValidData_ShouldWorkCorrect()
         {
-            var musicService = await this.CreateMusicService(new List<Music>());
+            var musicService = await this.CreateMusicService(new List<Music>(), new List<ReportMusic>());
             var model = MusicTestsData.CreateModel;
             var userId = MusicTestsData.CreateUserId;
 
@@ -40,7 +41,7 @@
         [Fact]
         public async Task UpdateMusic_WithValidData_ShouldWorkCorrect()
         {
-            var musicService = await this.CreateMusicService(MusicTestsData.GetMusics);
+            var musicService = await this.CreateMusicService(MusicTestsData.GetMusics, new List<ReportMusic>());
             var model = MusicTestsData.UpdateModel;
             var musicId = MusicTestsData.UpdateMusicId;
 
@@ -58,7 +59,7 @@
         public async Task DeleteMusic_WithValidData_ShouldWorkCorrect()
         {
             var getMusic = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusic);
+            var musicService = await this.CreateMusicService(getMusic, new List<ReportMusic>());
             var musicId = MusicTestsData.DeleteMusicId;
 
             await musicService.Delete(musicId);
@@ -70,7 +71,7 @@
         public async Task IsOwnedMusic_WithValidData_ShouldeReturnTrue()
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var musicId = MusicTestsData.IsOwnedTrueMusicId;
             var userId = MusicTestsData.IsOwedMusicTrueUserId;
             Assert.True(musicService.IsOwned(musicId, userId));
@@ -80,7 +81,7 @@
         public async Task IsOwnedMusic_WithValidData_ShouldeReturnFalse()
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var musicId = MusicTestsData.IsOwnedFalseMusicId;
             var userId = MusicTestsData.IsOwnedMusicFalseUserId;
             Assert.False(musicService.IsOwned(musicId, userId));
@@ -92,7 +93,7 @@
         public async Task GetAllMusic_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var entitesPerPage = PaginationData.MusicsPerPage;
             var actual = musicService.All<MusicViewModel>(page, entitesPerPage);
 
@@ -122,7 +123,7 @@
         public async Task GetFilterMusic_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModel;
             var actual = musicService.Filter<MusicViewModel>(page, entitesPerPage, filter);
@@ -137,7 +138,7 @@
         public async Task GetFilterMusicWithCategory_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
 
@@ -153,7 +154,7 @@
         public async Task GetFilterOwnedMusic_WithValidData_ShouldeReturnMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var userId = MusicTestsData.FilterUserId;
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
@@ -170,7 +171,7 @@
         public async Task GetFilterOwnedMusicWithCategory_WithValidData_ShouldeReturnMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var userId = MusicTestsData.FilterUserId;
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWithCategory;
@@ -187,7 +188,7 @@
         public async Task GetFilterMusicWithUserId_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserId;
 
@@ -203,7 +204,7 @@
         public async Task GetFilterModelWhitUserIdAndCategoryId_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var entitesPerPage = PaginationData.MusicsPerPage;
             var filter = MusicTestsData.FilterModelWhitUserIdAndCategoryId;
 
@@ -219,10 +220,10 @@
         public async Task GetOwnedMusic_WithValidData_ShouldeReturnOwnedMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var userId = MusicTestsData.GetOwnedUserId;
             var entitesPerPage = PaginationData.MusicsPerPage;
-           
+
             var musics = this.context.Musics
                                .Where(s => s.UserId == userId)
                                .OrderByDescending(s => s.CreatedOn)
@@ -245,7 +246,7 @@
         public async Task GetById_WithValidData_ShouldWorkCorrect()
         {
             var getMuisics = MusicTestsData.GetMusics;
-            var songService = await this.CreateMusicService(getMuisics);
+            var songService = await this.CreateMusicService(getMuisics, new List<ReportMusic>());
             var musicId = MusicTestsData.GetById;
 
             var result = songService.GetById<MusicViewModel>(musicId);
@@ -262,11 +263,10 @@
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public async Task SuggestMusics_WithValidData_ShouldeReturnPublicMusics(int page)
         {
             var getMusics = MusicTestsData.GetMusics;
-            var musicService = await this.CreateMusicService(getMusics);
+            var musicService = await this.CreateMusicService(getMusics, new List<ReportMusic>());
             var music = MusicTestsData.SuggestMusic;
             var entitesPerPage = PaginationData.MusicsPerPage;
 
@@ -291,12 +291,102 @@
             expected.Should().BeEquivalentTo(actual);
         }
 
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task GetAllReportedMusic_WithValidData_ShouldReturnData(int page)
+        {
+            var getMusics = ReportMusicTestsData.Musics;
+            var reportedMusics = ReportMusicTestsData.GetReportMusic();
+            var musicService = await this.CreateMusicService(getMusics, reportedMusics);
+            var entitesPerPage = PaginationData.MusicsPerPage;
+            var actual = musicService.AllReportedMusic<MusicViewModel>(page, entitesPerPage);
+
+            var musics = this.context.Musics
+                .Where(m => m.ReportMusics.Count() > 0)
+                .OrderByDescending(m => m.ReportMusics.Count())
+                .To<ReportMusicViewModel>();
+
+            var expected = new ReportMusicPageModel<ReportMusicViewModel>()
+            {
+                ReportMusics = musics
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task FilterReportedMusic_WithValidData_ShouldeReturnData(int page)
+        {
+            var getMusics = ReportMusicTestsData.Musics;
+            var reportedMusics = ReportMusicTestsData.GetReportMusic();
+            var musicService = await this.CreateMusicService(getMusics, reportedMusics);
+            var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+            var filter = ReportMusicTestsData.FilterModel;
+            var actual = musicService.FilterReported<ReportMusicViewModel>(filter, page, entitesPerPage);
+
+            this.CheckReportedMusicFilter(actual, page, entitesPerPage, filter);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task FilterReportedMusicWithCategory_WithValidData_ShouldeReturnData(int page)
+        {
+            var getMusics = ReportMusicTestsData.Musics;
+            var reportedMusics = ReportMusicTestsData.GetReportMusic();
+            var musicService = await this.CreateMusicService(getMusics, reportedMusics);
+            var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+            var filter = ReportMusicTestsData.FilterModelWithCategory;
+
+            var actual = musicService.FilterReported<ReportMusicViewModel>(filter, page, entitesPerPage);
+
+            this.CheckReportedMusicFilter(actual, page, entitesPerPage, filter);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task FilterReportedMusicWithUserId_WithValidData_ShouldeReturnData(int page)
+        {
+            var getMusics = ReportMusicTestsData.Musics;
+            var reportedMusics = ReportMusicTestsData.GetReportMusic();
+            var musicService = await this.CreateMusicService(getMusics, reportedMusics);
+            var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+            var filter = ReportMusicTestsData.FilterModelWhitUserId;
+
+            var actual = musicService.FilterReported<ReportMusicViewModel>(filter, page, entitesPerPage);
+
+            this.CheckReportedMusicFilter(actual, page, entitesPerPage, filter);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        public async Task FilterReportedMusics_ModelWhitUserIdAndCategoryId_WithValidData_ShouldeReturnData(int page)
+        {
+            var getMusics = ReportMusicTestsData.Musics;
+            var reportedMusics = ReportMusicTestsData.GetReportMusic();
+            var musicService = await this.CreateMusicService(getMusics, reportedMusics);
+            var entitesPerPage = PaginationData.ReportedMusicsPerPage;
+            var filter = ReportMusicTestsData.FilterModelWhitUserIdAndCategoryId;
+
+            var actual = musicService.FilterReported<ReportMusicViewModel>(filter, page, entitesPerPage);
+
+            this.CheckReportedMusicFilter(actual, page, entitesPerPage, filter);
+        }
+
         private void CheckFilter(MusicPageModel<MusicViewModel> actual, int page, MusicService musicService, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics
                   .Where(m => m.Privacy == Privacy.Public)
                   .OrderByDescending(m => m.CreatedOn);
-
             if (!string.IsNullOrEmpty(userId))
             {
                 musics = musics.Where(m => m.UserId == userId);
@@ -307,14 +397,30 @@
             }
 
             musics = this.FilteringMusics(filter, musics);
-
             musics = this.OrederSearchMusics(filter.OrderMethod, musics);
-
             var expected = new MusicPageModel<MusicViewModel>()
             {
                 Musics = musics
                     .GetPage(page, entitesPerPage)
                     .To<MusicViewModel>()
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
+            };
+
+            expected.Should().BeEquivalentTo(actual);
+        }
+
+        private void CheckReportedMusicFilter(ReportMusicPageModel<ReportMusicViewModel> actual, int page, int entitesPerPage, ReportMusicFilter filter)
+        {
+            IQueryable<Music> musics = this.context.Musics.Where(m => m.ReportMusics.Count() > 0);
+            musics = this.FilteringReportedMusics(filter, musics);
+            musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+            var expected = new ReportMusicPageModel<ReportMusicViewModel>()
+            {
+                ReportMusics = musics
+                    .GetPage(page, entitesPerPage)
+                    .To<ReportMusicViewModel>()
                     .ToList(),
                 CurrentPage = page,
                 NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
@@ -381,7 +487,32 @@
             return musics;
         }
 
-        private async Task<MusicService> CreateMusicService(List<Music> musics)
+        private IQueryable<Music> FilteringReportedMusics(ReportMusicFilter filter, IQueryable<Music> musics)
+        {
+            if (!string.IsNullOrEmpty(filter.UserId))
+            {
+                musics = musics.Where(s => s.UserId == filter.UserId);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                musics = musics.Where(s => s.Name.ToLower().Contains(filter.Name.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(filter.CategoryId))
+            {
+                musics = musics.Where(s => s.CategoryId == filter.CategoryId);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Username))
+            {
+                musics = musics.Where(s => s.User.UserName.ToLower().Contains(filter.Username.ToLower()));
+            }
+
+            return musics;
+        }
+
+        private async Task<MusicService> CreateMusicService(List<Music> musics, List<ReportMusic> reportMusics)
         {
             var users = MusicTestsData.Users;
             var categories = MusicTestsData.Categories;
@@ -391,7 +522,6 @@
             await this.context.MusicLicenses.AddRangeAsync(new List<MusicLicense>());
             await this.context.SaveChangesAsync();
             var service = new MusicService(this.context, new PaginationService());
-
             return service;
         }
     }

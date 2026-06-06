@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import { Music } from '../../musics/models/music';
 import { PlayLaterMusic } from '../models/playLaterMusic';
 import { PlayLaterMusicPagination } from '../models/playLaterMusicPagination';
@@ -17,7 +18,7 @@ export class PlayLaterMusicService {
   }
 
   filter(page: number, music: Music) {
-    return this.http.post<PlayLaterMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, music);
+    return this.http.get<PlayLaterMusicPagination>(`${this.route}/FilterLikedMusics/${page}`, { params: setQueryString(music) });
   }
 
   delete(id: string) {

@@ -91,11 +91,12 @@ namespace MusicHub.Services.Data
             return license.Id;
         }
 
-        public async Task CreateFile(LicenseFileCreateInputModel model)
+        public async Task<string> CreateFile(LicenseFileCreateInputModel model)
         {
             var licenseFile = model.To<LicenseFile>();
             await this.context.LicenseFiles.AddAsync(licenseFile);
             await this.context.SaveChangesAsync();
+            return licenseFile.Id;
         }
 
         public async Task Delete(string id)

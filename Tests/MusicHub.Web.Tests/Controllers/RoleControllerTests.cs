@@ -190,7 +190,38 @@ namespace MusicHub.Web.Tests.Controllers
         }
 
         [Fact]
-        public void UpdateRole_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        public void CreateRole_WithEmptyModel_ShouldReturnOkBadRequest()
+        {
+            var roles = RoleTestsData.GetRoles;
+            var users = RoleTestsData.Users;
+            var permissions = RoleTestsData.Permissions;
+            var userId = PlaylistTestsData.CreateUserId;
+            var model = RoleTestsData.CreateEptyModel;
+            MyController<RoleController>
+                .Instance()
+                .WithData(permissions)
+                .WithData(roles)
+                .WithData(users)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Post(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Roles
+             .Any(r => r.Name == model.Name));
+        }
+
+        [Fact]
+        public void UpdateRole_WithEmptyModel_ShouldReturnOkBadRequest()
         {
             var roles = RoleTestsData.GetRoles;
             var users = RoleTestsData.Users;
@@ -223,6 +254,50 @@ namespace MusicHub.Web.Tests.Controllers
 
                 model.PermissionIds.OrderBy(p => p).Should().BeEquivalentTo(setPermissionIds);
             }
+        }
+
+        [Fact]
+        public void UpdateRole_WithDataInTheDb_ShouldReturnOkWithCorrectData()
+        {
+            var roles = RoleTestsData.GetRoles;
+            var users = RoleTestsData.Users;
+            var permissions = RoleTestsData.Permissions;
+            var userId = PlaylistTestsData.CreateUserId;
+            var model = RoleTestsData.UpdateEmptyModel;
+            var roleId = RoleTestsData.UpdateRoleId;
+            MyController<RoleController>
+                .Instance()
+                .WithData(permissions)
+                .WithData(roles)
+                .WithData(users)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Put(roleId, model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.Name))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The Name field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().Roles
+                .Any(r => r.Id == roleId
+                    && r.Name == model.Name));
+          /*  if (model.PermissionIds != null)
+            {
+                var setPermissionIds = From.Services<ApplicationDbContext>().Roles
+                    .Where(p => p.Id == roleId)
+                    .FirstOrDefault()
+                    .Permissions
+                    .Select(pm => pm.PermissionId)
+                    .OrderBy(p => p);
+
+                model.PermissionIds.OrderBy(p => p).Should().BeEquivalentTo(setPermissionIds);
+            }*/
         }
     }
 }

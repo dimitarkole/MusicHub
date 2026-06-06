@@ -1,0 +1,63 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Report music</h3>
+    <hr />
+  </header>
+
+  <form (ngSubmit)="OnSubmit()" [formGroup]="musicReportForm" class="container">
+    <section id="modal-body">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row form-group">
+            <p>Do you want to report this music?</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row form-group">
+            <!-- Text input-->
+            <div class="col-md-12 control-label">Report type<span class="text-danger">*</span></div>
+            <div class="col-md-12">
+              <select class="form-control" formControlName="type">
+                <option value='default' disabled selected="selected">Operator</option>
+                <option [value]="reportMusicType" *ngFor="let reportMusicType of reportMusicTypes">{{ reportMusicTypeMapping[reportMusicType]}}</option>
+              </select>
+              <span class="text-danger" *ngIf="type.touched && (type.hasError('required') || type.hasError('pattern'))">The type is required!</span>
+            </div>
+          </div>
+          <div class="row form-group">
+            <!-- Text input-->
+            <div class="col-md-12 control-label">Description<span class="text-danger">*</span></div>
+            <div class="col-md-12">
+              <textarea class="form-control" formControlName="description" type="Description"
+                        placeholder="Description" rows="5"></textarea>
+              <span class="text-danger" *ngIf="description.touched && description.hasError('required')">The description is required!</span>
+              <span class="text-danger" *ngIf="description.hasError('minlength')">
+                The description must contain {{descriptionMinLength}} characters!
+              </span>
+              <span class="text-danger" *ngIf="description.hasError('maxlength')">
+                The description must be at most {{descriptionMaxLength}} characters!
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <footer id="modal-footer">
+      <div class="row">
+        <div class="col-md-8">
+
+        </div>
+        <div class="col-md-2">
+          <button mat-raised-button id="modal-cancel-button" (click)="closeModal()" [mat-dialog-close]="false">No</button>
+        </div>
+
+        <div class="col-md-2">
+          <button class="form-btn text-white" mat-raised-button [mat-dialog-close]="true" id="modal-action-button" type="submit" [disabled]="musicReportForm.invalid">Save</button>
+        </div>
+      </div>
+    </footer>
+  </form>
+</div>

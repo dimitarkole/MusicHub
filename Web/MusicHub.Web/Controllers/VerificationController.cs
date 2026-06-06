@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MusicHub.Data.Models;
 using MusicHub.Services.Data.Interfaces;
+using MusicHub.Web.Infrastucture.Extensions;
 using MusicHub.Web.ViewModels.VerificationCodeModels;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace MusicHub.Web.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest();
+                return this.BadRequest(this.ModelState.Errors());
             }
 
             await this.verificationCodeService.Create(model);
@@ -62,8 +63,8 @@ namespace MusicHub.Web.Controllers
 
         /// <summary>Is currect verification code.</summary>
         /// <returns>true/false.</returns>
-        [HttpPost(nameof(CheckCode) + "/{id}")]
-        public ActionResult<bool> CheckCode(string id, VerificationCodeCheckInputModel model)
+        [HttpGet(nameof(CheckCode) + "/{id}")]
+        public ActionResult<bool> CheckCode(string id, [FromQuery] VerificationCodeCheckInputModel model)
             => this.Ok(this.verificationCodeService.IsVerificationCodeCorrect(id, model));
     }
 }

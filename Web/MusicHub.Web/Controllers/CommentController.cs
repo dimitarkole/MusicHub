@@ -85,10 +85,10 @@
         /// <para>Text - text of children comment.</para>
         /// </param>
         /// <returns>Ok.</returns>
-        [HttpPost(nameof(CreateChildrenComment) + "/{parentCommentId}")]
+        [HttpPost(nameof(CreateChildComment) + "/{parentCommentId}")]
         [Authorize]
         [Permission(PermissionType.User)]
-        public async Task<IActionResult> CreateChildrenComment(CommentChildrenCreatreInputModel model, string parentCommentId)
+        public async Task<IActionResult> CreateChildComment(CommentChildrenCreatreInputModel model, string parentCommentId)
         {
             if (!this.ModelState.IsValid)
             {
@@ -97,7 +97,7 @@
 
             var userId = this.userManager.GetUserId(this.User);
 
-            await this.commentService.CreateChildrenComment(model, parentCommentId, userId);
+            await this.commentService.CreateChildComment(model, parentCommentId, userId);
             return this.Ok();
         }
 

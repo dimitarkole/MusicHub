@@ -41,6 +41,8 @@
             public const string ConfirmEmail = "Please confirm your email address";
             public const string ChangePassword = "Change password";
             public const string SuccessfulChangedPassword = "Successful changed cassword";
+            public const string NewIPLoginDetected = "New IP login detected";
+            public const string TwoFactorLogin = "Please confirm your tho factor verification login";
         }
 
         public static class Roles
@@ -55,9 +57,13 @@
         {
             public const int CategoriesPerPage = 10;
             public const int MusicsPerPage = 12;
+            public const int ReportedMusicsPerPage = 12;
+            public const int ReportsPerPage = 12;
             public const int SubscriptionsPerPage = 10;
+            public const int PaySubscriptionsPerPage = 10;
             public const int RolesPerPage = 10;
             public const int PermissionsPerPage = 10;
+            public const int BellsPerPage = 12;
             public const int PlayedMusicsPerPage = 12;
             public const int PlayLaterMusicsPerPage = 12;
             public const int NotificationPerPage = 10;
@@ -72,6 +78,8 @@
             public const int UsersPerPage = 10;
             public const int FollowingsPerPage = 10;
             public const int FollowersPerPage = 10;
+            public const int UserLoginHistoryPerPage = 10;
+            public const int UserIpRulesPerPage = 12;  
         }
 
         public static class MegaStorageData

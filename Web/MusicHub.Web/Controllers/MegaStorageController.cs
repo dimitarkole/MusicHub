@@ -38,8 +38,8 @@
             return this.StatusCode(StatusCodes.Status201Created, new { filePath = file.Path });
         }
 
-        [HttpPost("Download")]
-        public async Task<IActionResult> Download(FileDowloadInputModel model)
+        [HttpGet("Download")]
+        public async Task<IActionResult> Download([FromQuery] FileDowloadInputModel model)
         {
             using (var stream = new MemoryStream())
             {
@@ -49,7 +49,7 @@
         }
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteDocument(FileDowloadInputModel model)
+        public async Task<IActionResult> DeleteDocument([FromQuery] FileDowloadInputModel model)
         {
             await this.megaStorageService.Delete(model.FileUrl);
             return this.Ok();

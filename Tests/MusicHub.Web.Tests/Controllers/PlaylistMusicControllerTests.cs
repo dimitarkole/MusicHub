@@ -5,7 +5,7 @@ using MusicHub.Services.Data;
 using MusicHub.Services.Interfaces;
 using MusicHub.Tests.TestData;
 using MusicHub.Web.Controllers;
-using MusicHub.Web.ViewModels.PlaylistModels;
+using MusicHub.Web.ViewModels.PlaylistMusicModels;
 using MyTested.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -82,6 +82,47 @@ namespace MusicHub.Web.Tests.Controllers
             Assert.True(From.Services<ApplicationDbContext>().PlaylistMusics
                               .Any(pm => pm.MusicId == model.MusicId
                                   && pm.PlaylistId == model.PlaylistId));
+        }
+
+        [Fact]
+        public void CreatePlaylistMusic_WithEmptyModel_ShouldReturnBadRequest()
+        {
+            var users = PlaylistMusicTestsData.Users;
+            var musics = PlaylistMusicTestsData.Musics;
+            var playlists = PlaylistMusicTestsData.Playlists;
+            var categories = PlaylistMusicTestsData.Categories;
+            var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
+            var userId = PlaylistMusicTestsData.Users[0].Id;
+            var model = PlaylistMusicTestsData.CreateEmptyModel;
+
+            MyController<PlaylistMusicController>
+                .Instance()
+                .WithData(users)
+                .WithData(musics)
+                .WithData(categories)
+                .WithData(playlists)
+                .WithData(playlistMusics)
+                .WithUser(user => user
+                    .WithClaim(ClaimTypes.NameIdentifier, userId))
+                .Calling(c => c.Create(model))
+                .ShouldReturn()
+                .BadRequest(result => result
+                .WithErrorOfType<List<string>>()
+                .Passing(actualContacts =>
+                {
+                    if (string.IsNullOrEmpty(model.PlaylistId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The PlaylistId field is required")).Any());
+                    }
+                    if (string.IsNullOrEmpty(model.MusicId))
+                    {
+                        Assert.True(actualContacts.Where(ac => ac.Contains("The MusicId field is required")).Any());
+                    }
+                }));
+
+            Assert.False(From.Services<ApplicationDbContext>().PlaylistMusics
+                 .Any(p => p.PlaylistId == model.PlaylistId
+                     && p.MusicId == model.MusicId));
         }
 
         [Fact]
@@ -190,9 +231,13 @@ namespace MusicHub.Web.Tests.Controllers
             var playlistMusics = PlaylistMusicTestsData.PlaylistMusics();
             var userId = PlaylistMusicTestsData.Users[0].Id;
             var playlistId = playlistMusics[0].PlaylistId;
-            var musicId = playlistMusics.Where(pm => pm.PlaylistId != playlistId)
+            var musicIdsInCurrectPlaylist = playlistMusics.Where(pm => pm.PlaylistId == playlistId)
+                 .Select(pm => pm.MusicId)
+                 .ToList();
+            var musicId = PlaylistMusicTestsData.Musics
+                .Where(m => !musicIdsInCurrectPlaylist.Contains(m.Id))
                 .FirstOrDefault()
-                .MusicId;
+                .Id;
             var model = new IsAddedToPlaylistCheckInputModel() { MusicId = musicId, PlaylistId = playlistId };
             MyController<PlaylistMusicController>
                 .Instance()

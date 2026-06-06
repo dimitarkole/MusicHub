@@ -31,6 +31,7 @@
     public class UsersController : ApiController
     {
         private readonly IProfileService profileService;
+        private readonly IUserLoginHistoryService userLoginHistoryService;
         private readonly IVerificationCodeService verificationCodeService;
         private readonly IEmailSender emailSender;
 
@@ -40,12 +41,14 @@
             UserManager<User> userManager,
             IEmailSender emailSender,
             SignInManager<User> signInManager,
-            ILogger<LogoutModel> logger)
+            ILogger<LogoutModel> logger,
+            IUserLoginHistoryService userLoginHistoryService = null)
             : base(userManager, signInManager, logger)
         {
             this.profileService = profileService;
             this.verificationCodeService = verificationCodeService;
             this.emailSender = emailSender;
+            this.userLoginHistoryService = userLoginHistoryService;
         }
 
         // [Authorize]
@@ -73,7 +76,7 @@
         public IActionResult MyProfile() => this.Ok(this.profileService.GetById<UserEditInputModel>(this.User.GetUserId()));
 
         [Authorize]
-        [HttpPost(nameof(UploadProfileImage))]
+        [HttpPut(nameof(UploadProfileImage))]
         public async Task<IActionResult> UploadProfileImage(UserProfilePictueInputModel model)
         {
             string userId = this.User.GetUserId();
@@ -81,8 +84,8 @@
             return this.Ok();
         }
 
-        [HttpPost(nameof(ResendConfirmEmail))]
-        public async Task<ActionResult<string>> ResendConfirmEmail(ResendEmailConfirmInputModel model)
+        [HttpGet(nameof(ResendConfirmEmail))]
+        public async Task<ActionResult<string>> ResendConfirmEmail([FromQuery] ResendEmailConfirmInputModel model)
         {
             var user = this.profileService.GetByEmail<ResendEmailConfirmDetailsModel>(model.Email);
             if (user == null)
@@ -96,19 +99,47 @@
             return this.Ok();
         }
 
-        [HttpPost(nameof(GetByEmail))]
-        public ActionResult<UserViewModel> GetByEmail(UserFilter model)
+        [HttpGet(nameof(GetByEmail))]
+        public ActionResult<UserViewModel> GetByEmail([FromQuery] UserFilter model)
             => this.Ok(this.profileService.GetByEmail<UserViewModel>(model.Email));
 
-        // <summary>Login user.</summary>
-        /// <param name="model">Login information.</param>
-        /// <returns>Token</returns>
-        [HttpPost(nameof(Login))]
-        public async Task<ActionResult<User>> Login(ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
+        //Old login method without 2FA
+        //// <summary>Login user.</summary>
+        ///// <param name="model">Login information.</param>
+        ///// <returns>Token</returns>
+        //[HttpGet(nameof(Login))]
+        //public async Task<ActionResult<User>> Login([FromQuery] ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
+        //{
+        //    if (!this.profileService.IsEmailConfirm(model.Username))
+        //    {
+        //        return this.BadRequest("Email is not verificated. Please confirm it before use your profile.");
+        //    }
+
+        //    var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
+        //    if (jwtToken == null)
+        //    {
+        //        return this.BadRequest("Username or password is incorrect.");
+        //    }
+
+        //    var user = await this.userManager.FindByNameAsync(model.Username);
+        //    var ipAddress = this.HttpContext.Connection.RemoteIpAddress?.ToString();
+        //    var userAgent = this.Request.Headers["User-Agent"].ToString();
+        //    await this.userLoginHistoryService.HandleLoginAsync(user, ipAddress, userAgent);
+        //    return new JsonResult(jwtToken);
+        //}
+
+        [HttpGet(nameof(Login))]
+        public async Task<ActionResult> Login([FromQuery] ViewModels.Users.LoginModel model, [FromServices] IOptions<JwtSettings> settings)
         {
             if (!this.profileService.IsEmailConfirm(model.Username))
             {
-                return this.BadRequest("Email is not verificated. Please confirm it before use your profile.");
+                return this.BadRequest("Email is not verificated.");
+            }
+
+            var user = await this.userManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                return this.BadRequest("Username or password is incorrect.");
             }
 
             var jwtToken = await this.userManager.Authenticate(model.Username, model.Password, settings.Value);
@@ -118,7 +149,73 @@
                 return this.BadRequest("Username or password is incorrect.");
             }
 
-            return new JsonResult(jwtToken);
+            // 2FA ENABLED
+            if (user.TwoFactorEnabled)
+            {
+                var verificationCodeCreateModel = new VerificationCodeCreateInputModel
+                {
+                    UserId = user.Id,
+                    Type = VerificationType.TwoFactorLogin,
+                };
+
+                await this.verificationCodeService.Create(verificationCodeCreateModel);
+
+                var data = new Dictionary<string, string>
+                {
+                    { "userName", user.UserName },
+                    { "verificationCode", verificationCodeCreateModel.Code }
+                };
+
+                var htmlContent = MessagesContentTemplates.CreateMessageContent(EmailSubjects.TwoFactorLogin,data);
+                await this.emailSender.SendEmailAsync(user.Email,EmailSubjects.TwoFactorLogin,htmlContent);
+                return this.Ok(new
+                {
+                    requiresTwoFactor = true,
+                    userId = user.Id,
+                    token = "",
+                });
+            }
+
+            // NORMAL LOGIN
+            var ipAddress = this.HttpContext.Connection.RemoteIpAddress?.ToString();
+            var userAgent = this.Request.Headers["User-Agent"].ToString();
+            await this.userLoginHistoryService.HandleLoginAsync(user, ipAddress, userAgent);
+            return this.Ok(new
+            {
+                requiresTwoFactor = false,
+                userId = user.Id,
+                token = jwtToken,
+            });
+        }
+
+        [HttpPut(nameof(VerifyTwoFactor) + "/{id}")]
+        public async Task<ActionResult> VerifyTwoFactor(string id, VerificationCodeCheckInputModel model,[FromServices] IOptions<JwtSettings> settings)
+        {
+            if (!this.profileService.UserExistsById(id))
+            {
+                this.ModelState.AddModelError("User", "User not found.");
+            }
+
+            if (!this.verificationCodeService.IsVerificationCodeCorrect(id, model))
+            {
+                this.ModelState.AddModelError("VerificationCode", "Wrong verification code.");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            await this.verificationCodeService.SetVerificationCodeIsUsed(id, model.Code);
+            var user = await this.userManager.FindByIdAsync(id);
+            var jwtToken = await this.userManager.GenerateJwtToken(user, settings.Value);
+            var ipAddress = this.HttpContext.Connection.RemoteIpAddress?.ToString();
+            var userAgent = this.Request.Headers["User-Agent"].ToString();
+            await this.userLoginHistoryService.HandleLoginAsync(user, ipAddress, userAgent);
+            return this.Ok(new
+            {
+                token = jwtToken,
+            });
         }
 
         [HttpPut(nameof(ConfirmEmail) + "/{id}")]
@@ -162,7 +259,7 @@
             return this.Ok(this.profileService.HasPermissions(this.User.GetUserId(), permissionType));
         }
 
-        [HttpPost(nameof(ChangePassword))]
+        [HttpPut(nameof(ChangePassword))]
         [Authorize]
         public async Task<ActionResult> ChangePassword([FromBody] PasswordChangeInputModel model)
         {
@@ -172,7 +269,7 @@
             return result.ToActionResult();
         }
 
-        [HttpPost(nameof(ChangePasswordWithoutAuth) + "/{id}")]
+        [HttpPut(nameof(ChangePasswordWithoutAuth) + "/{id}")]
         public async Task<ActionResult> ChangePasswordWithoutAuth(string id, PasswordChangeWithoutAuthInputModel model)
         {
             User user = await this.userManager.FindByIdAsync(id);
@@ -183,7 +280,7 @@
 
             var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
 
-            var result = await this.userManager.ResetPasswordAsync(user, token, model.Password );
+            var result = await this.userManager.ResetPasswordAsync(user, token, model.Password);
             return result.ToActionResult();
         }
 
@@ -223,7 +320,7 @@
                     EmailSubjects.ConfirmEmail,
                     htmlContent);
 
-                return this.Ok();
+                return this.Ok(new { userId = user.Id });
             }
             else
             {
@@ -304,7 +401,7 @@
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
-        [HttpPost(nameof(RenewUser))]
+        [HttpPut(nameof(RenewUser))]
         public async Task<ActionResult> RenewUser([FromBody] string id)
         {
             await this.profileService.Renew(id);
@@ -313,13 +410,15 @@
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
-        [HttpPost(nameof(FindUsers))]
-        public ActionResult FindUsers(int page, [FromBody] FindUserInputModel model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model.SearchQuery));
+        [HttpGet(nameof(FindUsers))]
+        public ActionResult FindUsers(int page, [FromQuery] FindUserInputModel model)
+            => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model.SearchQuery));
 
         [Authorize]
         //[Permission(PermissionType.FindAndReplaceUsers)]
-        [HttpPost(nameof(AdvancedSearch) + "/{page}")]
-        public ActionResult AdvancedSearch(int page, UserFilter model) => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
+        [HttpGet(nameof(AdvancedSearch) + "/{page}")]
+        public ActionResult AdvancedSearch(int page, [FromQuery] UserFilter model) 
+            => this.Ok(this.profileService.Search(page, PaginationData.UsersPerPage, model));
 
         [Authorize]
         [Permission(PermissionType.FindAndReplaceUsers)]
@@ -330,7 +429,6 @@
         [Permission(PermissionType.UserAdministration)]
         [HttpGet("[action]/{id}")]
         public ActionResult GetUserName(string id) => this.Ok(this.profileService.GetById<UserFullNameViewModel>(id));
-
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
@@ -343,7 +441,7 @@
 
         [Authorize]
         [Permission(PermissionType.UserAdministration)]
-        [HttpPost(nameof(Settings))]
+        [HttpGet(nameof(Settings))]
         public ActionResult Settings()
             => this.Ok(this.profileService.GetSettings<UserSettingViewModel>(this.User.GetUserId()));
 

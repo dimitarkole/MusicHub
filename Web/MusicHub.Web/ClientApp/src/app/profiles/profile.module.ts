@@ -29,21 +29,29 @@ import { SharedModule } from '../shared/shared.module';
 import { MusicsModule } from '../musics/musics.module';
 import { PlaylistsModule } from '../playlists/playlists.module';
 import { ProfilesRoutingModule } from './profiles-routing.module';
+import { UserIpRuleListComponent } from './components/user-ip-rule-list/user-ip-rule-list.component';
+import { UserIpRuleCreateComponent } from './components/user-ip-rule-create/user-ip-rule-create.component';
+import { UserIpRuleEditComponent } from './components/user-ip-rule-edit/user-ip-rule-edit.component';
 
 @NgModule({
   declarations: [
     ProfileChangePasswordComponent,
     ProfileEditComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    UserIpRuleListComponent,
+    UserIpRuleCreateComponent,
+    UserIpRuleEditComponent
   ],
   exports: [
     ProfileChangePasswordComponent,
     ProfileEditComponent,
-    ProfileUserComponent
+    ProfileUserComponent,
+    UserIpRuleCreateComponent
   ],
   entryComponents: [
     ProfileEditComponent,
     ProfileChangePasswordComponent,
+    UserIpRuleCreateComponent,
   ],
   imports: [
     BrowserModule,

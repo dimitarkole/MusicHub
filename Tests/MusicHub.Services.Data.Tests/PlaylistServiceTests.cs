@@ -41,7 +41,7 @@
         [InlineData(2)]
         public async Task GetAllPlaylists_WithValidData_ShouldeReturnPublicPlaylist(int page)
         {
-            var playlistService = await this.CreatePlaylistService(new List<Playlist>());
+            var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var entitesPerPage = PaginationData.PlaylistsPerPage;
 
             var actual = playlistService.All<PlaylistViewModel>(page, entitesPerPage);
@@ -54,7 +54,7 @@
         [InlineData(2)]
         public async Task GetAllOwnedPlaylists_WithValidData_ShouldeReturnPlaylist(int page)
         {
-            var playlistService = await this.CreatePlaylistService(new List<Playlist>());
+            var playlistService = await this.CreatePlaylistService(PlaylistTestsData.Playlists);
             var userId = PlaylistTestsData.AllOwnedUserId;
             var entitesPerPage = PaginationData.PlaylistsPerPage;
 
@@ -231,8 +231,7 @@
             IQueryable<Playlist> playlists = this.context.Playlists
                     .Where(p => p.Privacy == Privacy.Public
                         && p.PlaylistMusics.Count > 0);
-
-            if(userId != null)
+            if (userId != null)
             {
                 playlists = playlists.Where(p => p.UserId == userId);
             }

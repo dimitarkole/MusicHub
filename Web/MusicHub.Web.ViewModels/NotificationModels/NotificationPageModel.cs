@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class NotificationPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class NotificationPageModel<T> : PageModel
     {
         public IEnumerable<T> Notifications { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

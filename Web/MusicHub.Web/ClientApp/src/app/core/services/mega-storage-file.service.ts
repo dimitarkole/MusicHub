@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import FileInfo from '../../shared/models/fileInfo';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class MegaStorageFileService {
     const formData: FormData = new FormData();
     formData.append("file", file, file.name);
     formData.append("path", path);
-    return this.http.post<string>(`${this.route}`, formData);
+    return this.http.get<string>(`${this.route}`, { params: setQueryString(formData) });
   }
 
   createList(files: File[], path: string) {
@@ -25,7 +26,7 @@ export class MegaStorageFileService {
     }
     formData.append("path", path);
 
-    return this.http.post<string[]>(`${this.route}/CreateList`, formData);
+    return this.http.get<string[]>(`${this.route}/CreateList`, { params: setQueryString(formData) });
   }
 
   deleteFile(fileInfo: FileInfo) {

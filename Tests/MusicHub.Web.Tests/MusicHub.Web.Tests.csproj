@@ -11,11 +11,14 @@
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Properties\launchSettings.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="5.1.1" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.4.0" />
-    <PackageReference Include="Moq" Version="4.13.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.4" />
+    <PackageReference Include="Moq" Version="4.15.2" />
     <PackageReference Include="MyTested.AspNetCore.Mvc.Universe" Version="5.0.0" />
     <PackageReference Include="Shouldly" Version="4.0.0-*" />
     <PackageReference Include="System.Linq.Expressions" Version="4.3.0" />

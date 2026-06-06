@@ -41,7 +41,8 @@ import { AlbumsOwnListComponent } from './albums/components/albums-own-list/albu
 import { AlbumPlayComponent } from './albums/components/album-play/album-play.component';
 import { PlayLaterMusicsListComponent } from './play-later-musics/components/play-later-musics-list/play-later-musics-list.component';
 import { OwnMusicsAnalysisComponent } from './musics/components/own-musics-analysis/own-musics-analysis.component';
-
+import { NotificationSettingsListComponent } from './notifications/components/notification-settings-list/notification-settings-list.component';
+import { UserIpRuleListComponent } from './profiles/components/user-ip-rule-list/user-ip-rule-list.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: HomeComponent },
   { path: 'signup', component: SignUpComponent },
@@ -201,6 +202,10 @@ const routes: Routes = [
   {
     path: 'myProfile', children: [
       { path: '', component: ProfileUserComponent, canActivate: [AuthorizeGuard] },
+      {
+        path: 'userIpRules',
+        component: UserIpRuleListComponent, canActivate: [AuthorizeGuard] 
+      },
     ]
   },
   {
@@ -272,7 +277,16 @@ const routes: Routes = [
         canActivate: [PermissionsGuard],
         data: withPermission(PermissionType.ManageUserPermissions)
       },
-    ]
+    ],
+  },
+  {
+    path: 'notifications', children: [
+      {
+        path: 'settings',
+        component: NotificationSettingsListComponent,
+        canActivate: [AuthorizeGuard]
+      },
+    ],
   }
 ];
 

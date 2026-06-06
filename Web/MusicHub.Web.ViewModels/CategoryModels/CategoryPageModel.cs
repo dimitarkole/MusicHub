@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Web.ViewModels.CategoryModels
+﻿namespace MusicHub.Web.ViewModels.CategoryModels
 {
-    public class CategoryPageModel<T>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class CategoryPageModel<T> : PageModel
     {
         public IEnumerable<T> Categories { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

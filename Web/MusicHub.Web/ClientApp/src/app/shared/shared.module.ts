@@ -37,6 +37,7 @@ import { NotificationsListComponent } from '../notifications/components/notifica
 import { NotificationSpecialInfoComponent } from '../notifications/components/notification-special-info/notification-special-info.component';
 import { SharedsRoutingModule } from './shareds-routing.module';
 import { HomeComponent } from '../home/home.component';
+import { NotificationSettingsListComponent } from '../notifications/components/notification-settings-list/notification-settings-list.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { HomeComponent } from '../home/home.component';
     FollowingListNavBarComponent,
 
     NotificationsListComponent,
-    NotificationSpecialInfoComponent
+    NotificationSpecialInfoComponent,
+    NotificationSettingsListComponent,
   ],
   exports: [
     NavBarComponent,
@@ -77,7 +79,8 @@ import { HomeComponent } from '../home/home.component';
     FollowingListNavBarComponent,
 
     NotificationsListComponent,
-    NotificationSpecialInfoComponent
+    NotificationSpecialInfoComponent,
+    NotificationSettingsListComponent,
   ],
   entryComponents: [
   

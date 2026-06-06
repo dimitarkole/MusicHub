@@ -1,5 +1,5 @@
 ﻿using MusicHub.Data.Models;
-using MusicHub.Web.ViewModels.PlaylistModels;
+using MusicHub.Web.ViewModels.PlaylistMusicModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,12 @@ namespace MusicHub.Tests.TestData
         {
             MusicId = Musics[0].Id,
             PlaylistId = Playlists[0].Id
+        };
+
+        public static PlaylistMusicCreateInputModel CreateEmptyModel => new PlaylistMusicCreateInputModel()
+        {
+            MusicId = "",
+            PlaylistId = ""
         };
 
         public static string PlaylistId => Playlists[0].Id;
@@ -81,7 +87,7 @@ namespace MusicHub.Tests.TestData
         public static List<PlaylistMusic> PlaylistMusics()
         {
             var result = new List<PlaylistMusic>();
-            var random = new Random();
+            var random = new Random(0);
             var musics = Musics;
             var playlists = Playlists;
             var count = 1;

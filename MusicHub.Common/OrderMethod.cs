@@ -25,5 +25,17 @@
         EmailDesc = 7,
         [Display(Name = "Best order")]
         BestOrder = 8,
+        [Display(Name = "Entities whose are not seen")]
+        UnseenFirst = 9,
+        [Display(Name = "Entities whose are seen")]
+        SeenFirst = 10,
+        [Display(Name = "Order enitys by price asc")]
+        PriceAsc = 6,
+        [Display(Name = "Order enitys by price desc")]
+        PriceDesc = 7,
+        [Display(Name = "Order enitys by date")]
+        DateAsc = 6,
+        [Display(Name = "Order enitys by date")]
+        DateDesc = 7,
     }
 }

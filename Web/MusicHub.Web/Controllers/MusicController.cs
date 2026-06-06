@@ -51,10 +51,10 @@
         /// <para>CategoryId - id of category of Music.</para>
         /// <para>OrderMethod - order method.</para>
         /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
-        [HttpPost(nameof(Filter) + "/{page}")]
+        [HttpGet(nameof(FilterOwn) + "/{page}")]
         [Authorize]
         [Permission(PermissionType.MusicCreator)]
-        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, MusicFilter model)
+        public ActionResult<MusicPageModel<MusicViewModel>> FilterOwn(int page, [FromQuery] MusicFilter model)
           => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, model, this.userManager.GetUserId(this.User)));
 
         /// <summary>Add Music in data.</summary>
@@ -127,5 +127,45 @@
             await this.musicService.Delete(id);
             return this.Ok();
         }
+
+        [Authorize]
+        [HttpGet(nameof(IsOwned) + "/{id}")]
+        public ActionResult<bool> IsOwned(string id)
+            => this.Ok(this.musicService.IsOwned(id, this.userManager.GetUserId(this.User)));
+
+        /// <summary>Get music.</summary>
+        /// <param name="page">The page of music.</param>
+        /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
+        [HttpGet(nameof(Get) + "/{page}")]
+        public ActionResult<MusicPageModel<MusicViewModel>> Get(int page)
+          => this.Ok(this.musicService.All<MusicViewModel>(page, PaginationData.MusicsPerPage));
+
+        /// <summary>Filter music.</summary>
+        /// <param name="page">The page of music.</param>
+        /// <param name="filter">Filter data.
+        /// <para>Name - name of Music.</para>
+        /// <para>Username - name of user who created music.</para>
+        /// <para>UserId - id of user who created music.</para>
+        /// <para>CategoryId - id of category of music.</para>
+        /// <para>OrderMethod - order method.</para>
+        /// </param>
+        /// <returns>Ok(MusicsAllViewModel<MusicViewModel>).</returns>
+        [HttpGet(nameof(Filter) + "/{page}")]
+        public ActionResult<MusicPageModel<MusicViewModel>> Filter(int page, [FromQuery] MusicFilter filter)
+            => this.Ok(this.musicService.Filter<MusicViewModel>(page, PaginationData.MusicsPerPage, filter));
+
+        /// <summary>Get music by id.</summary>
+        /// <param name="id">Id of music.</param>
+        /// <returns>Ok(MusicPlayModel).</returns>
+        [HttpGet("{id}")]
+        public ActionResult<MusicDetailModel> Get(string id)
+            => this.Ok(this.musicService.GetById<MusicDetailModel>(id));
+
+        /// <summary>Get sugesst musics by music id.</summary>
+        /// <param name="id">Id of music.</param>
+        /// <returns>Ok(MusicPlayModel).</returns>
+        [HttpGet(nameof(SuggestMusics) + "/{id}/{page}")]
+        public ActionResult<MusicPageModel<MusicViewModel>> SuggestMusics(int page, string id)
+            => this.Ok(this.musicService.SuggestMusics<MusicViewModel>(page, PaginationData.SuggestMusicPerPage, id));
     }
 }

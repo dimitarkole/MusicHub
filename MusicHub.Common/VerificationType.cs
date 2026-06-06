@@ -11,5 +11,7 @@ namespace MusicHub.Common
         ConfirmEmail = 0,
         [Display(Name = "Change password")]
         ChangePassword = 1,
+        [Display(Name = "Two factor login")]
+        TwoFactorLogin = 2,
     }
 }

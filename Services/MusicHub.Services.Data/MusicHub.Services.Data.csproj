@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.312" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -28,6 +29,7 @@
     <ProjectReference Include="..\..\MusicHub.Filtering\MusicHub.Filtering.csproj" />
     <ProjectReference Include="..\..\Web\MusicHub.Web.ViewModels\MusicHub.Web.ViewModels.csproj" />
     <ProjectReference Include="..\MusicHub.Services.Mapping\MusicHub.Services.Mapping.csproj" />
+    <ProjectReference Include="..\MusicHub.Services.Messaging\MusicHub.Services.Messaging.csproj" />
     <ProjectReference Include="..\MusicHub.Services\MusicHub.Services.csproj" />
   </ItemGroup>
 

@@ -44,124 +44,134 @@ import { MusicAddToComponent } from './components/music-add-to/music-add-to.comp
 import { AddMusicToPlaylistComponent } from './components/add-music-to-playlist/add-music-to-playlist.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AddMusicToPlaylistsComponent } from './components/add-music-to-playlists/add-music-to-playlists.component';
+import { LikedMusicDetailsComponent } from './components/liked-music-details/liked-music-details.component';
+import { PlayedMusicDetailsComponent } from './components/played-music-details/played-music-details.component';
+import { AddMusicToAlbumComponent } from './components/add-music-to-album/add-music-to-album.component';
+import { AddMusicToAlbumsComponent } from './components/add-music-to-albums/add-music-to-albums.component';
+import { MusicReportsModule } from '../music-report/music-report.module';
 
 const routes: Routes = [
-  {
-    path: 'play/:id',
-    component: MusicPlayComponent,
-    resolve:
     {
-      music: MusicResolver
+        path: 'play/:id',
+        component: MusicPlayComponent,
+        resolve:
+        {
+            music: MusicResolver
+        },
     },
-  },
-  { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
-  { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard] },
-  {
-    path: 'own', children: [
-      {
-        path: '',
-        component: MusicsOwnListComponent,
-        canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.MusicCreator)
-      },
-      {
-        path: 'analysis',
-        component: OwnMusicsAnalysisComponent,
-        canActivate: [PermissionsGuard],
-        data: withPermission(PermissionType.MusicCreator)
-      }
-    ]
+    { path: 'liked', component: LikedMusicsListComponent, canActivate: [AuthorizeGuard] },
+    { path: 'history', component: PlayedMusicsListsComponent, canActivate: [AuthorizeGuard] },
+    {
+        path: 'own', children: [
+            {
+                path: '',
+                component: MusicsOwnListComponent,
+                canActivate: [PermissionsGuard],
+                data: withPermission(PermissionType.MusicCreator)
+            },
+            {
+                path: 'analysis',
+                component: OwnMusicsAnalysisComponent,
+                canActivate: [PermissionsGuard],
+                data: withPermission(PermissionType.MusicCreator)
+            }
+        ]
 
-  },
-  {
-    path: 'create',
-    component: MusicCreateComponent,
-    canActivate: [PermissionsGuard],
-    data: withPermission(PermissionType.MusicCreator)
-  },
-  {
-    path: 'edit/:id',
-    component: MusicCreateComponent,
-    resolve:
-    {
-      music: MusicResolver
     },
-    canActivate: [AuthorizeGuard],
-    data: withPermission(PermissionType.MusicCreator)
-  },
+    {
+        path: 'create',
+        component: MusicCreateComponent,
+        canActivate: [PermissionsGuard],
+        data: withPermission(PermissionType.MusicCreator)
+    },
+    {
+        path: 'edit/:id',
+        component: MusicCreateComponent,
+        resolve:
+        {
+            music: MusicResolver
+        },
+        canActivate: [AuthorizeGuard],
+        data: withPermission(PermissionType.MusicCreator)
+    },
 ];
 
 @NgModule({
-  declarations: [
-    MusicsListTemplateComponent,
-    MusicsOwnListComponent,
-    MusicCreateComponent,
-    MusicEditComponent,
-    MusicDeleteComponent,
-    MusicDetailsComponent,
-    MusicSuggestionsListComponent,
-    MusicPlayComponent,
-    MusicReactionComponent,
-    LikedMusicsListComponent,
-    PlayedMusicsListsComponent,
-    OwnMusicsAnalysisComponent,
-    MusicImageComponent,
-    MusicSmallDetailsComponent,
-    MusicAddToComponent,
-    AddMusicToPlaylistComponent,
-    AddMusicToPlaylistsComponent
-  ],
-  exports: [
-    MusicsListTemplateComponent,
-    MusicsOwnListComponent,
-    MusicCreateComponent,
-    MusicEditComponent,
-    MusicDeleteComponent,
-    MusicDetailsComponent,
-    MusicSuggestionsListComponent,
-    MusicPlayComponent,
-    MusicReactionComponent,
-    LikedMusicsListComponent,
-    PlayedMusicsListsComponent,
-    OwnMusicsAnalysisComponent,
-    MusicImageComponent,
-    MusicSmallDetailsComponent,
-  ],
-  entryComponents: [
-    MusicDeleteComponent,
-    AddMusicToPlaylistComponent
-  ],
+    declarations: [
+        MusicsListTemplateComponent,
+        MusicsOwnListComponent,
+        MusicCreateComponent,
+        MusicEditComponent,
+        MusicDeleteComponent,
+        MusicDetailsComponent,
+        MusicSuggestionsListComponent,
+        MusicPlayComponent,
+        MusicReactionComponent,
+        LikedMusicsListComponent,
+        PlayedMusicsListsComponent,
+        OwnMusicsAnalysisComponent,
+        MusicImageComponent,
+        MusicSmallDetailsComponent,
+        MusicAddToComponent,
+        AddMusicToPlaylistComponent,
+        AddMusicToPlaylistsComponent,
+        LikedMusicDetailsComponent,
+        PlayedMusicDetailsComponent,
+        AddMusicToAlbumComponent,
+        AddMusicToAlbumsComponent
+    ],
+    exports: [
+        MusicsListTemplateComponent,
+        MusicsOwnListComponent,
+        MusicCreateComponent,
+        MusicEditComponent,
+        MusicDeleteComponent,
+        MusicDetailsComponent,
+        MusicSuggestionsListComponent,
+        MusicPlayComponent,
+        MusicReactionComponent,
+        LikedMusicsListComponent,
+        PlayedMusicsListsComponent,
+        OwnMusicsAnalysisComponent,
+        MusicImageComponent,
+        MusicSmallDetailsComponent,
+    ],
+    entryComponents: [
+        MusicDeleteComponent,
+        AddMusicToPlaylistComponent
+    ],
 
-  imports: [
-    CommonModule,
-    BrowserModule,
-    NgxChartsModule,
-    BrowserAnimationsModule,
-    MatSidenavModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatDialogModule,
-    RouterModule.forChild(routes),
-    SharedModule,
-    CommentModule,
-    ChartModule,
-  ],
-  providers: [
-    //{ provide: AppInsightsServiceService },
-    NgbActiveModal,
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    //{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
-    { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: {} }
-  ],
-  bootstrap: [AppComponent]
+    imports: [
+        CommonModule,
+        BrowserModule,
+        NgxChartsModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbModule,
+        LayoutModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatDialogModule,
+        RouterModule.forChild(routes),
+        SharedModule,
+        CommentModule,
+        ChartModule,
+        MusicReportsModule
+    ],
+    providers: [
+        //{ provide: AppInsightsServiceService },
+        NgbActiveModal,
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+        //{ provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true },
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+    ],
+    bootstrap: [AppComponent]
 })
 export class MusicsModule { }

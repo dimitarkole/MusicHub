@@ -12,7 +12,7 @@
     using MusicHub.Services.Data.Interfaces;
     using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
-    using MusicHub.Web.ViewModels.PlaylistModels;
+    using MusicHub.Web.ViewModels.PlaylistMusicModels;
 
     public class PlaylistMusicService : IPlaylistMusicService
     {

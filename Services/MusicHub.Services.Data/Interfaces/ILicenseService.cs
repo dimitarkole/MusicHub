@@ -32,7 +32,7 @@
 
         bool IsOwned(string licenseId, string userId);
 
-        Task CreateFile(LicenseFileCreateInputModel model);
+        Task<string> CreateFile(LicenseFileCreateInputModel model);
 
         Task DeleteFile(string id);
     }

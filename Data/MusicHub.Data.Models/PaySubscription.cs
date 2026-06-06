@@ -1,10 +1,8 @@
-﻿using MusicHub.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MusicHub.Data.Models
+﻿namespace MusicHub.Data.Models
 {
+    using MusicHub.Data.Common.Models;
+    using System;
+
     public class PaySubscription : IAuditInfo
     {
         public PaySubscription()
@@ -26,6 +24,10 @@ namespace MusicHub.Data.Models
         public virtual Subscription Subscription { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public DateTime ValidFrom { get; set; }
+
+        public DateTime ValidTo { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
     }

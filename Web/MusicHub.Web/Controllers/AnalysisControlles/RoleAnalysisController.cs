@@ -39,12 +39,12 @@ namespace MusicHub.Web.Controllers.AnalysisControlles
         public ActionResult<PieChartViewModel> GetRolesByCountOfPermissions()
              => this.Ok(this.roleAnalysisService.GetRolesByCountOfPermissions());
 
-        [HttpPost(nameof(GetRolesByUsersForMonths))]
-        public ActionResult<PieChartViewModel> GetRolesByUsersForMonths(ChartFilterData filter)
+        [HttpGet(nameof(GetRolesByUsersForMonths))]
+        public ActionResult<PieChartViewModel> GetRolesByUsersForMonths([FromQuery] ChartFilterData filter)
            => this.Ok(this.roleAnalysisService.GetRolesByUsersForMonths(filter));
 
-        [HttpPost(nameof(GetRolesByAverageCountOfUsersForWeek))]
-        public ActionResult<PieChartViewModel> GetRolesByAverageCountOfUsersForWeek(ChartFilterData filter)
+        [HttpGet(nameof(GetRolesByAverageCountOfUsersForWeek))]
+        public ActionResult<PieChartViewModel> GetRolesByAverageCountOfUsersForWeek([FromQuery] ChartFilterData filter)
            => this.Ok(this.roleAnalysisService.GetRolesByAverageCountOfUsersForWeek(filter));
 
         [HttpGet(nameof(GetRolesByUsersLastWeek))]

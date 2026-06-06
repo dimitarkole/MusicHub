@@ -37,6 +37,8 @@
                               new AlbumsSeeder(),
                               new AlbumMusicsSeeder(),
                               new PlayLaterMusicsSeeder(),
+                              new ReportMusicSeeder(),
+                              new UserIpRuleSeeder(),
                           };
 
             foreach (var seeder in seeders)

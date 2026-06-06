@@ -4,20 +4,17 @@
     using System.Collections.Generic;
     using System.Text;
     using MusicHub.Common;
+    using MusicHub.Data.Common;
     using MusicHub.Data.Common.Models;
 
-    public class VerificationCode : IAuditInfo
+    public class VerificationCode : Entity<string>, IAuditInfo
     {
         public VerificationCode()
         {
-            this.CreatedOn = DateTime.UtcNow;
             this.Id = Guid.NewGuid().ToString();
+            this.CreatedOn = DateTime.UtcNow;
             this.IsUsed = false;
         }
-
-        // Summary:
-        //     Gets or sets the primary key.
-        public virtual string Id { get; set; }
 
         public bool IsUsed { get; set; }
 

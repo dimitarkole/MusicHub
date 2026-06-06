@@ -22,6 +22,7 @@
             this.MusicLicenses = new HashSet<MusicLicense>();
             this.AlbumMusics = new HashSet<AlbumMusic>();
             this.PlayLaterMusics = new HashSet<PlayLaterMusic>();
+            this.ReportMusics = new HashSet<ReportMusic>();
         }
 
         public string Name { get; set; }
@@ -107,5 +108,7 @@
         public ICollection<AlbumMusic> AlbumMusics { get; set; }
 
         public ICollection<MusicLicense> MusicLicenses { get; set; }
+
+        public ICollection<ReportMusic> ReportMusics { get; set; }
     }
 }

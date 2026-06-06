@@ -65,7 +65,6 @@ export class HomeComponent implements OnInit {
           name: queryParams.searchQuery == undefined? "": queryParams.searchQuery,
           categoryId: queryParams.categoryId == undefined ? "" :queryParams.categoryId,
         };
-        console.log(musicFilter);
         var page = this.musicPagination.currentPage + 1;
         this.musicService.allFilter(page, musicFilter).subscribe(data => {
           this.musicPagination.numberOfPages = data.numberOfPages;
@@ -99,6 +98,6 @@ export class HomeComponent implements OnInit {
   }
 
   selectedOrderMehtod(orderMethod: string) {
-    alert("Here" + orderMethod);
+   // alert("Here" + orderMethod);
   }
 }

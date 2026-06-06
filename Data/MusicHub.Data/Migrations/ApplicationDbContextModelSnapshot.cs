@@ -177,6 +177,30 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("AlbumMusics");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.Bell", b =>
+                {
+                    b.Property<string>("BellingId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BellerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("BellingId", "BellerId");
+
+                    b.HasIndex("BellerId");
+
+                    b.ToTable("Bells");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.Category", b =>
                 {
                     b.Property<string>("Id")
@@ -562,6 +586,33 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("NotificationClaims");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationSetting", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NotificationSettings");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.Property<string>("Id")
@@ -578,6 +629,12 @@ namespace MusicHub.Data.Migrations
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ValidFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ValidTo")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -720,6 +777,41 @@ namespace MusicHub.Data.Migrations
                     b.HasIndex("PlaylistId");
 
                     b.ToTable("PlaylistMusics");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.ReportMusic", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MusicId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Seen")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MusicId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ReportMusics");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Role", b =>
@@ -915,6 +1007,72 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.UserIpRule", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Pattern")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RuleType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserIpRules");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LoginDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLoginHistories");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
                 {
                     b.Property<string>("UserId")
@@ -1051,6 +1209,25 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Album");
 
                     b.Navigation("Music");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.Bell", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "Beller")
+                        .WithMany("Bellings")
+                        .HasForeignKey("BellerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("MusicHub.Data.Models.User", "Belling")
+                        .WithMany("Bellers")
+                        .HasForeignKey("BellingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Beller");
+
+                    b.Navigation("Belling");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Comment", b =>
@@ -1198,6 +1375,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Notification");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.NotificationSetting", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("NotificationSettings")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.PaySubscription", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Subscription", "Subscription")
@@ -1270,6 +1456,23 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Playlist");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.ReportMusic", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.Music", "Music")
+                        .WithMany("ReportMusics")
+                        .HasForeignKey("MusicId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("ReportMusics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Music");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.RolePermission", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Permission", "Permission")
@@ -1296,6 +1499,24 @@ namespace MusicHub.Data.Migrations
                         .HasForeignKey("SubscriptionId");
 
                     b.Navigation("Subscription");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.UserIpRule", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("UserIpRules")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("UserLoginHistories")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
@@ -1374,6 +1595,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("PlayLaterMusics");
 
                     b.Navigation("PlaylistMusics");
+
+                    b.Navigation("ReportMusics");
                 });
 
             modelBuilder.Entity("MusicHub.Data.Models.Notification", b =>
@@ -1409,6 +1632,10 @@ namespace MusicHub.Data.Migrations
                 {
                     b.Navigation("Albums");
 
+                    b.Navigation("Bellers");
+
+                    b.Navigation("Bellings");
+
                     b.Navigation("Claims");
 
                     b.Navigation("Comments");
@@ -1425,6 +1652,8 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("Musics");
 
+                    b.Navigation("NotificationSettings");
+
                     b.Navigation("PaySubscriptions");
 
                     b.Navigation("PlayedMusics");
@@ -1433,7 +1662,13 @@ namespace MusicHub.Data.Migrations
 
                     b.Navigation("Playlists");
 
+                    b.Navigation("ReportMusics");
+
                     b.Navigation("Roles");
+
+                    b.Navigation("UserIpRules");
+
+                    b.Navigation("UserLoginHistories");
 
                     b.Navigation("VerificationCodes");
                 });

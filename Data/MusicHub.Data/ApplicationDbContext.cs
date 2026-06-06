@@ -63,7 +63,11 @@
 
         public virtual DbSet<Follow> Follows { get; set; }
 
+        public virtual DbSet<Bell> Bells { get; set; }
+
         public virtual DbSet<License> Licenses { get; set; }
+
+        public virtual DbSet<ReportMusic> ReportMusics { get; set; }
 
         public virtual DbSet<MusicLicense> MusicLicenses { get; set; }
 
@@ -73,6 +77,12 @@
 
         public virtual DbSet<PlayLaterMusic> PlayLaterMusics { get; set; }
 
+        public virtual DbSet<NotificationSetting> NotificationSettings { get; set; }
+
+        public virtual DbSet<UserLoginHistory> UserLoginHistories { get; set; }
+
+        public virtual DbSet<UserIpRule> UserIpRules { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
@@ -80,7 +90,8 @@
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
-        public override int SaveChanges() => this.SaveChanges(true);
+        public override int SaveChanges()
+            => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {

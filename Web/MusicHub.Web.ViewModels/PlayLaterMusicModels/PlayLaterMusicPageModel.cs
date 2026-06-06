@@ -4,12 +4,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class PlayLaterMusicPageModel<T>
+    using MusicHub.Web.ViewModels.CommonModels;
+
+    public class PlayLaterMusicPageModel<T> : PageModel
     {
         public IEnumerable<T> PlayLaterMusics { get; set; }
-
-        public int NumberOfPages { get; set; }
-
-        public int CurrentPage { get; set; }
     }
 }

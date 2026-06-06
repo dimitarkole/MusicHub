@@ -27,11 +27,12 @@
                 .To<T>()
                 .ToList();
 
-        public async Task Create(LicenseMusicCreateModel model)
+        public async Task<string> Create(LicenseMusicCreateModel model)
         {
             var licenseMusic = model.To<MusicLicense>();
             await this.context.MusicLicenses.AddAsync(licenseMusic);
             await this.context.SaveChangesAsync();
+            return licenseMusic.Id;
         }
 
         public async Task Delete(string id)

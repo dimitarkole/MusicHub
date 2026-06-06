@@ -45,35 +45,40 @@ export class PlaylistsListComponent implements OnInit {
     if (this.playlistPagination.currentPage < this.playlistPagination.numberOfPages) {
       this.route.queryParams.subscribe(queryParams => {
         let query = queryParams.searchQuery;
-        if (!query) {
-          if (this.isSearching == true) {
-            this.ResetData(query);
-            this.isSearching = false;
-          }
-
-          var page = this.playlistPagination.currentPage + 1;
-          this.playlistService.get(page).subscribe(data => {
+        var page = this.playlistPagination.currentPage + 1;
+        var filter: Playlist = { name: query }
+        this.playlistService.allFilter(page, filter).subscribe(data => {
             this.playlistPagination.numberOfPages = data.numberOfPages;
             data.playlists.forEach(music => {
               this.playlistPagination.playlists.push(music);
             });
-          });
-        }
-        else {
-          this.isSearching = true;
-          if (this.search != query) {
-            this.ResetData(query);
-          }
+        });
+        //if (query) {
+        //  if (this.isSearching == true) {
+        //    this.ResetData(query);
+        //    this.isSearching = false;
+        //  }
 
-          var page = this.playlistPagination.currentPage + 1;
-          this.searchService.search<PlaylistPagination>({ query }, BooleanSearchEntity.Playlists, page).subscribe(data => {
-            this.playlistPagination.numberOfPages = data.numberOfPages
-            this.playlistPagination.numberOfPages = data.numberOfPages;
-            data.playlists.forEach(music => {
-              this.playlistPagination.playlists.push(music);
-            });
-          });
-        }
+        //  this.playlistService.get(page).subscribe(data => {
+        //    this.playlistPagination.numberOfPages = data.numberOfPages;
+        //    data.playlists.forEach(music => {
+        //      this.playlistPagination.playlists.push(music);
+        //    });
+        //  });
+        //}
+        //else {
+        //  this.isSearching = true;
+        //  if (this.search != query) {
+        //    this.ResetData(query);
+        //  }
+
+        //  this.searchService.search<PlaylistPagination>({ query }, BooleanSearchEntity.Playlists, page).subscribe(data => {
+        //    this.playlistPagination.numberOfPages = data.numberOfPages
+        //    data.playlists.forEach(music => {
+        //      this.playlistPagination.playlists.push(music);
+        //    });
+        //  });
+        //}
 
         this.playlistPagination.currentPage = page;
       });

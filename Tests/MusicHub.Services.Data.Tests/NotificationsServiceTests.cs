@@ -20,7 +20,7 @@
 
     public class NotificationsServiceTests : BaseTestClass
     {
-        /*[Fact]
+        [Fact]
         public async Task Create_WithValidData_ShouldWorkCorrectly()
         {
             var notificationsService = await CreateNotificationsService(new List<Notification>());
@@ -55,16 +55,13 @@
             var notifications = NotificationTestsData.GetNotificationData();
             var notificationsService = await this.CreateNotificationsService(notifications);
             var userId = NotificationTestsData.UserId;
-
             var entitesPerPage = PaginationData.NotificationPerPage;
             var actual = notificationsService.GetUserNotifications<NotificationViewModel>(page, entitesPerPage, userId);
-
             var allNotifications = this.context.Notifications
-                .Where(n => n.UserId == userId && !n.Seen)
+                .Where(n => n.UserId == userId)
                 .OrderBy(n => n.Seen)
                 .ThenByDescending(n => n.CreatedOn)
                 .To<NotificationViewModel>();
-
             var expected = new NotificationPageModel<NotificationViewModel>()
             {
                 Notifications = allNotifications

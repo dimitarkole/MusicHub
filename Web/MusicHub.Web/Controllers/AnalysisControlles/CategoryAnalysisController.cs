@@ -36,24 +36,24 @@
         public ActionResult<PieChartViewModel> GetCategoriesWithMusicsAllTime()
              => this.Ok(this.categoryAnalysisService.GetCategoriesWithMusicsAllTime());
 
-        [HttpPost(nameof(GetCategoriesWithMusicsCount))]
-        public ActionResult<PieChartViewModel> GetCategoriesWithMusicsCount(ChartFilterData filter)
+        [HttpGet(nameof(GetCategoriesWithMusicsCount))]
+        public ActionResult<PieChartViewModel> GetCategoriesWithMusicsCount([FromQuery] ChartFilterData filter)
              => this.Ok(this.categoryAnalysisService.GetCategoriesWithMusicsCount(filter));
 
-        [HttpPost(nameof(GetTopCategoriesByUploadMusicsCountForMonths))]
-        public ActionResult<LineChartViewModel> GetTopCategoriesByUploadMusicsCountForMonths(ChartFilterData filter)
+        [HttpGet(nameof(GetTopCategoriesByUploadMusicsCountForMonths))]
+        public ActionResult<LineChartViewModel> GetTopCategoriesByUploadMusicsCountForMonths([FromQuery] ChartFilterData filter)
             => this.Ok(this.categoryAnalysisService.GetTopCategoriesByUploadMusicsCountForMonths(filter));
 
-        [HttpPost(nameof(GetTopCategoriesByPlayedMusicsCountForMonths))]
-        public ActionResult<LineChartViewModel> GetTopCategoriesByPlayedMusicsCountForMonths(ChartFilterData filter)
+        [HttpGet(nameof(GetTopCategoriesByPlayedMusicsCountForMonths))]
+        public ActionResult<LineChartViewModel> GetTopCategoriesByPlayedMusicsCountForMonths([FromQuery] ChartFilterData filter)
            => this.Ok(this.categoryAnalysisService.GetTopCategoriesByPlayedMusicsCountForMonths(filter));
 
-        [HttpPost(nameof(GetCreatedCategoriesCountsByMonths))]
-        public ActionResult<PieChartViewModel> GetCreatedCategoriesCountsByMonths(ChartFilterData filter)
+        [HttpGet(nameof(GetCreatedCategoriesCountsByMonths))]
+        public ActionResult<PieChartViewModel> GetCreatedCategoriesCountsByMonths([FromQuery] ChartFilterData filter)
            => this.Ok(this.categoryAnalysisService.GetCreatedCategoriesCountsByMonths(filter));
 
-        [HttpPost(nameof(GetCategoriesByPlayedMusicsCountAllTime))]
-        public ActionResult<PieChartViewModel> GetCategoriesByPlayedMusicsCountAllTime(ChartFilterData filter)
+        [HttpGet(nameof(GetCategoriesByPlayedMusicsCountAllTime))]
+        public ActionResult<PieChartViewModel> GetCategoriesByPlayedMusicsCountAllTime([FromQuery] ChartFilterData filter)
          => this.Ok(this.categoryAnalysisService.GetCategoriesByPlayedMusicsCountAllTime(filter));
     }
 }

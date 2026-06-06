@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import Album from '../models/album';
 import { AlbumPagination } from '../models/albumPagination';
 
@@ -44,10 +45,10 @@ export class AlbumService {
   }
 
   allFilter(page: number, album: Album) {
-    return this.http.post<AlbumPagination>(`${this.route}/AlbumsFilter/${page}`, album);
+    return this.http.get<AlbumPagination>(`${this.route}/AlbumsFilter/${page}`, { params: setQueryString(album) });
   }
 
   allFilterOwn(page: number, album: Album) {
-    return this.http.post<AlbumPagination>(`${this.route}/FilterOwn/${page}`, album);
+    return this.http.get<AlbumPagination>(`${this.route}/FilterOwn/${page}`, { params: setQueryString(album) });
   }
 }

@@ -33,22 +33,22 @@ namespace MusicHub.Tests.TestData
             var random = new Random();
             const int notificationMaxCount = 10;
             var count = 0;
+            string[] trueOrFalse = { "false", "true" };
             foreach (var user in UserTestsData.Users)
             {
                 var notificationCounts = random.Next(1, notificationMaxCount);
-                if(notificationCounts >= notificationMaxCount * 0.4)
+                if (notificationCounts >= notificationMaxCount * 0.4)
                 {
                     for (int i = 0; i < notificationCounts; i++)
                     {
-                        string[] trueOrFalse = { "false", "true" };
-                        bool seen = bool.Parse(trueOrFalse[random.Next(0, trueOrFalse.Length)]);
                         var notification = new Notification()
                         {
                             Id = "NotificationId" + count,
                             Content = "Content" + count,
                             UserId = user.Id,
-                            Seen = seen,
+                            Seen = bool.Parse(trueOrFalse[random.Next(0, trueOrFalse.Length)]),
                         };
+
                         count++;
                         notifications.Add(notification);
                     }

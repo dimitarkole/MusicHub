@@ -15,6 +15,7 @@
     using MusicHub.Services.Interfaces;
     using MusicHub.Services.Mapping;
     using MusicHub.Web.ViewModels.MusicModels;
+    using MusicHub.Web.ViewModels.ReportMusicModels;
 
     public class MusicService : IMusicService
     {
@@ -82,7 +83,6 @@
         public MusicPageModel<T> Filter<T>(int page, int entitesPerPage, MusicFilter filter, string userId = null)
         {
             IQueryable<Music> musics = this.context.Musics;
-
             if (!string.IsNullOrEmpty(userId))
             {
                 musics = musics.Where(m => m.UserId == userId);
@@ -146,6 +146,38 @@
             await this.context.SaveChangesAsync();
         }
 
+        public ReportMusicPageModel<T> AllReportedMusic<T>(int page, int entitesPerPage)
+        {
+            var musics = this.context.Musics
+                .Where(m => m.ReportMusics.Count() > 0)
+                .OrderByDescending(m => m.ReportMusics.Count())
+                .To<T>();
+            return new ReportMusicPageModel<T>()
+            {
+                ReportMusics = musics
+                    .GetPage(page, entitesPerPage)
+                    .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
+            };
+        }
+
+        public ReportMusicPageModel<T> FilterReported<T>(ReportMusicFilter filter, int page, int entitesPerPage)
+        {
+            IQueryable<Music> musics = this.context.Musics.Where(m => m.ReportMusics.Count() > 0);
+            musics = this.FilteringReportedMusics(filter, musics);
+            musics = this.OrederSearchMusics(filter.OrderMethod, musics);
+            return new ReportMusicPageModel<T>()
+            {
+                ReportMusics = musics
+                        .To<T>()
+                        .GetPage(page, entitesPerPage)
+                        .ToList(),
+                CurrentPage = page,
+                NumberOfPages = this.GetMusicsPagesCount(musics.Count(), entitesPerPage),
+            };
+        }
+
         private int GetMusicsPagesCount(int entityCount, int entitesPerPage)
             => this.paginationService.CalculatePagesCount(entityCount, entitesPerPage);
 
@@ -174,6 +206,31 @@
              {
                  musics = musics.OrderByDescending(s => s.Name);
              }       */
+
+            return musics;
+        }
+
+        private IQueryable<Music> FilteringReportedMusics(ReportMusicFilter filter, IQueryable<Music> musics)
+        {
+            if (!string.IsNullOrEmpty(filter.UserId))
+            {
+                musics = musics.Where(s => s.UserId == filter.UserId);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                musics = musics.Where(s => s.Name.ToLower().Contains(filter.Name.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(filter.CategoryId))
+            {
+                musics = musics.Where(s => s.CategoryId == filter.CategoryId);
+            }
+
+            if (!string.IsNullOrEmpty(filter.Username))
+            {
+                musics = musics.Where(s => s.User.UserName.ToLower().Contains(filter.Username.ToLower()));
+            }
 
             return musics;
         }

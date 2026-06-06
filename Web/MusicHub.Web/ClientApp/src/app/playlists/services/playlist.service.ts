@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { setQueryString } from '../../common/QueryString';
 import Playlist from '../models/playlist';
 import { PlaylistPagination } from '../models/playlistPagination';
 
@@ -8,16 +9,15 @@ import { PlaylistPagination } from '../models/playlistPagination';
 })
 export class PlaylistService {
   private route: string = 'Playlist';
-  private routeHomeController: string = 'Home';
 
   constructor(private http: HttpClient) { }
 
   getById(id: string) {
-    return this.http.get<Playlist>(`${this.routeHomeController}/GetPlaylit/${id}`);
+    return this.http.get<Playlist>(`${this.route}/GetPlaylit/${id}`);
   }
 
   get(page: number) {
-    return this.http.get<PlaylistPagination>(`${this.routeHomeController}/GetPlaylists/${page}`);
+    return this.http.get<PlaylistPagination>(`${this.route}/GetPlaylists/${page}`);
   }
 
   allOwn(page: number) {
@@ -41,10 +41,10 @@ export class PlaylistService {
   }
 
   allFilter(page: number, playlist: Playlist) {
-    return this.http.post<PlaylistPagination>(`${this.routeHomeController}/PlaylistFilter/${page}`, playlist);
+    return this.http.get<PlaylistPagination>(`${this.route}/PlaylistFilter/${page}`, { params: setQueryString(playlist) });
   }
 
   allFilterOwn(page: number, playlist: Playlist) {
-    return this.http.post<PlaylistPagination>(`${this.route}/FilterOwn/${page}`, playlist);
+    return this.http.get<PlaylistPagination>(`${this.route}/FilterOwn/${page}`, { params: setQueryString(playlist) });
   }
 }

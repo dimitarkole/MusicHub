@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using MusicHub.Data.Models;
@@ -9,6 +10,7 @@
 
     public class LicenseEditInputModel : IMapTo<License>
     {
+        [Required]
         public string Name { get; set; }
     }
 }

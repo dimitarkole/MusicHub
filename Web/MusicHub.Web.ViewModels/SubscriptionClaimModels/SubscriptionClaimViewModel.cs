@@ -8,7 +8,7 @@ namespace MusicHub.Web.ViewModels.SubscriptionClaimModels
 {
     public class SubscriptionClaimViewModel : IMapFrom<SubscriptionClaim>
     {
-        public virtual string Id { get; set; }
+        public string Id { get; set; }
 
         public string Description { get; set; }
     }
