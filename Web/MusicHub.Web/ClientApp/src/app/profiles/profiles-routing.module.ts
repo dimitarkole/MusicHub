@@ -11,6 +11,7 @@ import { PermissionType } from '../shared/models/permissionType';
 import { UserDetailsComponent } from '../users/components/user-details/user-details.component';
 import { UsersListComponent } from '../users/components/users-list/users-list.component';
 import { ProfileUserComponent } from './components/profile-user/profile-user.component';
+import { UserIpRuleListComponent } from './components/user-ip-rule-list/user-ip-rule-list.component';
 
 const routes: Routes = [
   { path: '', component: PlaylistsListComponent },
@@ -19,6 +20,10 @@ const routes: Routes = [
     component: PlaylistsOwnListComponent,
     canActivate: [PermissionsGuard],
     data: withPermission(PermissionType.PlaylistCreator)
+  },
+  {
+    path: 'userIpRules',
+    component: UserIpRuleListComponent
   },
 ];
 

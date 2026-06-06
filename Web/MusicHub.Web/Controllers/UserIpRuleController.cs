@@ -27,6 +27,7 @@
         [HttpGet]
         public IActionResult Filter([FromQuery] UserIpRuleFilterInputModel model, int page = 1, int entitesPerPage = 10)
         {
+            
             var userId = this.userManager.GetUserId(this.User);
             var result = this.userIpRuleService.Filter<UserIpRuleViewModel>(page, entitesPerPage, model, userId);
             return this.Ok(result);
