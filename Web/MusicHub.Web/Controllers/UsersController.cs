@@ -188,7 +188,7 @@
             });
         }
 
-        [HttpPut(nameof(VerifyTwoFactor))]
+        [HttpPut(nameof(VerifyTwoFactor) + "/{id}")]
         public async Task<ActionResult> VerifyTwoFactor(string id, VerificationCodeCheckInputModel model,[FromServices] IOptions<JwtSettings> settings)
         {
             if (!this.profileService.UserExistsById(id))
