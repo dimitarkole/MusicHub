@@ -135,6 +135,90 @@
             Assert.False(result);
         }
 
+        [Fact]
+        public async Task HasAccess_WithNoRules_ShouldReturnTrue()
+        {
+            var service = await this.CreateService(UserIpRuleTestsData.GenUserIpRules());
+            var result = service.HasAccess("any-user", "192.168.1.10");
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task HasAccess_WithDenyRule_ShouldOverrideAllowAndReturnFalse()
+        {
+            var userIpRules = UserIpRuleTestsData.GenUserIpRules();
+            var service = await this.CreateService(userIpRules);
+            var ipDeny = userIpRules.Where(r => r.RuleType == IpRuleType.Deny)
+                .FirstOrDefault();
+
+            var result = service.HasAccess(ipDeny.UserId, ipDeny.Pattern);
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task HasAccess_WithNoMatchingRule_ShouldReturnFalse()
+        {
+            var userIpRules = UserIpRuleTestsData.GenUserIpRules();
+            var service = await this.CreateService(userIpRules);
+            var userId = userIpRules.First().UserId;
+            var result = service.HasAccess(userId, "255.255.255.255");
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task HasAccess_WithWildcardDenyRule_ShouldReturnFalse()
+        {
+            var userIpRules = UserIpRuleTestsData.GenUserIpRules();
+            var service = await this.CreateService(userIpRules);
+            var denyRule = userIpRules
+                .First(r => r.RuleType == IpRuleType.Deny
+                            && r.Pattern.Contains("*"));
+            var result = service.HasAccess(denyRule.UserId, "192.168.1.99");
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task HasAccess_WithExactAllowRule_ShouldReturnTrue()
+        {
+            var userId = UserIpRuleTestsData.Users[0].Id;
+            var rules = new List<UserIpRule>
+            {
+                new UserIpRule
+                {
+                    UserId = userId,
+                    IsEnabled = true,
+                    RuleType = IpRuleType.Allow,
+                    Pattern = "192.168.1.50"
+                }
+            };
+
+            var service = await this.CreateService(rules);
+            var result = service.HasAccess(userId, "192.168.1.50");
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task HasAccess_WithWildcardAllowRule_ShouldReturnTrue()
+        {
+            var userId = UserIpRuleTestsData.Users[0].Id;
+            var rules = new List<UserIpRule>
+            {
+                new UserIpRule
+                {
+                    UserId = userId,
+                    IsEnabled = true,
+                    RuleType = IpRuleType.Allow,
+                    Pattern = "192.168.1.*"
+                }
+            };
+
+            var service = await this.CreateService(rules);
+
+            var result = service.HasAccess(userId, "192.168.1.50");
+
+            Assert.True(result);
+        }
+
         private void CheckFilter(UserIpRulePageModel<UserIpRuleViewModel> actual, int page, UserIpRuleService service, int entitesPerPage, UserIpRuleFilterInputModel filter, string userId = null)
         {
             IQueryable<UserIpRule> rules = this.context.UserIpRules

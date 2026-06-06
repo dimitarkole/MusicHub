@@ -21,5 +21,7 @@
         Task Delete(string id);
 
         bool IsOwned(string id, string userId);
+
+        bool HasAccess(string userId, string ipAddress);
     }
 }

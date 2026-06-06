@@ -1,18 +1,18 @@
 ﻿namespace MusicHub.Services.Data
 {
+    using MusicHub.Common.Extensions;
+    using MusicHub.Data;
+    using MusicHub.Data.Models;
+    using MusicHub.Data.Models.Enums;
+    using MusicHub.Services.Data.Interfaces;
+    using MusicHub.Services.Interfaces;
+    using MusicHub.Services.Mapping;
+    using MusicHub.Web.ViewModels.UserIpRulesModels;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-
-    using MusicHub.Common.Extensions;
-    using MusicHub.Data;
-    using MusicHub.Data.Models;
-    using MusicHub.Services.Data.Interfaces;
-    using MusicHub.Services.Interfaces;
-    using MusicHub.Services.Mapping;
-    using MusicHub.Web.ViewModels.UserIpRulesModels;
 
     public class UserIpRuleService : IUserIpRuleService
     {
@@ -81,6 +81,49 @@
         public bool IsOwned(string id, string userId)
             => this.context.UserIpRules
                 .Any(r => r.Id == id && r.UserId == userId);
+
+        public bool HasAccess(string userId, string ipAddress)
+        {
+            var rules = this.context.UserIpRules
+                .Where(r => r.UserId == userId && r.IsEnabled)
+                .ToList();
+
+            if (!rules.Any())
+            {
+                return true; // default allow
+            }
+
+            // 1. DENY wins
+            var isDenied = rules
+                .Where(r => r.RuleType == IpRuleType.Deny)
+                .Any(r => Match(r.Pattern, ipAddress));
+
+            if (isDenied)
+            {
+                return false;
+            }
+
+            // 2. ALLOW rules
+            var isAllowed = rules
+                .Where(r => r.RuleType == IpRuleType.Allow)
+                .Any(r => Match(r.Pattern, ipAddress));
+
+            return isAllowed;
+        }
+
+        private bool Match(string pattern, string ip)
+        {
+            if (pattern == "*")
+                return true;
+
+            if (pattern.Contains("*"))
+            {
+                var prefix = pattern.Split('*')[0];
+                return ip.StartsWith(prefix);
+            }
+
+            return ip == pattern;
+        }
 
         private IQueryable<UserIpRule> FilteringRules(
             UserIpRuleFilterInputModel filter,
