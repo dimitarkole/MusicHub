@@ -1007,6 +1007,42 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.UserIpRule", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Pattern")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RuleType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("UserIpRules");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
                 {
                     b.Property<string>("Id")
@@ -1465,6 +1501,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Subscription");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.UserIpRule", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("UserIpRules")
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.User", "User")
@@ -1620,6 +1665,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("ReportMusics");
 
                     b.Navigation("Roles");
+
+                    b.Navigation("UserIpRules");
 
                     b.Navigation("UserLoginHistories");
 

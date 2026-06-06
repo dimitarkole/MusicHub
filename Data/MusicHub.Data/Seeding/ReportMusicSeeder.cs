@@ -17,7 +17,7 @@
         {
             if (dbContext.ReportMusics.Count() == 0)
             {
-                var random = new Random();
+                var random = new Random(0);
                 var musics = dbContext.Musics.ToArray();
                 var users = dbContext.Users.Where(u => u.Roles.Any(r => r.Role.Name == Roles.User)).ToList();
                 var usersCount = random.Next(1, users.Count - 1);

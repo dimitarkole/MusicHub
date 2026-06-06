@@ -33,6 +33,7 @@ namespace MusicHub.Data.Models
             this.NotificationSettings = new HashSet<NotificationSetting>();
             this.ReportMusics = new HashSet<ReportMusic>();
             this.UserLoginHistories = new HashSet<UserLoginHistory>();
+            this.UserIpRules = new HashSet<UserIpRule>();
         }
 
         public virtual string ImageUrl { get; set; }
@@ -96,5 +97,7 @@ namespace MusicHub.Data.Models
         public ICollection<ReportMusic> ReportMusics { get; set; }
 
         public ICollection<UserLoginHistory> UserLoginHistories { get; set; }
+
+        public ICollection<UserIpRule> UserIpRules { get; set; }
     }
 }

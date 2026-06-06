@@ -79,6 +79,7 @@
             public const int FollowingsPerPage = 10;
             public const int FollowersPerPage = 10;
             public const int UserLoginHistoryPerPage = 10;
+            public const int UserIpRulesPerPage = 12;  
         }
 
         public static class MegaStorageData

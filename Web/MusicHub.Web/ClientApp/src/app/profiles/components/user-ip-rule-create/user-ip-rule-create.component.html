@@ -1,0 +1,95 @@
+<div id="modal-content-wrapper">
+  <header id="modal-header">
+    <h3 id="modal-title">Create IP Rule</h3>
+    <hr />
+  </header>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="ruleForm" class="container">
+
+    <section id="modal-body" class="row">
+
+      <!-- Pattern -->
+      <div class="col-md-12">
+        <label>IP Pattern</label>
+        <input class="form-control"
+               formControlName="pattern"
+               type="text"
+               placeholder="e.g. 192.168.*.*">
+
+        <span class="text-danger"
+              *ngIf="pattern.touched && pattern.hasError('required')">
+          Pattern is required!
+        </span>
+
+        <span class="text-danger"
+              *ngIf="pattern.hasError('maxlength')">
+          Max 100 characters!
+        </span>
+      </div>
+
+      <!-- Rule Type -->
+      <div class="col-md-12 mt-3">
+        <label>Rule Type</label>
+
+        <select class="form-control" formControlName="ruleType">
+          <option [ngValue]="null">Select type</option>
+          <option *ngFor="let type of ipRuleTypes"
+                  [ngValue]="type">
+            {{ ipRuleTypesMapping[type] }}
+          </option>
+        </select>
+
+        <span class="text-danger"
+              *ngIf="ruleType.touched && ruleType.hasError('required')">
+          Rule type is required!
+        </span>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-12 mt-3">
+        <label>Description</label>
+        <textarea class="form-control"
+                  formControlName="description"
+                  rows="3"
+                  placeholder="Optional description">
+        </textarea>
+
+        <span class="text-danger"
+              *ngIf="description.hasError('maxlength')">
+          Max 250 characters!
+        </span>
+      </div>
+
+      <!-- Enabled -->
+      <div class="col-md-12 mt-3">
+        <label>
+          <input type="checkbox" formControlName="isEnabled">
+          Enabled
+        </label>
+      </div>
+
+    </section>
+
+    <footer id="modal-footer">
+      <div class="row">
+
+        <div class="col-md-6">
+          <button type="button"
+                  class="login100-form-btn"
+                  (click)="closeModal()">
+            Cancel
+          </button>
+        </div>
+
+        <div class="col-md-6">
+          <button class="form-btn text-white"
+                  mat-raised-button
+                  type="submit"
+                  [disabled]="ruleForm.invalid">
+            Save
+          </button>
+        </div>
+      </div>
+    </footer>
+  </form>
+</div>

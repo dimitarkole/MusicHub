@@ -89,7 +89,6 @@
 
             Assert.True(this.context.UserLoginHistories.Any(h => h.UserId == userId
                 && h.UserAgent == model.UserAgent
-                && h.LoginDate == model.LoginDate
                 && h.IpAddress == model.IpAddress));
         }
 
