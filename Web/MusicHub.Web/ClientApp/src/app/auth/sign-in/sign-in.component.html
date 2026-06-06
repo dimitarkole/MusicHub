@@ -1,64 +1,162 @@
 <div class="row">
   <div class="col-xl-3">
   </div>
-  <div class="col-xl-6 ">
+  <div class="col-xl-6">
     <div class="wrap-login100">
-      <form (ngSubmit)="login()" [formGroup]="loginForm" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
-        <a class="form-title-left form-title-active" routerLink="/signin">
+      <!-- LOGIN FORM -->
+      <form *ngIf="!twoFactorRequired"
+            (ngSubmit)="login()"
+            [formGroup]="loginForm"
+            class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+        <a class="form-title-left form-title-active"
+           routerLink="/signin">
           Sign In
         </a>
-        <a class="form-title-rigth" routerLink="/signup">
+
+        <a class="form-title-rigth"
+           routerLink="/signup">
           Sign Up
         </a>
-        <div class="Wrong-Credentials alert alert-danger" *ngIf="wrongCredentials">{{error}}</div>
-        <div class="Wrong-Credentials alert alert-success" *ngIf="successfulCredentials">Successful login!</div>
 
-        <div class="wrap-input100 validate-input m-b-16" data-validate="Please enter username">
-          <input class="input100" type="text" name="username" placeholder="Username" formControlName="username">
-          <div class="form-label text-danger text-right" *ngIf="username.touched && username.hasError('required')">
+        <!-- ERROR -->
+        <div class="Wrong-Credentials alert alert-danger"
+             *ngIf="wrongCredentials">
+          {{error}}
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="Wrong-Credentials alert alert-success"
+             *ngIf="successfulCredentials">
+          Successful login!
+        </div>
+
+        <!-- USERNAME -->
+        <div class="wrap-input100 validate-input m-b-16"
+             data-validate="Please enter username">
+          <input class="input100"
+                 type="text"
+                 name="username"
+                 placeholder="Username"
+                 formControlName="username">
+          <div class="form-label text-danger text-right"
+               *ngIf="username.touched && username.hasError('required')">
             The username is required!
           </div>
         </div>
-        <div class="wrap-input100 validate-input" data-validate="Please enter password">
-          <input class="input100" type="password" name="pass" placeholder="Password" formControlName="password">
-          <div class="form-label text-danger text-right" *ngIf="password.touched && password.hasError('required')">
+
+        <!-- PASSWORD -->
+        <div class="wrap-input100 validate-input"
+             data-validate="Please enter password">
+          <input class="input100"
+                 type="password"
+                 name="password"
+                 placeholder="Password"
+                 formControlName="password">
+          <div class="form-label text-danger text-right"
+               *ngIf="password.touched && password.hasError('required')">
             The password is required!
           </div>
         </div>
 
+        <!-- FORGOT PASSWORD -->
         <div class="text-right p-t-13 p-b-23">
           <span class="txt1">
             Forgot
           </span>
-          <a routerLink="/forgottenPassword" class="txt2">
+
+          <a routerLink="/forgottenPassword"
+             class="txt2">
             Username / Password?
           </a>
         </div>
+
+        <!-- LOGIN BUTTON -->
         <div class="container-login100-form-btn">
-          <button [disabled]="loginForm.invalid" type="submit" class="login100-form-btn"> Sign in</button>
+          <button [disabled]="loginForm.invalid"
+                  type="submit"
+                  class="login100-form-btn">
+            Sign in
+          </button>
         </div>
 
+        <!-- FOOTER LINKS -->
         <div class="row">
           <div class="col-md-6">
             <div class="flex-col-c p-t-20 p-b-40">
               <span class="txt1 p-b-9">
                 Don’t have an account?
               </span>
-              <a routerLink="/signup" class="txt3">
+              <a routerLink="/signup"
+                 class="txt3">
                 Sign up now
               </a>
             </div>
           </div>
+
           <div class="col-md-6">
             <div class="flex-col-c p-t-20 p-b-40">
               <span class="txt1 p-b-9">
                 Email don’t confirm?
               </span>
-              <a routerLink="/resend-confirm-email" class="txt3">
+              <a routerLink="/resend-confirm-email"
+                 class="txt3">
                 Confirm it now
               </a>
             </div>
           </div>
+        </div>
+      </form>
+
+      <!-- TWO FACTOR FORM -->
+      <form *ngIf="twoFactorRequired"
+            class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+        <span class="login100-form-title p-b-32">
+          Two Factor Verification
+        </span>
+
+        <!-- INFO -->
+        <div class="text-center p-b-20">
+          We sent a verification code to your email.
+        </div>
+
+        <!-- ERROR -->
+        <div class="Wrong-Credentials alert alert-danger"
+             *ngIf="wrongCredentials">
+          {{error}}
+        </div>
+
+        <!-- SUCCESS -->
+        <div class="Wrong-Credentials alert alert-success"
+             *ngIf="successfulCredentials">
+          Verification successful!
+        </div>
+
+        <!-- VERIFICATION CODE -->
+        <div class="wrap-input100 validate-input m-b-16">
+          <input class="input100"
+                 type="text"
+                 name="twoFactorCode"
+                 placeholder="Verification code"
+                 [(ngModel)]="twoFactorCode">
+        </div>
+
+        <!-- VERIFY BUTTON -->
+        <div class="container-login100-form-btn">
+          <button type="button"
+                  class="login100-form-btn"
+                  (click)="verifyTwoFactor()">
+
+            Verify
+          </button>
+        </div>
+
+        <!-- BACK BUTTON -->
+        <div class="flex-col-c p-t-25 p-b-20">
+          <a class="txt3"
+             style="cursor: pointer;"
+             (click)="twoFactorRequired = false">
+            Back to Sign In
+          </a>
         </div>
       </form>
     </div>

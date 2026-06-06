@@ -182,7 +182,7 @@ namespace MusicHub.Data.Migrations
                     b.Property<string>("BellingId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("BeelerId")
+                    b.Property<string>("BellerId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -194,9 +194,9 @@ namespace MusicHub.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("BellingId", "BeelerId");
+                    b.HasKey("BellingId", "BellerId");
 
-                    b.HasIndex("BeelerId");
+                    b.HasIndex("BellerId");
 
                     b.ToTable("Bells");
                 });
@@ -1007,6 +1007,36 @@ namespace MusicHub.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IpAddress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LoginDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserAgent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserLoginHistories");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
                 {
                     b.Property<string>("UserId")
@@ -1147,9 +1177,9 @@ namespace MusicHub.Data.Migrations
 
             modelBuilder.Entity("MusicHub.Data.Models.Bell", b =>
                 {
-                    b.HasOne("MusicHub.Data.Models.User", "Beeler")
+                    b.HasOne("MusicHub.Data.Models.User", "Beller")
                         .WithMany("Bellings")
-                        .HasForeignKey("BeelerId")
+                        .HasForeignKey("BellerId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -1159,7 +1189,7 @@ namespace MusicHub.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Beeler");
+                    b.Navigation("Beller");
 
                     b.Navigation("Belling");
                 });
@@ -1435,6 +1465,15 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("Subscription");
                 });
 
+            modelBuilder.Entity("MusicHub.Data.Models.UserLoginHistory", b =>
+                {
+                    b.HasOne("MusicHub.Data.Models.User", "User")
+                        .WithMany("UserLoginHistories")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MusicHub.Data.Models.UserRole", b =>
                 {
                     b.HasOne("MusicHub.Data.Models.Role", "Role")
@@ -1581,6 +1620,8 @@ namespace MusicHub.Data.Migrations
                     b.Navigation("ReportMusics");
 
                     b.Navigation("Roles");
+
+                    b.Navigation("UserLoginHistories");
 
                     b.Navigation("VerificationCodes");
                 });

@@ -64,5 +64,36 @@
             string securityToken = tokenHandler.WriteToken(token);
             return securityToken;
         }
+
+        public static async Task<string> GenerateJwtToken(this UserManager<User> userManager, User user, JwtSettings settings)
+        {
+            IEnumerable<string> roles = await userManager.GetRolesAsync(user);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(settings.Secret);
+
+            var subject = new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim("userId", user.Id),
+                new Claim(ClaimTypes.Email, user.Email),
+            });
+
+            foreach (string role in roles)
+            {
+                subject.AddClaim(new Claim(ClaimTypes.Role, role));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = subject,
+                Expires = DateTime.UtcNow.AddDays(7),
+
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
     }
 }

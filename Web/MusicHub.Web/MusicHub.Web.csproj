@@ -120,6 +120,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\app\auth\models\" />
     <Folder Include="ClientApp\src\app\comments\components\" />
     <Folder Include="ClientApp\src\app\comments\services\" />
     <Folder Include="ClientApp\src\app\follow\components\" />

@@ -17,8 +17,41 @@
                 case EmailSubjects.ConfirmEmail: return ConfirmEmailTemplate(data);
                 case EmailSubjects.ChangePassword: return ChangePassword(data);
                 case EmailSubjects.SuccessfulChangedPassword: return SuccessfulChangePassword(data);
+                case EmailSubjects.NewIPLoginDetected: return NewLoginTemplate(data);
+                case EmailSubjects.TwoFactorLogin: return TwoFactorLoginTemplate(data);
                 default: return null;
             }
+        }
+
+        private static string NewLoginTemplate(Dictionary<string, string> data)
+        {
+            return $@"
+    <div style='font-family: Arial, sans-serif; text-align: center;'>
+        <h2>New Login Detected</h2>
+        
+        <p>Hello, {data["userName"]}</p>
+        
+        <p>We noticed a new login to your account in {SystemName}.</p>
+        
+        <div style='
+            margin: 20px auto;
+            padding: 15px;
+            background-color: #f4f4f4;
+            display: inline-block;
+            border-radius: 6px;
+            text-align: left;
+            min-width: 280px;'>
+
+            <p><strong>IP Address:</strong><br/>{data["ipAddress"]}</p>
+            <p><strong>Time:</strong><br/>{data["time"]}</p>
+        </div>
+
+        <p>If this was you, you can safely ignore this message.</p>
+
+        <p style='color: red; font-weight: bold;'>
+            If this wasn't you, please change your password immediately.
+        </p>
+    </div>";
         }
 
         private static string ConfirmEmailTemplate(Dictionary<string, string> data)
@@ -73,6 +106,29 @@
             "ght:1px;' colspan='3' height='30'>&nbsp;</td></tr><tr> <td style='width:40px;' width='40'>&nbsp;</td" +
             "> <td style='color:#2c1485;font-size:34px;line-height:38px;font-family:Arial, Helvectica, sans-serif" +
             ";text-align:center;'>Hello, " + username + "!</td>";
+
+        private static string TwoFactorLoginTemplate(Dictionary<string, string> data)
+        {
+            return $@"
+            <div style='font-family: Arial, sans-serif; text-align: center;'>
+                <h2>Two-Factor Authentication</h2>
+                <p>Hello, {data["userName"]}</p>
+                <p>To complete your login in {SystemName}, please use the verification code below:</p>
+                <div style='
+                    margin: 20px auto;
+                    padding: 15px;
+                    font-size: 24px;
+                    font-weight: bold;
+                    letter-spacing: 5px;
+                    background-color: #f4f4f4;
+                    display: inline-block;
+                    border-radius: 6px;'>
+                    {data["verificationCode"]}
+                </div>
+                <p>This code will expire in a few minutes.</p>
+                <p>If this wasn't you, please secure your account immediately.</p>
+            </div>";
+        }
 
         private static string ConfirmURL(string userId, string verificationCode)
             => URLs.ConfirmEmail + "/" + userId + "?code=" + verificationCode;
