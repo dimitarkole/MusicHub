@@ -6,7 +6,19 @@
           <div class="jp-playlist">
             <div class="d-flex flex-row align-items-start justify-content-start flex-wrap row" style="">
               <div class="jp-playlist-current col-md-3" *ngFor="let playedMusic of playedMusicPagination.playedMusics; index as j">
-                <app-played-music-details [playedMusic]="playedMusic"></app-played-music-details>
+                  <div>
+                    <div class="featured_album">
+                      {{playedMusic.music.name?.substring(0, 25)}}
+                    </div>
+                    <div class="featured_title">
+                      <small>{{playedMusic.music.user?.username}}</small>
+                    </div>
+                  </div>
+                  <div class="featured_image">
+                    <app-music-image [musicImage]="playedMusic.music.imageUrl" [size]="'medium'"></app-music-image>
+                  </div>
+                  <div class="album_play_button" routerLink="/home/play/{{playedMusic.music.id}}">
+                  </div>
               </div>
 
               <div class="featured_song_image">

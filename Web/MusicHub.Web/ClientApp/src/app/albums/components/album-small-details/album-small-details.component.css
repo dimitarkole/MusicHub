@@ -4,10 +4,6 @@
   background-color: rgba(0,0,0,0.66);
 }
 
-.album_info {
-  padding-right: 35px;
-}
-
 .featured_album_info {
   position: absolute;
   bottom: 11px;
