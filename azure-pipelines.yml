@@ -13,7 +13,7 @@ steps:
     git config --global user.email "dim_kolev2002@abv.bg"
     git config --global user.name "dimitarkole"
 
-    git remote add github https://$(GitHubPAT)@github.com/username/repository.git
+    git remote add github git remote add github https://x-access-token:$(GitHubPAT)@github.com/dimitarkole/MusicHub.git
 
     git push github HEAD:main
   displayName: "Push to GitHub"
