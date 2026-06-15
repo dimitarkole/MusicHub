@@ -16,7 +16,7 @@
 
     using static MusicHub.Common.GlobalConstants;
 
-    public class CategotyServiceTests : BaseTestClass
+    public class CategoryServiceTests : BaseTestClass
     {
         [Fact]
         public async Task CreateCategory_WithValidData_ShouldWorkCorrect()
