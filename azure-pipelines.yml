@@ -1,0 +1,19 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+  persistCredentials: true
+  fetchDepth: 0
+
+- script: |
+    git config --global user.email "dim_kolev2002@abv.bg"
+    git config --global user.name "dimitarkole"
+
+    git remote add github https://github.com/dimitarkole/MusicHub.git
+
+    git push github HEAD:main
+  displayName: "Push to GitHub"
