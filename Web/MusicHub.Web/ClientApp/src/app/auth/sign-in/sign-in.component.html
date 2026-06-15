@@ -108,11 +108,19 @@
       </form>
 
       <!-- TWO FACTOR FORM -->
-      <form *ngIf="twoFactorRequired"
-            class="login100-form validate-form p-l-55 p-r-55 p-t-178">
-        <span class="login100-form-title p-b-32">
+      <form *ngIf="twoFactorRequired" class="login100-form validate-form p-l-55 p-r-55 p-t-178">
+        <a class="form-title-left form-title-active"
+           routerLink="/signin">
+          Sign In
+        </a>
+
+        <a class="form-title-rigth"
+           routerLink="/signup">
+          Sign Up
+        </a>
+        <h3 class="text-center p-b-20">
           Two Factor Verification
-        </span>
+        </h3>
 
         <!-- INFO -->
         <div class="text-center p-b-20">
