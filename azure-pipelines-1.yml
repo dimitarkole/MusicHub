@@ -1,0 +1,22 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+
+- checkout: self
+  persistCredentials: true
+  fetchDepth: 0
+
+- script: |
+    git config --global user.email "azure-pipeline@github.com"
+    git config --global user.name "Azure Pipeline"
+
+    git remote add github https://$(GITHUB_TOKEN)@github.com/dimitarkole/MusicHub.git
+
+    git push github main --force
+  displayName: Push to GitHub
