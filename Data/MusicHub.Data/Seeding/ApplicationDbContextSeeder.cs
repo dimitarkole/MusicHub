@@ -36,8 +36,6 @@
                               new PlayedMusicsSeeder(),
                               new AlbumsSeeder(),
                               new AlbumMusicsSeeder(),
-                              new PlayLaterMusicsSeeder(),
-                              new ReportMusicSeeder(),
                               new UserIpRuleSeeder(),
                           };
 
