@@ -19,6 +19,7 @@ export default interface User {
   musicsCount: number,
   playlistsCount: number,
   createdOn: Date,
+  twoFactorEnabled: boolean,
 }
 
 export default interface LoginResponse {

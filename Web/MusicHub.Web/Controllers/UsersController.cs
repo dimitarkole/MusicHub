@@ -360,6 +360,21 @@
         }
 
         [Authorize]
+        [HttpPut(nameof(EditMyProfile))]
+        public async Task<ActionResult> EditMyProfile(UserEditModel model)
+        {
+            var id = this.User.GetUserId();
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState.Errors());
+            }
+
+            User user = await this.profileService.Update(id, model);
+
+            return this.Ok();
+        }
+
+        [Authorize]
         [Permission(PermissionType.UserAdministration)]
         [HttpPut(nameof(ChangeRoles) + "/{id}")]
         public async Task<ActionResult> ChangeRoles(UserChangeRolesInputModel model, string id)

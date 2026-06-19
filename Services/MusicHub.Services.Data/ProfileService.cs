@@ -174,6 +174,18 @@
             return user;
         }
 
+        public async Task<User> Update(string id, UserEditModel model)
+        {
+            User user = this.context.Users
+                .FirstOrDefault(u => u.Id == id);
+
+            model.To<User>(user);
+            this.context.Users.Update(user);
+            await this.context.SaveChangesAsync();
+
+            return user;
+        }
+
         public User GetUser(string id)
             => this.context.Users
                   .FirstOrDefault(u => u.Id == id);

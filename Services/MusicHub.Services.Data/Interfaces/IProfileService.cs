@@ -36,6 +36,7 @@
         bool UserExistsById(string id);
 
         Task<User> Update(string id, UserEditInputModel model);
+        Task<User> Update(string id, UserEditModel model);
 
         User GetUser(string id);
 
