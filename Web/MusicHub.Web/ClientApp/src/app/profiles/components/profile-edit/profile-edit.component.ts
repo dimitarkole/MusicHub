@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../core/services/auth.service';
 import User from '../../../shared/models/user';
 import { ProfileService } from '../../services/profile.service';
+import { MatDialogRef } from '@angular/material';
+import { ModalComponent } from 'ngb-modal';
 
 @Component({
   selector: 'app-profile-edit',
@@ -20,7 +22,8 @@ export class ProfileEditComponent implements OnInit {
   lastNameMinLength = 1;
   lastNameMaxLength = 30;
 
-  constructor(
+  constructor(public dialogRef: MatDialogRef<ModalComponent>,
+    private modalService: NgbModal,
     public modal: NgbActiveModal,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -30,25 +33,25 @@ export class ProfileEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userEditForm = this.formBuilder.group({
+      id: [''],
+      firstName: ['', [Validators.required, Validators.maxLength(30)]],
+      lastName: ['', [Validators.required, Validators.maxLength(30)]],
+      twoFactorEnabled: [false],
+      birthday: ['']
+    });
+
     this.profileService.MyProfile().subscribe(data => {
       this.user = data;
       this.userId = data.id;
-
       this.userId = this.user.id;
-      this.userEditForm = this.formBuilder.group({
-        id: this.user.id,
-        firstName: [
-          this.user.firstName,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30)],
-        ],
-        lastName: [
-          this.user.lastName,
-          [Validators.required, Validators.minLength(1), Validators.maxLength(30)]
-        ],
-        birthday: [
-          this.user.birthday,
-          [Validators.required]
-        ],
+      this.user = data;
+      this.userEditForm.patchValue({
+        id: data.id,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        twoFactorEnabled: data.twoFactorEnabled,
+        birthday: data.birthday
       });
     })
     //console.log(this.birthday);
@@ -56,10 +59,13 @@ export class ProfileEditComponent implements OnInit {
 
   OnSubmit() {
     let user: User = this.userEditForm.value;
-    this.profileService.edit(user)
-      .subscribe(_ => {
-        this.modal.close(); //It closes successfully
-      })
+    this.profileService.edit(user).subscribe(_ => {
+      this.dialogRef.close(); //It closes successfully
+    });
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 
   get id(): AbstractControl {
@@ -80,5 +86,9 @@ export class ProfileEditComponent implements OnInit {
 
   get phone(): AbstractControl {
     return this.userEditForm.get('phone');
+  }
+
+  get twoFactorEnabled(): AbstractControl {
+    return this.userEditForm.get('twoFactorEnabled');
   }
 }
