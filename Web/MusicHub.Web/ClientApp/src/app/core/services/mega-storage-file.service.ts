@@ -13,10 +13,11 @@ export class MegaStorageFileService {
   constructor(private http: HttpClient) { }
 
   create(file: File, path: string) {
-    const formData: FormData = new FormData();
-    formData.append("file", file, file.name);
-    formData.append("path", path);
-    return this.http.get<string>(`${this.route}`, { params: setQueryString(formData) });
+    const formData = new FormData();
+    formData.append("File", file, file.name);
+    formData.append("Path", path);
+
+    return this.http.post<any>(`${this.route}`, formData);
   }
 
   createList(files: File[], path: string) {

@@ -246,10 +246,12 @@ export class MusicCreateComponent implements OnInit {
         .subscribe(data => {
           this.audioUrl.setValue(data["fileName"]);
           this.imageUrl.setValue(this.defaultMusicImagePath);
+          alert("this.imageFileToUpload != null = " + (this.imageFileToUpload != null));
           if (this.imageFileToUpload != null) {
             this.fileService.create(this.imageFileToUpload, globalConstants.music.imageFolderPath)
               .subscribe(data => {
                 this.imageUrl.setValue(data["fileName"]);
+                alert(data["fileName"]);
                 this.createMusic();
               });
           }
@@ -479,11 +481,19 @@ export class MusicCreateComponent implements OnInit {
   private createMusic() {
     let music: Music = this.musicForm.value;
     music.privacy = CreatePrivacyStatus(music.privacy);
-    this.musicService.create(music)
-      .subscribe(data => {
-        this.router.navigate(['musics/own']);
-        this.musicForm.reset();
-      });
+    console.log(JSON.stringify(music));
+    debugger;
+
+
+    this.musicService.create(music).subscribe({
+      next: data => {
+        alert("7. success");
+      },
+      error: err => {
+        alert("8. createMusic error");
+      }
+    });
+    window.stop();
   }
 
   private editMusic() {

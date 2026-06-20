@@ -8,7 +8,7 @@ export const globalConstants = {
     audioFolderPathUpload: "/assets/resources/musics/audio/",
     audioFolderPath: "/assets/resources/musics/аudio/",
     nameMinLength: 1,
-    nameMaxLength: 100,
+    nameMaxLength: 60,
     descriptionMinLength: 10,
     descriptionMaxLength: 1000,
   },
