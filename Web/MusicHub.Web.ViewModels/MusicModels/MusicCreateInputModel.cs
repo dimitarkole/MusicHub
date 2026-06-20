@@ -13,23 +13,23 @@
 
     public class MusicCreateInputModel : IMapTo<Music>
     {
-        [Required]
+        //[Required]
         [MinLength(MusicConstants.NameMinLength)]
         [MaxLength(MusicConstants.NameMaxLength)]
         public string Name { get; set; }
 
-        [Required]
+        //[Required]
         public string CategoryId { get; set; }
 
-        [Required]
+        //[Required]
         [MinLength(MusicConstants.DescriptionMinLength)]
         [MaxLength(MusicConstants.DescriptionMaxLength)]
         public string Description { get; set; }
 
-        [Required]
+     //   [Required]
         public string ImageUrl { get; set; }
 
-        [Required]
+        //[Required]
         public string AudioUrl { get; set; }
 
         public Privacy Privacy { get; set; }
