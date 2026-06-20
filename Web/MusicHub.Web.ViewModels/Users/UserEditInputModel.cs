@@ -23,6 +23,8 @@
 
         public DateTime CreatedOn { get; set; }
 
+        public virtual bool TwoFactorEnabled { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<User, UserEditInputModel>()

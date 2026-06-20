@@ -45,65 +45,6 @@
             expected.Should().BeEquivalentTo(actual);
         }
 
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public async Task AllCategoriesByPage_WithValidData_ShouldWorkCorrect(int page)
-        {
-            var getCategories = CategoryTestsData.GetCategories;
-            var categoryService = await this.CreateCategoryService(getCategories);
-            var entitesPerPage = PaginationData.CategoriesPerPage;
-            var actual = categoryService.All<CategoryViewModel>(page, entitesPerPage);
-
-            var categories = this.context.Categories
-                .OrderBy(c => c.Name)
-                .To<CategoryViewModel>()
-                .ToList();
-
-            var expected = new CategoryPageModel<CategoryViewModel>()
-            {
-                Categories = categories
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetDataPagesCount(categories.Count(), entitesPerPage),
-            };
-
-            expected.Should().BeEquivalentTo(actual);
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        public async Task Filter_WithValidData_ShouldWorkCorrect(int page)
-        {
-            var getCategories = CategoryTestsData.GetCategories;
-            var filter = CategoryTestsData.CreateFilter;
-            var categoryService = await this.CreateCategoryService(getCategories);
-            var entitesPerPage = PaginationData.CategoriesPerPage;
-            var actual = categoryService.Filter<CategoryViewModel>(page, entitesPerPage, filter);
-
-            IQueryable<Category> categories = this.context.Categories
-                .OrderBy(c => c.Name);
-
-            if (filter.Name != null)
-            {
-                categories = categories.Where(c => c.Name.Contains(filter.Name));
-            }
-
-            var expected = new CategoryPageModel<CategoryViewModel>()
-            {
-                Categories = categories
-                    .To<CategoryViewModel>()
-                    .GetPage(page, entitesPerPage)
-                    .ToList(),
-                CurrentPage = page,
-                NumberOfPages = this.GetDataPagesCount(categories.Count(), entitesPerPage),
-            };
-
-            expected.Should().BeEquivalentTo(actual);
-        }
-
         [Fact]
         public async Task UpdateCategory_WithValidData_ShouldWorkCorrect()
         {

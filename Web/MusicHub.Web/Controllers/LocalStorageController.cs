@@ -78,8 +78,8 @@
             fileName = fileName.Substring(0, fileName.Length - extension.Length);
             fileName.Replace(' ', '_');
             var uniqueName = fileName + "_" + this.RandomName();
-            var folderName = Path.Combine("ClientApp", "src", "assets", "resources", path);
-            var pathToSave = Path.Combine(Directory.GetCurrentDirectory(), folderName);
+            var folderName = "/ClientApp/src/" + path;
+            var pathToSave = Directory.GetCurrentDirectory() + folderName;
             uniqueName += extension;
             var fullPath = Path.Combine(pathToSave, uniqueName);
             using (var stream = new FileStream(fullPath, FileMode.Create))

