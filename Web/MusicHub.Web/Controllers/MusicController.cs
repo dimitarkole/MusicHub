@@ -67,7 +67,7 @@
         /// <returns>Status201Created.</returns>
         [HttpPost]
         [Authorize]
-        [Permission(PermissionType.MusicCreator)]
+        //[Permission(PermissionType.MusicCreator)]
         //[DisableRequestSizeLimit]
         public async Task<IActionResult> Post(MusicCreateInputModel model)
         {
